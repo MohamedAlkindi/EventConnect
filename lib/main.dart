@@ -1,6 +1,8 @@
+import 'package:finals_project/core/database/database.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+Future<void> main() async {
+  await AppDatabase.initializeDB();
   runApp(const MainApp());
 }
 
@@ -10,6 +12,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Center(
           child: Text('Hello World!'),
