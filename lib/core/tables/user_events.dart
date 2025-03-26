@@ -9,12 +9,12 @@ class UserEvents {
 
   static String get createUserEventTable => """
     CREATE TABLE `$userEventsTableName` (
-	    `$userEventsIDColumnName`	INTEGER NOT NULL
+	    `$userEventsIDColumnName`	INTEGER NOT NULL,
 	    `$userIDColumnName`	TEXT NOT NULL,
 	    `$eventIDColumnName`	INTEGER NOT NULL,
-      PRIMARY KEY(`$userEventsIDColumnName`)
+      PRIMARY KEY(`$userEventsIDColumnName`),
       FOREIGN KEY(`$userIDColumnName`) REFERENCES ${UserTable.userTableName}(`$userIDColumnName`),
-      FOREIGN KEY(`$eventIDColumnName`) REFERENCES ${EventsTable.eventTableName}(`$eventIDColumnName`),
+      FOREIGN KEY(`$eventIDColumnName`) REFERENCES ${EventsTable.eventTableName}(`$eventIDColumnName`)
     );
   """;
 }
