@@ -10,7 +10,9 @@ dependencies:
   flutter:
     sdk: flutter
   sqflite:
-  
+  firebase_core:
+  firebase_auth:
+  flutter_bloc:
 dev_dependencies:
   flutter_test:
     sdk: flutter
