@@ -1,5 +1,5 @@
-import 'package:finals_project/core/tables/events_table.dart';
-import 'package:finals_project/core/tables/user_table.dart';
+import 'package:event_connect/core/tables/events_table.dart';
+import 'package:event_connect/core/tables/user_table.dart';
 
 class UserEvents {
   static String get userEventsTableName => 'UserEvents';
