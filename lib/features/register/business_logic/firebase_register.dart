@@ -1,5 +1,5 @@
 import 'package:event_connect/core/exceptions/firebase_exceptions/firebase_exceptions.dart';
-import 'package:event_connect/core/exceptions/register_exceptions/register_exceptions.dart';
+import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
 import 'package:event_connect/core/exceptions_messages/error_codes.dart';
 import 'package:event_connect/core/exceptions_messages/messages.dart';
 import 'package:event_connect/features/register/data_access/insert_user.dart';

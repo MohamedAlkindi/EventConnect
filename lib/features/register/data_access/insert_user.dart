@@ -1,6 +1,6 @@
 // Might change name later got no better ones now
 import 'package:event_connect/core/database/database.dart';
-import 'package:event_connect/core/exceptions/register_exceptions/register_exceptions.dart';
+import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
 import 'package:event_connect/core/exceptions_messages/messages.dart';
 import 'package:event_connect/core/firebase/user/firebase_user.dart';
 
