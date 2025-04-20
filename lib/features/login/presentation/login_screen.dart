@@ -45,21 +45,11 @@ class _LoginPageState extends State<LoginPage> {
           }
           if (state is LoginSuccessful) {
             hideLoadingDialog(context);
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return dialog(
-                  icon: Icons.check_circle_rounded,
-                  iconColor: Colors.green,
-                  titleText: 'Login Successful! 🥳',
-                  contentText: 'Something something.',
-                  buttonText: 'Yeah, ur done here',
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                );
-              },
-            );
+            // Go to user home screen...
+            // Navigator.popAndPushNamed(
+            //   context,
+            //   ,
+            // );
           } else if (state is LoginError) {
             hideLoadingDialog(context);
             showDialog(

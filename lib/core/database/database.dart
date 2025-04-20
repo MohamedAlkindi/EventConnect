@@ -25,4 +25,9 @@ class AppDatabase {
     String path = await getDatabasesPath();
     return "$path/EventsDb.db";
   }
+
+  static Future<void> deleteDB() async {
+    String path = await getDatabasesPath();
+    await deleteDatabase("$path/EventsDb.db");
+  }
 }

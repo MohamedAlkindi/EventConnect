@@ -51,23 +51,9 @@ class _RegisterPageState extends State<RegisterPage> {
           }
           if (state is RegisterSuccessful) {
             hideLoadingDialog(context);
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return dialog(
-                  icon: Icons.check_circle_rounded,
-                  iconColor: Colors.green,
-                  titleText: 'Register Successful! 🥳',
-                  contentText: 'Now head back to login.',
-                  buttonText: 'Login Page',
-                  onPressed: () {
-                    Navigator.popAndPushNamed(
-                      context,
-                      loginPageRoute,
-                    );
-                  },
-                );
-              },
+            Navigator.popAndPushNamed(
+              context,
+              completeProfileInfoScreenRoute,
             );
           } else if (state is RegisterErrorState) {
             hideLoadingDialog(context);
@@ -164,7 +150,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     backgroundColor: Color.fromARGB(255, 0, 136, 186),
                   ),
                   child: Text(
-                    "Sign Up",
+                    "Continue",
                     style: TextStyle(
                       fontSize: 22,
                       color: Colors.white,

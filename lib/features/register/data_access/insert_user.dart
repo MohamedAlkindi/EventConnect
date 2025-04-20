@@ -1,22 +1,20 @@
 // Might change name later got no better ones now
 import 'package:event_connect/core/database/database.dart';
-import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
-import 'package:event_connect/core/exceptions_messages/messages.dart';
 import 'package:event_connect/core/firebase/user/firebase_user.dart';
 
 class InsertUser {
   final db = AppDatabase.db;
   FirebaseUser firebaseUser = FirebaseUser();
 
-  Future<void> isUnique(String userName) async {
+  Future<bool> isUnique(String userName) async {
     List<Map<String, dynamic>> userNames =
         await db.query('User', where: "Username = ?", whereArgs: [userName]);
 
     if (userNames.isEmpty) {
       insertUsername(userName);
+      return true;
     } else {
-      throw NotUniqueUsername(
-          message: ExceptionMessages.notUniqueUsernameMessage);
+      return false;
     }
   }
 

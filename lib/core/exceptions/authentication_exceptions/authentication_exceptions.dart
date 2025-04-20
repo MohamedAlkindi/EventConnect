@@ -33,3 +33,12 @@ class NotUniqueUsername implements Exception {
   @override
   toString() => message;
 }
+
+class ShortUsername implements Exception {
+  final String message;
+
+  ShortUsername({required this.message});
+
+  @override
+  toString() => message;
+}

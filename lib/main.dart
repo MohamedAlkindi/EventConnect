@@ -1,12 +1,13 @@
 import 'package:event_connect/core/database/database.dart';
 import 'package:event_connect/core/firebase/config/firebase_options.dart';
+import 'package:event_connect/features/complete_profile/presentation/complete_profile_screen.dart';
+import 'package:event_connect/features/complete_profile/presentation/cubit/complete_profile_cubit.dart';
 import 'package:event_connect/features/forgot_password/presentaion/cubit/reset_password_cubit.dart';
 import 'package:event_connect/features/forgot_password/presentaion/forgot_password_screen.dart';
 import 'package:event_connect/features/forgot_password/presentaion/reset_pass_confirmation_screen.dart';
 import 'package:event_connect/features/login/presentation/cubit/login_cubit.dart';
 import 'package:event_connect/features/login/presentation/login_screen.dart';
 import 'package:event_connect/features/register/presentation/cubit/register_cubit.dart';
-import 'package:event_connect/features/register/presentation/personal_info_screen.dart';
 import 'package:event_connect/features/register/presentation/register_screen.dart';
 import 'package:event_connect/features/welcome_screen/presentation/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -17,7 +18,7 @@ String loginPageRoute = '/LoginPage';
 String registerPageRoute = '/RegisterPage';
 String forgotPasswordPageRoute = '/ForgotPasswordScreen';
 String resetPasswordConfirmationPageRoute = '/ResetPasswordConfirmationPage';
-String personalInfoScreen = '/PersonalInfoScreen';
+String completeProfileInfoScreenRoute = '/CompleteProfileInfoScreen';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,6 +45,9 @@ class MainApp extends StatelessWidget {
         BlocProvider(
           create: (context) => ResetPasswordCubit(),
         ),
+        BlocProvider(
+          create: (context) => CompleteProfileCubit(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -54,7 +58,7 @@ class MainApp extends StatelessWidget {
           forgotPasswordPageRoute: (context) => ForgotPasswordScreen(),
           resetPasswordConfirmationPageRoute: (context) =>
               ResetPasswordConfirmationPage(),
-          personalInfoScreen: (context) => PersonalInfoScreen(),
+          completeProfileInfoScreenRoute: (context) => CompleteProfileScreen(),
         },
       ),
     );

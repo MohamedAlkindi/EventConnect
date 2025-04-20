@@ -28,4 +28,7 @@ class ExceptionMessages {
 
   static String notUniqueUsernameMessage =
       "This username is already being used.";
+
+  static String shortUsernameMessage =
+      "This username is too short, please at least enter 6 characters";
 }

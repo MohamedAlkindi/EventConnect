@@ -1,5 +1,5 @@
-import 'package:event_connect/core/exceptions/firebase_exceptions/firebase_exceptions.dart';
 import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
+import 'package:event_connect/core/exceptions/firebase_exceptions/firebase_exceptions.dart';
 import 'package:event_connect/core/exceptions_messages/error_codes.dart';
 import 'package:event_connect/core/exceptions_messages/messages.dart';
 import 'package:event_connect/features/register/data_access/insert_user.dart';
@@ -23,8 +23,12 @@ class FirebaseRegister {
       );
     }
     if (password == repeatPassword && userName.length >= 6) {
+      bool isUnique = await insertUser.isUnique(userName);
+      if (!isUnique) {
+        throw NotUniqueUsername(
+            message: ExceptionMessages.notUniqueUsernameMessage);
+      }
       try {
-        await insertUser.isUnique(userName);
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: email,
           password: password,
@@ -51,6 +55,10 @@ class FirebaseRegister {
     } else if (password != repeatPassword) {
       throw PasswordsDontMatchException(
           message: ExceptionMessages.passwordsDontMatchMessage);
+    } else if (userName.length < 6) {
+      throw ShortUsername(
+        message: ExceptionMessages.shortUsernameMessage,
+      );
     }
   }
 }

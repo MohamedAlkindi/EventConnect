@@ -14,16 +14,14 @@ class RegisterCubit extends Cubit<RegisterState> {
     required TextEditingController password,
     required TextEditingController repeatPassword,
   }) async {
+    emit(RegisterLoading());
     try {
-      emit(RegisterLoading());
-
       await register.createUser(
         email: email.text,
         password: password.text,
         repeatPassword: repeatPassword.text,
         userName: userName.text,
       );
-
       emit(RegisterSuccessful());
     } catch (e) {
       emit(RegisterErrorState(message: e.toString()));
