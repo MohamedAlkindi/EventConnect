@@ -4,6 +4,4 @@ class FirebaseUser {
   User? get getUser => FirebaseAuth.instance.currentUser;
 
   String get userID => getUser!.uid;
-
-  bool get isVerified => getUser!.emailVerified;
 }
