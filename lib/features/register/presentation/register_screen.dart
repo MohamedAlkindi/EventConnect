@@ -62,7 +62,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   onPressed: () {
                     Navigator.popAndPushNamed(
                       context,
-                      personalInfoScreen,
+                      loginPageRoute,
                     );
                   },
                 );
@@ -183,7 +183,12 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.popAndPushNamed(
+                          context,
+                          loginPageRoute,
+                        );
+                      },
                       child: Text(
                         "Head back to login",
                         style: TextStyle(

@@ -177,7 +177,12 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                                     ),
                                   ),
                                   TextButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.popAndPushNamed(
+                                        context,
+                                        loginPageRoute,
+                                      );
+                                    },
                                     child: Text(
                                       "Sign in here",
                                       style: TextStyle(

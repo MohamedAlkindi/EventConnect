@@ -29,3 +29,20 @@ class FirebaseUnknownException implements Exception {
   @override
   toString() => message;
 }
+
+class FirebaseCredentialsExceptions implements Exception {
+  final String message;
+
+  FirebaseCredentialsExceptions({required this.message});
+
+  @override
+  toString() => message;
+}
+
+class FirebaseNoConnectionException implements Exception {
+  final String message;
+  FirebaseNoConnectionException({required this.message});
+
+  @override
+  toString() => message;
+}

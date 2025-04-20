@@ -16,10 +16,10 @@ class ExceptionMessages {
   // Firebase login messages.
   // for all sign in errors exception the generic or the no internet conenction.
 
-  static String invalidCredentialsException =
+  static String firebaseInvalidCredentialsException =
       'Please check your inputs or try to sign up.';
 
-  static String noConnectionException =
+  static String firebaseNoConnectionException =
       'Please check your internet connection.';
 
   // Generic exception message.

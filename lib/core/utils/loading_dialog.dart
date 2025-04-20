@@ -16,13 +16,13 @@ void showLoadingDialog(BuildContext context) {
               height: 50,
               width: 50,
               child: CircularProgressIndicator(
-                strokeWidth: 6,
+                strokeWidth: 4,
                 valueColor: AlwaysStoppedAnimation<Color>(
                   Colors.purple,
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 35),
             Text(
               "Loading...",
               style: TextStyle(

@@ -1,20 +1,20 @@
 class ErrorCodes {
   // Firebsae register error codes.
-  static String weakPassword = 'weak-password';
+  static String weakPasswordErrorCode = 'weak-password';
 
-  static String emailInUse = 'email-already-in-use';
+  static String emailInUseErrorCode = 'email-already-in-use';
 
-  static String invalidEmail = 'invalid-email';
+  static String invalidEmailErrorCode = 'invalid-email';
 
   // Firebase login error codes.
-  String invalidPasswordException = 'wrong-password';
+  static String invalidPasswordErrorCode = 'wrong-password';
 
   // for both invalid pass and user not found.
-  String invalidCredentialsException = 'invalid-credential';
+  static String invalidCredentialsErrorCode = 'invalid-credential';
 
-  String noConnectionException = 'network-request-failed';
+  static String noConnectionErrorCode = 'network-request-failed';
 
-  String invalidEmailException = 'invalid-email';
+  static String userNotFoundErrorCode = 'user-not-found';
 
-  String userNotFoundException = 'user-not-found';
+  static String wrongPasswordErrorCode = 'wrong-password';
 }

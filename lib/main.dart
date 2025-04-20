@@ -1,5 +1,7 @@
 import 'package:event_connect/core/database/database.dart';
 import 'package:event_connect/core/firebase/config/firebase_options.dart';
+import 'package:event_connect/features/login/presentation/cubit/login_cubit.dart';
+import 'package:event_connect/features/login/presentation/login_screen.dart';
 import 'package:event_connect/features/register/presentation/cubit/register_cubit.dart';
 import 'package:event_connect/features/register/presentation/personal_info_screen.dart';
 import 'package:event_connect/features/register/presentation/register_screen.dart';
@@ -8,6 +10,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+String loginPageRoute = '/LoginPage';
 String registerPageRoute = '/RegisterPage';
 String personalInfoScreen = '/PersonalInfoScreen';
 
@@ -30,6 +33,9 @@ class MainApp extends StatelessWidget {
         BlocProvider(
           create: (context) => RegisterCubit(),
         ),
+        BlocProvider(
+          create: (context) => LoginCubit(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -37,6 +43,7 @@ class MainApp extends StatelessWidget {
         routes: {
           registerPageRoute: (context) => RegisterPage(),
           personalInfoScreen: (context) => PersonalInfoScreen(),
+          loginPageRoute: (context) => LoginPage(),
         },
       ),
     );

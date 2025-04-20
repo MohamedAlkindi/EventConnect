@@ -30,13 +30,13 @@ class FirebaseRegister {
           password: password,
         );
       } on FirebaseAuthException catch (e) {
-        if (e.code == ErrorCodes.weakPassword) {
+        if (e.code == ErrorCodes.weakPasswordErrorCode) {
           throw FirebaseWeakPass(
               message: ExceptionMessages.firebaseWeakPassMessage);
-        } else if (e.code == ErrorCodes.emailInUse) {
+        } else if (e.code == ErrorCodes.emailInUseErrorCode) {
           throw FirebaseEmailInUse(
               message: ExceptionMessages.firebaseEmailInUseMessage);
-        } else if (e.code == ErrorCodes.invalidEmail) {
+        } else if (e.code == ErrorCodes.invalidEmailErrorCode) {
           throw FirebaseInvalidEmail(
               message: ExceptionMessages.firebaseInvalidEmailMessage);
         } else {
