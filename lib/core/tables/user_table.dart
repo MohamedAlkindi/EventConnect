@@ -9,8 +9,8 @@ class UserTable {
     CREATE TABLE `$userTableName` (
 	    `$userIDColumnName`	TEXT NOT NULL,
 	    `$userNameColumnName`	TEXT NOT NULL UNIQUE,
-	    `$userLocationColumnName`	TEXT NOT NULL,
-	    `$userProfilePicColumnName`	BLOB NOT NULL
+	    `$userLocationColumnName`	TEXT,
+	    `$userProfilePicColumnName`	BLOB
     );
   """;
 }

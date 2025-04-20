@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:event_connect/features/welcome_screen/presentation/widgets/carrousel.dart';
+import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -82,7 +83,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                             screenWidth: screenWidth,
                             imageName: 'welcome',
                             imageText:
-                                "Welcome to event_connect - Your Ultimate Event Companion!",
+                                "Welcome to EventConnect - Your Ultimate Event Companion!",
                           ),
                           carrousel(
                             context: context,
@@ -105,7 +106,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                             screenHeight: screenHeight,
                             screenWidth: screenWidth,
                             imageName: 'join',
-                            imageText: "Join the Community Now!",
+                            imageText: "Join Our Community Now!",
                           ),
                         ],
                       ),
@@ -124,7 +125,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: _currentPage == index
-                                    ? Colors.deepPurpleAccent
+                                    ? Color.fromARGB(255, 0, 136, 186)
                                     : Colors.grey.shade400,
                               ),
                             );
@@ -140,7 +141,10 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                             children: [
                               ElevatedButton(
                                 onPressed: () {
-                                  // Navigate to the next screen or perform an action.
+                                  Navigator.popAndPushNamed(
+                                    context,
+                                    registerPageRoute,
+                                  );
                                 },
                                 style: ElevatedButton.styleFrom(
                                   padding: EdgeInsets.symmetric(
@@ -148,7 +152,8 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30),
                                   ),
-                                  backgroundColor: Colors.deepOrangeAccent,
+                                  backgroundColor:
+                                      Color.fromARGB(255, 0, 136, 186),
                                 ),
                                 child: Text(
                                   "Get Started",
@@ -178,10 +183,10 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.deepOrangeAccent,
+                                        color: Color.fromARGB(255, 4, 151, 205),
                                       ),
                                     ),
-                                  )
+                                  ),
                                 ],
                               )
                             ],
