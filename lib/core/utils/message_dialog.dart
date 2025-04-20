@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 AlertDialog dialog({
   required String titleText,
   required String contentText,
+  required IconData icon,
   required Color iconColor,
   required String buttonText,
   required void Function()? onPressed,
@@ -14,7 +15,7 @@ AlertDialog dialog({
     title: Column(
       children: [
         Icon(
-          Icons.check_circle,
+          icon,
           color: iconColor,
           size: 50,
         ),

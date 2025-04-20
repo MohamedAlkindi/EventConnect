@@ -55,6 +55,7 @@ class _RegisterPageState extends State<RegisterPage> {
               context: context,
               builder: (BuildContext context) {
                 return dialog(
+                  icon: Icons.check_circle_rounded,
                   iconColor: Colors.green,
                   titleText: 'Register Successful! 🥳',
                   contentText: 'Now head back to login.',
@@ -74,8 +75,9 @@ class _RegisterPageState extends State<RegisterPage> {
               context: context,
               builder: (BuildContext context) {
                 return dialog(
+                  icon: Icons.error_outline_outlined,
                   iconColor: Colors.red,
-                  titleText: 'Oops! 😓',
+                  titleText: 'Ouch! 😓',
                   contentText: state.message,
                   buttonText: 'Try Again',
                   onPressed: () {

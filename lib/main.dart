@@ -1,5 +1,8 @@
 import 'package:event_connect/core/database/database.dart';
 import 'package:event_connect/core/firebase/config/firebase_options.dart';
+import 'package:event_connect/features/forgot_password/presentaion/cubit/reset_password_cubit.dart';
+import 'package:event_connect/features/forgot_password/presentaion/forgot_password_screen.dart';
+import 'package:event_connect/features/forgot_password/presentaion/reset_pass_confirmation_screen.dart';
 import 'package:event_connect/features/login/presentation/cubit/login_cubit.dart';
 import 'package:event_connect/features/login/presentation/login_screen.dart';
 import 'package:event_connect/features/register/presentation/cubit/register_cubit.dart';
@@ -12,6 +15,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 String loginPageRoute = '/LoginPage';
 String registerPageRoute = '/RegisterPage';
+String forgotPasswordPageRoute = '/ForgotPasswordScreen';
+String resetPasswordConfirmationPageRoute = '/ResetPasswordConfirmationPage';
 String personalInfoScreen = '/PersonalInfoScreen';
 
 Future<void> main() async {
@@ -31,19 +36,25 @@ class MainApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
+          create: (context) => LoginCubit(),
+        ),
+        BlocProvider(
           create: (context) => RegisterCubit(),
         ),
         BlocProvider(
-          create: (context) => LoginCubit(),
+          create: (context) => ResetPasswordCubit(),
         ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: WelcomeScreen(),
         routes: {
-          registerPageRoute: (context) => RegisterPage(),
-          personalInfoScreen: (context) => PersonalInfoScreen(),
           loginPageRoute: (context) => LoginPage(),
+          registerPageRoute: (context) => RegisterPage(),
+          forgotPasswordPageRoute: (context) => ForgotPasswordScreen(),
+          resetPasswordConfirmationPageRoute: (context) =>
+              ResetPasswordConfirmationPage(),
+          personalInfoScreen: (context) => PersonalInfoScreen(),
         },
       ),
     );

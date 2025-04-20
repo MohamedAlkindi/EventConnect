@@ -49,6 +49,7 @@ class _LoginPageState extends State<LoginPage> {
               context: context,
               builder: (BuildContext context) {
                 return dialog(
+                  icon: Icons.check_circle_rounded,
                   iconColor: Colors.green,
                   titleText: 'Login Successful! 🥳',
                   contentText: 'Something something.',
@@ -65,8 +66,9 @@ class _LoginPageState extends State<LoginPage> {
               context: context,
               builder: (BuildContext context) {
                 return dialog(
+                  icon: Icons.error_outline_rounded,
                   iconColor: Colors.red,
-                  titleText: 'Oops! 😓',
+                  titleText: 'Ouch! 😓',
                   contentText: state.message,
                   buttonText: 'Try Again',
                   onPressed: () {
@@ -107,14 +109,32 @@ class _LoginPageState extends State<LoginPage> {
                         icon: Icons.password,
                         isObsecure: true,
                       ),
-                      SizedBox(
-                        height: 45,
-                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.popAndPushNamed(
+                                context,
+                                forgotPasswordPageRoute,
+                              );
+                            },
+                            child: Text(
+                              "Forgot password?",
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 0, 136, 186),
+                              ),
+                            ),
+                          )
+                        ],
+                      )
                     ],
                   ),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 30,
                 ),
                 ElevatedButton(
                   onPressed: () {
