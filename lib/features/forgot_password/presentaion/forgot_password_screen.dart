@@ -32,6 +32,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Widget build(BuildContext context) {
     var cubit = context.read<ResetPasswordCubit>();
     return Scaffold(
+      backgroundColor: Colors.white,
       body: BlocListener<ResetPasswordCubit, ResetPasswordState>(
         listener: (context, state) {
           if (state is ResetPasswordLoading) {

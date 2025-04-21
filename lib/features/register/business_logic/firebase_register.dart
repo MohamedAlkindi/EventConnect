@@ -24,15 +24,17 @@ class FirebaseRegister {
     }
     if (password == repeatPassword && userName.length >= 6) {
       bool isUnique = await insertUser.isUnique(userName);
-      if (!isUnique) {
-        throw NotUniqueUsername(
-            message: ExceptionMessages.notUniqueUsernameMessage);
-      }
       try {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
+        if (isUnique) {
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: email,
+            password: password,
+          );
+          await insertUser.insertUsername(userName);
+        } else {
+          throw NotUniqueUsername(
+              message: ExceptionMessages.notUniqueUsernameMessage);
+        }
       } on FirebaseAuthException catch (e) {
         if (e.code == ErrorCodes.weakPasswordErrorCode) {
           throw FirebaseWeakPass(

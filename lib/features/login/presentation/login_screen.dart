@@ -45,11 +45,10 @@ class _LoginPageState extends State<LoginPage> {
           }
           if (state is LoginSuccessful) {
             hideLoadingDialog(context);
-            // Go to user home screen...
-            // Navigator.popAndPushNamed(
-            //   context,
-            //   ,
-            // );
+            Navigator.popAndPushNamed(
+              context,
+              userHomeScreenPageRoute,
+            );
           } else if (state is LoginError) {
             hideLoadingDialog(context);
             showDialog(

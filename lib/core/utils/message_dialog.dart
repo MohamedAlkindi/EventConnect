@@ -7,6 +7,8 @@ AlertDialog dialog({
   required Color iconColor,
   required String buttonText,
   required void Function()? onPressed,
+  String? secondButtonText,
+  void Function()? secondOnPressed,
 }) {
   return AlertDialog(
     shape: RoundedRectangleBorder(
@@ -37,14 +39,32 @@ AlertDialog dialog({
       ),
     ),
     actions: [
-      TextButton(
-        onPressed: onPressed,
-        child: Text(
-          buttonText,
-          style: TextStyle(
-            color: Color.fromARGB(255, 0, 136, 186),
-            fontWeight: FontWeight.bold,
-          ),
+      Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(
+              onPressed: onPressed,
+              child: Text(
+                buttonText,
+                style: TextStyle(
+                  color: Color.fromARGB(255, 0, 136, 186),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            if (secondButtonText != null && secondOnPressed != null)
+              TextButton(
+                onPressed: secondOnPressed,
+                child: Text(
+                  secondButtonText,
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 0, 136, 186),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+          ],
         ),
       ),
     ],

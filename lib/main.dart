@@ -1,5 +1,7 @@
 import 'package:event_connect/core/database/database.dart';
 import 'package:event_connect/core/firebase/config/firebase_options.dart';
+import 'package:event_connect/core/firebase/user/firebase_user.dart';
+import 'package:event_connect/features/all_events/presentation/cubit/all_events_cubit.dart';
 import 'package:event_connect/features/complete_profile/presentation/complete_profile_screen.dart';
 import 'package:event_connect/features/complete_profile/presentation/cubit/complete_profile_cubit.dart';
 import 'package:event_connect/features/forgot_password/presentaion/cubit/reset_password_cubit.dart';
@@ -9,16 +11,23 @@ import 'package:event_connect/features/login/presentation/cubit/login_cubit.dart
 import 'package:event_connect/features/login/presentation/login_screen.dart';
 import 'package:event_connect/features/register/presentation/cubit/register_cubit.dart';
 import 'package:event_connect/features/register/presentation/register_screen.dart';
+import 'package:event_connect/features/user_homescreen/presentation/cubit/user_homescreen_cubit.dart';
+import 'package:event_connect/features/user_homescreen/presentation/user_homescreen.dart';
 import 'package:event_connect/features/welcome_screen/presentation/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+FirebaseUser user = FirebaseUser();
 
 String loginPageRoute = '/LoginPage';
 String registerPageRoute = '/RegisterPage';
 String forgotPasswordPageRoute = '/ForgotPasswordScreen';
 String resetPasswordConfirmationPageRoute = '/ResetPasswordConfirmationPage';
 String completeProfileInfoScreenRoute = '/CompleteProfileInfoScreen';
+String userHomeScreenPageRoute = '/UserHomeScreen';
+
+bool isUserSignedIn = user.getUser != null;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +35,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await AppDatabase.initializeDB();
+
   runApp(const MainApp());
 }
 
@@ -48,10 +58,16 @@ class MainApp extends StatelessWidget {
         BlocProvider(
           create: (context) => CompleteProfileCubit(),
         ),
+        BlocProvider(
+          create: (context) => UserHomescreenCubit(),
+        ),
+        BlocProvider(
+          create: (context) => AllEventsCubit(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: WelcomeScreen(),
+        home: isUserSignedIn ? UserHomeScreen() : WelcomeScreen(),
         routes: {
           loginPageRoute: (context) => LoginPage(),
           registerPageRoute: (context) => RegisterPage(),
@@ -59,6 +75,7 @@ class MainApp extends StatelessWidget {
           resetPasswordConfirmationPageRoute: (context) =>
               ResetPasswordConfirmationPage(),
           completeProfileInfoScreenRoute: (context) => CompleteProfileScreen(),
+          userHomeScreenPageRoute: (context) => UserHomeScreen(),
         },
       ),
     );

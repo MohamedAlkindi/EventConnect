@@ -30,4 +30,34 @@ class AppDatabase {
     String path = await getDatabasesPath();
     await deleteDatabase("$path/EventsDb.db");
   }
+
+  static Future<void> printDbValues() async {
+    try {
+      // Query all tables in the database
+      List<Map<String, dynamic>> userTable =
+          await db.query(UserTable.userTableName);
+      List<Map<String, dynamic>> eventsTable =
+          await db.query(EventsTable.eventTableName);
+      List<Map<String, dynamic>> userEventsTable =
+          await db.query(UserEvents.userEventsTableName);
+
+      // Print the contents of each table
+      print("User Table:");
+      for (var row in userTable) {
+        print(row);
+      }
+
+      print("\nEvents Table:");
+      for (var row in eventsTable) {
+        print(row);
+      }
+
+      print("\nUser Events Table:");
+      for (var row in userEventsTable) {
+        print(row);
+      }
+    } catch (e) {
+      print("Error printing database values: $e");
+    }
+  }
 }
