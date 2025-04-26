@@ -15,6 +15,8 @@ final class AllEventsGotEvents extends AllEventsState {
 
 final class AllEventsNoEventsYet extends AllEventsState {}
 
+final class EventAddedToUserEvents extends AllEventsState {}
+
 final class AllEventsLogOutSuccessful extends AllEventsState {}
 
 final class AllEventsError extends AllEventsState {

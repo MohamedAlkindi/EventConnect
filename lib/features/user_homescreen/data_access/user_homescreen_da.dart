@@ -12,7 +12,7 @@ class UserHomescreenDa {
       UserTable.userTableName,
       columns: [UserTable.userProfilePicColumnName],
       where: "${UserTable.userIDColumnName} = ?",
-      whereArgs: [user.userID],
+      whereArgs: [user.getUserID],
     );
 
     return result;

@@ -1,63 +1,46 @@
-import 'package:event_connect/core/tables/events_table.dart';
-import 'package:event_connect/core/tables/user_events.dart';
-import 'package:event_connect/core/tables/user_table.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+import 'package:flutter/services.dart';
+import 'dart:io';
 
 class AppDatabase {
   static late final Database db;
-
-  static Future<void> initializeDB() async {
-    String path = await _getDbPath();
-    db = await openDatabase(path, version: 1, onCreate: _onCreate);
+  static Future<void> initializeDatabase() async {
+    String dbPath = await getDatabasesPath();
+    String path = join(dbPath, 'EventsDatabase.db');
+    bool dbExists = await databaseExists(path);
+    if (!dbExists) {
+      ByteData data =
+          await rootBundle.load(join('assets/database', 'EventsDatabase.db'));
+      List<int> bytes =
+          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+      await File(path).writeAsBytes(bytes, flush: true);
+    }
+    db = await openDatabase(path);
   }
 
-  static void _onCreate(Database dbInstance, int version) async {
-    final batch = dbInstance.batch();
+  // static Future<void> initializeDB() async {
+  //   String path = await _getDbPath();
+  //   db = await openDatabase(path, version: 1, onCreate: _onCreate);
+  // }
 
-    batch.execute(UserTable.createUserTable);
-    batch.execute(EventsTable.createEventTable);
-    batch.execute(UserEvents.createUserEventTable);
+  // static void _onCreate(Database dbInstance, int version) async {
+  //   final batch = dbInstance.batch();
 
-    await batch.commit(noResult: true);
-  }
+  //   batch.execute(UserTable.createUserTable);
+  //   batch.execute(EventsTable.createEventTable);
+  //   batch.execute(UserEvents.createUserEventTable);
 
-  static Future<String> _getDbPath() async {
-    String path = await getDatabasesPath();
-    return "$path/EventsDb.db";
-  }
+  //   await batch.commit(noResult: true);
+  // }
+
+  // static Future<String> _getDbPath() async {
+  //   String path = await getDatabasesPath();
+  //   return "$path/EventsDb.db";
+  // }
 
   static Future<void> deleteDB() async {
     String path = await getDatabasesPath();
-    await deleteDatabase("$path/EventsDb.db");
-  }
-
-  static Future<void> printDbValues() async {
-    try {
-      // Query all tables in the database
-      List<Map<String, dynamic>> userTable =
-          await db.query(UserTable.userTableName);
-      List<Map<String, dynamic>> eventsTable =
-          await db.query(EventsTable.eventTableName);
-      List<Map<String, dynamic>> userEventsTable =
-          await db.query(UserEvents.userEventsTableName);
-
-      // Print the contents of each table
-      print("User Table:");
-      for (var row in userTable) {
-        print(row);
-      }
-
-      print("\nEvents Table:");
-      for (var row in eventsTable) {
-        print(row);
-      }
-
-      print("\nUser Events Table:");
-      for (var row in userEventsTable) {
-        print(row);
-      }
-    } catch (e) {
-      print("Error printing database values: $e");
-    }
+    await deleteDatabase("$path/EventsDatabase.db");
   }
 }

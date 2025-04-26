@@ -16,7 +16,7 @@ class InsertUser {
 
   Future<void> insertUsername(String userName) async {
     await db.insert('User', {
-      UserTable.userIDColumnName: firebaseUser.userID,
+      UserTable.userIDColumnName: firebaseUser.getUserID,
       UserTable.userNameColumnName: userName,
     });
   }

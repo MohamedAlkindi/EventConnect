@@ -38,9 +38,24 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Homescreen",
+          "EventsConnect",
           style: TextStyle(
-            fontWeight: FontWeight.w400,
+            color: Colors.white,
+            shadows: [
+              Shadow(
+                color: Colors.pink.shade400,
+                offset: Offset(2, 2),
+                blurRadius: 3,
+              ),
+              Shadow(
+                color: Colors.purple.shade300,
+                offset: Offset(-2, -2),
+                blurRadius: 3,
+              ),
+            ],
+            fontSize: 24,
+            fontFamily: 'Montserrat',
+            fontWeight: FontWeight.w600,
           ),
         ),
         automaticallyImplyLeading: false,

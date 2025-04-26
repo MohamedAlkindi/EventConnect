@@ -12,7 +12,7 @@ class CompleteProfileDa {
     await _db.update(UserTable.userTableName, updatedData,
         where: '${UserTable.userIDColumnName} = ?',
         whereArgs: [
-          user.userID,
+          user.getUserID,
         ]);
   }
 }

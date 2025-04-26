@@ -34,7 +34,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await AppDatabase.initializeDB();
+  await AppDatabase.initializeDatabase();
 
   runApp(const MainApp());
 }
@@ -68,6 +68,7 @@ class MainApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: isUserSignedIn ? UserHomeScreen() : WelcomeScreen(),
+        // home: WelcomeScreen(),
         routes: {
           loginPageRoute: (context) => LoginPage(),
           registerPageRoute: (context) => RegisterPage(),

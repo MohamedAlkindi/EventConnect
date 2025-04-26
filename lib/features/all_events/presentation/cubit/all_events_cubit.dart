@@ -11,6 +11,7 @@ class AllEventsCubit extends Cubit<AllEventsState> {
 
 // Use Streams later.. or maybe in the admin only...
 
+  // Show all events.
   Future<void> getAllEvents() async {
     // emit(AllEventsLoading());
     try {
@@ -27,9 +28,24 @@ class AllEventsCubit extends Cubit<AllEventsState> {
     }
   }
 
+  // Show events by category.
   Future<void> getEventsByCategory({required String category}) async {
-    List<Map<String, dynamic>> eventsByCat =
-        await _businessLogic.gettEventsByCategory(category: category);
-    emit(AllEventsGotEvents(events: eventsByCat));
+    try {
+      List<Map<String, dynamic>> eventsByCat =
+          await _businessLogic.getEventsByCategory(category: category);
+      emit(AllEventsGotEvents(events: eventsByCat));
+    } catch (e) {
+      emit(AllEventsError(message: e.toString()));
+    }
+  }
+
+  // Add events to user's events.
+  Future<void> addEventToUserEvents({required int eventID}) async {
+    try {
+      await _businessLogic.addEventToUserEvents(eventID);
+      emit(EventAddedToUserEvents());
+    } catch (e) {
+      emit(AllEventsError(message: e.toString()));
+    }
   }
 }
