@@ -20,7 +20,7 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   XFile? _imageFile;
-  late TextEditingController _usernameController = TextEditingController();
+  late TextEditingController _usernameController;
   String _selectedLocation = '';
 
   final List<String> _yemeniCities = [
@@ -49,8 +49,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<EditProfileCubit>().getUserProfile();
     _usernameController = TextEditingController();
+    context.read<EditProfileCubit>().getUserProfile();
   }
 
   @override
@@ -120,9 +120,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   children: [
                     CircleAvatar(
                       radius: 80,
-                      backgroundImage: FileImage(
-                        File(_imageFile!.path),
-                      ) as ImageProvider,
+                      backgroundImage: _imageFile != null
+                          ? FileImage(File(_imageFile!.path)) as ImageProvider
+                          : null,
+                      child: _imageFile == null
+                          ? const Icon(Icons.person, size: 80)
+                          : null,
                     ),
                     Positioned(
                       bottom: 0,
@@ -166,15 +169,31 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   );
                 }).toList(),
                 onChanged: (value) {
-                  setState(
-                    () {
-                      _selectedLocation = value!;
-                    },
-                  );
+                  setState(() {
+                    _selectedLocation = value!;
+                  });
                 },
               ),
               ElevatedButton(
                 onPressed: () {
+                  if (_imageFile == null) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return dialog(
+                          icon: Icons.error_outline,
+                          iconColor: Colors.red,
+                          titleText: 'Error!',
+                          contentText: "Please select a profile picture",
+                          buttonText: 'OK',
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        );
+                      },
+                    );
+                    return;
+                  }
                   context.read<EditProfileCubit>().updateUserProfile(
                         name: _usernameController.text,
                         location: _selectedLocation,

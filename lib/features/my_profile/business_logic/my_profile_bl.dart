@@ -5,7 +5,7 @@ import 'package:event_connect/core/exceptions/authentication_exceptions/authenti
 import 'package:event_connect/core/tables/user_table.dart';
 import 'package:event_connect/features/my_profile/data_access/my_profile_da.dart';
 
-class MyProfileBA {
+class MyProfileBL {
   final MyProfileDA _dataAccess = MyProfileDA();
 
   // Convert base64 string to image bytes that can be used in UI

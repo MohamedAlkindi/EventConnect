@@ -1,8 +1,8 @@
 import 'package:event_connect/core/tables/user_table.dart';
 import 'package:event_connect/core/utils/message_dialog.dart';
 import 'package:event_connect/features/edit_profile/presentation/edit_profile_screen.dart';
-import 'package:event_connect/features/login/presentation/login_screen.dart';
 import 'package:event_connect/features/my_profile/presentation/cubit/my_profile_cubit.dart';
+import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,17 +23,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<MyProfileCubit, MyProfileState>(
-        listener: (context, state) {
-          if (state is UserDeletedSuccessfully) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => LoginPage(),
-              ),
-            );
-          }
-        },
+      body: BlocBuilder<MyProfileCubit, MyProfileState>(
         builder: (context, state) {
           if (state is GotMyProfileInfo) {
             return Padding(
@@ -161,6 +151,11 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                               buttonText: 'Delete',
                               onPressed: () {
                                 context.read<MyProfileCubit>().deleteUser();
+                                Navigator.pop(context);
+                                Navigator.popAndPushNamed(
+                                  context,
+                                  loginPageRoute,
+                                );
                               },
                               secondButtonText: 'Cancel',
                               secondOnPressed: () {

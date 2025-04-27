@@ -1,6 +1,7 @@
 import 'package:event_connect/core/tables/events_table.dart';
 import 'package:event_connect/core/utils/message_dialog.dart';
 import 'package:event_connect/features/my_events/presentation/cubit/my_events_cubit.dart';
+import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -248,12 +249,23 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                             fontSize: 18,
                           ),
                         ),
-                        const SizedBox(height: 12),
-                        Text(
-                          'Add events from All Events to your schedule!',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Theme.of(context).primaryColor,
+                        const SizedBox(height: 30),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.all(15),
+                          ),
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              userHomeScreenPageRoute,
+                            );
+                          },
+                          child: Text(
+                            'Add events from here to your schedule!',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Theme.of(context).primaryColor,
+                            ),
                           ),
                         ),
                       ],

@@ -1,12 +1,12 @@
 import 'package:bloc/bloc.dart';
-import 'package:event_connect/features/my_profile/business_logic/my_profile_ba.dart';
+import 'package:event_connect/features/my_profile/business_logic/my_profile_bl.dart';
 import 'package:meta/meta.dart';
 
 part 'my_profile_state.dart';
 
 class MyProfileCubit extends Cubit<MyProfileState> {
   MyProfileCubit() : super(MyProfileInitial());
-  final MyProfileBA _businessLogic = MyProfileBA();
+  final MyProfileBL _businessLogic = MyProfileBL();
 
   Future<void> getUserPicAndName() async {
     try {
