@@ -5,6 +5,7 @@ import 'package:event_connect/features/all_events/presentation/all_events_screen
 import 'package:event_connect/features/all_events/presentation/cubit/all_events_cubit.dart';
 import 'package:event_connect/features/complete_profile/presentation/complete_profile_screen.dart';
 import 'package:event_connect/features/complete_profile/presentation/cubit/complete_profile_cubit.dart';
+import 'package:event_connect/features/edit_profile/presentation/cubit/edit_profile_cubit.dart';
 import 'package:event_connect/features/forgot_password/presentaion/cubit/reset_password_cubit.dart';
 import 'package:event_connect/features/forgot_password/presentaion/forgot_password_screen.dart';
 import 'package:event_connect/features/forgot_password/presentaion/reset_pass_confirmation_screen.dart';
@@ -12,6 +13,7 @@ import 'package:event_connect/features/login/presentation/cubit/login_cubit.dart
 import 'package:event_connect/features/login/presentation/login_screen.dart';
 import 'package:event_connect/features/my_events/presentation/cubit/my_events_cubit.dart';
 import 'package:event_connect/features/my_events/presentation/my_events_screen.dart';
+import 'package:event_connect/features/my_profile/presentation/cubit/my_profile_cubit.dart';
 import 'package:event_connect/features/my_profile/presentation/my_profile_screen.dart';
 import 'package:event_connect/features/register/presentation/cubit/register_cubit.dart';
 import 'package:event_connect/features/register/presentation/register_screen.dart';
@@ -73,6 +75,12 @@ class MainApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => MyEventsCubit(),
+        ),
+        BlocProvider(
+          create: (context) => MyProfileCubit(),
+        ),
+        BlocProvider(
+          create: (context) => EditProfileCubit(),
         ),
       ],
       child: MaterialApp(

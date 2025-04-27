@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
 import 'package:event_connect/core/exceptions_messages/messages.dart';
+import 'package:event_connect/core/tables/user_table.dart';
 import 'package:event_connect/features/complete_profile/data_access/complete_profile_da.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -44,8 +45,8 @@ class CompleteProfileBl {
     try {
       // Create a map that contains the data for photo and location.
       Map<String, dynamic> updatedData = {
-        'ProfilePic': base64String,
-        'Location': city,
+        UserTable.userProfilePicColumnName: base64String,
+        UserTable.userLocationColumnName: city,
       };
 
       // Send the data to be saved.

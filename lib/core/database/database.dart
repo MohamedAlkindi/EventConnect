@@ -8,14 +8,15 @@ class AppDatabase {
   static Future<void> initializeDatabase() async {
     String dbPath = await getDatabasesPath();
     String path = join(dbPath, 'EventsDatabase.db');
-    bool dbExists = await databaseExists(path);
-    if (!dbExists) {
-      ByteData data =
-          await rootBundle.load(join('assets/database', 'EventsDatabase.db'));
-      List<int> bytes =
-          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
-      await File(path).writeAsBytes(bytes, flush: true);
-    }
+
+    // Always copy the database from assets to ensure we have the latest version
+    ByteData data =
+        await rootBundle.load(join('assets/database', 'EventsDatabase.db'));
+    List<int> bytes =
+        data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    await File(path).writeAsBytes(bytes, flush: true);
+
+    // Open the database
     db = await openDatabase(path);
   }
 
