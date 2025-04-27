@@ -39,7 +39,7 @@ class AllEventScreenBL {
 
   Future<void> addEventToUserEvents(int eventID) async {
     try {
-      return await _dataAccess.addEventToUserEvents(eventID);
+      await _dataAccess.addEventToUserEvents(eventID);
     } catch (e) {
       throw GenericException(
           message: ExceptionMessages.genericExceptionMessage);

@@ -14,7 +14,7 @@ class AllEventScreenDA {
     return await _db.rawQuery('''
       SELECT * FROM ${EventsTable.eventTableName} 
       WHERE ${EventsTable.eventIDColumnName} NOT IN (
-        SELECT ID FROM ${UserEvents.userEventsTableName}
+        SELECT ${UserEvents.eventIDColumnName} FROM ${UserEvents.userEventsTableName}
       )
     ''');
   }

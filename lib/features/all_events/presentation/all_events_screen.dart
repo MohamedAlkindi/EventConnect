@@ -13,7 +13,6 @@ class AllEventsScreen extends StatefulWidget {
 }
 
 class _AllEventsScreenState extends State<AllEventsScreen> {
-  final TextEditingController _searchController = TextEditingController();
   final List<String> categories = [
     'All',
     'Music',
@@ -30,12 +29,6 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
   void initState() {
     super.initState();
     context.read<AllEventsCubit>().getAllEvents();
-  }
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
   }
 
   @override
@@ -82,7 +75,7 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
                 if (state is AllEventsLoading) {
                   showLoadingDialog(context);
                 } else if (state is AllEventsError) {
-                  hideLoadingDialog(context);
+                  // hideLoadingDialog(context);
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -99,8 +92,7 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
                     },
                   );
                 } else if (state is EventAddedToUserEvents) {
-                  hideLoadingDialog(context);
-                  context.read<AllEventsCubit>().getAllEvents();
+                  // hideLoadingDialog(context);
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {

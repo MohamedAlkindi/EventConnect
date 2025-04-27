@@ -1,6 +1,7 @@
 import 'package:event_connect/core/database/database.dart';
 import 'package:event_connect/core/firebase/config/firebase_options.dart';
 import 'package:event_connect/core/firebase/user/firebase_user.dart';
+import 'package:event_connect/features/all_events/presentation/all_events_screen.dart';
 import 'package:event_connect/features/all_events/presentation/cubit/all_events_cubit.dart';
 import 'package:event_connect/features/complete_profile/presentation/complete_profile_screen.dart';
 import 'package:event_connect/features/complete_profile/presentation/cubit/complete_profile_cubit.dart';
@@ -9,6 +10,9 @@ import 'package:event_connect/features/forgot_password/presentaion/forgot_passwo
 import 'package:event_connect/features/forgot_password/presentaion/reset_pass_confirmation_screen.dart';
 import 'package:event_connect/features/login/presentation/cubit/login_cubit.dart';
 import 'package:event_connect/features/login/presentation/login_screen.dart';
+import 'package:event_connect/features/my_events/presentation/cubit/my_events_cubit.dart';
+import 'package:event_connect/features/my_events/presentation/my_events_screen.dart';
+import 'package:event_connect/features/my_profile/presentation/my_profile_screen.dart';
 import 'package:event_connect/features/register/presentation/cubit/register_cubit.dart';
 import 'package:event_connect/features/register/presentation/register_screen.dart';
 import 'package:event_connect/features/user_homescreen/presentation/cubit/user_homescreen_cubit.dart';
@@ -26,6 +30,9 @@ String forgotPasswordPageRoute = '/ForgotPasswordScreen';
 String resetPasswordConfirmationPageRoute = '/ResetPasswordConfirmationPage';
 String completeProfileInfoScreenRoute = '/CompleteProfileInfoScreen';
 String userHomeScreenPageRoute = '/UserHomeScreen';
+String allEventsRoute = '/AllEventsScreen';
+String myEventsRoute = '/MyEventsScreen';
+String userProfileRoute = '/MyProfileScreen';
 
 bool isUserSignedIn = user.getUser != null;
 
@@ -64,6 +71,9 @@ class MainApp extends StatelessWidget {
         BlocProvider(
           create: (context) => AllEventsCubit(),
         ),
+        BlocProvider(
+          create: (context) => MyEventsCubit(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -77,6 +87,9 @@ class MainApp extends StatelessWidget {
               ResetPasswordConfirmationPage(),
           completeProfileInfoScreenRoute: (context) => CompleteProfileScreen(),
           userHomeScreenPageRoute: (context) => UserHomeScreen(),
+          allEventsRoute: (context) => AllEventsScreen(),
+          myEventsRoute: (context) => MyEventsScreen(),
+          userProfileRoute: (context) => MyProfileScreen(),
         },
       ),
     );
