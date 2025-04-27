@@ -9,10 +9,13 @@ class CompleteProfileDa {
 
   Future<void> finalizeProfile(
       {required Map<String, dynamic> updatedData}) async {
-    await _db.update(UserTable.userTableName, updatedData,
-        where: '${UserTable.userIDColumnName} = ?',
-        whereArgs: [
-          user.getUserID,
-        ]);
+    await _db.update(
+      UserTable.userTableName,
+      updatedData,
+      where: '${UserTable.userIDColumnName} = ?',
+      whereArgs: [
+        user.getUserID,
+      ],
+    );
   }
 }

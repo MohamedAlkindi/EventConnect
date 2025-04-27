@@ -8,16 +8,22 @@ class InsertUser {
   FirebaseUser firebaseUser = FirebaseUser();
 
   Future<bool> isUnique(String userName) async {
-    List<Map<String, dynamic>> userNames =
-        await db.query('User', where: "Username = ?", whereArgs: [userName]);
+    List<Map<String, dynamic>> userNames = await db.query(
+      UserTable.createUserTable,
+      where: "${UserTable.userNameColumnName} = ?",
+      whereArgs: [userName],
+    );
 
     return userNames.isEmpty;
   }
 
   Future<void> insertUsername(String userName) async {
-    await db.insert('User', {
-      UserTable.userIDColumnName: firebaseUser.getUserID,
-      UserTable.userNameColumnName: userName,
-    });
+    await db.insert(
+      UserTable.createUserTable,
+      {
+        UserTable.userIDColumnName: firebaseUser.getUserID,
+        UserTable.userNameColumnName: userName,
+      },
+    );
   }
 }
