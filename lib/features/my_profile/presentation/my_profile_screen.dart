@@ -139,30 +139,25 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     ),
                     child: ElevatedButton(
                       onPressed: () {
-                        showDialog(
-                          barrierDismissible: false,
+                        showMessageDialog(
                           context: context,
-                          builder: (BuildContext context) {
-                            return dialog(
-                              icon: Icons.warning_rounded,
-                              iconColor: Colors.red,
-                              titleText: 'Delete Account 😐',
-                              contentText:
-                                  'Are you sure you want to delete your account?',
-                              buttonText: 'Delete',
-                              onPressed: () {
-                                context.read<MyProfileCubit>().deleteUser();
-                                Navigator.pop(context);
-                                Navigator.popAndPushNamed(
-                                  context,
-                                  loginPageRoute,
-                                );
-                              },
-                              secondButtonText: 'Cancel',
-                              secondOnPressed: () {
-                                Navigator.pop(context);
-                              },
+                          icon: Icons.warning_rounded,
+                          iconColor: Colors.red,
+                          titleText: 'Delete Account 😐',
+                          contentText:
+                              'Are you sure you want to delete your account?',
+                          buttonText: 'Delete',
+                          onPressed: () {
+                            context.read<MyProfileCubit>().deleteUser();
+                            Navigator.pop(context);
+                            Navigator.popAndPushNamed(
+                              context,
+                              loginPageRoute,
                             );
+                          },
+                          secondButtonText: 'Cancel',
+                          secondOnPressed: () {
+                            Navigator.pop(context);
                           },
                         );
                       },

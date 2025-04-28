@@ -38,38 +38,28 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                   // showLoadingDialog(context);
                 } else if (state is MyEventsError) {
                   //  hideLoadingDialog(context);
-                  showDialog(
-                    barrierDismissible: false,
+                  showMessageDialog(
                     context: context,
-                    builder: (BuildContext context) {
-                      return dialog(
-                        icon: Icons.error_outline_outlined,
-                        iconColor: Colors.red,
-                        titleText: 'Ouch! 😓',
-                        contentText: state.message,
-                        buttonText: 'Try Again',
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      );
+                    icon: Icons.error_outline_outlined,
+                    iconColor: Colors.red,
+                    titleText: 'Ouch! 😓',
+                    contentText: state.message,
+                    buttonText: 'Try Again',
+                    onPressed: () {
+                      Navigator.pop(context);
                     },
                   );
                 } else if (state is MyEventsDeletedEvent) {
                   // hideLoadingDialog(context);
-                  showDialog(
-                    barrierDismissible: false,
+                  showMessageDialog(
                     context: context,
-                    builder: (BuildContext context) {
-                      return dialog(
-                        icon: Icons.check_circle_outline_rounded,
-                        iconColor: Colors.green,
-                        titleText: 'Done! 🫡',
-                        contentText: 'Event removed from your schedule!',
-                        buttonText: 'Okay!',
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      );
+                    icon: Icons.check_circle_outline_rounded,
+                    iconColor: Colors.green,
+                    titleText: 'Done! 🫡',
+                    contentText: 'Event removed from your schedule!',
+                    buttonText: 'Okay!',
+                    onPressed: () {
+                      Navigator.pop(context);
                     },
                   );
                 }

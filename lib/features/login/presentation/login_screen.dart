@@ -51,20 +51,15 @@ class _LoginPageState extends State<LoginPage> {
             );
           } else if (state is LoginError) {
             hideLoadingDialog(context);
-            showDialog(
-              barrierDismissible: false,
+            showMessageDialog(
               context: context,
-              builder: (BuildContext context) {
-                return dialog(
-                  icon: Icons.error_outline_rounded,
-                  iconColor: Colors.red,
-                  titleText: 'Ouch! 😓',
-                  contentText: state.message,
-                  buttonText: 'Try Again',
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                );
+              icon: Icons.error_outline_rounded,
+              iconColor: Colors.red,
+              titleText: 'Ouch! 😓',
+              contentText: state.message,
+              buttonText: 'Try Again',
+              onPressed: () {
+                Navigator.pop(context);
               },
             );
           }

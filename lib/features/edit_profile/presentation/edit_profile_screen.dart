@@ -80,41 +80,30 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             _imageFile ??=
                 state.userProfile[UserTable.userProfilePicColumnName];
           } else if (state is EditProfileSuccess) {
-            showDialog(
-              barrierDismissible: false,
+            showMessageDialog(
               context: context,
-              builder: (BuildContext context) {
-                return dialog(
-                  icon: Icons.check_circle_outline_rounded,
-                  iconColor: Colors.green,
-                  titleText: 'Success! 🥳',
-                  contentText: "You have successfully updated your profile!",
-                  buttonText: 'Head to Home',
-                  onPressed: () {
-                    Navigator.popAndPushNamed(
-                      context,
-                      userHomeScreenPageRoute,
-                    );
-                  },
+              icon: Icons.check_circle_outline_rounded,
+              iconColor: Colors.green,
+              titleText: 'Success! 🥳',
+              contentText: "You have successfully updated your profile!",
+              buttonText: 'Head to Home',
+              onPressed: () {
+                Navigator.popAndPushNamed(
+                  context,
+                  userHomeScreenPageRoute,
                 );
               },
             );
           } else if (state is EditProfileError) {
-            showDialog(
-              barrierDismissible: false,
+            showMessageDialog(
               context: context,
-              builder: (BuildContext context) {
-                return dialog(
-                  icon: Icons.error_outline,
-                  iconColor: Colors.red,
-                  titleText: 'Error!',
-                  contentText: state.message,
-                  buttonText: 'OK',
-                  onPressed: () {
-                    Navigator.pop(context);
-                    context.read<EditProfileCubit>().getUserProfile();
-                  },
-                );
+              icon: Icons.error_outline_rounded,
+              iconColor: Colors.red,
+              titleText: 'Error!',
+              contentText: state.message,
+              buttonText: 'OK',
+              onPressed: () {
+                Navigator.pop(context);
               },
             );
           }
@@ -189,25 +178,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      if (_imageFile == null) {
-                        showDialog(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (BuildContext context) {
-                            return dialog(
-                              icon: Icons.error_outline,
-                              iconColor: Colors.red,
-                              titleText: 'Error!',
-                              contentText: "Please select a profile picture",
-                              buttonText: 'OK',
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            );
-                          },
-                        );
-                        return;
-                      }
                       context.read<EditProfileCubit>().updateUserProfile(
                             name: _usernameController.text,
                             location: _selectedLocation,

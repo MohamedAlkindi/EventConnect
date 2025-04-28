@@ -64,24 +64,19 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
           IconButton(
             icon: Icon(Icons.logout_rounded),
             onPressed: () {
-              showDialog(
-                barrierDismissible: false,
+              showMessageDialog(
                 context: context,
-                builder: (BuildContext context) {
-                  return dialog(
-                    titleText: "Logout 😰",
-                    contentText: "Are you sure you want to logout?",
-                    icon: Icons.warning_amber_rounded,
-                    iconColor: const Color.fromARGB(255, 207, 169, 18),
-                    buttonText: "Yes",
-                    onPressed: () {
-                      cubit.userSignOut();
-                    },
-                    secondButtonText: "No",
-                    secondOnPressed: () {
-                      Navigator.pop(context);
-                    },
-                  );
+                icon: Icons.warning_amber_rounded,
+                titleText: "Logout 😰",
+                contentText: "Are you sure you want to logout?",
+                iconColor: const Color.fromARGB(255, 207, 169, 18),
+                buttonText: "Yes",
+                onPressed: () {
+                  cubit.userSignOut();
+                },
+                secondButtonText: "No",
+                secondOnPressed: () {
+                  Navigator.pop(context);
                 },
               );
             },

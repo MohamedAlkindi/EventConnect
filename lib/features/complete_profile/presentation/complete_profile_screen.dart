@@ -62,41 +62,31 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
             showLoadingDialog(context);
           } else if (state is CompleteProfileSuccessul) {
             hideLoadingDialog(context);
-            showDialog(
-              barrierDismissible: false,
+            showMessageDialog(
               context: context,
-              builder: (BuildContext context) {
-                return dialog(
-                  icon: Icons.check_circle_outline_rounded,
-                  iconColor: Colors.green,
-                  titleText: 'Success! 🥳',
-                  contentText: "You have successfully completed your profile!",
-                  buttonText: 'Head to Login',
-                  onPressed: () {
-                    Navigator.popAndPushNamed(
-                      context,
-                      loginPageRoute,
-                    );
-                  },
+              titleText: 'Success! 🥳',
+              contentText: "You have successfully completed your profile!",
+              icon: Icons.check_circle_outline_rounded,
+              iconColor: Colors.green,
+              buttonText: 'Head to Login',
+              onPressed: () {
+                Navigator.popAndPushNamed(
+                  context,
+                  loginPageRoute,
                 );
               },
             );
           } else if (state is CompleteProfileError) {
             hideLoadingDialog(context);
-            showDialog(
-              barrierDismissible: false,
+            showMessageDialog(
               context: context,
-              builder: (BuildContext context) {
-                return dialog(
-                  icon: Icons.error_outline_rounded,
-                  iconColor: Colors.red,
-                  titleText: 'Ouch! 😓',
-                  contentText: state.message,
-                  buttonText: 'Try Again',
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                );
+              titleText: 'Ouch! 😓',
+              contentText: state.message,
+              icon: Icons.error_outline_rounded,
+              iconColor: Colors.red,
+              buttonText: 'Try Again',
+              onPressed: () {
+                Navigator.pop(context);
               },
             );
           }

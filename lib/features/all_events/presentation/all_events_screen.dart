@@ -77,38 +77,28 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
                   showLoadingDialog(context);
                 } else if (state is AllEventsError) {
                   // hideLoadingDialog(context);
-                  showDialog(
-                    barrierDismissible: false,
+                  showMessageDialog(
                     context: context,
-                    builder: (BuildContext context) {
-                      return dialog(
-                        icon: Icons.error_outline_outlined,
-                        iconColor: Colors.red,
-                        titleText: 'Ouch! 😓',
-                        contentText: state.message,
-                        buttonText: 'Try Again',
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      );
+                    titleText: 'Ouch! 😓',
+                    contentText: state.message,
+                    icon: Icons.error_outline_outlined,
+                    iconColor: Colors.red,
+                    buttonText: 'Try Again',
+                    onPressed: () {
+                      Navigator.pop(context);
                     },
                   );
                 } else if (state is EventAddedToUserEvents) {
                   // hideLoadingDialog(context);
-                  showDialog(
-                    barrierDismissible: false,
+                  showMessageDialog(
                     context: context,
-                    builder: (BuildContext context) {
-                      return dialog(
-                        icon: Icons.check_circle_outline_rounded,
-                        iconColor: Colors.green,
-                        titleText: 'Yay! 😁🤟🏻',
-                        contentText: 'Event added to your schedule!',
-                        buttonText: 'Okay!',
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      );
+                    titleText: 'Yay! 😁🤟🏻',
+                    contentText: 'Event added to your schedule!',
+                    icon: Icons.check_circle_outline_rounded,
+                    iconColor: Colors.green,
+                    buttonText: 'Okay!',
+                    onPressed: () {
+                      Navigator.pop(context);
                     },
                   );
                 }
