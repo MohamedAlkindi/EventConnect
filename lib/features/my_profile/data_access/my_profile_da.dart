@@ -28,7 +28,6 @@ class MyProfileDA {
       where: '${UserTable.userIDColumnName} = ?',
       whereArgs: [_user.getUserID],
     );
-    await _auth.currentUser?.delete();
-    await _auth.signOut();
+    await _user.deleteUser();
   }
 }

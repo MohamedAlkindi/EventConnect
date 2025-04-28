@@ -10,7 +10,6 @@ import 'package:sqflite/sqflite.dart';
 class EditProfileDA {
   final FirebaseUser _user = FirebaseUser();
   final Database _db = AppDatabase.db;
-  late String base64String;
 
   Future<Map<String, dynamic>> getUserProfile() async {
     final result = await _db.query(

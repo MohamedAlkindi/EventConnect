@@ -63,6 +63,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
           } else if (state is CompleteProfileSuccessul) {
             hideLoadingDialog(context);
             showDialog(
+              barrierDismissible: false,
               context: context,
               builder: (BuildContext context) {
                 return dialog(
@@ -83,6 +84,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
           } else if (state is CompleteProfileError) {
             hideLoadingDialog(context);
             showDialog(
+              barrierDismissible: false,
               context: context,
               builder: (BuildContext context) {
                 return dialog(

@@ -65,16 +65,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       appBar: AppBar(
         title: const Text('Edit Profile'),
       ),
-      body: BlocListener<EditProfileCubit, EditProfileState>(
+      body: BlocConsumer<EditProfileCubit, EditProfileState>(
         listener: (context, state) {
           if (state is GotUserProfile) {
-            _usernameController.text =
-                state.userProfile[UserTable.userNameColumnName];
-            _selectedLocation =
-                state.userProfile[UserTable.userLocationColumnName];
-            _imageFile = state.userProfile[UserTable.userProfilePicColumnName];
+            // Only set initial values if they haven't been set yet
+            if (_usernameController.text.isEmpty) {
+              _usernameController.text =
+                  state.userProfile[UserTable.userNameColumnName];
+            }
+            if (_selectedLocation.isEmpty) {
+              _selectedLocation =
+                  state.userProfile[UserTable.userLocationColumnName];
+            }
+            _imageFile ??=
+                state.userProfile[UserTable.userProfilePicColumnName];
           } else if (state is EditProfileSuccess) {
             showDialog(
+              barrierDismissible: false,
               context: context,
               builder: (BuildContext context) {
                 return dialog(
@@ -94,6 +101,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             );
           } else if (state is EditProfileError) {
             showDialog(
+              barrierDismissible: false,
               context: context,
               builder: (BuildContext context) {
                 return dialog(
@@ -104,107 +112,119 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   buttonText: 'OK',
                   onPressed: () {
                     Navigator.pop(context);
+                    context.read<EditProfileCubit>().getUserProfile();
                   },
                 );
               },
             );
           }
         },
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Center(
-                child: Stack(
-                  children: [
-                    CircleAvatar(
-                      radius: 80,
-                      backgroundImage: _imageFile != null
-                          ? FileImage(File(_imageFile!.path)) as ImageProvider
-                          : null,
-                      child: _imageFile == null
-                          ? const Icon(Icons.person, size: 80)
-                          : null,
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: GestureDetector(
-                        onTap: _pickImage,
-                        child: CircleAvatar(
-                          radius: 18,
-                          child: Icon(
-                            Icons.camera_alt,
-                            color: Colors.black,
-                            size: 20,
+        builder: (BuildContext context, EditProfileState state) {
+          if (state is GotUserProfile) {
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Center(
+                    child: Stack(
+                      children: [
+                        CircleAvatar(
+                          radius: 80,
+                          backgroundImage: _imageFile != null
+                              ? FileImage(File(_imageFile!.path))
+                                  as ImageProvider
+                              : null,
+                          child: _imageFile == null
+                              ? const Icon(Icons.person, size: 80)
+                              : null,
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: GestureDetector(
+                            onTap: _pickImage,
+                            child: CircleAvatar(
+                              radius: 18,
+                              child: Icon(
+                                Icons.camera_alt,
+                                color: Colors.black,
+                                size: 20,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 35),
-              customTextField(
-                controller: _usernameController,
-                labelText: 'Enter Username',
-                hintText: 'At least 6 characters',
-                icon: Icons.person,
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              DropdownButtonFormField<String>(
-                decoration: InputDecoration(
-                  labelText: "Select Your City",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12)),
-                ),
-                value: _selectedLocation.isNotEmpty ? _selectedLocation : null,
-                items: _yemeniCities.map((city) {
-                  return DropdownMenuItem<String>(
-                    value: city,
-                    child: Text(city),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _selectedLocation = value!;
-                  });
-                },
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  if (_imageFile == null) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return dialog(
-                          icon: Icons.error_outline,
-                          iconColor: Colors.red,
-                          titleText: 'Error!',
-                          contentText: "Please select a profile picture",
-                          buttonText: 'OK',
-                          onPressed: () {
-                            Navigator.pop(context);
+                  ),
+                  SizedBox(height: 35),
+                  customTextField(
+                    controller: _usernameController,
+                    labelText: 'Enter Username',
+                    hintText: 'At least 6 characters',
+                    icon: Icons.person,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      labelText: "Select Your City",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                    ),
+                    value:
+                        _selectedLocation.isNotEmpty ? _selectedLocation : null,
+                    items: _yemeniCities.map((city) {
+                      return DropdownMenuItem<String>(
+                        value: city,
+                        child: Text(city),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedLocation = value!;
+                      });
+                    },
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_imageFile == null) {
+                        showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (BuildContext context) {
+                            return dialog(
+                              icon: Icons.error_outline,
+                              iconColor: Colors.red,
+                              titleText: 'Error!',
+                              contentText: "Please select a profile picture",
+                              buttonText: 'OK',
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            );
                           },
                         );
-                      },
-                    );
-                    return;
-                  }
-                  context.read<EditProfileCubit>().updateUserProfile(
-                        name: _usernameController.text,
-                        location: _selectedLocation,
-                        profilePic: _imageFile!,
-                      );
-                },
-                child: const Text('Update'),
+                        return;
+                      }
+                      context.read<EditProfileCubit>().updateUserProfile(
+                            name: _usernameController.text,
+                            location: _selectedLocation,
+                            profilePic: _imageFile!,
+                          );
+                    },
+                    child: const Text('Update'),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
       ),
     );
   }

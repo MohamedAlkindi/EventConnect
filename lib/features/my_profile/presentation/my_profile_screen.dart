@@ -140,6 +140,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     child: ElevatedButton(
                       onPressed: () {
                         showDialog(
+                          barrierDismissible: false,
                           context: context,
                           builder: (BuildContext context) {
                             return dialog(

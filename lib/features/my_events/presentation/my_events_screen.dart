@@ -38,6 +38,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                 } else if (state is MyEventsError) {
                   //  hideLoadingDialog(context);
                   showDialog(
+                    barrierDismissible: false,
                     context: context,
                     builder: (BuildContext context) {
                       return dialog(
@@ -55,6 +56,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                 } else if (state is MyEventsDeletedEvent) {
                   // hideLoadingDialog(context);
                   showDialog(
+                    barrierDismissible: false,
                     context: context,
                     builder: (BuildContext context) {
                       return dialog(

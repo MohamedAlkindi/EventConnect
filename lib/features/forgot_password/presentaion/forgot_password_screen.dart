@@ -46,6 +46,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           } else if (state is ResetPasswordError) {
             hideLoadingDialog(context);
             showDialog(
+              barrierDismissible: false,
               context: context,
               builder: (BuildContext context) {
                 return dialog(

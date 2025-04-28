@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
+import 'package:event_connect/core/exceptions_messages/messages.dart';
 import 'package:event_connect/core/tables/user_table.dart';
 import 'package:event_connect/features/edit_profile/data_access/edit_profile_da.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,6 +15,11 @@ class EditProfileBL {
     required String location,
     required XFile profilePic,
   }) async {
+    if (name.length < 6) {
+      throw ShortUsername(
+        message: ExceptionMessages.shortUsernameMessage,
+      );
+    }
     await _da.updateUserProfile(
       name: name,
       location: location,

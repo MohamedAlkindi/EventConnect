@@ -77,6 +77,7 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
                 } else if (state is AllEventsError) {
                   // hideLoadingDialog(context);
                   showDialog(
+                    barrierDismissible: false,
                     context: context,
                     builder: (BuildContext context) {
                       return dialog(
@@ -94,6 +95,7 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
                 } else if (state is EventAddedToUserEvents) {
                   // hideLoadingDialog(context);
                   showDialog(
+                    barrierDismissible: false,
                     context: context,
                     builder: (BuildContext context) {
                       return dialog(

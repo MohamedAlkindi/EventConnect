@@ -2,11 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:event_connect/core/firebase/user/firebase_user.dart';
 import 'package:event_connect/features/user_homescreen/data_access/user_homescreen_da.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class UserHomescreenBl {
   final UserHomescreenDa _dataAccess = UserHomescreenDa();
+  final FirebaseUser _user = FirebaseUser();
 
   Future<File> convertBase64ToFile(String base64String) async {
     try {
@@ -28,6 +29,6 @@ class UserHomescreenBl {
   }
 
   Future<void> signOut() async {
-    await FirebaseAuth.instance.signOut();
+    await _user.signOut();
   }
 }

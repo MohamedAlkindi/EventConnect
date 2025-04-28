@@ -52,6 +52,7 @@ class _LoginPageState extends State<LoginPage> {
           } else if (state is LoginError) {
             hideLoadingDialog(context);
             showDialog(
+              barrierDismissible: false,
               context: context,
               builder: (BuildContext context) {
                 return dialog(

@@ -65,6 +65,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
             icon: Icon(Icons.logout_rounded),
             onPressed: () {
               showDialog(
+                barrierDismissible: false,
                 context: context,
                 builder: (BuildContext context) {
                   return dialog(
@@ -121,49 +122,51 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                   ),
                 ],
               ),
-              child: BottomNavigationBar(
-                currentIndex: _currentIndex,
-                onTap: (index) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                  _pageController.animateToPage(
-                    index,
-                    duration: Duration(microseconds: 300),
-                    curve: Curves.easeInOut,
+              child: BlocBuilder<UserHomescreenCubit, UserHomescreenState>(
+                builder: (context, state) {
+                  return BottomNavigationBar(
+                    currentIndex: _currentIndex,
+                    onTap: (index) {
+                      setState(() {
+                        _currentIndex = index;
+                      });
+                      _pageController.animateToPage(
+                        index,
+                        duration: Duration(microseconds: 300),
+                        curve: Curves.easeInOut,
+                      );
+                    },
+                    items: [
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.event_note_rounded),
+                        label: "All Events",
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.event),
+                        label: "My Events",
+                      ),
+                      BottomNavigationBarItem(
+                        icon: CircleAvatar(
+                          radius: 15,
+                          backgroundColor: Colors.grey.shade300,
+                          child: state is GotUserProfilePic
+                              ? CircleAvatar(
+                                  radius: 15,
+                                  backgroundImage: FileImage(
+                                    state.imageFile,
+                                  ),
+                                )
+                              : Icon(Icons.person, color: Colors.white),
+                        ),
+                        label: "My Profile",
+                      ),
+                    ],
+                    selectedItemColor: Theme.of(context).primaryColor,
+                    unselectedItemColor: Colors.grey,
+                    showUnselectedLabels: true,
+                    type: BottomNavigationBarType.fixed,
                   );
                 },
-                items: [
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.event_note_rounded),
-                    label: "All Events",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.event),
-                    label: "My Events",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: CircleAvatar(
-                      radius: 15,
-                      backgroundColor: Colors.grey.shade300,
-                      child: cubit.state is GotUserProfilePic
-                          ? CircleAvatar(
-                              radius: 15,
-                              backgroundImage: FileImage(
-                                (cubit.state as GotUserProfilePic)
-                                    .imageFile, // Use the File object
-                              ),
-                            )
-                          : Icon(Icons.person,
-                              color: Colors.white), // Fallback icon
-                    ),
-                    label: "My Profile",
-                  ),
-                ],
-                selectedItemColor: Theme.of(context).primaryColor,
-                unselectedItemColor: Colors.grey,
-                showUnselectedLabels: true,
-                type: BottomNavigationBarType.fixed,
               ),
             ),
           ],

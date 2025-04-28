@@ -58,6 +58,7 @@ class _RegisterPageState extends State<RegisterPage> {
           } else if (state is RegisterErrorState) {
             hideLoadingDialog(context);
             showDialog(
+              barrierDismissible: false,
               context: context,
               builder: (BuildContext context) {
                 return dialog(

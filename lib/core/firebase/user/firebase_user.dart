@@ -4,4 +4,12 @@ class FirebaseUser {
   User? get getUser => FirebaseAuth.instance.currentUser;
 
   String get getUserID => getUser!.uid;
+
+  Future<void> deleteUser() async {
+    await getUser!.delete();
+  }
+
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
 }
