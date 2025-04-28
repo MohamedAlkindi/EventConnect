@@ -1,5 +1,6 @@
 import 'package:event_connect/core/tables/events_table.dart';
 import 'package:event_connect/core/utils/message_dialog.dart';
+import 'package:event_connect/core/widgets/event_elements_widget.dart';
 import 'package:event_connect/features/my_events/presentation/cubit/my_events_cubit.dart';
 import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
@@ -84,17 +85,9 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             // Event Image
-                            Container(
-                              height: 200,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: NetworkImage(state.events[index][
-                                          EventsTable.eventPictureColumnName] ??
-                                      ''),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
+                            returnEventPicture(
+                              eventPictureLink: state.events[index]
+                                  [EventsTable.eventPictureColumnName],
                             ),
 
                             Padding(
@@ -103,134 +96,68 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   // Event Name and Location
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          state.events[index]
-                                              [EventsTable.eventNameColumnName],
-                                          style: const TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                      // Location
-                                      Row(
-                                        children: [
-                                          const Icon(Icons.location_on,
-                                              size: 16),
-                                          const SizedBox(width: 4),
-                                          Text(state.events[index][EventsTable
-                                                  .eventLocationColumnName] ??
-                                              ''),
-                                        ],
-                                      ),
-                                      // IconButton(
-                                      //   icon: const Icon(Icons.favorite_border),
-                                      //   onPressed: () {},
-                                      // ),
-                                    ],
+                                  returnEventMainElements(
+                                    eventName: state.events[index]
+                                        [EventsTable.eventNameColumnName],
+                                    eventLocation: state.events[index]
+                                        [EventsTable.eventLocationColumnName],
                                   ),
                                   const SizedBox(height: 8),
 
                                   // Category
-                                  Row(
-                                    children: [
-                                      const Icon(Icons.category_rounded,
-                                          size: 16),
-                                      const SizedBox(width: 4),
-                                      Text(state.events[index][EventsTable
-                                              .eventCategoryColumnName] ??
-                                          ''),
-                                    ],
+                                  returnEventElements(
+                                    icon: Icons.category_rounded,
+                                    text: state.events[index]
+                                        [EventsTable.eventCategoryColumnName],
                                   ),
                                   const SizedBox(height: 8),
 
                                   // Date and Time
-                                  Row(
-                                    children: [
-                                      const Icon(Icons.calendar_today,
-                                          size: 16),
-                                      const SizedBox(width: 4),
-                                      const Icon(Icons.access_time, size: 16),
-                                      const SizedBox(width: 4),
-                                      Text(state.events[index][EventsTable
-                                              .eventDateTimeColumnName] ??
-                                          ''),
-                                      const SizedBox(width: 16),
-                                      // Text(state.events[index][EventsTable
-                                      //         .eventTimeColumnName] ??
-                                      //     ''),
-                                    ],
+                                  returnEventElements(
+                                    icon: Icons.calendar_today,
+                                    icon2: Icons.access_time,
+                                    text: state.events[index]
+                                        [EventsTable.eventDateTimeColumnName],
                                   ),
 
                                   const SizedBox(height: 8),
 
                                   // Gender Restriction
-                                  Row(
-                                    children: [
-                                      const Icon(Icons.male_rounded, size: 16),
-                                      const SizedBox(width: 2),
-                                      const Icon(Icons.female_rounded,
-                                          size: 16),
-                                      const SizedBox(width: 4),
-                                      Text(state.events[index][EventsTable
-                                              .eventGenderResrictionColumnName] ??
-                                          ''),
-                                    ],
+                                  returnEventElements(
+                                    icon: Icons.male_rounded,
+                                    icon2: Icons.female_rounded,
+                                    text: state.events[index][EventsTable
+                                        .eventGenderResrictionColumnName],
                                   ),
 
                                   const SizedBox(height: 8),
 
                                   // Weather
-                                  Row(
-                                    children: [
-                                      const Icon(Icons.wb_sunny, size: 16),
-                                      const SizedBox(width: 4),
-                                      Text(
-                                          state.events[index]['Weather'] ?? ''),
-                                    ],
-                                  ),
+                                  // returnEventElements(
+                                  //   icon: Icons.wb_sunny,
+                                  //   text: state.events[index]
+                                  //       [EventsTable.eventWeatherColumnName],
+                                  // ),
 
                                   const SizedBox(height: 8),
 
                                   // Description
-                                  Text(
-                                    state.events[index][EventsTable
-                                            .eventDescriptionColumnName] ??
-                                        '',
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis,
+                                  returnEventDescription(
+                                    description: state.events[index][
+                                        EventsTable.eventDescriptionColumnName],
                                   ),
 
                                   const SizedBox(height: 12),
 
                                   // Remove from Schedule Button
-                                  Container(
-                                    padding: const EdgeInsets.all(7),
-                                    width: double.infinity,
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        cubit.deleteEventFromUserEvents(
-                                          eventID: state.events[index]
-                                              [EventsTable.eventIDColumnName],
-                                        );
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.blue,
-                                        foregroundColor: Colors.white,
-                                      ),
-                                      child: const Text(
-                                        'Remove from Schedule',
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
+                                  returnEventButton(
+                                    buttonText: 'Remove from Schedule',
+                                    onPressed: () {
+                                      cubit.deleteEventFromUserEvents(
+                                        eventID: state.events[index]
+                                            [EventsTable.eventIDColumnName],
+                                      );
+                                    },
                                   ),
                                 ],
                               ),
