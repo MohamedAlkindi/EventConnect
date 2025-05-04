@@ -1,5 +1,5 @@
 import 'package:event_connect/core/tables/events_table.dart';
-import 'package:event_connect/core/utils/message_dialog.dart';
+import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/core/widgets/event_elements_widget.dart';
 import 'package:event_connect/features/my_events/presentation/cubit/my_events_cubit.dart';
 import 'package:event_connect/main.dart';
@@ -38,16 +38,9 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                   // showLoadingDialog(context);
                 } else if (state is MyEventsError) {
                   //  hideLoadingDialog(context);
-                  showMessageDialog(
+                  showErrorDialog(
                     context: context,
-                    icon: Icons.error_outline_outlined,
-                    iconColor: Colors.red,
-                    titleText: 'Ouch! 😓',
-                    contentText: state.message,
-                    buttonText: 'Try Again',
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
+                    message: state.message,
                   );
                 } else if (state is MyEventsDeletedEvent) {
                   // hideLoadingDialog(context);

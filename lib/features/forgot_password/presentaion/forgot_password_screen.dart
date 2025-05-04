@@ -1,5 +1,5 @@
 import 'package:event_connect/core/utils/loading_dialog.dart';
-import 'package:event_connect/core/utils/message_dialog.dart';
+import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/features/forgot_password/presentaion/cubit/reset_password_cubit.dart';
 import 'package:event_connect/features/register/presentation/widget/text_fields.dart';
 import 'package:event_connect/main.dart';
@@ -45,16 +45,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             );
           } else if (state is ResetPasswordError) {
             hideLoadingDialog(context);
-            showMessageDialog(
+            showErrorDialog(
               context: context,
-              icon: Icons.error_outline_rounded,
-              iconColor: Colors.red,
-              titleText: 'Ouch! 😓',
-              contentText: state.message,
-              buttonText: 'Try Again',
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              message: state.message,
             );
           }
         },

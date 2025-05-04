@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:event_connect/core/tables/user_table.dart';
-import 'package:event_connect/core/utils/message_dialog.dart';
+import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/features/edit_profile/presentation/cubit/edit_profile_cubit.dart';
 import 'package:event_connect/features/register/presentation/widget/text_fields.dart';
 import 'package:event_connect/main.dart';

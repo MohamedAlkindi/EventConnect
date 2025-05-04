@@ -22,5 +22,4 @@ class EventsTable {
       PRIMARY KEY(`$eventIDColumnName`)
     );
   """;
-  
 }

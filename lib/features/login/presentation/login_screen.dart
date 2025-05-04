@@ -1,5 +1,5 @@
 import 'package:event_connect/core/utils/loading_dialog.dart';
-import 'package:event_connect/core/utils/message_dialog.dart';
+import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/features/login/presentation/cubit/login_cubit.dart';
 import 'package:event_connect/features/register/presentation/widget/text_fields.dart';
 import 'package:event_connect/main.dart';
@@ -51,16 +51,9 @@ class _LoginPageState extends State<LoginPage> {
             );
           } else if (state is LoginError) {
             hideLoadingDialog(context);
-            showMessageDialog(
+            showErrorDialog(
               context: context,
-              icon: Icons.error_outline_rounded,
-              iconColor: Colors.red,
-              titleText: 'Ouch! 😓',
-              contentText: state.message,
-              buttonText: 'Try Again',
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              message: state.message,
             );
           }
         },

@@ -76,3 +76,20 @@ void showMessageDialog({
     },
   );
 }
+
+void showErrorDialog({
+  required BuildContext context,
+  required String message,
+}) {
+  showMessageDialog(
+    context: context,
+    titleText: 'Ouch! 😓',
+    contentText: message,
+    icon: Icons.error_outline_outlined,
+    iconColor: Colors.red,
+    buttonText: 'Try Again',
+    onPressed: () {
+      Navigator.pop(context);
+    },
+  );
+}

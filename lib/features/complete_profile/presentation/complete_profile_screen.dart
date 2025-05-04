@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:event_connect/core/utils/loading_dialog.dart';
-import 'package:event_connect/core/utils/message_dialog.dart';
+import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/features/complete_profile/presentation/cubit/complete_profile_cubit.dart';
 import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
@@ -78,16 +78,9 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
             );
           } else if (state is CompleteProfileError) {
             hideLoadingDialog(context);
-            showMessageDialog(
+            showErrorDialog(
               context: context,
-              titleText: 'Ouch! 😓',
-              contentText: state.message,
-              icon: Icons.error_outline_rounded,
-              iconColor: Colors.red,
-              buttonText: 'Try Again',
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              message: state.message,
             );
           }
         },

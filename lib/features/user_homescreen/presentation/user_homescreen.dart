@@ -1,4 +1,4 @@
-import 'package:event_connect/core/utils/message_dialog.dart';
+import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/features/all_events/presentation/all_events_screen.dart';
 import 'package:event_connect/features/my_events/presentation/my_events_screen.dart';
 import 'package:event_connect/features/my_profile/presentation/my_profile_screen.dart';

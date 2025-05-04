@@ -1,6 +1,6 @@
 import 'package:event_connect/core/tables/events_table.dart';
 import 'package:event_connect/core/utils/loading_dialog.dart';
-import 'package:event_connect/core/utils/message_dialog.dart';
+import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/core/widgets/event_elements_widget.dart';
 import 'package:event_connect/features/all_events/presentation/cubit/all_events_cubit.dart';
 import 'package:flutter/material.dart';
@@ -77,17 +77,6 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
                   showLoadingDialog(context);
                 } else if (state is AllEventsError) {
                   // hideLoadingDialog(context);
-                  showMessageDialog(
-                    context: context,
-                    titleText: 'Ouch! 😓',
-                    contentText: state.message,
-                    icon: Icons.error_outline_outlined,
-                    iconColor: Colors.red,
-                    buttonText: 'Try Again',
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  );
                 } else if (state is EventAddedToUserEvents) {
                   // hideLoadingDialog(context);
                   showMessageDialog(

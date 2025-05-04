@@ -1,5 +1,5 @@
 import 'package:event_connect/core/tables/user_table.dart';
-import 'package:event_connect/core/utils/message_dialog.dart';
+import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/features/edit_profile/presentation/edit_profile_screen.dart';
 import 'package:event_connect/features/my_profile/presentation/cubit/my_profile_cubit.dart';
 import 'package:event_connect/main.dart';
