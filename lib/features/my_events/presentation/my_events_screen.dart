@@ -118,8 +118,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                   // Weather
                                   // returnEventElements(
                                   //   icon: Icons.wb_sunny,
-                                  //   text: state.events[index]
-                                  //       [EventsTable.eventWeatherColumnName],
+                                  //   text: state.events[index]["Weather"],
                                   // ),
 
                                   const SizedBox(height: 8),

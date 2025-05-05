@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:convert';
 
 import 'package:event_connect/core/tables/user_table.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
@@ -46,6 +47,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
   }
 
+  Future<XFile?> _convertBase64ToXFile(String base64String) async {
+    try {
+      final decodedBytes = base64Decode(base64String);
+      final tempDir = Directory.systemTemp;
+      final tempPath = '${tempDir.path}/temp_image.jpg';
+
+      final file = File(tempPath);
+      await file.writeAsBytes(decodedBytes);
+
+      return XFile(file.path);
+    } catch (e) {
+      print('Error converting base64 to XFile: $e');
+      return null;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -62,13 +79,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        title: const Text('Edit Profile'),
+        title: const Text(
+          'Edit Profile',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+        ),
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
       ),
       body: BlocConsumer<EditProfileCubit, EditProfileState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state is GotUserProfile) {
-            // Only set initial values if they haven't been set yet
             if (_usernameController.text.isEmpty) {
               _usernameController.text =
                   state.userProfile[UserTable.userNameColumnName];
@@ -77,8 +103,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               _selectedLocation =
                   state.userProfile[UserTable.userLocationColumnName];
             }
-            _imageFile ??=
-                state.userProfile[UserTable.userProfilePicColumnName];
+            if (_imageFile == null) {
+              final base64String =
+                  state.userProfile[UserTable.userProfilePicColumnName];
+              if (base64String != null) {
+                final xFile = await _convertBase64ToXFile(base64String);
+                if (xFile != null) {
+                  setState(() {
+                    _imageFile = xFile;
+                  });
+                }
+              }
+            }
           } else if (state is EditProfileSuccess) {
             showMessageDialog(
               context: context,
@@ -110,83 +146,207 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         },
         builder: (BuildContext context, EditProfileState state) {
           if (state is GotUserProfile) {
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Center(
-                    child: Stack(
-                      children: [
-                        CircleAvatar(
-                          radius: 80,
-                          backgroundImage: _imageFile != null
-                              ? FileImage(File(_imageFile!.path))
-                                  as ImageProvider
-                              : null,
-                          child: _imageFile == null
-                              ? const Icon(Icons.person, size: 80)
-                              : null,
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: GestureDetector(
-                            onTap: _pickImage,
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 20),
+                    Center(
+                      child: Stack(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.3),
+                                  spreadRadius: 2,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
                             child: CircleAvatar(
-                              radius: 18,
-                              child: Icon(
-                                Icons.camera_alt,
-                                color: Colors.black,
-                                size: 20,
+                              radius: 80,
+                              backgroundColor: Colors.grey[200],
+                              backgroundImage: _imageFile != null
+                                  ? FileImage(File(_imageFile!.path))
+                                      as ImageProvider
+                                  : null,
+                              child: _imageFile == null
+                                  ? const Icon(Icons.person,
+                                      size: 80, color: Colors.grey)
+                                  : null,
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).primaryColor,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: IconButton(
+                                onPressed: _pickImage,
+                                icon: const Icon(
+                                  Icons.camera_alt,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
                               ),
                             ),
                           ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                            spreadRadius: 1,
+                            blurRadius: 3,
+                            offset: const Offset(0, 1),
+                          ),
+                        ],
+                      ),
+                      child: customTextField(
+                        controller: _usernameController,
+                        labelText: 'Username',
+                        hintText: 'Enter your username',
+                        icon: Icons.person,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                            spreadRadius: 1,
+                            blurRadius: 3,
+                            offset: const Offset(0, 1),
+                          ),
+                        ],
+                      ),
+                      child: DropdownButtonFormField<String>(
+                        decoration: InputDecoration(
+                          labelText: "Select Your City",
+                          labelStyle: const TextStyle(
+                            color: Colors.grey,
+                            fontSize: 16,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              color: Colors.grey.withOpacity(0.3),
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              color: Colors.grey.withOpacity(0.3),
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 16,
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 35),
-                  customTextField(
-                    controller: _usernameController,
-                    labelText: 'Enter Username',
-                    hintText: 'At least 6 characters',
-                    icon: Icons.person,
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  DropdownButtonFormField<String>(
-                    decoration: InputDecoration(
-                      labelText: "Select Your City",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                    ),
-                    value:
-                        _selectedLocation.isNotEmpty ? _selectedLocation : null,
-                    items: _yemeniCities.map((city) {
-                      return DropdownMenuItem<String>(
-                        value: city,
-                        child: Text(city),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedLocation = value!;
-                      });
-                    },
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      context.read<EditProfileCubit>().updateUserProfile(
-                            name: _usernameController.text,
-                            location: _selectedLocation,
-                            profilePic: _imageFile!,
+                        value: _selectedLocation.isNotEmpty
+                            ? _selectedLocation
+                            : null,
+                        items: _yemeniCities.map((city) {
+                          return DropdownMenuItem<String>(
+                            value: city,
+                            child: Text(
+                              city,
+                              style: const TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
                           );
-                    },
-                    child: const Text('Update'),
-                  ),
-                ],
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedLocation = value!;
+                          });
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color:
+                                Theme.of(context).primaryColor.withOpacity(0.3),
+                            spreadRadius: 1,
+                            blurRadius: 4,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (_imageFile != null) {
+                              context
+                                  .read<EditProfileCubit>()
+                                  .updateUserProfile(
+                                    name: _usernameController.text,
+                                    location: _selectedLocation,
+                                    profilePic: _imageFile!,
+                                  );
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Theme.of(context).primaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            elevation: 0,
+                          ),
+                          child: const Text(
+                            'Update Profile',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                  ],
+                ),
               ),
             );
           } else {

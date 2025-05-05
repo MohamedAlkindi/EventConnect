@@ -23,7 +23,15 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<MyProfileCubit, MyProfileState>(
+      body: BlocConsumer<MyProfileCubit, MyProfileState>(
+        listener: (context, state) {
+          if (state is MyProfileError) {
+            showErrorDialog(
+              context: context,
+              message: state.message,
+            );
+          }
+        },
         builder: (context, state) {
           if (state is GotMyProfileInfo) {
             return Padding(

@@ -1,4 +1,5 @@
 import 'package:event_connect/core/database/database.dart';
+import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
 import 'package:event_connect/core/firebase/user/firebase_user.dart';
 import 'package:event_connect/core/tables/user_table.dart';
 import 'package:sqflite/sqflite.dart';
@@ -21,11 +22,15 @@ class MyProfileDA {
   }
 
   Future<void> deleteUser() async {
-    await _db.delete(
-      UserTable.userTableName,
-      where: '${UserTable.userIDColumnName} = ?',
-      whereArgs: [_user.getUserID],
-    );
-    await _user.deleteUser();
+    try {
+      await _db.delete(
+        UserTable.userTableName,
+        where: '${UserTable.userIDColumnName} = ?',
+        whereArgs: [_user.getUserID],
+      );
+      await _user.deleteUser();
+    } catch (e) {
+      throw GenericException(message: e.toString());
+    }
   }
 }

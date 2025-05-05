@@ -76,9 +76,20 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
                 if (state is AllEventsLoading) {
                   showLoadingDialog(context);
                 } else if (state is AllEventsError) {
-                  // hideLoadingDialog(context);
+                  hideLoadingDialog(context);
+                  showMessageDialog(
+                    context: context,
+                    titleText: 'Error',
+                    contentText: state.message,
+                    icon: Icons.error_outline,
+                    iconColor: Colors.red,
+                    buttonText: 'Okay',
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  );
                 } else if (state is EventAddedToUserEvents) {
-                  // hideLoadingDialog(context);
+                  hideLoadingDialog(context);
                   showMessageDialog(
                     context: context,
                     titleText: 'Yay! 😁🤟🏻',
@@ -93,109 +104,116 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
                 }
               },
               builder: (context, state) {
-                if (state is AllEventsGotEvents) {
-                  return ListView.builder(
-                    itemCount: state.events.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        margin: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Event Image
-                            returnEventPicture(
-                              eventPictureLink: state.events[index]
-                                  [EventsTable.eventPictureColumnName],
-                            ),
-
-                            Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  // Event Name and Location
-                                  returnEventMainElements(
-                                    eventName: state.events[index]
-                                        [EventsTable.eventNameColumnName],
-                                    eventLocation: state.events[index]
-                                        [EventsTable.eventLocationColumnName],
-                                  ),
-
-                                  const SizedBox(height: 8),
-
-                                  // Category
-                                  returnEventElements(
-                                    icon: Icons.category_rounded,
-                                    text: state.events[index]
-                                        [EventsTable.eventCategoryColumnName],
-                                  ),
-
-                                  const SizedBox(height: 8),
-
-                                  // Date and Time
-                                  returnEventElements(
-                                    icon: Icons.calendar_today,
-                                    icon2: Icons.access_time,
-                                    text: state.events[index]
-                                        [EventsTable.eventDateTimeColumnName],
-                                  ),
-
-                                  const SizedBox(height: 8),
-
-                                  // Gender Restriction
-                                  returnEventElements(
-                                    icon: Icons.male_rounded,
-                                    icon2: Icons.female_rounded,
-                                    text: state.events[index][EventsTable
-                                        .eventGenderResrictionColumnName],
-                                  ),
-
-                                  const SizedBox(height: 8),
-
-                                  // Weather
-                                  // returnEventElements(
-                                  //   icon: Icons.wb_sunny,
-                                  //   text: state.events[index]
-                                  //       [EventsTable.eventWeatherColumnName],
-                                  // ),
-
-                                  const SizedBox(height: 8),
-
-                                  // Description
-                                  returnEventDescription(
-                                    description: state.events[index][
-                                        EventsTable.eventDescriptionColumnName],
-                                  ),
-
-                                  const SizedBox(height: 12),
-
-                                  // Add to Schedule Button
-                                  returnEventButton(
-                                    buttonText: 'Add to Schedule',
-                                    onPressed: () {
-                                      cubit.addEventToUserEvents(
-                                        eventID: state.events[index]
-                                            [EventsTable.eventIDColumnName],
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                return StreamBuilder<List<Map<String, dynamic>>>(
+                  stream: cubit.eventsStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text('Error: ${snapshot.error}'),
                       );
-                    },
-                  );
-                } else if (state is AllEventsNoEventsYet) {
-                  return const Center(
-                    child: Text("No Events Yet!"),
-                  );
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
+                    }
+
+                    if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+
+                    return ListView.builder(
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        final event = snapshot.data![index];
+                        return Card(
+                          margin: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Event Image
+                              returnEventPicture(
+                                eventPictureLink:
+                                    event[EventsTable.eventPictureColumnName],
+                              ),
+
+                              Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    // Event Name and Location
+                                    returnEventMainElements(
+                                      eventName: event[
+                                          EventsTable.eventNameColumnName],
+                                      eventLocation: event[
+                                          EventsTable.eventLocationColumnName],
+                                    ),
+
+                                    const SizedBox(height: 8),
+
+                                    // Category
+                                    returnEventElements(
+                                      icon: Icons.category_rounded,
+                                      text: event[
+                                          EventsTable.eventCategoryColumnName],
+                                    ),
+
+                                    const SizedBox(height: 8),
+
+                                    // Date and Time
+                                    returnEventElements(
+                                      icon: Icons.calendar_today,
+                                      icon2: Icons.access_time,
+                                      text: event[
+                                          EventsTable.eventDateTimeColumnName],
+                                    ),
+
+                                    const SizedBox(height: 8),
+
+                                    // Gender Restriction
+                                    returnEventElements(
+                                      icon: Icons.male_rounded,
+                                      icon2: Icons.female_rounded,
+                                      text: event[EventsTable
+                                          .eventGenderResrictionColumnName],
+                                    ),
+
+                                    const SizedBox(height: 8),
+
+                                    // Weather
+                                    returnEventElements(
+                                      icon: Icons.wb_sunny,
+                                      text: "${event["Weather"]} C°",
+                                    ),
+
+                                    const SizedBox(height: 8),
+
+                                    // Description
+                                    returnEventDescription(
+                                      description: event[EventsTable
+                                          .eventDescriptionColumnName],
+                                    ),
+
+                                    const SizedBox(height: 12),
+
+                                    // Add to Schedule Button
+                                    returnEventButton(
+                                      buttonText: 'Add to Schedule',
+                                      onPressed: () {
+                                        cubit.addEventToUserEvents(
+                                          eventID: event[
+                                              EventsTable.eventIDColumnName],
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                );
               },
             ),
           ),
