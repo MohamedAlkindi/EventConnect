@@ -18,7 +18,7 @@ class AllEventsCubit extends Cubit<AllEventsState> {
   Stream<List<Map<String, dynamic>>> get eventsStream =>
       _eventsStreamController.stream;
 
-  List<Map<String, dynamic>> _events = [];
+  List<Map<String, dynamic>> _allEvents = [];
 
   @override
   Future<void> close() {
@@ -31,15 +31,15 @@ class AllEventsCubit extends Cubit<AllEventsState> {
     emit(AllEventsLoading());
     try {
       List<Map<String, dynamic>> allEvents = await _businessLogic.getEvents();
-      _events = allEvents;
+      _allEvents = allEvents;
       // Update stream for real-time listeners
-      _eventsStreamController.add(_events);
+      _eventsStreamController.add(_allEvents);
 
       // Update UI state
       if (allEvents.isEmpty) {
         emit(AllEventsNoEventsYet());
       } else {
-        emit(AllEventsGotEvents(events: _events));
+        emit(AllEventsGotEvents(events: _allEvents));
       }
     } catch (e) {
       emit(AllEventsError(message: e.toString()));
@@ -50,16 +50,20 @@ class AllEventsCubit extends Cubit<AllEventsState> {
   Future<void> getEventsByCategory({required String category}) async {
     emit(AllEventsLoading());
     try {
-      List<Map<String, dynamic>> eventsByCat =
-          await _businessLogic.getEventsByCategory(category: category);
-      _events = eventsByCat;
-      // Update stream for real-time listeners
-      _eventsStreamController.add(_events);
+      final filteredEvents = category == "All"
+          ? _allEvents
+          : _allEvents
+              .where((event) =>
+                  event[EventsTable.eventCategoryColumnName] == category)
+              .toList();
 
-      if (eventsByCat.isEmpty) {
+      // Update stream for real-time listeners
+      _eventsStreamController.add(filteredEvents);
+
+      if (filteredEvents.isEmpty) {
         emit(AllEventsNoEventsYet());
       } else {
-        emit(AllEventsGotEvents(events: eventsByCat));
+        emit(AllEventsGotEvents(events: filteredEvents));
       }
     } catch (e) {
       emit(AllEventsError(message: e.toString()));
@@ -73,17 +77,17 @@ class AllEventsCubit extends Cubit<AllEventsState> {
       await _businessLogic.addEventToUserEvents(eventID);
 
       // Remove the event from the local list
-      _events.removeWhere(
+      _allEvents.removeWhere(
           (event) => event[EventsTable.eventIDColumnName] == eventID);
 
       // Update stream with the new list
-      _eventsStreamController.add(_events);
+      _eventsStreamController.add(_allEvents);
 
       // Update UI state
-      if (_events.isEmpty) {
+      if (_allEvents.isEmpty) {
         emit(AllEventsNoEventsYet());
       } else {
-        emit(AllEventsGotEvents(events: _events));
+        emit(AllEventsGotEvents(events: _allEvents));
       }
 
       emit(EventAddedToUserEvents());

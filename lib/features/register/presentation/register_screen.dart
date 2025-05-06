@@ -18,8 +18,6 @@ class _RegisterPageState extends State<RegisterPage> {
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
   late final TextEditingController _repeatPassController;
-  // TODO: continue...
-  bool isObsecure = true;
 
   @override
   void initState() {
@@ -94,24 +92,44 @@ class _RegisterPageState extends State<RegisterPage> {
                       SizedBox(
                         height: 15,
                       ),
-                      customTextField(
-                        controller: _passwordController,
-                        labelText: 'Enter Password',
-                        hintText: 'At least 6 characters',
-                        // TODO: Change later to make it stateful.
-                        icon: Icons.password,
-                        isObsecure: true,
+                      BlocBuilder<RegisterCubit, RegisterState>(
+                        builder: (context, state) {
+                          bool isObsecure = true; // Default value
+                          if (state is PasswordVisible) {
+                            isObsecure = state.currentPasswordVisibility;
+                          }
+                          return customTextField(
+                            controller: _passwordController,
+                            labelText: 'Enter Password',
+                            hintText: 'At least 6 characters',
+                            icon: isObsecure
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            isObsecure: isObsecure,
+                            onTap: () => cubit.togglePasswordVisibility(),
+                          );
+                        },
                       ),
                       SizedBox(
                         height: 15,
                       ),
-                      customTextField(
-                        controller: _repeatPassController,
-                        labelText: 'Repeat Password',
-                        hintText: 'At least 6 characters',
-                        // TODO: Change later to make it stateful.
-                        icon: Icons.password,
-                        isObsecure: true,
+                      BlocBuilder<RegisterCubit, RegisterState>(
+                        builder: (context, state) {
+                          bool isObsecure = true; // Default value
+                          if (state is PasswordVisible) {
+                            isObsecure = state.currentRepeatPasswordVisibility;
+                          }
+                          return customTextField(
+                            controller: _repeatPassController,
+                            labelText: 'Repeat Password',
+                            hintText: 'At least 6 characters',
+                            icon: isObsecure
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            isObsecure: isObsecure,
+                            onTap: () => cubit.toggleRepeatPasswordVisibility(),
+                          );
+                        },
                       ),
                       SizedBox(
                         height: 15,

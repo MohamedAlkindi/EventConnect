@@ -6,6 +6,7 @@ Widget customTextField({
   required String hintText,
   required IconData icon,
   bool isObsecure = false,
+  void Function()? onTap,
 }) {
   return TextField(
     controller: controller,
@@ -28,7 +29,10 @@ Widget customTextField({
         borderRadius: BorderRadius.circular(8.0),
       ),
       hintText: hintText,
-      suffixIcon: Icon(icon),
+      suffixIcon: IconButton(
+        icon: Icon(icon),
+        onPressed: onTap ?? () {},
+      ),
     ),
     obscureText: isObsecure,
   );

@@ -9,6 +9,12 @@ final class LoginLoading extends LoginState {}
 
 final class LoginSuccessful extends LoginState {}
 
+final class PasswordVisible extends LoginState {
+  final bool currentVisibility;
+
+  PasswordVisible({required this.currentVisibility});
+}
+
 final class LoginError extends LoginState {
   final String message;
 

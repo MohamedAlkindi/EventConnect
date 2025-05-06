@@ -24,4 +24,8 @@ class LoginCubit extends Cubit<LoginState> {
       emit(LoginError(message: e.toString()));
     }
   }
+
+  void togglePasswordVisibility(bool currentVisibility) {
+    emit(PasswordVisible(currentVisibility: !currentVisibility));
+  }
 }

@@ -16,7 +16,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
-  // TODO: continue...
   bool isObsecure = true;
 
   @override
@@ -79,13 +78,24 @@ class _LoginPageState extends State<LoginPage> {
                       SizedBox(
                         height: 25,
                       ),
-                      customTextField(
-                        controller: _passwordController,
-                        labelText: 'Enter Password',
-                        hintText: 'At least 6 characters',
-                        // TODO: Change later to make it stateful.
-                        icon: Icons.password,
-                        isObsecure: true,
+                      BlocBuilder<LoginCubit, LoginState>(
+                        builder: (context, state) {
+                          bool isObsecure = true; // Default value
+                          if (state is PasswordVisible) {
+                            isObsecure = state.currentVisibility;
+                          }
+                          return customTextField(
+                            controller: _passwordController,
+                            labelText: 'Enter Password',
+                            hintText: 'At least 6 characters',
+                            icon: isObsecure
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            isObsecure: isObsecure,
+                            onTap: () =>
+                                cubit.togglePasswordVisibility(isObsecure),
+                          );
+                        },
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,

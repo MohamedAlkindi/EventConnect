@@ -1,5 +1,4 @@
 import 'package:event_connect/core/tables/events_table.dart';
-import 'package:event_connect/core/utils/loading_dialog.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/core/widgets/event_elements_widget.dart';
 import 'package:event_connect/features/all_events/presentation/cubit/all_events_cubit.dart';
@@ -57,11 +56,7 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
                     onSelected: (selected) {
                       setState(() {
                         selectedCategory = categories[index];
-                        if (selectedCategory == "All") {
-                          cubit.getAllEvents();
-                        } else {
-                          cubit.getEventsByCategory(category: selectedCategory);
-                        }
+                        cubit.getEventsByCategory(category: selectedCategory);
                       });
                     },
                   ),
@@ -74,9 +69,9 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
             child: BlocConsumer<AllEventsCubit, AllEventsState>(
               listener: (context, state) {
                 if (state is AllEventsLoading) {
-                  showLoadingDialog(context);
+                  // showLoadingDialog(context);
                 } else if (state is AllEventsError) {
-                  hideLoadingDialog(context);
+                  // hideLoadingDialog(context);
                   showMessageDialog(
                     context: context,
                     titleText: 'Error',
@@ -89,7 +84,7 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
                     },
                   );
                 } else if (state is EventAddedToUserEvents) {
-                  hideLoadingDialog(context);
+                  // hideLoadingDialog(context);
                   showMessageDialog(
                     context: context,
                     titleText: 'Yay! 😁🤟🏻',
@@ -115,7 +110,15 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
 
                     if (!snapshot.hasData || snapshot.data!.isEmpty) {
                       return const Center(
-                        child: CircularProgressIndicator(),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircularProgressIndicator(),
+                            SizedBox(height: 30),
+                            Text(
+                                'Fetching Events from Server... Please be patient!'),
+                          ],
+                        ),
                       );
                     }
 
