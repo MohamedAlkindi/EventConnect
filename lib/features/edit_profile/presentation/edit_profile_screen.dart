@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'dart:convert';
-
 import 'package:event_connect/core/tables/user_table.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/features/edit_profile/presentation/cubit/edit_profile_cubit.dart';
@@ -47,22 +45,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
   }
 
-  Future<XFile?> _convertBase64ToXFile(String base64String) async {
-    try {
-      final decodedBytes = base64Decode(base64String);
-      final tempDir = Directory.systemTemp;
-      final tempPath = '${tempDir.path}/temp_image.jpg';
-
-      final file = File(tempPath);
-      await file.writeAsBytes(decodedBytes);
-
-      return XFile(file.path);
-    } catch (e) {
-      print('Error converting base64 to XFile: $e');
-      return null;
-    }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -96,24 +78,25 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         listener: (context, state) async {
           if (state is GotUserProfile) {
             if (_usernameController.text.isEmpty) {
-              _usernameController.text =
-                  state.userProfile[UserTable.userNameColumnName];
+              _usernameController.text = state.userProfile[UserTable.userNameColumnName];
+              // _usernameController.text =
+              //     state.userProfile[UserTable.userNameColumnName];
             }
             if (_selectedLocation.isEmpty) {
               _selectedLocation =
                   state.userProfile[UserTable.userLocationColumnName];
             }
             if (_imageFile == null) {
-              final base64String =
-                  state.userProfile[UserTable.userProfilePicColumnName];
-              if (base64String != null) {
-                final xFile = await _convertBase64ToXFile(base64String);
-                if (xFile != null) {
+              // final base64String =
+              //     state.userProfile[UserTable.userProfilePicColumnName];
+              // if (base64String != null) {
+              //   final xFile = await _convertBase64ToXFile(base64String);
+              //   if (xFile != null) {
                   setState(() {
-                    _imageFile = xFile;
+                    _imageFile = state.userProfile[UserTable.userProfilePicColumnName];
                   });
-                }
-              }
+                // }
+              // }
             }
           } else if (state is EditProfileSuccess) {
             showMessageDialog(

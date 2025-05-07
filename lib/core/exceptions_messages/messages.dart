@@ -31,4 +31,12 @@ class ExceptionMessages {
 
   static String shortUsernameMessage =
       "This username is too short, please at least enter 6 characters";
+
+  static String apiError = "Something went wrong restart the app";
+
+  static String categoryError =
+      "An error happened while fetching the category events";
+
+  static String addEventError =
+      "An error happened while adding an event to your events";
 }
