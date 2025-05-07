@@ -1,10 +1,13 @@
-import 'package:event_connect/core/exceptions/firebase_exceptions/firebase_exceptions.dart';
 import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
+import 'package:event_connect/core/exceptions/firebase_exceptions/firebase_exceptions.dart';
 import 'package:event_connect/core/exceptions_messages/error_codes.dart';
 import 'package:event_connect/core/exceptions_messages/messages.dart';
+import 'package:event_connect/features/login/data_access/check_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseLogin {
+  CheckDataDa checkDataDa = CheckDataDa();
+
   Future<void> loginWithEmailAndPassword(
     String email,
     String password,
@@ -42,5 +45,9 @@ class FirebaseLogin {
         message: ExceptionMessages.emptyFieldMessage,
       );
     }
+  }
+
+  Future<bool> isUserCompleted() async {
+    return checkDataDa.completedUserData();
   }
 }

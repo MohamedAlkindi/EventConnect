@@ -19,7 +19,11 @@ class LoginCubit extends Cubit<LoginState> {
         emailController.text,
         passwordController.text,
       );
-      emit(LoginSuccessful());
+      if (await login.isUserCompleted()) {
+        emit(LoginSuccessfulWithData());
+      } else {
+        emit(LoginSuccessfulWithoutData());
+      }
     } catch (e) {
       emit(LoginError(message: e.toString()));
     }

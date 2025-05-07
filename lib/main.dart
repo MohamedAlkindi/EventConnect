@@ -9,6 +9,7 @@ import 'package:event_connect/features/edit_profile/presentation/cubit/edit_prof
 import 'package:event_connect/features/forgot_password/presentaion/cubit/reset_password_cubit.dart';
 import 'package:event_connect/features/forgot_password/presentaion/forgot_password_screen.dart';
 import 'package:event_connect/features/forgot_password/presentaion/reset_pass_confirmation_screen.dart';
+import 'package:event_connect/features/login/business_logic/firebase_login.dart';
 import 'package:event_connect/features/login/presentation/cubit/login_cubit.dart';
 import 'package:event_connect/features/login/presentation/login_screen.dart';
 import 'package:event_connect/features/my_events/presentation/cubit/my_events_cubit.dart';
@@ -25,6 +26,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 FirebaseUser user = FirebaseUser();
+FirebaseLogin loginCheckup = FirebaseLogin();
 
 String loginPageRoute = '/LoginPage';
 String registerPageRoute = '/RegisterPage';
@@ -37,14 +39,12 @@ String myEventsRoute = '/MyEventsScreen';
 String userProfileRoute = '/MyProfileScreen';
 
 bool isUserSignedIn = user.getUser != null;
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await AppDatabase.initializeDatabase();
-
   runApp(const MainApp());
 }
 
@@ -85,8 +85,12 @@ class MainApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: isUserSignedIn ? UserHomeScreen() : WelcomeScreen(),
-        // home: WelcomeScreen(),
+        // home: isUserSignedIn
+        //     ? isUserCompleted
+        //         ? UserHomeScreen()
+        //         : WelcomeScreen()
+        //     : WelcomeScreen(),
+        home: WelcomeScreen(),
         routes: {
           loginPageRoute: (context) => LoginPage(),
           registerPageRoute: (context) => RegisterPage(),

@@ -7,7 +7,9 @@ final class LoginInitial extends LoginState {}
 
 final class LoginLoading extends LoginState {}
 
-final class LoginSuccessful extends LoginState {}
+final class LoginSuccessfulWithData extends LoginState {}
+
+final class LoginSuccessfulWithoutData extends LoginState {}
 
 final class PasswordVisible extends LoginState {
   final bool currentVisibility;

@@ -15,6 +15,8 @@ class AllEventsCubit extends Cubit<AllEventsState> {
   // Stream controller for real-time event updates
   final StreamController<List<Map<String, dynamic>>> _eventsStreamController =
       StreamController<List<Map<String, dynamic>>>.broadcast();
+      
+  // Expose the stream to listen for real-time updates
   Stream<List<Map<String, dynamic>>> get eventsStream =>
       _eventsStreamController.stream;
 

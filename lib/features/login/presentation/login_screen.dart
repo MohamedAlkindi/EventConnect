@@ -41,12 +41,23 @@ class _LoginPageState extends State<LoginPage> {
         listener: (context, state) {
           if (state is LoginLoading) {
             showLoadingDialog(context);
-          }
-          if (state is LoginSuccessful) {
+          } else if (state is LoginSuccessfulWithData) {
             hideLoadingDialog(context);
             Navigator.popAndPushNamed(
               context,
               userHomeScreenPageRoute,
+            );
+          } else if (state is LoginSuccessfulWithoutData) {
+            hideLoadingDialog(context);
+            Navigator.popAndPushNamed(
+              context,
+              completeProfileInfoScreenRoute,
+            );
+          } else if (state is LoginError) {
+            hideLoadingDialog(context);
+            showErrorDialog(
+              context: context,
+              message: state.message,
             );
           } else if (state is LoginError) {
             hideLoadingDialog(context);

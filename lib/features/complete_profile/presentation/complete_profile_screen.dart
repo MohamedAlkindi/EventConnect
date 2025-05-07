@@ -55,6 +55,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
           style: TextStyle(fontWeight: FontWeight.w500),
         ),
         centerTitle: true,
+        automaticallyImplyLeading: false,
       ),
       body: BlocListener<CompleteProfileCubit, CompleteProfileState>(
         listener: (context, state) {
