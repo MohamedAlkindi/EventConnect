@@ -1,17 +1,18 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
 import 'package:event_connect/core/exceptions_messages/messages.dart';
-import 'package:event_connect/core/tables/user_table.dart';
-import 'package:event_connect/features/complete_profile/data_access/complete_profile_da.dart';
+import 'package:event_connect/core/firebase/user/firebase_user.dart';
+import 'package:event_connect/core/models/user_model.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CompleteProfileBl {
   late String base64String;
-
-  final CompleteProfileDa _dataAccess = CompleteProfileDa();
+  final FirebaseUser _user = FirebaseUser();
+  final firestore = FirebaseFirestore.instance;
 
   // Convert XFile to a base64 string for saving in the database
   Future<String> convertImageToBase64(XFile? imageFile) async {
@@ -25,8 +26,10 @@ class CompleteProfileBl {
     return byteData.buffer.asUint8List(); // Convert to bytes
   }
 
-  Future<void> finalizeProfile(
-      {required XFile? imageFile, required String city}) async {
+  Future<void> finalizeProfile({
+    required XFile? imageFile,
+    required String city,
+  }) async {
     if (city.isEmpty) {
       throw EmptyFieldException(message: ExceptionMessages.emptyFieldMessage);
     }
@@ -44,13 +47,21 @@ class CompleteProfileBl {
 
     try {
       // Create a map that contains the data for photo and location.
-      Map<String, dynamic> updatedData = {
-        UserTable.userProfilePicColumnName: base64String,
-        UserTable.userLocationColumnName: city,
-      };
+      final user = UserModel(
+        userID: _user.getUserID,
+        location: city,
+        profilePic: base64String,
+      );
 
       // Send the data to be saved.
-      _dataAccess.finalizeProfile(updatedData: updatedData);
+      await firestore
+          .collection('users')
+          .doc(
+            _user.getUserID,
+          )
+          .set(
+            user.toJson(),
+          );
     } catch (e) {
       throw Exception(ExceptionMessages.genericExceptionMessage);
     }

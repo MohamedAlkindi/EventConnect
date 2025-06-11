@@ -14,7 +14,6 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  late final TextEditingController _usernameController;
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
   late final TextEditingController _repeatPassController;
@@ -22,7 +21,6 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   void initState() {
     super.initState();
-    _usernameController = TextEditingController();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     _repeatPassController = TextEditingController();
@@ -30,7 +28,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   void dispose() {
-    _usernameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _repeatPassController.dispose();
@@ -74,15 +71,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   padding: EdgeInsets.symmetric(horizontal: 9),
                   child: Column(
                     children: [
-                      customTextField(
-                        controller: _usernameController,
-                        labelText: 'Enter Username',
-                        hintText: 'At least 6 characters',
-                        icon: Icons.person,
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
                       customTextField(
                         controller: _emailController,
                         labelText: 'Enter Email',
@@ -143,7 +131,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 ElevatedButton(
                   onPressed: () {
                     cubit.registerUser(
-                      userName: _usernameController,
                       email: _emailController,
                       password: _passwordController,
                       repeatPassword: _repeatPassController,

@@ -13,7 +13,6 @@ class RegisterCubit extends Cubit<RegisterState> {
   FirebaseRegister register = FirebaseRegister();
 
   Future<void> registerUser({
-    required TextEditingController userName,
     required TextEditingController email,
     required TextEditingController password,
     required TextEditingController repeatPassword,
@@ -24,7 +23,6 @@ class RegisterCubit extends Cubit<RegisterState> {
         email: email.text,
         password: password.text,
         repeatPassword: repeatPassword.text,
-        userName: userName.text,
       );
       emit(RegisterSuccessful());
     } catch (e) {
