@@ -1,30 +1,23 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
-import 'package:event_connect/core/exceptions_messages/messages.dart';
-import 'package:event_connect/core/tables/user_table.dart';
-import 'package:event_connect/features/edit_profile/data_access/edit_profile_da.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:event_connect/core/collections/user_collection_document.dart';
+import 'package:event_connect/core/firebase/user/firebase_user.dart';
+import 'package:event_connect/core/models/user_model.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditProfileBL {
-  final EditProfileDA _da = EditProfileDA();
+  final _firestore = FirebaseFirestore.instance;
+  final _user = FirebaseUser();
 
   Future<void> updateUserProfile({
-    required String name,
-    required String location,
-    required XFile profilePic,
+    required UserModel model,
   }) async {
-    if (name.length < 6) {
-      throw ShortUsername(
-        message: ExceptionMessages.shortUsernameMessage,
-      );
-    }
-    await _da.updateUserProfile(
-      name: name,
-      location: location,
-      profilePic: profilePic,
-    );
+    await _firestore
+        .collection(UserCollection.userCollectionName)
+        .doc(_user.getUserID)
+        .update(model.toJson());
   }
 
   Future<XFile> convertBase64ToXFile(String base64String) async {
@@ -42,15 +35,23 @@ class EditProfileBL {
     }
   }
 
-  Future<Map<String, dynamic>> getUserProfile() async {
-    final result = await _da.getUserProfile();
-    return {
-      UserTable.userNameColumnName: result[UserTable.userNameColumnName],
-      UserTable.userLocationColumnName:
-          result[UserTable.userLocationColumnName],
-      UserTable.userProfilePicColumnName: await convertBase64ToXFile(
-        result[UserTable.userProfilePicColumnName],
-      ),
-    };
+  Future<UserModel> getUserProfile() async {
+    final result = await _firestore
+        .collection(UserCollection.userCollectionName)
+        .doc(_user.getUserID)
+        .get();
+
+    var userData = await UserModel.fromJson(result.data()!);
+    return userData;
+    //   final result = await _da.getUserProfile();
+    //   return {
+    //     UserTable.userNameColumnName: result[UserTable.userNameColumnName],
+    //     UserTable.userLocationColumnName:
+    //         result[UserTable.userLocationColumnName],
+    //     UserTable.userProfilePicColumnName: await convertBase64ToXFile(
+    //       result[UserTable.userProfilePicColumnName],
+    //     ),
+    //   };
+    // }
   }
 }

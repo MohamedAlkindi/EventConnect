@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:event_connect/core/tables/events_table.dart';
+import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/features/all_events/business_logic/all_events_bl.dart';
 import 'package:meta/meta.dart';
 
@@ -13,14 +13,13 @@ class AllEventsCubit extends Cubit<AllEventsState> {
   final AllEventScreenBL _businessLogic = AllEventScreenBL();
 
   // Stream controller for real-time event updates
-  final StreamController<List<Map<String, dynamic>>> _eventsStreamController =
-      StreamController<List<Map<String, dynamic>>>.broadcast();
-      
-  // Expose the stream to listen for real-time updates
-  Stream<List<Map<String, dynamic>>> get eventsStream =>
-      _eventsStreamController.stream;
+  final StreamController<List<EventModel>> _eventsStreamController =
+      StreamController<List<EventModel>>.broadcast();
 
-  List<Map<String, dynamic>> _allEvents = [];
+  // Expose the stream to listen for real-time updates
+  Stream<List<EventModel>> get eventsStream => _eventsStreamController.stream;
+
+  List<EventModel> _allEvents = [];
 
   @override
   Future<void> close() {
@@ -32,7 +31,7 @@ class AllEventsCubit extends Cubit<AllEventsState> {
   Future<void> getAllEvents() async {
     emit(AllEventsLoading());
     try {
-      List<Map<String, dynamic>> allEvents = await _businessLogic.getEvents();
+      List<EventModel> allEvents = await _businessLogic.getEvents();
       _allEvents = allEvents;
       // Update stream for real-time listeners
       _eventsStreamController.add(_allEvents);
@@ -54,10 +53,7 @@ class AllEventsCubit extends Cubit<AllEventsState> {
     try {
       final filteredEvents = category == "All"
           ? _allEvents
-          : _allEvents
-              .where((event) =>
-                  event[EventsTable.eventCategoryColumnName] == category)
-              .toList();
+          : _allEvents.where((event) => event.category == category).toList();
 
       // Update stream for real-time listeners
       _eventsStreamController.add(filteredEvents);
@@ -79,8 +75,7 @@ class AllEventsCubit extends Cubit<AllEventsState> {
       await _businessLogic.addEventToUserEvents(eventID);
 
       // Remove the event from the local list
-      _allEvents.removeWhere(
-          (event) => event[EventsTable.eventIDColumnName] == eventID);
+      _allEvents.removeWhere((event) => event.eventID == eventID);
 
       // Update stream with the new list
       _eventsStreamController.add(_allEvents);

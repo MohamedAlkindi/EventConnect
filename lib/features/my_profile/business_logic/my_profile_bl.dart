@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:event_connect/core/collections/user_collection_document.dart';
 import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
-import 'package:event_connect/core/tables/user_table.dart';
-import 'package:event_connect/features/my_profile/data_access/my_profile_da.dart';
+import 'package:event_connect/core/firebase/user/firebase_user.dart';
 
 class MyProfileBL {
-  final MyProfileDA _dataAccess = MyProfileDA();
+  final _firestore = FirebaseFirestore.instance;
+  final _user = FirebaseUser();
 
   // Convert base64 string to image bytes that can be used in UI
   Uint8List convertBase64ToImage(String base64String) {
@@ -18,15 +20,20 @@ class MyProfileBL {
     }
   }
 
-  Future<Map<String, dynamic>> getUserPicAndName() async {
+  Future<Map<String, dynamic>> getUserPicAndLocation() async {
     try {
-      final result = await _dataAccess.getUserPicAndName();
+      final doc = await _firestore
+          .collection(UserCollection.userCollectionName)
+          .doc(_user.getUserID)
+          .get();
+
+      final data = doc.data();
+
       return {
-        UserTable.userProfilePicColumnName:
-            convertBase64ToImage(result[UserTable.userProfilePicColumnName]),
-        UserTable.userNameColumnName: result[UserTable.userNameColumnName],
-        UserTable.userLocationColumnName:
-            result[UserTable.userLocationColumnName],
+        UserCollection.userProfilePicDocumentName: convertBase64ToImage(
+            data?[UserCollection.userProfilePicDocumentName]),
+        UserCollection.userLocationDocumentName:
+            data?[UserCollection.userLocationDocumentName],
       };
     } catch (e) {
       throw GenericException(message: e.toString());
@@ -35,7 +42,11 @@ class MyProfileBL {
 
   Future<void> deleteUser() async {
     try {
-      await _dataAccess.deleteUser();
+      // await _dataAccess.deleteUser();
+      await _firestore
+          .collection(UserCollection.userCollectionName)
+          .doc(_user.getUserID)
+          .delete();
     } catch (e) {
       throw GenericException(message: e.toString());
     }

@@ -1,6 +1,5 @@
 import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/features/all_events/presentation/all_events_screen.dart';
-import 'package:event_connect/features/my_events/presentation/my_events_screen.dart';
 import 'package:event_connect/features/my_profile/presentation/my_profile_screen.dart';
 import 'package:event_connect/features/user_homescreen/presentation/cubit/user_homescreen_cubit.dart';
 import 'package:event_connect/main.dart';
@@ -101,7 +100,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                 },
                 children: [
                   AllEventsScreen(),
-                  MyEventsScreen(),
+                  // MyEventsScreen(),
                   MyProfileScreen(),
                 ],
               ),

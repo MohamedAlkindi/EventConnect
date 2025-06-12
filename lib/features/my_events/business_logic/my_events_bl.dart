@@ -1,13 +1,19 @@
-import 'package:event_connect/features/my_events/data_access/my_events_da.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:event_connect/core/collections/events_collection_documents.dart';
+// import 'package:event_connect/core/models/user_model.dart';
 
-class MyEventsBL {
-  final MyEventsDA _myEventsDA = MyEventsDA();
+// TODO: Later
 
-  Future<List<Map<String, dynamic>>> getAllEventsByUserID() async {
-    return await _myEventsDA.getAllEventsByUserID();
-  }
+// class MyEventsBL {
+//   final _firestore = FirebaseFirestore.instance;
 
-  Future<void> deleteEventFromUserEvents(int eventID) async {
-    await _myEventsDA.deleteEventFromUserEvents(eventID);
-  }
-}
+//   Future<List<UserModel>> getAllEventsByUserID() async {
+//     //   // return await _myEventsDA.getAllEventsByUserID();
+//     var events =
+//         _firestore.collection(EventsCollection.eventCollectionName).get();
+//   }
+
+//   Future<void> deleteEventFromUserEvents(int eventID) async {
+//     // await _myEventsDA.deleteEventFromUserEvents(eventID);
+//   }
+// }

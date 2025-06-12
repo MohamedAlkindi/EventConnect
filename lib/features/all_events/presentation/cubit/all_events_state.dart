@@ -8,7 +8,7 @@ final class AllEventsInitial extends AllEventsState {}
 final class AllEventsLoading extends AllEventsState {}
 
 final class AllEventsGotEvents extends AllEventsState {
-  final List<Map<String, dynamic>> events;
+  final List<EventModel> events;
 
   AllEventsGotEvents({required this.events});
 }

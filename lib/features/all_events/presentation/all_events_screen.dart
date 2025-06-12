@@ -1,4 +1,4 @@
-import 'package:event_connect/core/tables/events_table.dart';
+import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/core/widgets/event_elements_widget.dart';
 import 'package:event_connect/features/all_events/presentation/cubit/all_events_cubit.dart';
@@ -99,7 +99,7 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
                 }
               },
               builder: (context, state) {
-                return StreamBuilder<List<Map<String, dynamic>>>(
+                return StreamBuilder<List<EventModel>>(
                   stream: cubit.eventsStream,
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
@@ -133,8 +133,7 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
                             children: [
                               // Event Image
                               returnEventPicture(
-                                eventPictureLink:
-                                    event[EventsTable.eventPictureColumnName],
+                                eventPictureLink: event.picture,
                               ),
 
                               Padding(
@@ -144,10 +143,8 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
                                   children: [
                                     // Event Name and Location
                                     returnEventMainElements(
-                                      eventName: event[
-                                          EventsTable.eventNameColumnName],
-                                      eventLocation: event[
-                                          EventsTable.eventLocationColumnName],
+                                      eventName: event.name,
+                                      eventLocation: event.location,
                                     ),
 
                                     const SizedBox(height: 8),
@@ -155,8 +152,7 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
                                     // Category
                                     returnEventElements(
                                       icon: Icons.category_rounded,
-                                      text: event[
-                                          EventsTable.eventCategoryColumnName],
+                                      text: event.category,
                                     ),
 
                                     const SizedBox(height: 8),
@@ -165,8 +161,7 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
                                     returnEventElements(
                                       icon: Icons.calendar_today,
                                       icon2: Icons.access_time,
-                                      text: event[
-                                          EventsTable.eventDateTimeColumnName],
+                                      text: event.dateAndTime,
                                     ),
 
                                     const SizedBox(height: 8),
@@ -175,8 +170,7 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
                                     returnEventElements(
                                       icon: Icons.male_rounded,
                                       icon2: Icons.female_rounded,
-                                      text: event[EventsTable
-                                          .eventGenderResrictionColumnName],
+                                      text: event.genderRestriction,
                                     ),
 
                                     const SizedBox(height: 8),
@@ -184,15 +178,14 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
                                     // Weather
                                     returnEventElements(
                                       icon: Icons.wb_sunny,
-                                      text: "${event["Weather"]} C°",
+                                      text: "${event.weather} C°",
                                     ),
 
                                     const SizedBox(height: 8),
 
                                     // Description
                                     returnEventDescription(
-                                      description: event[EventsTable
-                                          .eventDescriptionColumnName],
+                                      description: event.discription,
                                     ),
 
                                     const SizedBox(height: 12),
@@ -202,8 +195,7 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
                                       buttonText: 'Add to Schedule',
                                       onPressed: () {
                                         cubit.addEventToUserEvents(
-                                          eventID: event[
-                                              EventsTable.eventIDColumnName],
+                                          eventID: event.eventID,
                                         );
                                       },
                                     ),

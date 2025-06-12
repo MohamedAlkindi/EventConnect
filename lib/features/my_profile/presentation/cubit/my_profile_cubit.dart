@@ -10,7 +10,7 @@ class MyProfileCubit extends Cubit<MyProfileState> {
 
   Future<void> getUserPicAndName() async {
     try {
-      final result = await _businessLogic.getUserPicAndName();
+      final result = await _businessLogic.getUserPicAndLocation();
       emit(GotMyProfileInfo(userInfo: result));
     } catch (e) {
       emit(MyProfileError(message: e.toString()));

@@ -2,12 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:event_connect/core/collections/user_collection_document.dart';
 import 'package:event_connect/core/firebase/user/firebase_user.dart';
-import 'package:event_connect/features/user_homescreen/data_access/user_homescreen_da.dart';
 
 class UserHomescreenBl {
-  final UserHomescreenDa _dataAccess = UserHomescreenDa();
+  // final UserHomescreenDa _dataAccess = UserHomescreenDa();
   final FirebaseUser _user = FirebaseUser();
+  final _firestore = FirebaseFirestore.instance;
 
   Future<File> convertBase64ToFile(String base64String) async {
     try {
@@ -22,10 +24,19 @@ class UserHomescreenBl {
   }
 
   Future<File> getUserProfilePic() async {
-    final List<Map<String, dynamic>> result =
-        await _dataAccess.getUserProfilePic();
+    // final List<Map<String, dynamic>> result =
+    // await _dataAccess.getUserProfilePic();
 
-    return convertBase64ToFile(result[0]['ProfilePic']);
+    // get all user data.
+    final doc = await _firestore
+        .collection(UserCollection.userCollectionName)
+        .doc(_user.getUserID)
+        .get();
+
+    // extract the snapshot data.
+    final profilePic = doc.data()?[UserCollection.userProfilePicDocumentName];
+
+    return convertBase64ToFile(profilePic);
   }
 
   Future<void> signOut() async {

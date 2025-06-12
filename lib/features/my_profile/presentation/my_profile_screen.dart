@@ -1,4 +1,4 @@
-import 'package:event_connect/core/tables/user_table.dart';
+import 'package:event_connect/core/collections/user_collection_document.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/features/edit_profile/presentation/edit_profile_screen.dart';
 import 'package:event_connect/features/my_profile/presentation/cubit/my_profile_cubit.dart';
@@ -60,24 +60,13 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     child: CircleAvatar(
                       backgroundColor: Colors.grey,
                       backgroundImage: MemoryImage(
-                        state.userInfo[UserTable.userProfilePicColumnName],
+                        state.userInfo[
+                            UserCollection.userProfilePicDocumentName],
                       ),
                     ),
                   ),
 
                   const SizedBox(height: 24),
-
-                  // User Name
-                  Text(
-                    "${state.userInfo[UserTable.userNameColumnName]}",
-                    style: const TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Montserrat',
-                    ),
-                  ),
-
-                  const SizedBox(height: 48),
 
                   // Edit Account Button
                   Container(

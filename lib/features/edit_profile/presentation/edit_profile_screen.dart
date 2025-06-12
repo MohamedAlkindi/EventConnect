@@ -1,8 +1,7 @@
 import 'dart:io';
-import 'package:event_connect/core/tables/user_table.dart';
+
 import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/features/edit_profile/presentation/cubit/edit_profile_cubit.dart';
-import 'package:event_connect/features/register/presentation/widget/text_fields.dart';
 import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +18,6 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   XFile? _imageFile;
-  late TextEditingController _usernameController;
   String _selectedLocation = '';
 
   final List<String> _yemeniCities = [
@@ -48,14 +46,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   void initState() {
     super.initState();
-    _usernameController = TextEditingController();
     context.read<EditProfileCubit>().getUserProfile();
-  }
-
-  @override
-  void dispose() {
-    _usernameController.dispose();
-    super.dispose();
   }
 
   @override
@@ -77,14 +68,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       body: BlocConsumer<EditProfileCubit, EditProfileState>(
         listener: (context, state) async {
           if (state is GotUserProfile) {
-            if (_usernameController.text.isEmpty) {
-              _usernameController.text = state.userProfile[UserTable.userNameColumnName];
-              // _usernameController.text =
-              //     state.userProfile[UserTable.userNameColumnName];
-            }
             if (_selectedLocation.isEmpty) {
-              _selectedLocation =
-                  state.userProfile[UserTable.userLocationColumnName];
+              _selectedLocation = state.userProfile.location;
             }
             if (_imageFile == null) {
               // final base64String =
@@ -92,10 +77,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               // if (base64String != null) {
               //   final xFile = await _convertBase64ToXFile(base64String);
               //   if (xFile != null) {
-                  setState(() {
-                    _imageFile = state.userProfile[UserTable.userProfilePicColumnName];
-                  });
-                // }
+              // TODO: fix later, get the string of the location and convert to XFile to view.
+              // setState(() {
+              //   _imageFile = state
+              //       .userProfile[UserCollection.userProfilePicDocumentName];
+              // });
+              // }
               // }
             }
           } else if (state is EditProfileSuccess) {
@@ -206,27 +193,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           ),
                         ],
                       ),
-                      child: customTextField(
-                        controller: _usernameController,
-                        labelText: 'Username',
-                        hintText: 'Enter your username',
-                        icon: Icons.person,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.1),
-                            spreadRadius: 1,
-                            blurRadius: 3,
-                            offset: const Offset(0, 1),
-                          ),
-                        ],
-                      ),
                       child: DropdownButtonFormField<String>(
                         decoration: InputDecoration(
                           labelText: "Select Your City",
@@ -303,7 +269,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               context
                                   .read<EditProfileCubit>()
                                   .updateUserProfile(
-                                    name: _usernameController.text,
                                     location: _selectedLocation,
                                     profilePic: _imageFile!,
                                   );

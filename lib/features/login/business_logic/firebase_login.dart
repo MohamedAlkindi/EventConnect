@@ -1,12 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
 import 'package:event_connect/core/exceptions/firebase_exceptions/firebase_exceptions.dart';
 import 'package:event_connect/core/exceptions_messages/error_codes.dart';
 import 'package:event_connect/core/exceptions_messages/messages.dart';
-import 'package:event_connect/features/login/data_access/check_data.dart';
+import 'package:event_connect/core/firebase/user/firebase_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseLogin {
-  CheckDataDa checkDataDa = CheckDataDa();
+  // CheckDataDa checkDataDa = CheckDataDa();
+  var firestore = FirebaseFirestore.instance;
+  final _user = FirebaseUser();
 
   Future<void> loginWithEmailAndPassword(
     String email,
@@ -48,6 +51,9 @@ class FirebaseLogin {
   }
 
   Future<bool> isUserCompleted() async {
-    return checkDataDa.completedUserData();
+    // return checkDataDa.completedUserData();
+    final result =
+        await firestore.collection('users').doc(_user.getUserID).get();
+    return result.exists ? true : false;
   }
 }

@@ -8,7 +8,7 @@ final class EditProfileInitial extends EditProfileState {}
 final class EditProfileSuccess extends EditProfileState {}
 
 final class GotUserProfile extends EditProfileState {
-  final Map<String, dynamic> userProfile;
+  final UserModel userProfile;
   GotUserProfile({required this.userProfile});
 }
 
