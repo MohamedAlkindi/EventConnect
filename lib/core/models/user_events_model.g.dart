@@ -7,9 +7,9 @@ part of 'user_events_model.dart';
 // **************************************************************************
 
 UserEvents _$UserEventsFromJson(Map<String, dynamic> json) => UserEvents(
-      userEventID: (json['userEventID'] as num).toInt(),
+      userEventID: json['userEventID'] as String,
       userID: json['userID'] as String,
-      eventID: (json['eventID'] as num).toInt(),
+      eventID: json['eventID'] as String,
     );
 
 Map<String, dynamic> _$UserEventsToJson(UserEvents instance) =>

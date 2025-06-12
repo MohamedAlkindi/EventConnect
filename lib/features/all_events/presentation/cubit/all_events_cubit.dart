@@ -69,7 +69,7 @@ class AllEventsCubit extends Cubit<AllEventsState> {
   }
 
   // Add events to user's events.
-  Future<void> addEventToUserEvents({required int eventID}) async {
+  Future<void> addEventToUserEvents({required String eventID}) async {
     emit(AllEventsLoading());
     try {
       await _businessLogic.addEventToUserEvents(eventID);

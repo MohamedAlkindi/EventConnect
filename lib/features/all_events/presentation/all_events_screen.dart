@@ -113,10 +113,12 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            CircularProgressIndicator(),
-                            SizedBox(height: 30),
+                            // CircularProgressIndicator(),
+                            // SizedBox(height: 30),
                             Text(
-                                'Fetching Events from Server... Please be patient!'),
+                              'No Events Yet! 😱',
+                              style: TextStyle(fontSize: 22),
+                            ),
                           ],
                         ),
                       );

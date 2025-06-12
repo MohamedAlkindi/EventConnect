@@ -4,9 +4,9 @@ part 'user_events_model.g.dart';
 
 @JsonSerializable()
 class UserEvents {
-  final int userEventID;
+  final String userEventID;
   final String userID;
-  final int eventID;
+  final String eventID;
 
   UserEvents({
     required this.userEventID,
