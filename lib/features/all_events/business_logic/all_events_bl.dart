@@ -72,7 +72,12 @@ class AllEventScreenBL {
 
   Future<void> addEventToUserEvents(String eventID) async {
     try {
-      // await _dataAccess.addEventToUserEvents(eventID);
+      await firestore
+          .collection(UserEventsCollection.userEventsCollectionName)
+          .add({
+        UserEventsCollection.userIDDocumentName: _user.getUserID,
+        UserEventsCollection.eventIDDocumentName: eventID,
+      });
     } catch (e) {
       throw GenericException(message: ExceptionMessages.addEventError);
     }
