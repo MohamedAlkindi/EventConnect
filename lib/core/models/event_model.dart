@@ -12,7 +12,7 @@ class EventModel {
   final String dateAndTime;
   final String discription;
   final String genderRestriction;
-  String weather;
+  String? weather;
 
   EventModel(
       {required this.eventID,
@@ -23,7 +23,7 @@ class EventModel {
       required this.dateAndTime,
       required this.discription,
       required this.genderRestriction,
-      required this.weather});
+      this.weather});
 
   factory EventModel.fromJson(Map<String, dynamic> json) =>
       _$EventModelFromJson(json);

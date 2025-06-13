@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:event_connect/core/utils/message_dialogs.dart';
@@ -43,6 +44,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
   }
 
+  Future<XFile> convertBase64ToXFile(String base64String) async {
+    try {
+      final decodedBytes = base64Decode(base64String);
+      final tempDir = Directory.systemTemp;
+      final tempPath = '${tempDir.path}/temp_image.jpg';
+
+      final file = File(tempPath);
+      await file.writeAsBytes(decodedBytes);
+
+      return XFile(file.path);
+    } catch (e) {
+      throw Exception('Failed to convert base64 to XFile: $e');
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -72,18 +88,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               _selectedLocation = state.userProfile.location;
             }
             if (_imageFile == null) {
-              // final base64String =
-              //     state.userProfile[UserTable.userProfilePicColumnName];
-              // if (base64String != null) {
-              //   final xFile = await _convertBase64ToXFile(base64String);
-              //   if (xFile != null) {
-              // TODO: fix later, get the string of the location and convert to XFile to view.
-              // setState(() {
-              //   _imageFile = state
-              //       .userProfile[UserCollection.userProfilePicDocumentName];
-              // });
-              // }
-              // }
+              final imagePath = state.userProfile.profilePic;
+              if (imagePath.isNotEmpty) {
+                setState(() {
+                  _imageFile = XFile(imagePath);
+                });
+              }
             }
           } else if (state is EditProfileSuccess) {
             showMessageDialog(

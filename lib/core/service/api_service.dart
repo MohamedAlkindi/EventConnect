@@ -7,7 +7,7 @@ class ApiService {
       '0c33a0738b124d4380d103602252604'; // Get from weatherapi.com
   static const String _baseUrl = 'http://api.weatherapi.com/v1';
 
-  Future<String> getWeatherForDate({
+  Future<String?> getWeatherForDate({
     required DateTime date,
     required String location,
   }) async {
@@ -53,7 +53,7 @@ class ApiService {
               return day['day']['avgtemp_c'].toString();
             }
           }
-          throw Exception('Forecast data not available for the specified date');
+          return null;
         } else {
           // For history, use the historical data
           final temp = data['forecast']['forecastday'][0]['day']['avgtemp_c'];
@@ -61,15 +61,10 @@ class ApiService {
         }
       } else {
         // Add more detailed error information
-        final errorData = jsonDecode(response.body);
-        throw Exception(
-          'Failed to get weather data: ${response.statusCode} - ${errorData['error']?['message'] ?? 'Unknown error'}',
-        );
+        return null;
       }
     } catch (e) {
-      throw Exception(
-        'Error getting weather: ${e.toString()}',
-      );
+      return null;
     }
   }
 }

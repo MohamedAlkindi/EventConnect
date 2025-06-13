@@ -8,4 +8,5 @@ class EventsCollection {
   static String get eventDateTimeDocumentName => 'dateAndTime';
   static String get eventDescriptionDocumentName => 'description';
   static String get eventGenderResrictionDocumentName => 'genderRestriction';
+  static String get eventWeather => 'weather';
 }

@@ -180,7 +180,9 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
                                     // Weather
                                     returnEventElements(
                                       icon: Icons.wb_sunny,
-                                      text: "${event.weather} C°",
+                                      text: event.weather == null
+                                          ? "${event.weather} C°"
+                                          : "No weather info",
                                     ),
 
                                     const SizedBox(height: 8),

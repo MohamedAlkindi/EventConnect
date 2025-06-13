@@ -20,7 +20,13 @@ class AllEventScreenBL {
 
   Future<List<EventModel>> getEvents() async {
     try {
-      // Step 1: Fetch user-event relationships
+      // Step 1: Get all events
+      final allEventsSnapshot = await firestore
+          .collection(EventsCollection.eventCollectionName)
+          .get();
+      if (allEventsSnapshot.docs.isEmpty) return [];
+
+      // Step 2: Fetch user-event relationships
       final userEventsSnapshot = await firestore
           .collection(UserEventsCollection.userEventsCollectionName)
           .where(
@@ -28,34 +34,36 @@ class AllEventScreenBL {
             isEqualTo: _user.getUserID,
           )
           .get();
-      if (userEventsSnapshot.docs.isEmpty) return [];
 
-      // Step 2: Extract joined event IDs
+      // Step 3: Extract joined event IDs
       final joinedEventIds = userEventsSnapshot.docs
           .map((doc) => doc[EventsCollection.eventIDDocumentName] as String?)
           .whereType<String>()
-          // filters out nulls safely
           .toList();
-      if (joinedEventIds.isEmpty) return [];
 
-      // Step 3: Get all events
-      final allEventsSnapshot = await firestore
-          .collection(EventsCollection.eventCollectionName)
-          .get();
-      if (allEventsSnapshot.docs.isEmpty) return [];
-
-      // Step 4: Filter unjoined events
-      final availableEventModels = allEventsSnapshot.docs
-          .where((doc) => !joinedEventIds.contains(doc.id))
-          .map((doc) {
-            final data = doc.data();
-            return EventModel.fromJson({
-              ...data,
-              EventsCollection.eventIDDocumentName: doc.id,
-            });
-          })
-          .whereType<EventModel>()
-          .toList();
+      // Step 4: Filter events
+      final availableEventModels = joinedEventIds.isEmpty
+          ? allEventsSnapshot.docs
+              .map((doc) {
+                final data = doc.data();
+                return EventModel.fromJson({
+                  ...data,
+                  EventsCollection.eventIDDocumentName: doc.id,
+                });
+              })
+              .whereType<EventModel>()
+              .toList()
+          : allEventsSnapshot.docs
+              .where((doc) => !joinedEventIds.contains(doc.id))
+              .map((doc) {
+                final data = doc.data();
+                return EventModel.fromJson({
+                  ...data,
+                  EventsCollection.eventIDDocumentName: doc.id,
+                });
+              })
+              .whereType<EventModel>()
+              .toList();
 
       // Step 5: Inject weather asynchronously
       for (var event in availableEventModels) {
