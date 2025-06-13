@@ -13,7 +13,7 @@ EventModel _$EventModelFromJson(Map<String, dynamic> json) => EventModel(
       picture: json['picture'] as String,
       location: json['location'] as String,
       dateAndTime: json['dateAndTime'] as String,
-      discription: json['description'] as String,
+      description: json['description'] as String,
       genderRestriction: json['genderRestriction'] as String,
       weather: json['weather'] as String?,
     );
@@ -26,7 +26,7 @@ Map<String, dynamic> _$EventModelToJson(EventModel instance) =>
       'picture': instance.picture,
       'location': instance.location,
       'dateAndTime': instance.dateAndTime,
-      'discription': instance.discription,
+      'discription': instance.description,
       'genderRestriction': instance.genderRestriction,
       'weather': instance.weather,
     };

@@ -189,7 +189,7 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
 
                                     // Description
                                     returnEventDescription(
-                                      description: event.discription,
+                                      description: event.description,
                                     ),
 
                                     const SizedBox(height: 12),

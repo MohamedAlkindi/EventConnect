@@ -1,24 +1,24 @@
-// part of 'my_events_cubit.dart';
+part of 'my_events_cubit.dart';
 
-// @immutable
-// sealed class MyEventsState {}
+@immutable
+sealed class MyEventsState {}
 
-// final class MyEventsInitial extends MyEventsState {}
+final class MyEventsInitial extends MyEventsState {}
 
-// final class MyEventsLoading extends MyEventsState {}
+final class MyEventsLoading extends MyEventsState {}
 
-// final class MyEventsGotEvents extends MyEventsState {
-//   final List<Map<String, dynamic>> events;
+final class MyEventsGotEvents extends MyEventsState {
+  final List<EventModel> events;
 
-//   MyEventsGotEvents({required this.events});
-// }
+  MyEventsGotEvents({required this.events});
+}
 
-// final class MyEventsNoEventsAddedYet extends MyEventsState {}
+final class MyEventsNoEventsAddedYet extends MyEventsState {}
 
-// final class MyEventsDeletedEvent extends MyEventsState {}
+final class MyEventsDeletedEvent extends MyEventsState {}
 
-// final class MyEventsError extends MyEventsState {
-//   final String message;
+final class MyEventsError extends MyEventsState {
+  final String message;
 
-//   MyEventsError({required this.message});
-// }
+  MyEventsError({required this.message});
+}

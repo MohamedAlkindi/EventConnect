@@ -10,7 +10,7 @@ class EventModel {
   final String picture;
   final String location;
   final String dateAndTime;
-  final String discription;
+  final String description;
   final String genderRestriction;
   String? weather;
 
@@ -21,7 +21,7 @@ class EventModel {
       required this.picture,
       required this.location,
       required this.dateAndTime,
-      required this.discription,
+      required this.description,
       required this.genderRestriction,
       this.weather});
 
