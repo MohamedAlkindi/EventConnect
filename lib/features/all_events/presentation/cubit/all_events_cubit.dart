@@ -69,13 +69,13 @@ class AllEventsCubit extends Cubit<AllEventsState> {
   }
 
   // Add events to user's events.
-  Future<void> addEventToUserEvents({required String eventID}) async {
+  Future<void> addEventToUserEvents({required String documentID}) async {
     emit(AllEventsLoading());
     try {
-      await _businessLogic.addEventToUserEvents(eventID);
+      await _businessLogic.addEventToUserEvents(documentID);
 
       // Remove the event from the local list
-      _allEvents.removeWhere((event) => event.eventID == eventID);
+      _allEvents.removeWhere((event) => event.eventID == documentID);
 
       // Update stream with the new list
       _eventsStreamController.add(_allEvents);

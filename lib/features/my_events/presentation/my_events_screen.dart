@@ -125,16 +125,14 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                   const SizedBox(height: 12),
 
                                   // Remove from Schedule Button
-                                  // returnEventButton(
-                                  //   buttonText: 'Remove from Schedule',
-                                  //   onPressed: () {
-                                  //     cubit.deleteEventFromUserEvents(
-                                  //       eventID: state.events[index][
-                                  //           EventsCollection
-                                  //               .eventIDDocumentName],
-                                  //     );
-                                  //   },
-                                  // ),
+                                  returnEventButton(
+                                    buttonText: 'Remove from Schedule',
+                                    onPressed: () {
+                                      cubit.deleteEventFromUserEvents(
+                                        documentID: state.events[index].eventID,
+                                      );
+                                    },
+                                  ),
                                 ],
                               ),
                             ),

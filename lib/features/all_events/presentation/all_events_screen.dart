@@ -199,7 +199,7 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
                                       buttonText: 'Add to Schedule',
                                       onPressed: () {
                                         cubit.addEventToUserEvents(
-                                          eventID: event.eventID,
+                                          documentID: event.eventID,
                                         );
                                       },
                                     ),

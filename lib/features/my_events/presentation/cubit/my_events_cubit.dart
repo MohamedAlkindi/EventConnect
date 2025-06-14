@@ -45,12 +45,12 @@ class MyEventsCubit extends Cubit<MyEventsState> {
   }
 
   // Delete event from user's events.
-  Future<void> deleteEventFromUserEvents({required int eventID}) async {
+  Future<void> deleteEventFromUserEvents({required String documentID}) async {
     try {
-      await _myEventsBL.deleteEventFromUserEvents(eventID);
-      emit(MyEventsDeletedEvent());
+      await _myEventsBL.deleteEventFromUserEvents(documentID);
       // Refresh the events list after deleting
       await getAllEventsByUserID();
+      emit(MyEventsDeletedEvent());
     } catch (e) {
       emit(MyEventsError(message: e.toString()));
     }
