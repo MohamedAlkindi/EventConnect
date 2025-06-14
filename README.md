@@ -1,3 +1,3 @@
-# finals_project
+# EventConnect
 
-A new Flutter project.
+A flutter project to manage and know about all events near you!
