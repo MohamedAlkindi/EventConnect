@@ -77,19 +77,12 @@ class MyEventsBL {
   Future<void> deleteEventFromUserEvents(String documentID) async {
     // await _myEventsDA.deleteEventFromUserEvents(eventID);
     try {
-      var data = await _firestore
-          .collection(UserEventsCollection.userEventsCollectionName)
-          .where(EventsCollection.eventIDDocumentName, isEqualTo: documentID)
-          .where(UserCollection.userIDDocumentName, isEqualTo: _user.getUserID)
-          .get();
+      final docId = "${_user.getUserID}_$documentID";
 
-      if (data.docs.isNotEmpty) {
-        final docId = data.docs.first.id;
-        await _firestore
-            .collection(UserEventsCollection.userEventsCollectionName)
-            .doc(docId)
-            .delete();
-      }
+      await _firestore
+          .collection(UserEventsCollection.userEventsCollectionName)
+          .doc(docId)
+          .delete();
     } catch (e) {
       throw Exception("Error ${e.toString()}");
     }

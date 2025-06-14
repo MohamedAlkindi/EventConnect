@@ -78,13 +78,15 @@ class AllEventScreenBL {
     }
   }
 
-  Future<void> addEventToUserEvents(String documentID) async {
+  Future<void> addEventToUserEvents(String eventDocumentID) async {
     try {
+      final customDocID = "${_user.getUserID}_$eventDocumentID";
       await firestore
           .collection(UserEventsCollection.userEventsCollectionName)
-          .add({
+          .doc(customDocID)
+          .set({
         UserEventsCollection.userIDDocumentName: _user.getUserID,
-        UserEventsCollection.eventIDDocumentName: documentID,
+        UserEventsCollection.eventIDDocumentName: eventDocumentID,
       });
     } catch (e) {
       throw GenericException(message: ExceptionMessages.addEventError);
