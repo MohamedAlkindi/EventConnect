@@ -99,9 +99,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               backgroundImage: state is GotUserProfile
                                   // when entering the app this state will be init.
                                   // get the picture from the state.
-                                  ? FileImage(
-                                      File(state.userProfile.profilePic),
-                                    ) as ImageProvider
+                                  ? (File(state.userProfile.profilePic)
+                                              .existsSync()
+                                          ? FileImage(File(
+                                              state.userProfile.profilePic))
+                                          : const AssetImage(
+                                              'assets/images/generic_user.png'))
+                                      as ImageProvider
                                   // if the user changed the location only.
                                   // the state will be SelectedCity so all the states are false.
                                   // So get the old picture that was saved first from cubit,
