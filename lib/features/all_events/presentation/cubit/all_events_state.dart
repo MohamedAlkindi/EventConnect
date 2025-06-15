@@ -7,13 +7,11 @@ final class AllEventsInitial extends AllEventsState {}
 
 final class AllEventsLoading extends AllEventsState {}
 
-final class AllEventsGotEvents extends AllEventsState {
-  final List<EventModel> events;
+final class CategorySelected extends AllEventsState {
+  final String category;
 
-  AllEventsGotEvents({required this.events});
+  CategorySelected({required this.category});
 }
-
-final class AllEventsNoEventsYet extends AllEventsState {}
 
 final class EventAddedToUserEvents extends AllEventsState {}
 

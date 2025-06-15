@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/features/all_events/business_logic/all_events_bl.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
 
 part 'all_events_state.dart';
 
@@ -27,6 +27,24 @@ class AllEventsCubit extends Cubit<AllEventsState> {
     return super.close();
   }
 
+  final List<String> categories = [
+    'All',
+    'Music',
+    'Art',
+    'Sports',
+    'Food',
+    'Business',
+    'Technology',
+    'Education'
+  ];
+  String selectedCategory = 'All';
+
+  void selectCategory(int index) {
+    selectedCategory = categories[index];
+    emit(CategorySelected(category: categories[index]));
+    getEventsByCategory(category: categories[index]);
+  }
+
   // Show all events.
   Future<void> getAllEvents() async {
     emit(AllEventsLoading());
@@ -35,13 +53,6 @@ class AllEventsCubit extends Cubit<AllEventsState> {
       _allEvents = allEvents;
       // Update stream for real-time listeners
       _eventsStreamController.add(_allEvents);
-
-      // Update UI state
-      if (allEvents.isEmpty) {
-        emit(AllEventsNoEventsYet());
-      } else {
-        emit(AllEventsGotEvents(events: _allEvents));
-      }
     } catch (e) {
       emit(AllEventsError(message: e.toString()));
     }
@@ -57,12 +68,6 @@ class AllEventsCubit extends Cubit<AllEventsState> {
 
       // Update stream for real-time listeners
       _eventsStreamController.add(filteredEvents);
-
-      if (filteredEvents.isEmpty) {
-        emit(AllEventsNoEventsYet());
-      } else {
-        emit(AllEventsGotEvents(events: filteredEvents));
-      }
     } catch (e) {
       emit(AllEventsError(message: e.toString()));
     }
@@ -79,13 +84,6 @@ class AllEventsCubit extends Cubit<AllEventsState> {
 
       // Update stream with the new list
       _eventsStreamController.add(_allEvents);
-
-      // Update UI state
-      if (_allEvents.isEmpty) {
-        emit(AllEventsNoEventsYet());
-      } else {
-        emit(AllEventsGotEvents(events: _allEvents));
-      }
 
       emit(EventAddedToUserEvents());
     } catch (e) {
