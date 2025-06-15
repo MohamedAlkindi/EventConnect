@@ -1,17 +1,21 @@
-// import 'package:event_connect/core/collections/user_collection_document.dart';
-// import 'package:event_connect/core/database/database.dart';
-// import 'package:event_connect/core/firebase/user/firebase_user.dart';
-// import 'package:event_connect/core/tables/user_table.dart';
-// class CheckDataDa {
-//   final db = AppDatabase.db;
-//   FirebaseUser user = FirebaseUser();
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:event_connect/core/collections/user_collection_document.dart';
+import 'package:event_connect/core/firebase/user/firebase_user.dart';
 
-//   Future<bool> completedUserData() async {
-//     final result = await db.rawQuery(
-//         "SELECT ${UserCollection.userLocationDocumentName}, ${UserCollection.userProfilePicDocumentName} FROM ${UserCollection.userCollectionName} WHERE ${UserTable.userIDColumnName} = ?",
-//         [user.getUserID]);
-//     return (result.isNotEmpty &&
-//         result[0][UserTable.userLocationColumnName] != null &&
-//         result[0][UserTable.userProfilePicColumnName] != null);
-//   }
-// }
+class CheckData {
+  final _firestore = FirebaseFirestore.instance;
+  final _user = FirebaseUser();
+
+  Future<bool> isUserDataCompleted() async {
+    try {
+      final result = await _firestore
+          .collection(UserCollection.userCollectionName)
+          .doc(_user.getUserID)
+          .get();
+
+      return result.exists ? true : false;
+    } catch (e) {
+      throw Exception("Error ${e.toString()}");
+    }
+  }
+}
