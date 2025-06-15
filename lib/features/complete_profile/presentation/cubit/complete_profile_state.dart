@@ -7,6 +7,17 @@ final class CompleteProfileInitial extends CompleteProfileState {}
 
 final class CompleteProfileLoading extends CompleteProfileState {}
 
+final class SelectedCity extends CompleteProfileState {
+  final String selectedCity;
+  SelectedCity({required this.selectedCity});
+}
+
+final class SelectedImage extends CompleteProfileState {
+  final String selectedImagePath;
+
+  SelectedImage({required this.selectedImagePath});
+}
+
 final class CompleteProfileSuccessul extends CompleteProfileState {}
 
 final class CompleteProfileError extends CompleteProfileState {
