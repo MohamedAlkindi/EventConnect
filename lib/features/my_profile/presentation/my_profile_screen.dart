@@ -1,4 +1,5 @@
-import 'package:event_connect/core/collections/user_collection_document.dart';
+import 'dart:io';
+
 import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/features/edit_profile/presentation/edit_profile_screen.dart';
 import 'package:event_connect/features/my_profile/presentation/cubit/my_profile_cubit.dart';
@@ -58,12 +59,16 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                       ],
                     ),
                     child: CircleAvatar(
-                      backgroundColor: Colors.grey,
-                      backgroundImage: MemoryImage(
-                        state.userInfo[
-                            UserCollection.userProfilePicDocumentName],
-                      ),
-                    ),
+                        radius: 80,
+                        backgroundColor: Colors.grey[200],
+                        backgroundImage:
+                            // when entering the app this state will be init.
+                            // get the picture from the state.
+                            (File(state.userInfo.profilePic).existsSync()
+                                    ? FileImage(File(state.userInfo.profilePic))
+                                    : const AssetImage(
+                                        'assets/images/generic_user.png'))
+                                as ImageProvider),
                   ),
 
                   const SizedBox(height: 24),

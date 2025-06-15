@@ -6,7 +6,7 @@ sealed class MyProfileState {}
 final class MyProfileInitial extends MyProfileState {}
 
 final class GotMyProfileInfo extends MyProfileState {
-  final Map<String, dynamic> userInfo;
+  final UserModel userInfo;
 
   GotMyProfileInfo({required this.userInfo});
 }

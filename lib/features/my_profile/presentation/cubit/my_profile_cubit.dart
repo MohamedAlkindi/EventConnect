@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:event_connect/core/models/user_model.dart';
 import 'package:event_connect/features/my_profile/business_logic/my_profile_bl.dart';
 import 'package:meta/meta.dart';
 
