@@ -1,20 +1,27 @@
-// import 'package:event_connect/core/database/database.dart';
-// import 'package:event_connect/core/firebase/user/firebase_user.dart';
-// import 'package:event_connect/core/tables/user_table.dart';
-// import 'package:sqflite/sqflite.dart';
+import 'dart:io';
 
-// class UserHomescreenDa {
-//   final Database _db = AppDatabase.db;
-//   final FirebaseUser user = FirebaseUser();
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:event_connect/core/collections/user_collection_document.dart';
+import 'package:event_connect/core/firebase/user/firebase_user.dart';
 
-//   Future<List<Map<String, dynamic>>> getUserProfilePic() async {
-//     final List<Map<String, dynamic>> result = await _db.query(
-//       UserTable.userTableName,
-//       columns: [UserTable.userProfilePicColumnName],
-//       where: "${UserTable.userIDColumnName} = ?",
-//       whereArgs: [user.getUserID],
-//     );
+class UserHomescreenDa {
+  final FirebaseUser _user = FirebaseUser();
+  final _firestore = FirebaseFirestore.instance;
 
-//     return result;
-//   }
-// }
+  Future<File> getUserProfilePic() async {
+    try {
+      // get all user data.
+      final doc = await _firestore
+          .collection(UserCollection.userCollectionName)
+          .doc(_user.getUserID)
+          .get();
+
+      // extract the snapshot data.
+      final profilePic = doc.data()?[UserCollection.userProfilePicDocumentName];
+
+      return File(profilePic);
+    } catch (e) {
+      throw Exception("Error ${e.toString()}");
+    }
+  }
+}
