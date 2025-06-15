@@ -1,13 +1,27 @@
 part of 'user_homescreen_cubit.dart';
 
 @immutable
-sealed class UserHomescreenState {}
+class UserHomescreenState {
+  final int currentIndex;
+  final File? imageFile;
 
-final class UserHomescreenInitial extends UserHomescreenState {}
+  const UserHomescreenState({
+    this.currentIndex = 0,
+    this.imageFile,
+  });
+}
 
-final class UserHomescreenLoading extends UserHomescreenState {}
+final class UserHomescreenInitial extends UserHomescreenState {
+  const UserHomescreenInitial() : super();
+}
 
-final class UserSignedOutSuccessfully extends UserHomescreenState {}
+final class UserHomescreenLoading extends UserHomescreenState {
+  const UserHomescreenLoading({super.currentIndex, super.imageFile});
+}
+
+final class UserSignedOutSuccessfully extends UserHomescreenState {
+  const UserSignedOutSuccessfully({super.currentIndex, super.imageFile});
+}
 
 final class GotUserProfilePic extends UserHomescreenState {
   final File imageFile;
@@ -18,5 +32,9 @@ final class GotUserProfilePic extends UserHomescreenState {
 final class UserHomescreenError extends UserHomescreenState {
   final String message;
 
-  UserHomescreenError({required this.message});
+  const UserHomescreenError({
+    required this.message,
+    super.currentIndex,
+    super.imageFile,
+  });
 }

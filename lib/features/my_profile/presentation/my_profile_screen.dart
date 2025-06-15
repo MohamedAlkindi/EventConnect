@@ -7,19 +7,20 @@ import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MyProfileScreen extends StatefulWidget {
+class MyProfileScreen extends StatelessWidget {
   const MyProfileScreen({super.key});
 
   @override
-  State<MyProfileScreen> createState() => _MyProfileScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => MyProfileCubit()..getUserPicAndName(),
+      child: const MyProfileScreenView(),
+    );
+  }
 }
 
-class _MyProfileScreenState extends State<MyProfileScreen> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<MyProfileCubit>().getUserPicAndName();
-  }
+class MyProfileScreenView extends StatelessWidget {
+  const MyProfileScreenView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -59,16 +60,15 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                       ],
                     ),
                     child: CircleAvatar(
-                        radius: 80,
-                        backgroundColor: Colors.grey[200],
-                        backgroundImage:
-                            // when entering the app this state will be init.
-                            // get the picture from the state.
-                            (File(state.userInfo.profilePic).existsSync()
-                                    ? FileImage(File(state.userInfo.profilePic))
-                                    : const AssetImage(
-                                        'assets/images/generic_user.png'))
-                                as ImageProvider),
+                      radius: 80,
+                      backgroundColor: Colors.grey[200],
+                      backgroundImage:
+                          (File(state.userInfo.profilePic).existsSync()
+                                  ? FileImage(File(state.userInfo.profilePic))
+                                  : const AssetImage(
+                                      'assets/images/generic_user.png'))
+                              as ImageProvider,
+                    ),
                   ),
 
                   const SizedBox(height: 24),
@@ -95,7 +95,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => EditProfileScreen(),
+                            builder: (context) => const EditProfileScreen(),
                           ),
                         );
                       },

@@ -7,34 +7,23 @@ import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-// This page has only the signout button and the user's image.
-class UserHomeScreen extends StatefulWidget {
+class UserHomeScreen extends StatelessWidget {
   const UserHomeScreen({super.key});
 
   @override
-  State<UserHomeScreen> createState() => _UserHomeScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => UserHomescreenCubit(),
+      child: const UserHomeScreenView(),
+    );
+  }
 }
 
-class _UserHomeScreenState extends State<UserHomeScreen> {
-  late final PageController _pageController;
-  int _currentIndex = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _pageController = PageController();
-    context.read<UserHomescreenCubit>().getUserProfilePic();
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
+class UserHomeScreenView extends StatelessWidget {
+  const UserHomeScreenView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var cubit = context.read<UserHomescreenCubit>();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -44,12 +33,12 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
             shadows: [
               Shadow(
                 color: Colors.pink.shade400,
-                offset: Offset(2, 2),
+                offset: const Offset(2, 2),
                 blurRadius: 3,
               ),
               Shadow(
                 color: Colors.purple.shade300,
-                offset: Offset(-2, -2),
+                offset: const Offset(-2, -2),
                 blurRadius: 3,
               ),
             ],
@@ -62,7 +51,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.logout_rounded),
+            icon: const Icon(Icons.logout_rounded),
             onPressed: () {
               showMessageDialog(
                 context: context,
@@ -72,7 +61,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                 iconColor: const Color.fromARGB(255, 207, 169, 18),
                 buttonText: "Yes",
                 onPressed: () {
-                  cubit.userSignOut();
+                  context.read<UserHomescreenCubit>().userSignOut();
                 },
                 secondButtonText: "No",
                 secondOnPressed: () {
@@ -92,18 +81,21 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
         child: Column(
           children: [
             Expanded(
-              child: PageView(
-                controller: _pageController,
-                onPageChanged: (index) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
+              child: BlocBuilder<UserHomescreenCubit, UserHomescreenState>(
+                builder: (context, state) {
+                  return PageView(
+                    controller:
+                        context.read<UserHomescreenCubit>().pageController,
+                    onPageChanged: (index) => context
+                        .read<UserHomescreenCubit>()
+                        .onPageChanged(index),
+                    children: const [
+                      AllEventsScreen(),
+                      MyEventsScreen(),
+                      MyProfileScreen(),
+                    ],
+                  );
                 },
-                children: [
-                  AllEventsScreen(),
-                  MyEventsScreen(),
-                  MyProfileScreen(),
-                ],
               ),
             ),
             Container(
@@ -113,30 +105,23 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                   BoxShadow(
                     color: Colors.black.withOpacity(0.1),
                     blurRadius: 10,
-                    offset: Offset(0, -2),
+                    offset: const Offset(0, -2),
                   ),
                 ],
               ),
               child: BlocBuilder<UserHomescreenCubit, UserHomescreenState>(
                 builder: (context, state) {
                   return BottomNavigationBar(
-                    currentIndex: _currentIndex,
-                    onTap: (index) {
-                      setState(() {
-                        _currentIndex = index;
-                      });
-                      _pageController.animateToPage(
-                        index,
-                        duration: Duration(microseconds: 300),
-                        curve: Curves.easeInOut,
-                      );
-                    },
+                    currentIndex: state.currentIndex,
+                    onTap: (index) => context
+                        .read<UserHomescreenCubit>()
+                        .onBottomNavTap(index),
                     items: [
-                      BottomNavigationBarItem(
+                      const BottomNavigationBarItem(
                         icon: Icon(Icons.event_note_rounded),
                         label: "All Events",
                       ),
-                      BottomNavigationBarItem(
+                      const BottomNavigationBarItem(
                         icon: Icon(Icons.event),
                         label: "My Events",
                       ),
@@ -144,14 +129,12 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                         icon: CircleAvatar(
                           radius: 15,
                           backgroundColor: Colors.grey.shade300,
-                          child: state is GotUserProfilePic
+                          child: state.imageFile != null
                               ? CircleAvatar(
                                   radius: 15,
-                                  backgroundImage: FileImage(
-                                    state.imageFile,
-                                  ),
+                                  backgroundImage: FileImage(state.imageFile!),
                                 )
-                              : Icon(Icons.person, color: Colors.white),
+                              : const Icon(Icons.person, color: Colors.white),
                         ),
                         label: "My Profile",
                       ),

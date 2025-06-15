@@ -1,45 +1,23 @@
-import 'dart:async';
-
+import 'package:event_connect/features/welcome_screen/presentation/cubit/welcome_screen_cubit.dart';
 import 'package:event_connect/features/welcome_screen/presentation/widgets/carrousel.dart';
 import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class WelcomeScreen extends StatefulWidget {
+class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
   @override
-  WelcomeScreenState createState() => WelcomeScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => WelcomeScreenCubit(),
+      child: const WelcomeScreenView(),
+    );
+  }
 }
 
-class WelcomeScreenState extends State<WelcomeScreen> {
-  final PageController _pageController = PageController();
-  int _currentPage = 0;
-  late Timer _timer;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _timer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
-      if (_currentPage < 3) {
-        _currentPage++;
-      } else {
-        _currentPage = 0;
-      }
-      _pageController.animateToPage(
-        _currentPage,
-        duration: Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
-      );
-    });
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    _pageController.dispose();
-    super.dispose();
-  }
+class WelcomeScreenView extends StatelessWidget {
+  const WelcomeScreenView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +38,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
           ),
         ),
         child: Padding(
-          padding: EdgeInsets.all(3),
+          padding: const EdgeInsets.all(3),
           child: Center(
             child: LayoutBuilder(
               builder: (context, constraints) {
@@ -69,68 +47,77 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                 return SizedBox(
                   child: Stack(
                     children: [
-                      PageView(
-                        controller: _pageController,
-                        onPageChanged: (int page) {
-                          setState(() {
-                            _currentPage = page;
-                          });
-                        },
-                        children: [
-                          carrousel(
-                            context: context,
-                            screenHeight: screenHeight,
-                            screenWidth: screenWidth,
-                            imageName: 'welcome',
-                            imageText:
-                                "Welcome to EventConnect - Your Ultimate Event Companion!",
-                          ),
-                          carrousel(
-                            context: context,
-                            screenHeight: screenHeight,
-                            screenWidth: screenWidth,
-                            imageName: 'calendar',
-                            imageText:
-                                "Discover Events Near You - Never Miss Out!",
-                          ),
-                          carrousel(
-                            context: context,
-                            screenHeight: screenHeight,
-                            screenWidth: screenWidth,
-                            imageName: 'post',
-                            imageText:
-                                "Get all the Details - Plan Your Perfect Day!",
-                          ),
-                          carrousel(
-                            context: context,
-                            screenHeight: screenHeight,
-                            screenWidth: screenWidth,
-                            imageName: 'join',
-                            imageText: "Join Our Community Now!",
-                          ),
-                        ],
-                      ),
-                      Positioned(
-                        bottom: 180,
-                        left: 0,
-                        right: 0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(4, (index) {
-                            return AnimatedContainer(
-                              duration: Duration(milliseconds: 300),
-                              margin: EdgeInsets.symmetric(horizontal: 5),
-                              width: _currentPage == index ? 12 : 8,
-                              height: _currentPage == index ? 12 : 8,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: _currentPage == index
-                                    ? Color.fromARGB(255, 0, 136, 186)
-                                    : Colors.grey.shade400,
+                      BlocBuilder<WelcomeScreenCubit, WelcomeScreenState>(
+                        builder: (context, state) {
+                          return PageView(
+                            controller: context
+                                .read<WelcomeScreenCubit>()
+                                .pageController,
+                            onPageChanged: (page) => context
+                                .read<WelcomeScreenCubit>()
+                                .onPageChanged(page),
+                            children: [
+                              carrousel(
+                                context: context,
+                                screenHeight: screenHeight,
+                                screenWidth: screenWidth,
+                                imageName: 'welcome',
+                                imageText:
+                                    "Welcome to EventConnect - Your Ultimate Event Companion!",
                               ),
-                            );
-                          }),
-                        ),
+                              carrousel(
+                                context: context,
+                                screenHeight: screenHeight,
+                                screenWidth: screenWidth,
+                                imageName: 'calendar',
+                                imageText:
+                                    "Discover Events Near You - Never Miss Out!",
+                              ),
+                              carrousel(
+                                context: context,
+                                screenHeight: screenHeight,
+                                screenWidth: screenWidth,
+                                imageName: 'post',
+                                imageText:
+                                    "Get all the Details - Plan Your Perfect Day!",
+                              ),
+                              carrousel(
+                                context: context,
+                                screenHeight: screenHeight,
+                                screenWidth: screenWidth,
+                                imageName: 'join',
+                                imageText: "Join Our Community Now!",
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                      BlocBuilder<WelcomeScreenCubit, WelcomeScreenState>(
+                        builder: (context, state) {
+                          return Positioned(
+                            bottom: 180,
+                            left: 0,
+                            right: 0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: List.generate(4, (index) {
+                                return AnimatedContainer(
+                                  duration: const Duration(milliseconds: 300),
+                                  margin:
+                                      const EdgeInsets.symmetric(horizontal: 5),
+                                  width: state.currentPage == index ? 12 : 8,
+                                  height: state.currentPage == index ? 12 : 8,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: state.currentPage == index
+                                        ? const Color.fromARGB(255, 0, 136, 186)
+                                        : Colors.grey.shade400,
+                                  ),
+                                );
+                              }),
+                            ),
+                          );
+                        },
                       ),
                       Positioned(
                         bottom: 30,
@@ -147,15 +134,15 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                                   );
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                       horizontal: 80, vertical: 15),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30),
                                   ),
                                   backgroundColor:
-                                      Color.fromARGB(255, 0, 136, 186),
+                                      const Color.fromARGB(255, 0, 136, 186),
                                 ),
-                                child: Text(
+                                child: const Text(
                                   "Get Started",
                                   style: TextStyle(
                                     fontSize: 22,
@@ -163,13 +150,11 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                height: 15,
-                              ),
+                              const SizedBox(height: 15),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(
+                                  const Text(
                                     "Already a user?",
                                     style: TextStyle(
                                       fontSize: 20,
@@ -183,7 +168,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                                         loginPageRoute,
                                       );
                                     },
-                                    child: Text(
+                                    child: const Text(
                                       "Sign in here",
                                       style: TextStyle(
                                         fontSize: 18,

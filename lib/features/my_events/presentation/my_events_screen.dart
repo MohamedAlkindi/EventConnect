@@ -5,23 +5,23 @@ import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MyEventsScreen extends StatefulWidget {
+class MyEventsScreen extends StatelessWidget {
   const MyEventsScreen({super.key});
 
   @override
-  State<MyEventsScreen> createState() => _MyEventsScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => MyEventsCubit()..getAllEventsByUserID(),
+      child: const MyEventsScreenView(),
+    );
+  }
 }
 
-class _MyEventsScreenState extends State<MyEventsScreen> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<MyEventsCubit>().getAllEventsByUserID();
-  }
+class MyEventsScreenView extends StatelessWidget {
+  const MyEventsScreenView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var cubit = context.read<MyEventsCubit>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Events'),
@@ -33,16 +33,12 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
           Expanded(
             child: BlocConsumer<MyEventsCubit, MyEventsState>(
               listener: (context, state) {
-                if (state is MyEventsLoading) {
-                  // showLoadingDialog(context);
-                } else if (state is MyEventsError) {
-                  //  hideLoadingDialog(context);
+                if (state is MyEventsError) {
                   showErrorDialog(
                     context: context,
                     message: state.message,
                   );
                 } else if (state is MyEventsDeletedEvent) {
-                  // hideLoadingDialog(context);
                   showMessageDialog(
                     context: context,
                     icon: Icons.check_circle_outline_rounded,
@@ -108,14 +104,6 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
 
                                   const SizedBox(height: 8),
 
-                                  // Weather
-                                  // returnEventElements(
-                                  //   icon: Icons.wb_sunny,
-                                  //   text: state.events[index]["Weather"],
-                                  // ),
-
-                                  const SizedBox(height: 8),
-
                                   // Description
                                   returnEventDescription(
                                     description:
@@ -128,9 +116,12 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                   returnEventButton(
                                     buttonText: 'Remove from Schedule',
                                     onPressed: () {
-                                      cubit.deleteEventFromUserEvents(
-                                        documentID: state.events[index].eventID,
-                                      );
+                                      context
+                                          .read<MyEventsCubit>()
+                                          .deleteEventFromUserEvents(
+                                            documentID:
+                                                state.events[index].eventID,
+                                          );
                                     },
                                   ),
                                 ],
@@ -146,7 +137,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
+                        const Text(
                           "No Events in Your Schedule Yet!",
                           style: TextStyle(
                             fontSize: 18,

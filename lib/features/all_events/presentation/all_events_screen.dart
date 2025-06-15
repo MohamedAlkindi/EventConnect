@@ -5,23 +5,23 @@ import 'package:event_connect/features/all_events/presentation/cubit/all_events_
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AllEventsScreen extends StatefulWidget {
+class AllEventsScreen extends StatelessWidget {
   const AllEventsScreen({super.key});
 
   @override
-  State<AllEventsScreen> createState() => _AllEventsScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => AllEventsCubit()..getAllEvents(),
+      child: const AllEventsScreenView(),
+    );
+  }
 }
 
-class _AllEventsScreenState extends State<AllEventsScreen> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<AllEventsCubit>().getAllEvents();
-  }
+class AllEventsScreenView extends StatelessWidget {
+  const AllEventsScreenView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var cubit = context.read<AllEventsCubit>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('All Events'),
@@ -29,10 +29,7 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
       ),
       body: BlocListener<AllEventsCubit, AllEventsState>(
         listener: (context, state) {
-          if (state is AllEventsLoading) {
-            // showLoadingDialog(context);
-          } else if (state is AllEventsError) {
-            // hideLoadingDialog(context);
+          if (state is AllEventsError) {
             showMessageDialog(
               context: context,
               titleText: 'Error',
@@ -45,7 +42,6 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
               },
             );
           } else if (state is EventAddedToUserEvents) {
-            // hideLoadingDialog(context);
             showMessageDialog(
               context: context,
               titleText: 'Yay! 😁🤟🏻',
@@ -64,6 +60,7 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
             // Categories
             BlocBuilder<AllEventsCubit, AllEventsState>(
               builder: (context, state) {
+                final cubit = context.read<AllEventsCubit>();
                 return SizedBox(
                   height: 50,
                   child: ListView.builder(
@@ -89,10 +86,10 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
             // Events List
             Expanded(
               child: StreamBuilder<List<EventModel>>(
-                stream: cubit.eventsStream,
+                stream: context.read<AllEventsCubit>().eventsStream,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(),
                     );
                   } else if (snapshot.hasError) {
@@ -104,8 +101,6 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          // CircularProgressIndicator(),
-                          // SizedBox(height: 30),
                           Text(
                             'No Events Yet! 😱',
                             style: TextStyle(fontSize: 22),
@@ -189,9 +184,11 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
                                   returnEventButton(
                                     buttonText: 'Add to Schedule',
                                     onPressed: () {
-                                      cubit.addEventToUserEvents(
-                                        documentID: event.eventID,
-                                      );
+                                      context
+                                          .read<AllEventsCubit>()
+                                          .addEventToUserEvents(
+                                            documentID: event.eventID,
+                                          );
                                     },
                                   ),
                                 ],

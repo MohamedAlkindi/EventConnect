@@ -7,17 +7,23 @@ import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CompleteProfileScreen extends StatefulWidget {
+class CompleteProfileScreen extends StatelessWidget {
   const CompleteProfileScreen({super.key});
 
   @override
-  State<CompleteProfileScreen> createState() => _CompleteProfileScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => CompleteProfileCubit(),
+      child: const CompleteProfileScreenView(),
+    );
+  }
 }
 
-class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
+class CompleteProfileScreenView extends StatelessWidget {
+  const CompleteProfileScreenView({super.key});
+
   @override
   Widget build(BuildContext context) {
-    var cubit = context.read<CompleteProfileCubit>();
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -65,21 +71,24 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                   children: [
                     BlocBuilder<CompleteProfileCubit, CompleteProfileState>(
                       builder: (context, state) {
+                        final cubit = context.read<CompleteProfileCubit>();
                         return CircleAvatar(
-                            radius: 80,
-                            backgroundImage: cubit.selectedImagePath != null
-                                ? FileImage(File(cubit.selectedImagePath!))
-                                    as ImageProvider
-                                : AssetImage(cubit.defaultImagePath)
-                                    as ImageProvider);
+                          radius: 80,
+                          backgroundImage: cubit.selectedImagePath != null
+                              ? FileImage(File(cubit.selectedImagePath!))
+                                  as ImageProvider
+                              : AssetImage(cubit.defaultImagePath)
+                                  as ImageProvider,
+                        );
                       },
                     ),
                     Positioned(
                       bottom: 0,
                       right: 0,
                       child: GestureDetector(
-                        onTap: cubit.pickImage,
-                        child: CircleAvatar(
+                        onTap: () =>
+                            context.read<CompleteProfileCubit>().pickImage(),
+                        child: const CircleAvatar(
                           radius: 18,
                           child: Icon(
                             Icons.camera_alt,
@@ -94,11 +103,13 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
               ),
               BlocBuilder<CompleteProfileCubit, CompleteProfileState>(
                 builder: (context, state) {
+                  final cubit = context.read<CompleteProfileCubit>();
                   return DropdownButtonFormField<String>(
                     decoration: InputDecoration(
                       labelText: "Select Your City",
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12)),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
                     value: cubit.defaultCity,
                     items: cubit.yemeniCities.map((city) {
@@ -116,9 +127,8 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                 },
               ),
               ElevatedButton(
-                onPressed: () {
-                  cubit.completeProfile();
-                },
+                onPressed: () =>
+                    context.read<CompleteProfileCubit>().completeProfile(),
                 style: ElevatedButton.styleFrom(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 80, vertical: 15),

@@ -2,9 +2,7 @@ import 'package:event_connect/core/database/database.dart';
 import 'package:event_connect/core/firebase/config/firebase_options.dart';
 import 'package:event_connect/core/firebase/user/firebase_user.dart';
 import 'package:event_connect/features/all_events/presentation/all_events_screen.dart';
-import 'package:event_connect/features/all_events/presentation/cubit/all_events_cubit.dart';
 import 'package:event_connect/features/complete_profile/presentation/complete_profile_screen.dart';
-import 'package:event_connect/features/complete_profile/presentation/cubit/complete_profile_cubit.dart';
 import 'package:event_connect/features/edit_profile/presentation/cubit/edit_profile_cubit.dart';
 import 'package:event_connect/features/forgot_password/presentaion/cubit/reset_password_cubit.dart';
 import 'package:event_connect/features/forgot_password/presentaion/forgot_password_screen.dart';
@@ -12,13 +10,10 @@ import 'package:event_connect/features/forgot_password/presentaion/reset_pass_co
 import 'package:event_connect/features/login/business_logic/firebase_login.dart';
 import 'package:event_connect/features/login/presentation/cubit/login_cubit.dart';
 import 'package:event_connect/features/login/presentation/login_screen.dart';
-import 'package:event_connect/features/my_events/presentation/cubit/my_events_cubit.dart';
 import 'package:event_connect/features/my_events/presentation/my_events_screen.dart';
-import 'package:event_connect/features/my_profile/presentation/cubit/my_profile_cubit.dart';
 import 'package:event_connect/features/my_profile/presentation/my_profile_screen.dart';
 import 'package:event_connect/features/register/presentation/cubit/register_cubit.dart';
 import 'package:event_connect/features/register/presentation/register_screen.dart';
-import 'package:event_connect/features/user_homescreen/presentation/cubit/user_homescreen_cubit.dart';
 import 'package:event_connect/features/user_homescreen/presentation/user_homescreen.dart';
 import 'package:event_connect/features/welcome_screen/presentation/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -63,21 +58,6 @@ class MainApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => ResetPasswordCubit(),
-        ),
-        BlocProvider(
-          create: (context) => CompleteProfileCubit(),
-        ),
-        BlocProvider(
-          create: (context) => UserHomescreenCubit(),
-        ),
-        BlocProvider(
-          create: (context) => AllEventsCubit(),
-        ),
-        BlocProvider(
-          create: (context) => MyEventsCubit(),
-        ),
-        BlocProvider(
-          create: (context) => MyProfileCubit(),
         ),
         BlocProvider(
           create: (context) => EditProfileCubit(),
