@@ -10,7 +10,6 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
 
   final CompleteProfileBl _bl = CompleteProfileBl();
 
-  //default selected city.
   final List<String> yemeniCities = [
     'Hadramout',
     "San'aa",

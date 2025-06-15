@@ -1,46 +1,34 @@
-// import 'dart:convert';
-// import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:event_connect/core/collections/user_collection_document.dart';
+import 'package:event_connect/core/firebase/user/firebase_user.dart';
+import 'package:event_connect/core/models/user_model.dart';
 
-// import 'package:event_connect/core/database/database.dart';
-// import 'package:event_connect/core/firebase/user/firebase_user.dart';
-// import 'package:event_connect/core/tables/user_table.dart';
-// import 'package:image_picker/image_picker.dart';
-// import 'package:sqflite/sqflite.dart';
+class EditProfileDa {
+  final _firestore = FirebaseFirestore.instance;
+  final _user = FirebaseUser();
 
-// class EditProfileDA {
-//   final FirebaseUser _user = FirebaseUser();
-//   final Database _db = AppDatabase.db;
+  Future<void> updateProfileDetails(UserModel model) async {
+    try {
+      await _firestore
+          .collection(UserCollection.userCollectionName)
+          .doc(_user.getUserID)
+          .update(model.toJson());
+    } catch (e) {
+      throw Exception("Error ${e.toString()}");
+    }
+  }
 
-//   Future<Map<String, dynamic>> getUserProfile() async {
-//     final result = await _db.query(
-//       UserTable.userTableName,
-//       where: '${UserTable.userIDColumnName} = ?',
-//       whereArgs: [_user.getUserID],
-//     );
-//     return result.first;
-//   }
+  Future<UserModel> getUserDetails() async {
+    try {
+      final result = await _firestore
+          .collection(UserCollection.userCollectionName)
+          .doc(_user.getUserID)
+          .get();
 
-//   Future<String> convertImageToBase64(XFile? imageFile) async {
-//     final bytes = await File(imageFile!.path).readAsBytes();
-//     return base64Encode(bytes);
-//   }
-
-//   Future<void> updateUserProfile({
-//     required String name,
-//     required String location,
-//     required XFile profilePic,
-//   }) async {
-//     await _db.update(
-//       UserTable.userTableName,
-//       {
-//         UserTable.userNameColumnName: name,
-//         UserTable.userLocationColumnName: location,
-//         UserTable.userProfilePicColumnName: await convertImageToBase64(
-//           profilePic,
-//         ),
-//       },
-//       where: '${UserTable.userIDColumnName} = ?',
-//       whereArgs: [_user.getUserID],
-//     );
-//   }
-// }
+      var userData = UserModel.fromJson(result.data()!);
+      return userData;
+    } catch (e) {
+      throw Exception("Error ${e.toString()}");
+    }
+  }
+}

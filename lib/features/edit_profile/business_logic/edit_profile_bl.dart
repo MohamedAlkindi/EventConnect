@@ -1,28 +1,32 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:event_connect/core/collections/user_collection_document.dart';
 import 'package:event_connect/core/firebase/user/firebase_user.dart';
 import 'package:event_connect/core/models/user_model.dart';
+import 'package:event_connect/features/edit_profile/data_access/edit_profile_da.dart';
 
 class EditProfileBL {
-  final _firestore = FirebaseFirestore.instance;
+  final _dataAccess = EditProfileDa();
   final _user = FirebaseUser();
 
   Future<void> updateUserProfile({
-    required UserModel model,
+    required String location,
+    required String profilePicPath,
   }) async {
-    await _firestore
-        .collection(UserCollection.userCollectionName)
-        .doc(_user.getUserID)
-        .update(model.toJson());
+    final updatedInfo = UserModel(
+      userID: _user.getUserID,
+      location: location,
+      profilePic: profilePicPath,
+    );
+    try {
+      await _dataAccess.updateProfileDetails(updatedInfo);
+    } catch (e) {
+      throw Exception("Error ${e.toString()}");
+    }
   }
 
   Future<UserModel> getUserProfile() async {
-    final result = await _firestore
-        .collection(UserCollection.userCollectionName)
-        .doc(_user.getUserID)
-        .get();
-
-    var userData = UserModel.fromJson(result.data()!);
-    return userData;
+    try {
+      return await _dataAccess.getUserDetails();
+    } catch (e) {
+      throw Exception("Error ${e.toString()}");
+    }
   }
 }

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:event_connect/core/utils/message_dialogs.dart';
@@ -6,7 +5,6 @@ import 'package:event_connect/features/edit_profile/presentation/cubit/edit_prof
 import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({
@@ -18,47 +16,6 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  XFile? _imageFile;
-  String _selectedLocation = '';
-
-  final List<String> _yemeniCities = [
-    'Hadramout',
-    "San'aa",
-    'Aden',
-    'Taiz',
-    'Ibb',
-    'Al Hudaydah',
-    'Marib',
-    'Al Mukalla'
-  ];
-
-  final ImagePicker _picker = ImagePicker();
-
-  Future<void> _pickImage() async {
-    final XFile? pickedImage =
-        await _picker.pickImage(source: ImageSource.gallery);
-    if (pickedImage != null) {
-      setState(() {
-        _imageFile = pickedImage;
-      });
-    }
-  }
-
-  Future<XFile> convertBase64ToXFile(String base64String) async {
-    try {
-      final decodedBytes = base64Decode(base64String);
-      final tempDir = Directory.systemTemp;
-      final tempPath = '${tempDir.path}/temp_image.jpg';
-
-      final file = File(tempPath);
-      await file.writeAsBytes(decodedBytes);
-
-      return XFile(file.path);
-    } catch (e) {
-      throw Exception('Failed to convert base64 to XFile: $e');
-    }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -67,6 +24,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var cubit = context.read<EditProfileCubit>();
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
@@ -81,21 +39,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
-      body: BlocConsumer<EditProfileCubit, EditProfileState>(
+      body: BlocListener<EditProfileCubit, EditProfileState>(
         listener: (context, state) async {
-          if (state is GotUserProfile) {
-            if (_selectedLocation.isEmpty) {
-              _selectedLocation = state.userProfile.location;
-            }
-            if (_imageFile == null) {
-              final imagePath = state.userProfile.profilePic;
-              if (imagePath.isNotEmpty) {
-                setState(() {
-                  _imageFile = XFile(imagePath);
-                });
-              }
-            }
-          } else if (state is EditProfileSuccess) {
+          if (state is EditProfileSuccess) {
             showMessageDialog(
               context: context,
               icon: Icons.check_circle_outline_rounded,
@@ -124,86 +70,103 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             );
           }
         },
-        builder: (BuildContext context, EditProfileState state) {
-          if (state is GotUserProfile) {
-            return SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 20),
-                    Center(
-                      child: Stack(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  spreadRadius: 2,
-                                  blurRadius: 5,
-                                  offset: const Offset(0, 3),
-                                ),
-                              ],
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                Center(
+                  child: Stack(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: const Offset(0, 3),
                             ),
-                            child: CircleAvatar(
+                          ],
+                        ),
+                        child: BlocBuilder<EditProfileCubit, EditProfileState>(
+                          builder: (context, state) {
+                            return CircleAvatar(
                               radius: 80,
                               backgroundColor: Colors.grey[200],
-                              backgroundImage: _imageFile != null
-                                  ? FileImage(File(_imageFile!.path))
-                                      as ImageProvider
-                                  : null,
-                              child: _imageFile == null
-                                  ? const Icon(Icons.person,
-                                      size: 80, color: Colors.grey)
-                                  : null,
+                              backgroundImage: state is GotUserProfile
+                                  // when entering the app this state will be init.
+                                  // get the picture from the state.
+                                  ? FileImage(
+                                      File(state.userProfile.profilePic),
+                                    ) as ImageProvider
+                                  // if the user changed the location only.
+                                  // the state will be SelectedCity so all the states are false.
+                                  // So get the old picture that was saved first from cubit,
+                                  : state is SelectedImage
+                                      ? FileImage(
+                                          File(state.selectedImagePath),
+                                        ) as ImageProvider
+                                      // check if the user registered a new pic first.
+                                      : cubit.newSelectedImagePath == null
+                                          ? FileImage(
+                                              File(cubit
+                                                  .previouslySelectedImagePath!),
+                                            ) as ImageProvider
+                                          : FileImage(File(
+                                              cubit.newSelectedImagePath!)),
+                            );
+                          },
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor,
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.3),
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: IconButton(
+                            onPressed: cubit.pickImage,
+                            icon: const Icon(
+                              Icons.camera_alt,
+                              color: Colors.white,
+                              size: 20,
                             ),
                           ),
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).primaryColor,
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.3),
-                                    spreadRadius: 2,
-                                    blurRadius: 5,
-                                    offset: const Offset(0, 2),
-                                  ),
-                                ],
-                              ),
-                              child: IconButton(
-                                onPressed: _pickImage,
-                                icon: const Icon(
-                                  Icons.camera_alt,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 40),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.1),
-                            spreadRadius: 1,
-                            blurRadius: 3,
-                            offset: const Offset(0, 1),
-                          ),
-                        ],
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 40),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.1),
+                        spreadRadius: 1,
+                        blurRadius: 3,
+                        offset: const Offset(0, 1),
                       ),
-                      child: DropdownButtonFormField<String>(
+                    ],
+                  ),
+                  child: BlocBuilder<EditProfileCubit, EditProfileState>(
+                    builder: (context, state) {
+                      return DropdownButtonFormField<String>(
                         decoration: InputDecoration(
                           labelText: "Select Your City",
                           labelStyle: const TextStyle(
@@ -235,10 +198,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             vertical: 16,
                           ),
                         ),
-                        value: _selectedLocation.isNotEmpty
-                            ? _selectedLocation
-                            : null,
-                        items: _yemeniCities.map((city) {
+                        // Same as the picture!
+                        value: state is GotUserProfile
+                            ? state.userProfile.location
+                            : state is SelectedCity
+                                ? state.selectedCity
+                                : cubit.newSelectedCity == null
+                                    ? cubit.previouslySelectedCity
+                                    : cubit.newSelectedCity!,
+                        items: cubit.yemeniCities.map((city) {
                           return DropdownMenuItem<String>(
                             value: city,
                             child: Text(
@@ -250,69 +218,55 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           );
                         }).toList(),
                         onChanged: (value) {
-                          setState(() {
-                            _selectedLocation = value!;
-                          });
+                          cubit.selectCity(value);
                         },
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 40),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Theme.of(context).primaryColor.withOpacity(0.3),
+                        spreadRadius: 1,
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
                       ),
-                    ),
-                    const SizedBox(height: 40),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color:
-                                Theme.of(context).primaryColor.withOpacity(0.3),
-                            spreadRadius: 1,
-                            blurRadius: 4,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
+                    ],
+                  ),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        cubit.updateUserProfile();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 0,
                       ),
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            if (_imageFile != null) {
-                              context
-                                  .read<EditProfileCubit>()
-                                  .updateUserProfile(
-                                    location: _selectedLocation,
-                                    profilePic: _imageFile!,
-                                  );
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Theme.of(context).primaryColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            elevation: 0,
-                          ),
-                          child: const Text(
-                            'Update Profile',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
+                      child: const Text(
+                        'Update Profile',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
-                  ],
+                  ),
                 ),
-              ),
-            );
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
+                const SizedBox(height: 20),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
