@@ -1,47 +1,31 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_connect/core/collections/events_collection_documents.dart';
-import 'package:event_connect/core/collections/user_collection_document.dart';
-import 'package:event_connect/core/collections/user_events_collection_documents.dart';
 import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
 import 'package:event_connect/core/exceptions_messages/messages.dart';
-import 'package:event_connect/core/firebase/user/firebase_user.dart';
 import 'package:event_connect/core/models/event_model.dart';
-import 'package:event_connect/core/service/api_service.dart';
+import 'package:event_connect/features/all_events/data_access/all_events_da.dart';
+import 'package:event_connect/shared/event_repo.dart';
+import 'package:event_connect/shared/weather_setup.dart';
 
 class AllEventScreenBL {
-  final ApiService apiService = ApiService();
-  final firestore = FirebaseFirestore.instance;
-  final _user = FirebaseUser();
-
-  DateTime getDate(String dateTime) {
-    final date = dateTime.split(' ')[0];
-    return DateTime.parse(date);
-  }
+  final _dataAccess = AllEventsDa();
+  final _eventRepo = EventRepo();
+  final _weatherSetup = WeatherSetup();
 
   Future<List<EventModel>> getEvents() async {
     try {
-      // Step 1: Get all events
-      final allEventsSnapshot = await firestore
-          .collection(EventsCollection.eventCollectionName)
-          .get();
+      final allEventsSnapshot = await _eventRepo.getAllEventsSnapshot();
+      // return an empty list to indicate that there're no events.
       if (allEventsSnapshot.docs.isEmpty) return [];
 
-      // Step 2: Fetch user-event relationships
-      final userEventsSnapshot = await firestore
-          .collection(UserEventsCollection.userEventsCollectionName)
-          .where(
-            UserCollection.userIDDocumentName,
-            isEqualTo: _user.getUserID,
-          )
-          .get();
+      final userEventsSnapshot = await _eventRepo.getUserEventsSnapshot();
 
-      // Step 3: Extract joined event IDs
+      // Extract joined event IDs
       final joinedEventIds = userEventsSnapshot.docs
           .map((doc) => doc[EventsCollection.eventIDDocumentName] as String?)
           .whereType<String>()
           .toList();
 
-      // Step 4: Filter events
+      // Filter events
       final availableEventModels = joinedEventIds.isEmpty
           ? allEventsSnapshot.docs
               .map((doc) {
@@ -65,13 +49,8 @@ class AllEventScreenBL {
               .whereType<EventModel>()
               .toList();
 
-      // Step 5: Inject weather asynchronously
-      for (var event in availableEventModels) {
-        event.weather = await apiService.getWeatherForDate(
-          date: getDate(event.dateAndTime),
-          location: event.location,
-        );
-      }
+      // Inject weather asynchronously
+      _weatherSetup.setupWeather(availableEventModels);
       return availableEventModels;
     } catch (e) {
       throw GenericException(message: ExceptionMessages.apiError);
@@ -80,14 +59,7 @@ class AllEventScreenBL {
 
   Future<void> addEventToUserEvents(String eventDocumentID) async {
     try {
-      final customDocID = "${_user.getUserID}_$eventDocumentID";
-      await firestore
-          .collection(UserEventsCollection.userEventsCollectionName)
-          .doc(customDocID)
-          .set({
-        UserEventsCollection.userIDDocumentName: _user.getUserID,
-        UserEventsCollection.eventIDDocumentName: eventDocumentID,
-      });
+      await _dataAccess.addEventToUserEvents(eventDocumentID);
     } catch (e) {
       throw GenericException(message: ExceptionMessages.addEventError);
     }
