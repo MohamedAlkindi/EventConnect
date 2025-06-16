@@ -19,6 +19,7 @@ import 'package:event_connect/features/welcome_screen/presentation/welcome_scree
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:event_connect/core/theme/app_theme.dart';
 
 FirebaseUser user = FirebaseUser();
 FirebaseLogin loginCheckup = FirebaseLogin();
@@ -65,6 +66,7 @@ class MainApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        theme: AppTheme.lightTheme,
         // home: isUserSignedIn
         //     ? isUserCompleted
         //         ? UserHomeScreen()

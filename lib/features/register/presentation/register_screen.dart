@@ -5,6 +5,7 @@ import 'package:event_connect/features/register/presentation/widget/text_fields.
 import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -58,132 +59,220 @@ class _RegisterPageState extends State<RegisterPage> {
             );
           }
         },
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/images/logo.jpg',
-                  height: 300,
+        child: SafeArea(
+          child: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                expandedHeight: 200,
+                pinned: true,
+                backgroundColor: Colors.white,
+                elevation: 0,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          Color(0xFF6C63FF),
+                          Color(0xFFFF6584),
+                          Color(0xFFFFB74D)
+                        ],
+                      ),
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(48),
+                        bottomRight: Radius.circular(48),
+                      ),
+                    ),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 40),
+                          Text(
+                            'Create Account',
+                            style: GoogleFonts.poppins(
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Join our community today',
+                            style: GoogleFonts.poppins(
+                              fontSize: 16,
+                              color: Colors.white.withOpacity(0.8),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 9),
+              ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.all(24.0),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      customTextField(
-                        controller: _emailController,
-                        labelText: 'Enter Email',
-                        hintText: 'example@ex.com',
-                        icon: Icons.email,
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      BlocBuilder<RegisterCubit, RegisterState>(
-                        builder: (context, state) {
-                          bool isObsecure = true; // Default value
-                          if (state is PasswordVisible) {
-                            isObsecure = state.currentPasswordVisibility;
-                          }
-                          return customTextField(
-                            controller: _passwordController,
-                            labelText: 'Enter Password',
-                            hintText: 'At least 6 characters',
-                            icon: isObsecure
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                            isObsecure: isObsecure,
-                            onTap: () => cubit.togglePasswordVisibility(),
-                          );
-                        },
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      BlocBuilder<RegisterCubit, RegisterState>(
-                        builder: (context, state) {
-                          bool isObsecure = true; // Default value
-                          if (state is PasswordVisible) {
-                            isObsecure = state.currentRepeatPasswordVisibility;
-                          }
-                          return customTextField(
-                            controller: _repeatPassController,
-                            labelText: 'Repeat Password',
-                            hintText: 'At least 6 characters',
-                            icon: isObsecure
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                            isObsecure: isObsecure,
-                            onTap: () => cubit.toggleRepeatPasswordVisibility(),
-                          );
-                        },
-                      ),
-                      SizedBox(
-                        height: 15,
+                      const SizedBox(height: 20),
+                      Container(
+                        padding: const EdgeInsets.all(24),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.05),
+                              blurRadius: 20,
+                              offset: const Offset(0, 10),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Sign Up",
+                              style: GoogleFonts.poppins(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: const Color(0xFF6C63FF),
+                              ),
+                            ),
+                            const SizedBox(height: 24),
+                            customTextField(
+                              controller: _emailController,
+                              labelText: 'Email Address',
+                              hintText: 'example@ex.com',
+                              icon: Icons.email_outlined,
+                            ),
+                            const SizedBox(height: 20),
+                            BlocBuilder<RegisterCubit, RegisterState>(
+                              builder: (context, state) {
+                                bool isObsecure = true;
+                                if (state is PasswordVisible) {
+                                  isObsecure = state.currentPasswordVisibility;
+                                }
+                                return customTextField(
+                                  controller: _passwordController,
+                                  labelText: 'Password',
+                                  hintText: 'Create a password',
+                                  icon: isObsecure
+                                      ? Icons.visibility_off_outlined
+                                      : Icons.visibility_outlined,
+                                  isObsecure: isObsecure,
+                                  onTap: () => cubit.togglePasswordVisibility(),
+                                );
+                              },
+                            ),
+                            const SizedBox(height: 20),
+                            BlocBuilder<RegisterCubit, RegisterState>(
+                              builder: (context, state) {
+                                bool isObsecure = true;
+                                if (state is PasswordVisible) {
+                                  isObsecure =
+                                      state.currentRepeatPasswordVisibility;
+                                }
+                                return customTextField(
+                                  controller: _repeatPassController,
+                                  labelText: 'Confirm Password',
+                                  hintText: 'Repeat your password',
+                                  icon: isObsecure
+                                      ? Icons.visibility_off_outlined
+                                      : Icons.visibility_outlined,
+                                  isObsecure: isObsecure,
+                                  onTap: () =>
+                                      cubit.toggleRepeatPasswordVisibility(),
+                                );
+                              },
+                            ),
+                            const SizedBox(height: 32),
+                            Container(
+                              width: double.infinity,
+                              height: 56,
+                              decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    Color(0xFF6C63FF),
+                                    Color(0xFFFF6584)
+                                  ],
+                                ),
+                                borderRadius: BorderRadius.circular(16),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: const Color(0xFF6C63FF)
+                                        .withOpacity(0.3),
+                                    blurRadius: 20,
+                                    offset: const Offset(0, 10),
+                                  ),
+                                ],
+                              ),
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  onTap: () {
+                                    cubit.registerUser(
+                                      email: _emailController,
+                                      password: _passwordController,
+                                      repeatPassword: _repeatPassController,
+                                    );
+                                  },
+                                  borderRadius: BorderRadius.circular(16),
+                                  child: Center(
+                                    child: Text(
+                                      "Create Account",
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 24),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Already have an account?",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 14,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pushReplacementNamed(
+                                      context,
+                                      loginPageRoute,
+                                    );
+                                  },
+                                  child: Text(
+                                    "Sign In",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: const Color(0xFF6C63FF),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    cubit.registerUser(
-                      email: _emailController,
-                      password: _passwordController,
-                      repeatPassword: _repeatPassController,
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(horizontal: 80, vertical: 15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    backgroundColor: Color.fromARGB(255, 0, 136, 186),
-                  ),
-                  child: Text(
-                    "Continue",
-                    style: TextStyle(
-                      fontSize: 22,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Made a mistake?",
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.popAndPushNamed(
-                          context,
-                          loginPageRoute,
-                        );
-                      },
-                      child: Text(
-                        "Head back to login",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 0, 136, 186),
-                        ),
-                      ),
-                    )
-                  ],
-                )
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

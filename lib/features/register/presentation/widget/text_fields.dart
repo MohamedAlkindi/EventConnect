@@ -8,32 +8,69 @@ Widget customTextField({
   bool isObsecure = false,
   void Function()? onTap,
 }) {
-  return TextField(
-    controller: controller,
-    decoration: InputDecoration(
-      label: Text(labelText),
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(
-          width: 1.0,
-          style: BorderStyle.solid,
-          color: Colors.orange.shade800,
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 8.0),
+    child: Stack(
+      children: [
+        // Gradient background
+        Container(
+          height: 60,
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Color(0xFF6C63FF), Color(0xFFFF6584)],
+            ),
+            borderRadius: BorderRadius.circular(30),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.08),
+                blurRadius: 8,
+                spreadRadius: 5,
+                offset: const Offset(4, 4),
+              ),
+            ],
+          ),
         ),
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(
-          width: 1.5,
-          style: BorderStyle.solid,
-          color: Colors.pink.shade200,
+        // TextField with transparent background
+        TextField(
+          controller: controller,
+          decoration: InputDecoration(
+            // filled: true,
+            // fillColor: Colors.white.withOpacity(0.85),
+            label: Text(
+              labelText,
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 16,
+              ),
+            ),
+            hintText: hintText,
+            // prefixIcon: Icon(icon, color: const Color(0xFF6C63FF)),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                width: 2.0,
+                color: const Color(0xFF6C63FF),
+              ),
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
+            suffixIcon: onTap != null
+                ? IconButton(
+                    icon: Icon(icon, color: const Color(0xFF6C63FF)),
+                    onPressed: onTap,
+                  )
+                : null,
+          ),
+          obscureText: isObsecure,
+          style: const TextStyle(fontSize: 16),
         ),
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      hintText: hintText,
-      suffixIcon: IconButton(
-        icon: Icon(icon),
-        onPressed: onTap ?? () {},
-      ),
+      ],
     ),
-    obscureText: isObsecure,
   );
 }

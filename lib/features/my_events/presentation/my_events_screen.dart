@@ -1,9 +1,12 @@
-import 'package:event_connect/core/utils/message_dialogs.dart';
+import 'dart:ui';
+
+import 'package:confetti/confetti.dart';
+import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/core/widgets/event_elements_widget.dart';
 import 'package:event_connect/features/my_events/presentation/cubit/my_events_cubit.dart';
-import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MyEventsScreen extends StatelessWidget {
   const MyEventsScreen({super.key});
@@ -22,155 +25,323 @@ class MyEventsScreenView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final confettiController =
+        ConfettiController(duration: const Duration(seconds: 1));
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('My Events'),
-        automaticallyImplyLeading: false,
-      ),
-      body: Column(
+      body: Stack(
         children: [
-          // Events List
-          Expanded(
-            child: BlocConsumer<MyEventsCubit, MyEventsState>(
-              listener: (context, state) {
-                if (state is MyEventsError) {
-                  showErrorDialog(
-                    context: context,
-                    message: state.message,
-                  );
-                } else if (state is MyEventsDeletedEvent) {
-                  showMessageDialog(
-                    context: context,
-                    icon: Icons.check_circle_outline_rounded,
-                    iconColor: Colors.green,
-                    titleText: 'Done! 🫡',
-                    contentText: 'Event removed from your schedule!',
-                    buttonText: 'Okay!',
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  );
-                }
-              },
-              builder: (context, state) {
-                if (state is MyEventsGotEvents) {
-                  return ListView.builder(
-                    itemCount: state.events.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        margin: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Event Image
-                            returnEventPicture(
-                              eventPictureLink: state.events[index].picture,
-                            ),
-
-                            Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  // Event Name and Location
-                                  returnEventMainElements(
-                                    eventName: state.events[index].name,
-                                    eventLocation: state.events[index].location,
-                                  ),
-                                  const SizedBox(height: 8),
-
-                                  // Category
-                                  returnEventElements(
-                                    icon: Icons.category_rounded,
-                                    text: state.events[index].category,
-                                  ),
-                                  const SizedBox(height: 8),
-
-                                  // Date and Time
-                                  returnEventElements(
-                                    icon: Icons.calendar_today,
-                                    icon2: Icons.access_time,
-                                    text: state.events[index].dateAndTime,
-                                  ),
-
-                                  const SizedBox(height: 8),
-
-                                  // Gender Restriction
-                                  returnEventElements(
-                                    icon: Icons.male_rounded,
-                                    icon2: Icons.female_rounded,
-                                    text: state.events[index].genderRestriction,
-                                  ),
-
-                                  const SizedBox(height: 8),
-
-                                  // Description
-                                  returnEventDescription(
-                                    description:
-                                        state.events[index].description,
-                                  ),
-
-                                  const SizedBox(height: 12),
-
-                                  // Remove from Schedule Button
-                                  returnEventButton(
-                                    buttonText: 'Remove from Schedule',
-                                    onPressed: () {
-                                      context
-                                          .read<MyEventsCubit>()
-                                          .deleteEventFromUserEvents(
-                                            documentID:
-                                                state.events[index].eventID,
-                                          );
-                                    },
-                                  ),
-                                ],
-                              ),
+          // Modern background with gradient and subtle overlay
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFFe0e7ff),
+                  Color(0xFFfceabb),
+                  Color(0xFFf8b6b8)
+                ],
+              ),
+            ),
+          ),
+          // Main frosted glass content
+          Center(
+            child: Container(
+              margin: const EdgeInsets.only(
+                  top: 40, left: 12, right: 12, bottom: 12),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.18),
+                borderRadius: BorderRadius.circular(32),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.08),
+                    blurRadius: 24,
+                    offset: const Offset(0, 8),
+                  ),
+                ],
+                border: Border.all(
+                    color: Colors.white.withOpacity(0.3), width: 1.2),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(32),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+                  child: Column(
+                    children: [
+                      // Modern gradient app bar
+                      Container(
+                        height: 140,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              const Color(0xFF6C63FF),
+                              const Color(0xFF6C63FF).withOpacity(0.8),
+                            ],
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF6C63FF).withOpacity(0.3),
+                              blurRadius: 20,
+                              offset: const Offset(0, 5),
                             ),
                           ],
                         ),
-                      );
-                    },
-                  );
-                } else if (state is MyEventsNoEventsAddedYet) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "No Events in Your Schedule Yet!",
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                        const SizedBox(height: 30),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.all(15),
-                          ),
-                          onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              userHomeScreenPageRoute,
-                            );
-                          },
-                          child: Text(
-                            'Add events from here to your schedule!',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Theme.of(context).primaryColor,
+                        child: SafeArea(
+                          child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "My Events",
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  "Your upcoming adventures",
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.white.withOpacity(0.8),
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  );
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
+                      ),
+                      // Events List with modern cards
+                      Expanded(
+                        child: StreamBuilder<List<EventModel>>(
+                          stream: context.read<MyEventsCubit>().eventsStream,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(
+                                  color: Color(0xFF6C63FF),
+                                ),
+                              );
+                            } else if (snapshot.hasError) {
+                              return Center(
+                                child: Text(
+                                  'Error: ${snapshot.error}',
+                                  style:
+                                      const TextStyle(color: Color(0xFF6C63FF)),
+                                ),
+                              );
+                            } else if (!snapshot.hasData ||
+                                snapshot.data!.isEmpty) {
+                              return Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.event_busy_rounded,
+                                      size: 80,
+                                      color: const Color(0xFF6C63FF)
+                                          .withOpacity(0.5),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Text(
+                                      'No Events Yet! 😱',
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 24,
+                                        color: const Color(0xFF6C63FF),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      'Add some events to your schedule',
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 16,
+                                        color: Colors.grey[600],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+
+                            return ListView.builder(
+                              padding: const EdgeInsets.all(20),
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, index) {
+                                final event = snapshot.data![index];
+                                return Container(
+                                  margin: const EdgeInsets.only(bottom: 20),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(24),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.05),
+                                        blurRadius: 20,
+                                        offset: const Offset(0, 10),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      // Event Image with gradient overlay
+                                      Stack(
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius:
+                                                const BorderRadius.vertical(
+                                              top: Radius.circular(24),
+                                            ),
+                                            child: returnEventPicture(
+                                              eventPictureLink: event.picture,
+                                            ),
+                                          ),
+                                          Positioned(
+                                            bottom: 0,
+                                            left: 0,
+                                            right: 0,
+                                            child: Container(
+                                              height: 100,
+                                              decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                  begin: Alignment.topCenter,
+                                                  end: Alignment.bottomCenter,
+                                                  colors: [
+                                                    Colors.transparent,
+                                                    Colors.black
+                                                        .withOpacity(0.7),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            // Event Name and Location
+                                            returnEventMainElements(
+                                              eventName: event.name,
+                                              eventLocation: event.location,
+                                            ),
+                                            const SizedBox(height: 16),
+                                            // Category
+                                            returnEventElements(
+                                              icon: Icons.category_rounded,
+                                              text: event.category,
+                                            ),
+                                            const SizedBox(height: 12),
+                                            // Date and Time
+                                            returnEventElements(
+                                              icon: Icons.calendar_today,
+                                              icon2: Icons.access_time,
+                                              text: event.dateAndTime,
+                                            ),
+                                            const SizedBox(height: 12),
+                                            // Gender Restriction
+                                            returnEventElements(
+                                              icon: Icons.male_rounded,
+                                              icon2: Icons.female_rounded,
+                                              text: event.genderRestriction,
+                                            ),
+                                            const SizedBox(height: 12),
+                                            // Weather
+                                            returnEventElements(
+                                              icon: Icons.wb_sunny,
+                                              text: event.weather == null
+                                                  ? "${event.weather} C°"
+                                                  : "No weather info",
+                                            ),
+                                            const SizedBox(height: 16),
+                                            // Description
+                                            returnEventDescription(
+                                              description: event.description,
+                                            ),
+                                            const SizedBox(height: 20),
+                                            // Modern Remove from Schedule Button
+                                            SizedBox(
+                                              width: double.infinity,
+                                              child: ElevatedButton(
+                                                onPressed: () {
+                                                  context
+                                                      .read<MyEventsCubit>()
+                                                      .deleteEventFromUserEvents(
+                                                        documentID:
+                                                            event.eventID,
+                                                      );
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor: Colors.white,
+                                                  foregroundColor:
+                                                      const Color(0xFF6C63FF),
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 16),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            16),
+                                                    side: const BorderSide(
+                                                      color: Color(0xFF6C63FF),
+                                                      width: 2,
+                                                    ),
+                                                  ),
+                                                  elevation: 0,
+                                                ),
+                                                child: Text(
+                                                  'Remove from Schedule',
+                                                  style: GoogleFonts.poppins(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          // Confetti effect
+          Align(
+            alignment: Alignment.topCenter,
+            child: ConfettiWidget(
+              confettiController: confettiController,
+              blastDirectionality: BlastDirectionality.explosive,
+              shouldLoop: false,
+              colors: const [
+                Color(0xFF6C63FF),
+                Color(0xFFFF6584),
+                Color(0xFFFFB74D),
+                Colors.white,
+              ],
+              emissionFrequency: 0.05,
+              numberOfParticles: 15,
+              maxBlastForce: 15,
+              minBlastForce: 5,
             ),
           ),
         ],

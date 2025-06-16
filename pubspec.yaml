@@ -43,6 +43,9 @@ dependencies:
   cloud_firestore: 
   json_annotation: 
   # path_provider: ^2.1.5
+  google_fonts: ^6.1.0
+  confetti: ^0.7.0
+  lottie: ^2.7.0
 
 dev_dependencies:
   # flutter_native_splash: ^2.4.4
@@ -75,6 +78,7 @@ flutter:
     assets:
        - assets/images/
        - assets/database/
+       - assets/animations/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

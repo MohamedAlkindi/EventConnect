@@ -1,8 +1,12 @@
+import 'dart:ui';
+
+import 'package:confetti/confetti.dart';
 import 'package:event_connect/features/welcome_screen/presentation/cubit/welcome_screen_cubit.dart';
-import 'package:event_connect/features/welcome_screen/presentation/widgets/carrousel.dart';
 import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -21,175 +25,196 @@ class WelcomeScreenView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final confettiController =
+        ConfettiController(duration: const Duration(seconds: 2));
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.pink.shade300,
-              Colors.orange.shade300,
-              Colors.yellow.shade300,
-              Colors.green.shade300,
-              Colors.cyan.shade300,
-              Colors.blue.shade300,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(3),
-          child: Center(
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                double screenWidth = constraints.maxWidth;
-                double screenHeight = constraints.maxHeight;
-                return SizedBox(
-                  child: Stack(
-                    children: [
-                      BlocBuilder<WelcomeScreenCubit, WelcomeScreenState>(
-                        builder: (context, state) {
-                          return PageView(
-                            controller: context
-                                .read<WelcomeScreenCubit>()
-                                .pageController,
-                            onPageChanged: (page) => context
-                                .read<WelcomeScreenCubit>()
-                                .onPageChanged(page),
-                            children: [
-                              carrousel(
-                                context: context,
-                                screenHeight: screenHeight,
-                                screenWidth: screenWidth,
-                                imageName: 'welcome',
-                                imageText:
-                                    "Welcome to EventConnect - Your Ultimate Event Companion!",
-                              ),
-                              carrousel(
-                                context: context,
-                                screenHeight: screenHeight,
-                                screenWidth: screenWidth,
-                                imageName: 'calendar',
-                                imageText:
-                                    "Discover Events Near You - Never Miss Out!",
-                              ),
-                              carrousel(
-                                context: context,
-                                screenHeight: screenHeight,
-                                screenWidth: screenWidth,
-                                imageName: 'post',
-                                imageText:
-                                    "Get all the Details - Plan Your Perfect Day!",
-                              ),
-                              carrousel(
-                                context: context,
-                                screenHeight: screenHeight,
-                                screenWidth: screenWidth,
-                                imageName: 'join',
-                                imageText: "Join Our Community Now!",
-                              ),
-                            ],
-                          );
-                        },
+      body: Stack(
+        children: [
+          // Modern background: gradient behind frosted glass container
+          // Container(
+          //   decoration: const BoxDecoration(
+          //     gradient: LinearGradient(
+          //       begin: Alignment.topLeft,
+          //       end: Alignment.bottomRight,
+          //       colors: [
+          //         Color(0xFFe0e7ff), // light indigo
+          //         Color.fromARGB(255, 246, 243, 235), // light yellow
+          //         Color.fromARGB(255, 251, 242, 242), // light pink
+          //       ],
+          //     ),
+          //   ),
+          // ),
+          // Main content
+          Center(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 28.0, vertical: 32.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(32),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.95),
+                        borderRadius: BorderRadius.circular(32),
+                        border: Border.all(
+                            color: Colors.white.withOpacity(0.9), width: 1.2),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.6),
+                            blurRadius: 24,
+                            offset: const Offset(0, 8),
+                          ),
+                        ],
                       ),
-                      BlocBuilder<WelcomeScreenCubit, WelcomeScreenState>(
-                        builder: (context, state) {
-                          return Positioned(
-                            bottom: 180,
-                            left: 0,
-                            right: 0,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: List.generate(4, (index) {
-                                return AnimatedContainer(
-                                  duration: const Duration(milliseconds: 300),
-                                  margin:
-                                      const EdgeInsets.symmetric(horizontal: 5),
-                                  width: state.currentPage == index ? 12 : 8,
-                                  height: state.currentPage == index ? 12 : 8,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: state.currentPage == index
-                                        ? const Color.fromARGB(255, 0, 136, 186)
-                                        : Colors.grey.shade400,
-                                  ),
-                                );
-                              }),
-                            ),
-                          );
-                        },
-                      ),
-                      Positioned(
-                        bottom: 30,
-                        left: 20,
-                        right: 20,
-                        child: Center(
-                          child: Column(
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  Navigator.popAndPushNamed(
-                                    context,
-                                    registerPageRoute,
-                                  );
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 80, vertical: 15),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 0, 136, 186),
-                                ),
-                                child: const Text(
-                                  "Get Started",
-                                  style: TextStyle(
-                                    fontSize: 22,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 15),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Text(
-                                    "Already a user?",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.popAndPushNamed(
-                                        context,
-                                        loginPageRoute,
-                                      );
-                                    },
-                                    child: const Text(
-                                      "Sign in here",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color.fromARGB(255, 4, 151, 205),
-                                      ),
-                                    ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 32),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          // Header with gradient text
+                          ShaderMask(
+                            shaderCallback: (Rect bounds) {
+                              return const LinearGradient(
+                                colors: [
+                                  Color(0xFF6C63FF),
+                                  Color(0xFFFF6584),
+                                  Color(0xFFFFB74D)
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ).createShader(bounds);
+                            },
+                            child: Text(
+                              "Welcome to EventConnect!",
+                              style: GoogleFonts.poppins(
+                                fontSize: 34,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                letterSpacing: 0.5,
+                                shadows: [
+                                  Shadow(
+                                    color: Colors.black.withOpacity(0.18),
+                                    blurRadius: 10,
                                   ),
                                 ],
-                              )
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            "Your Ultimate Event Companion",
+                            style: GoogleFonts.poppins(
+                              fontSize: 18,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 36),
+                          // Lottie animation
+                          Center(
+                            child: Lottie.asset(
+                              'assets/animations/celebration.json',
+                              height: 300,
+                              repeat: true,
+                            ),
+                          ),
+                          const SizedBox(height: 40),
+                          // Get Started Button
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                confettiController.play();
+                                Navigator.pushReplacementNamed(
+                                    context, registerPageRoute);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                foregroundColor: const Color(0xFF6C63FF),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 0, vertical: 18),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                elevation: 6,
+                                textStyle: GoogleFonts.poppins(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(Icons.celebration,
+                                      color: Color(0xFF6C63FF)),
+                                  const SizedBox(width: 12),
+                                  const Text("Get Started"),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 28),
+                          // Sign in row
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Already a user?",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 17,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pushReplacementNamed(
+                                      context, loginPageRoute);
+                                },
+                                child: Text(
+                                  "Sign in here",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.orangeAccent,
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
-                        ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                );
-              },
+                ),
+              ),
             ),
           ),
-        ),
+          // Confetti
+          Align(
+            alignment: Alignment.topCenter,
+            child: ConfettiWidget(
+              confettiController: confettiController,
+              blastDirectionality: BlastDirectionality.explosive,
+              shouldLoop: false,
+              colors: const [
+                Color(0xFF6C63FF),
+                Color(0xFFFF6584),
+                Color(0xFFFFB74D),
+                Colors.white,
+              ],
+              emissionFrequency: 0.05,
+              numberOfParticles: 20,
+              maxBlastForce: 20,
+              minBlastForce: 8,
+            ),
+          ),
+        ],
       ),
     );
   }

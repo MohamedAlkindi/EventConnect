@@ -5,6 +5,7 @@ import 'package:event_connect/features/register/presentation/widget/text_fields.
 import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -39,7 +40,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             showLoadingDialog(context);
           } else if (state is ResetPasswordEmailSend) {
             hideLoadingDialog(context);
-            Navigator.popAndPushNamed(
+            Navigator.pushReplacementNamed(
               context,
               resetPasswordConfirmationPageRoute,
             );
@@ -51,86 +52,183 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             );
           }
         },
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/images/logo.jpg',
-                  height: 300,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 9),
-                  child: Column(
-                    children: [
-                      customTextField(
-                        controller: _emailController,
-                        labelText: 'Enter Email',
-                        hintText: 'example@ex.com',
-                        icon: Icons.email,
+        child: SafeArea(
+          child: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                expandedHeight: 200,
+                pinned: true,
+                backgroundColor: Colors.white,
+                elevation: 0,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          Color(0xFF6C63FF),
+                          Color(0xFFFF6584),
+                          Color(0xFFFFB74D)
+                        ],
                       ),
-                      SizedBox(
-                        height: 100,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(48),
+                        bottomRight: Radius.circular(48),
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          cubit.resetPassword(
-                            emailController: _emailController,
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 80, vertical: 15),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          backgroundColor: Color.fromARGB(255, 0, 136, 186),
-                        ),
-                        child: Text(
-                          "Reset Password",
-                          style: TextStyle(
-                            fontSize: 22,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
+                    ),
+                    child: Center(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          const SizedBox(height: 40),
                           Text(
-                            "Wanna try again?",
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
+                            'Reset Password',
+                            style: GoogleFonts.poppins(
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
                             ),
                           ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.popAndPushNamed(
-                                context,
-                                loginPageRoute,
-                              );
-                            },
-                            child: Text(
-                              "Log In",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 0, 136, 186),
+                          const SizedBox(height: 8),
+                          Text(
+                            "We'll help you recover it",
+                            style: GoogleFonts.poppins(
+                              fontSize: 16,
+                              color: Colors.white.withOpacity(0.8),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 20),
+                      Container(
+                        padding: const EdgeInsets.all(24),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.05),
+                              blurRadius: 20,
+                              offset: const Offset(0, 10),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                const SizedBox(width: 12),
+                                Text(
+                                  "Reset Your Password",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(0xFF6C63FF),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 32),
+                            customTextField(
+                              controller: _emailController,
+                              labelText: 'Email Address',
+                              hintText: 'example@ex.com',
+                              icon: Icons.email_outlined,
+                            ),
+                            const SizedBox(height: 32),
+                            Container(
+                              width: double.infinity,
+                              height: 56,
+                              decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    Color(0xFF6C63FF),
+                                    Color(0xFFFF6584)
+                                  ],
+                                ),
+                                borderRadius: BorderRadius.circular(16),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: const Color(0xFF6C63FF)
+                                        .withOpacity(0.3),
+                                    blurRadius: 20,
+                                    offset: const Offset(0, 10),
+                                  ),
+                                ],
+                              ),
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  onTap: () {
+                                    cubit.resetPassword(
+                                      emailController: _emailController,
+                                    );
+                                  },
+                                  borderRadius: BorderRadius.circular(16),
+                                  child: Center(
+                                    child: Text(
+                                      "Send Reset Link",
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
-                          )
-                        ],
-                      )
+                            const SizedBox(height: 24),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Remember your password?",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 14,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pushReplacementNamed(
+                                      context,
+                                      loginPageRoute,
+                                    );
+                                  },
+                                  child: Text(
+                                    "Sign In",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: const Color(0xFF6C63FF),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

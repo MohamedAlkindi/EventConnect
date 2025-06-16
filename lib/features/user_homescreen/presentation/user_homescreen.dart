@@ -6,6 +6,8 @@ import 'package:event_connect/features/user_homescreen/presentation/cubit/user_h
 import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:confetti/confetti.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class UserHomeScreen extends StatelessWidget {
   const UserHomeScreen({super.key});
@@ -24,131 +26,224 @@ class UserHomeScreenView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final confettiController =
+        ConfettiController(duration: const Duration(seconds: 1));
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "EventsConnect",
-          style: TextStyle(
-            color: Colors.white,
-            shadows: [
-              Shadow(
-                color: Colors.pink.shade400,
-                offset: const Offset(2, 2),
-                blurRadius: 3,
+      body: Stack(
+        children: [
+          // Modern gradient header
+          Container(
+            height: 120,
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [Color(0xFF6C63FF), Color(0xFFFF6584)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
-              Shadow(
-                color: Colors.purple.shade300,
-                offset: const Offset(-2, -2),
-                blurRadius: 3,
-              ),
-            ],
-            fontSize: 24,
-            fontFamily: 'Montserrat',
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout_rounded),
-            onPressed: () {
-              showMessageDialog(
-                context: context,
-                icon: Icons.warning_amber_rounded,
-                titleText: "Logout 😰",
-                contentText: "Are you sure you want to logout?",
-                iconColor: const Color.fromARGB(255, 207, 169, 18),
-                buttonText: "Yes",
-                onPressed: () {
-                  context.read<UserHomescreenCubit>().userSignOut();
-                },
-                secondButtonText: "No",
-                secondOnPressed: () {
-                  Navigator.pop(context);
-                },
-              );
-            },
-          ),
-        ],
-      ),
-      body: BlocListener<UserHomescreenCubit, UserHomescreenState>(
-        listener: (context, state) {
-          if (state is UserSignedOutSuccessfully) {
-            Navigator.popAndPushNamed(context, loginPageRoute);
-          }
-        },
-        child: Column(
-          children: [
-            Expanded(
-              child: BlocBuilder<UserHomescreenCubit, UserHomescreenState>(
-                builder: (context, state) {
-                  return PageView(
-                    controller:
-                        context.read<UserHomescreenCubit>().pageController,
-                    onPageChanged: (index) => context
-                        .read<UserHomescreenCubit>()
-                        .onPageChanged(index),
-                    children: const [
-                      AllEventsScreen(),
-                      MyEventsScreen(),
-                      MyProfileScreen(),
-                    ],
-                  );
-                },
-              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.15),
+                  blurRadius: 15,
+                  offset: const Offset(0, 5),
+                ),
+              ],
             ),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 10,
-                    offset: const Offset(0, -2),
+            child: SafeArea(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const SizedBox(width: 48), // For balance
+                  Text(
+                    "EventsConnect 🎉",
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black.withOpacity(0.2),
+                          offset: const Offset(2, 2),
+                          blurRadius: 4,
+                        ),
+                      ],
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.logout_rounded, color: Colors.white),
+                    onPressed: () {
+                      showMessageDialog(
+                        context: context,
+                        icon: Icons.warning_amber_rounded,
+                        titleText: "Logout 😰",
+                        contentText: "Are you sure you want to logout?",
+                        iconColor: const Color.fromARGB(255, 207, 169, 18),
+                        buttonText: "Yes",
+                        onPressed: () {
+                          context.read<UserHomescreenCubit>().userSignOut();
+                        },
+                        secondButtonText: "No",
+                        secondOnPressed: () {
+                          Navigator.pop(context);
+                        },
+                      );
+                    },
                   ),
                 ],
               ),
-              child: BlocBuilder<UserHomescreenCubit, UserHomescreenState>(
-                builder: (context, state) {
-                  return BottomNavigationBar(
-                    currentIndex: state.currentIndex,
-                    onTap: (index) => context
-                        .read<UserHomescreenCubit>()
-                        .onBottomNavTap(index),
-                    items: [
-                      const BottomNavigationBarItem(
-                        icon: Icon(Icons.event_note_rounded),
-                        label: "All Events",
-                      ),
-                      const BottomNavigationBarItem(
-                        icon: Icon(Icons.event),
-                        label: "My Events",
-                      ),
-                      BottomNavigationBarItem(
-                        icon: CircleAvatar(
-                          radius: 15,
-                          backgroundColor: Colors.grey.shade300,
-                          child: state.imageFile != null
-                              ? CircleAvatar(
-                                  radius: 15,
-                                  backgroundImage: FileImage(state.imageFile!),
-                                )
-                              : const Icon(Icons.person, color: Colors.white),
+            ),
+          ),
+          // Main content
+          Padding(
+            padding: const EdgeInsets.only(top: 120),
+            child: BlocListener<UserHomescreenCubit, UserHomescreenState>(
+              listener: (context, state) {
+                if (state is UserSignedOutSuccessfully) {
+                  Navigator.popAndPushNamed(context, loginPageRoute);
+                }
+              },
+              child: Column(
+                children: [
+                  Expanded(
+                    child:
+                        BlocBuilder<UserHomescreenCubit, UserHomescreenState>(
+                      builder: (context, state) {
+                        return PageView(
+                          controller: context
+                              .read<UserHomescreenCubit>()
+                              .pageController,
+                          onPageChanged: (index) {
+                            confettiController.play();
+                            context
+                                .read<UserHomescreenCubit>()
+                                .onPageChanged(index);
+                          },
+                          children: const [
+                            AllEventsScreen(),
+                            MyEventsScreen(),
+                            MyProfileScreen(),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                  // Modern bottom navigation
+                  Container(
+                    margin: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 20,
+                          offset: const Offset(0, 5),
                         ),
-                        label: "My Profile",
-                      ),
-                    ],
-                    selectedItemColor: Theme.of(context).primaryColor,
-                    unselectedItemColor: Colors.grey,
-                    showUnselectedLabels: true,
-                    type: BottomNavigationBarType.fixed,
-                  );
-                },
+                      ],
+                    ),
+                    child:
+                        BlocBuilder<UserHomescreenCubit, UserHomescreenState>(
+                      builder: (context, state) {
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(30),
+                          child: BottomNavigationBar(
+                            currentIndex: state.currentIndex,
+                            onTap: (index) {
+                              confettiController.play();
+                              context
+                                  .read<UserHomescreenCubit>()
+                                  .onBottomNavTap(index);
+                            },
+                            items: [
+                              BottomNavigationBarItem(
+                                icon: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: state.currentIndex == 0
+                                        ? const Color(0xFF6C63FF)
+                                            .withOpacity(0.1)
+                                        : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: const Icon(Icons.celebration),
+                                ),
+                                label: "All Events",
+                              ),
+                              BottomNavigationBarItem(
+                                icon: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: state.currentIndex == 1
+                                        ? const Color(0xFF6C63FF)
+                                            .withOpacity(0.1)
+                                        : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child:
+                                      const Icon(Icons.event_available_rounded),
+                                ),
+                                label: "My Events",
+                              ),
+                              BottomNavigationBarItem(
+                                icon: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: state.currentIndex == 2
+                                        ? const Color(0xFF6C63FF)
+                                            .withOpacity(0.1)
+                                        : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: CircleAvatar(
+                                    radius: 12,
+                                    backgroundColor: Colors.purple.shade100,
+                                    child: state.imageFile != null
+                                        ? CircleAvatar(
+                                            radius: 12,
+                                            backgroundImage:
+                                                FileImage(state.imageFile!),
+                                          )
+                                        : const Icon(Icons.person,
+                                            color: Colors.white, size: 16),
+                                  ),
+                                ),
+                                label: "Profile",
+                              ),
+                            ],
+                            selectedItemColor: const Color(0xFF6C63FF),
+                            unselectedItemColor: Colors.grey,
+                            showUnselectedLabels: true,
+                            type: BottomNavigationBarType.fixed,
+                            backgroundColor: Colors.white,
+                            elevation: 0,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+          // Confetti effect
+          Align(
+            alignment: Alignment.topCenter,
+            child: ConfettiWidget(
+              confettiController: confettiController,
+              blastDirectionality: BlastDirectionality.explosive,
+              shouldLoop: false,
+              colors: const [
+                Color(0xFF6C63FF),
+                Color(0xFFFF6584),
+                Color(0xFFFFB74D),
+                Colors.white,
+              ],
+              emissionFrequency: 0.05,
+              numberOfParticles: 15,
+              maxBlastForce: 15,
+              minBlastForce: 5,
+            ),
+          ),
+        ],
       ),
     );
   }
