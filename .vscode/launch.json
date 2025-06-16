@@ -5,18 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "finals_project",
+            "name": "Event_Connect",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "finals_project (profile mode)",
+            "name": "Event_Connect (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "finals_project (release mode)",
+            "name": "Event_Connect (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"
