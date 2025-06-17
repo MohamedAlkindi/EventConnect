@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:confetti/confetti.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/features/edit_profile/presentation/edit_profile_screen.dart';
 import 'package:event_connect/features/my_profile/presentation/cubit/my_profile_cubit.dart';
@@ -27,8 +26,6 @@ class MyProfileScreenView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final confettiController =
-        ConfettiController(duration: const Duration(seconds: 2));
     return Scaffold(
       body: BlocListener<MyProfileCubit, MyProfileState>(
         listener: (context, state) {
@@ -87,9 +84,6 @@ class MyProfileScreenView extends StatelessWidget {
                                 context: context,
                                 message: state.message,
                               );
-                            }
-                            if (state is GotMyProfileInfo) {
-                              confettiController.play();
                             }
                           },
                           builder: (context, state) {
@@ -392,25 +386,6 @@ class MyProfileScreenView extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
-            ),
-            // Confetti effect
-            Align(
-              alignment: Alignment.topCenter,
-              child: ConfettiWidget(
-                confettiController: confettiController,
-                blastDirectionality: BlastDirectionality.explosive,
-                shouldLoop: false,
-                colors: const [
-                  Color(0xFF6C63FF),
-                  Color(0xFFFF6584),
-                  Color(0xFFFFB74D),
-                  Colors.white,
-                ],
-                emissionFrequency: 0.05,
-                numberOfParticles: 20,
-                maxBlastForce: 20,
-                minBlastForce: 8,
               ),
             ),
           ],

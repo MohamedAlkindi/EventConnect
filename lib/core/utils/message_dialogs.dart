@@ -39,6 +39,7 @@ void showMessageDialog({
         content: Text(
           contentText,
           style: TextStyle(
+            color: Colors.black54,
             fontSize: 20,
           ),
         ),

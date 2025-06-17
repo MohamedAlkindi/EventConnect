@@ -146,10 +146,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                               // check if the user registered a new pic first.
                                               : cubit.newSelectedImagePath ==
                                                       null
-                                                  ? FileImage(
-                                                      File(cubit
-                                                          .previouslySelectedImagePath!),
-                                                    ) as ImageProvider
+                                                  ? cubit.previouslySelectedImagePath ==
+                                                          null
+                                                      ? const AssetImage(
+                                                              'assets/images/generic_user.png')
+                                                          as ImageProvider
+                                                      : FileImage(
+                                                          File(cubit
+                                                              .previouslySelectedImagePath!),
+                                                        ) as ImageProvider
                                                   : FileImage(
                                                       File(cubit
                                                           .newSelectedImagePath!),
