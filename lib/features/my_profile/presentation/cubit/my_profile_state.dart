@@ -13,6 +13,8 @@ final class GotMyProfileInfo extends MyProfileState {
 
 final class UserDeletedSuccessfully extends MyProfileState {}
 
+final class UserSignedOutSuccessfully extends MyProfileState {}
+
 final class MyProfileError extends MyProfileState {
   final String message;
 

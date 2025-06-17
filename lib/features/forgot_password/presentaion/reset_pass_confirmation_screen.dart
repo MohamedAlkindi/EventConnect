@@ -1,6 +1,8 @@
 import 'dart:ui';
+
 import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ResetPasswordConfirmationPage extends StatelessWidget {
   const ResetPasswordConfirmationPage({super.key});
@@ -54,17 +56,18 @@ class ResetPasswordConfirmationPage extends StatelessWidget {
                         Icon(
                           Icons.mark_email_read_rounded,
                           size: 150,
-                          color: Color.fromARGB(255, 0, 136, 186),
+                          color: const Color(0xFF6C63FF),
                         ),
                         SizedBox(height: 20),
                         Text(
                           'Reset Email Sent!',
                           style: TextStyle(
+                            color: const Color(0xFF6C63FF),
                             fontSize: 26,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 25),
+                        SizedBox(height: 55),
                         Text(
                           'A password reset email has been sent to your email address. Please check your inbox.',
                           textAlign: TextAlign.center,
@@ -73,27 +76,45 @@ class ResetPasswordConfirmationPage extends StatelessWidget {
                             color: Colors.black,
                           ),
                         ),
-                        SizedBox(height: 50),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushReplacementNamed(
-                              context,
-                              loginPageRoute,
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 80, vertical: 15),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
+                        SizedBox(height: 55),
+                        Container(
+                          width: double.infinity,
+                          height: 56,
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [Color(0xFF6C63FF), Color(0xFFFF6584)],
                             ),
-                            backgroundColor: Color.fromARGB(255, 0, 136, 186),
+                            borderRadius: BorderRadius.circular(16),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(0xFF6C63FF).withOpacity(0.3),
+                                blurRadius: 20,
+                                offset: const Offset(0, 10),
+                              ),
+                            ],
                           ),
-                          child: Text(
-                            "Back to Login",
-                            style: TextStyle(
-                              fontSize: 22,
-                              color: Colors.white,
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.pushReplacementNamed(
+                                  context,
+                                  loginPageRoute,
+                                );
+                              },
+                              borderRadius: BorderRadius.circular(16),
+                              child: Center(
+                                child: Text(
+                                  "Sign In",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ),

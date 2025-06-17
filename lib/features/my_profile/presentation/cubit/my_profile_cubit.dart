@@ -18,6 +18,15 @@ class MyProfileCubit extends Cubit<MyProfileState> {
     }
   }
 
+  Future<void> userSignOut() async {
+    try {
+      await _businessLogic.signOut();
+      emit(UserSignedOutSuccessfully());
+    } catch (e) {
+      emit(MyProfileError(message: e.toString()));
+    }
+  }
+
   Future<void> deleteUser() async {
     try {
       await _businessLogic.deleteUser();

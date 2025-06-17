@@ -27,6 +27,7 @@ Widget returnEventMainElements({
         child: Text(
           eventName,
           style: const TextStyle(
+            color: Colors.black,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -38,7 +39,12 @@ Widget returnEventMainElements({
         children: [
           const Icon(Icons.location_on, size: 16),
           const SizedBox(width: 4),
-          Text(eventLocation),
+          Text(
+            eventLocation,
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
         ],
       ),
     ],
@@ -59,7 +65,12 @@ Widget returnEventElements({
         const SizedBox(width: 4),
         // const SizedBox(width: 16),
       ],
-      Text(text),
+      Text(
+        text,
+        style: TextStyle(
+          color: Colors.black,
+        ),
+      ),
     ],
   );
 }
@@ -71,6 +82,9 @@ Widget returnEventDescription({
     description,
     maxLines: 3,
     overflow: TextOverflow.ellipsis,
+    style: TextStyle(
+      color: Colors.black,
+    ),
   );
 }
 

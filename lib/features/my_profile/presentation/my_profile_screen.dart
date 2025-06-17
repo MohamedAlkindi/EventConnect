@@ -30,277 +30,391 @@ class MyProfileScreenView extends StatelessWidget {
     final confettiController =
         ConfettiController(duration: const Duration(seconds: 2));
     return Scaffold(
-      body: Stack(
-        children: [
-          // Modern background with gradient and subtle overlay
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Color(0xFFe0e7ff),
-                  Color(0xFFfceabb),
-                  Color(0xFFf8b6b8)
-                ],
+      body: BlocListener<MyProfileCubit, MyProfileState>(
+        listener: (context, state) {
+          if (state is UserSignedOutSuccessfully) {
+            Navigator.pushReplacementNamed(
+              context,
+              loginPageRoute,
+            );
+          }
+        },
+        child: Stack(
+          children: [
+            // Modern background with gradient and subtle overlay
+            Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color(0xFFe0e7ff),
+                    Color(0xFFfceabb),
+                    Color(0xFFf8b6b8)
+                  ],
+                ),
               ),
             ),
-          ),
-          // Main frosted glass content
-          Center(
-            child: Container(
-              margin: const EdgeInsets.only(
-                  top: 40, left: 12, right: 12, bottom: 12),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.18),
-                borderRadius: BorderRadius.circular(32),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.08),
-                    blurRadius: 24,
-                    offset: const Offset(0, 8),
-                  ),
-                ],
-                border: Border.all(
-                    color: Colors.white.withOpacity(0.3), width: 1.2),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(32),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-                  child: BlocConsumer<MyProfileCubit, MyProfileState>(
-                    listener: (context, state) {
-                      if (state is MyProfileError) {
-                        showErrorDialog(
-                          context: context,
-                          message: state.message,
-                        );
-                      }
-                      if (state is GotMyProfileInfo) {
-                        confettiController.play();
-                      }
-                    },
-                    builder: (context, state) {
-                      if (state is GotMyProfileInfo) {
-                        return SingleChildScrollView(
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 24.0),
-                            child: Column(
-                              children: [
-                                const SizedBox(height: 60),
-                                // Profile header
-                                Text(
-                                  'My Profile',
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                    shadows: [
-                                      Shadow(
-                                        color: Colors.black.withOpacity(0.2),
-                                        offset: const Offset(2, 2),
-                                        blurRadius: 4,
+            // Main frosted glass content
+            Center(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 18.0, vertical: 32.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(32),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.18),
+                          borderRadius: BorderRadius.circular(32),
+                          border: Border.all(
+                              color: Colors.black.withOpacity(0.12),
+                              width: 1.2),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.white.withOpacity(0.18),
+                              blurRadius: 24,
+                              offset: const Offset(0, 8),
+                            ),
+                          ],
+                        ),
+                        child: BlocConsumer<MyProfileCubit, MyProfileState>(
+                          listener: (context, state) {
+                            if (state is MyProfileError) {
+                              showErrorDialog(
+                                context: context,
+                                message: state.message,
+                              );
+                            }
+                            if (state is GotMyProfileInfo) {
+                              confettiController.play();
+                            }
+                          },
+                          builder: (context, state) {
+                            if (state is GotMyProfileInfo) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 24.0, vertical: 32.0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const SizedBox(height: 16),
+                                    // Profile header
+                                    Center(
+                                      child: Text(
+                                        'My Profile',
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 28,
+                                          fontWeight: FontWeight.bold,
+                                          color: const Color(0xFF6C63FF),
+                                          shadows: [
+                                            Shadow(
+                                              color: Colors.black
+                                                  .withOpacity(0.08),
+                                              blurRadius: 6,
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(height: 40),
-                                // Profile picture with modern styling
-                                Container(
-                                  width: 180,
-                                  height: 180,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: Colors.white,
-                                      width: 4,
                                     ),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.2),
-                                        blurRadius: 20,
-                                        spreadRadius: 5,
+                                    const SizedBox(height: 32),
+                                    // Profile picture with modern styling
+                                    Center(
+                                      child: Container(
+                                        width: 160,
+                                        height: 160,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: Colors.white,
+                                            width: 4,
+                                          ),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black
+                                                  .withOpacity(0.12),
+                                              blurRadius: 20,
+                                              spreadRadius: 5,
+                                            ),
+                                          ],
+                                        ),
+                                        child: Stack(
+                                          children: [
+                                            CircleAvatar(
+                                              radius: 80,
+                                              backgroundColor: Colors.grey[200],
+                                              backgroundImage: (File(
+                                                              state.userInfo
+                                                                  .profilePic)
+                                                          .existsSync()
+                                                      ? FileImage(
+                                                          File(
+                                                              state.userInfo
+                                                                  .profilePic))
+                                                      : const AssetImage(
+                                                          'assets/images/generic_user.png'))
+                                                  as ImageProvider,
+                                            ),
+                                            Positioned(
+                                              bottom: 0,
+                                              right: 0,
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.all(8),
+                                                decoration: BoxDecoration(
+                                                  color:
+                                                      const Color(0xFF6C63FF),
+                                                  shape: BoxShape.circle,
+                                                  border: Border.all(
+                                                    color: Colors.white,
+                                                    width: 3,
+                                                  ),
+                                                ),
+                                                child: const Icon(
+                                                  Icons.celebration,
+                                                  color: Colors.white,
+                                                  size: 24,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ],
-                                  ),
-                                  child: Stack(
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 80,
-                                        backgroundColor: Colors.grey[200],
-                                        backgroundImage: (File(state
-                                                        .userInfo.profilePic)
-                                                    .existsSync()
-                                                ? FileImage(File(
-                                                    state.userInfo.profilePic))
-                                                : const AssetImage(
-                                                    'assets/images/generic_user.png'))
-                                            as ImageProvider,
+                                    ),
+                                    const SizedBox(height: 32),
+                                    // Modern action buttons
+                                    Container(
+                                      width: double.infinity,
+                                      height: 56,
+                                      decoration: BoxDecoration(
+                                        gradient: const LinearGradient(
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                          colors: [
+                                            Color(0xFF6C63FF),
+                                            Color(0xFFFF6584)
+                                          ],
+                                        ),
+                                        borderRadius: BorderRadius.circular(16),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: const Color(0xFF6C63FF)
+                                                .withOpacity(0.18),
+                                            blurRadius: 10,
+                                            offset: const Offset(0, 5),
+                                          ),
+                                        ],
                                       ),
-                                      Positioned(
-                                        bottom: 0,
-                                        right: 0,
-                                        child: Container(
-                                          padding: const EdgeInsets.all(8),
-                                          decoration: BoxDecoration(
-                                            color: const Color(0xFF6C63FF),
-                                            shape: BoxShape.circle,
-                                            border: Border.all(
-                                              color: Colors.white,
-                                              width: 3,
+                                      child: Material(
+                                        color: Colors.transparent,
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const EditProfileScreen(),
+                                              ),
+                                            );
+                                          },
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          child: Center(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                const Icon(Icons.edit_rounded,
+                                                    color: Colors.white),
+                                                const SizedBox(width: 8),
+                                                Text(
+                                                  'Edit Account',
+                                                  style: GoogleFonts.poppins(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          child: const Icon(
-                                            Icons.celebration,
-                                            color: Colors.white,
-                                            size: 24,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Container(
+                                      width: double.infinity,
+                                      height: 56,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(16),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color:
+                                                Colors.black.withOpacity(0.1),
+                                            blurRadius: 20,
+                                            offset: const Offset(0, 10),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Material(
+                                        color: Colors.transparent,
+                                        child: InkWell(
+                                          onTap: () {
+                                            showMessageDialog(
+                                              context: context,
+                                              icon: Icons.warning_rounded,
+                                              iconColor: Colors.orangeAccent,
+                                              titleText: 'Sign out😐',
+                                              contentText:
+                                                  'Are you sure you want to sign out?',
+                                              buttonText: 'Yes',
+                                              onPressed: () {
+                                                context
+                                                    .read<MyProfileCubit>()
+                                                    .userSignOut();
+                                                Navigator.pop(context);
+                                              },
+                                              secondButtonText: 'No',
+                                              secondOnPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                            );
+                                          },
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          child: Center(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                const Icon(Icons.logout_rounded,
+                                                    color: Colors.orangeAccent),
+                                                const SizedBox(width: 8),
+                                                Text(
+                                                  'Sign Out',
+                                                  style: GoogleFonts.poppins(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.orangeAccent,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(height: 40),
-                                // Modern action buttons
-                                Container(
-                                  width: double.infinity,
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(16),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.1),
-                                        blurRadius: 20,
-                                        offset: const Offset(0, 10),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Container(
+                                      width: double.infinity,
+                                      height: 56,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(16),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color:
+                                                Colors.black.withOpacity(0.1),
+                                            blurRadius: 20,
+                                            offset: const Offset(0, 10),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                  child: ElevatedButton.icon(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const EditProfileScreen(),
+                                      child: Material(
+                                        color: Colors.transparent,
+                                        child: InkWell(
+                                          onTap: () {
+                                            showMessageDialog(
+                                              context: context,
+                                              icon: Icons.warning_rounded,
+                                              iconColor: Colors.red,
+                                              titleText: 'Delete Account 😐',
+                                              contentText:
+                                                  'Are you sure you want to delete your account?',
+                                              buttonText: 'Delete',
+                                              onPressed: () {
+                                                context
+                                                    .read<MyProfileCubit>()
+                                                    .deleteUser();
+                                                Navigator.pop(context);
+                                                Navigator.popAndPushNamed(
+                                                  context,
+                                                  loginPageRoute,
+                                                );
+                                              },
+                                              secondButtonText: 'Cancel',
+                                              secondOnPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                            );
+                                          },
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          child: Center(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                const Icon(Icons.delete_rounded,
+                                                    color: Color(0xFFFF6584)),
+                                                const SizedBox(width: 8),
+                                                Text(
+                                                  'Delete Account',
+                                                  style: GoogleFonts.poppins(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w600,
+                                                    color:
+                                                        const Color(0xFFFF6584),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ),
-                                      );
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.white,
-                                      foregroundColor: const Color(0xFF6C63FF),
-                                      elevation: 0,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(16),
                                       ),
                                     ),
-                                    icon: const Icon(Icons.edit_rounded),
-                                    label: Text(
-                                      'Edit Account',
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
+                                    const SizedBox(height: 32),
+                                  ],
                                 ),
-                                const SizedBox(height: 16),
-                                Container(
-                                  width: double.infinity,
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(16),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.1),
-                                        blurRadius: 20,
-                                        offset: const Offset(0, 10),
-                                      ),
-                                    ],
-                                  ),
-                                  child: ElevatedButton.icon(
-                                    onPressed: () {
-                                      showMessageDialog(
-                                        context: context,
-                                        icon: Icons.warning_rounded,
-                                        iconColor: Colors.red,
-                                        titleText: 'Delete Account 😐',
-                                        contentText:
-                                            'Are you sure you want to delete your account?',
-                                        buttonText: 'Delete',
-                                        onPressed: () {
-                                          context
-                                              .read<MyProfileCubit>()
-                                              .deleteUser();
-                                          Navigator.pop(context);
-                                          Navigator.popAndPushNamed(
-                                            context,
-                                            loginPageRoute,
-                                          );
-                                        },
-                                        secondButtonText: 'Cancel',
-                                        secondOnPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                      );
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.white,
-                                      foregroundColor: const Color(0xFFFF6584),
-                                      elevation: 0,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(16),
-                                      ),
-                                    ),
-                                    icon: const Icon(Icons.delete_rounded),
-                                    label: Text(
-                                      'Delete Account',
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 40),
-                              ],
-                            ),
-                          ),
-                        );
-                      }
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
+                              );
+                            }
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
+                      ),
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          // Confetti effect
-          Align(
-            alignment: Alignment.topCenter,
-            child: ConfettiWidget(
-              confettiController: confettiController,
-              blastDirectionality: BlastDirectionality.explosive,
-              shouldLoop: false,
-              colors: const [
-                Color(0xFF6C63FF),
-                Color(0xFFFF6584),
-                Color(0xFFFFB74D),
-                Colors.white,
-              ],
-              emissionFrequency: 0.05,
-              numberOfParticles: 20,
-              maxBlastForce: 20,
-              minBlastForce: 8,
+            // Confetti effect
+            Align(
+              alignment: Alignment.topCenter,
+              child: ConfettiWidget(
+                confettiController: confettiController,
+                blastDirectionality: BlastDirectionality.explosive,
+                shouldLoop: false,
+                colors: const [
+                  Color(0xFF6C63FF),
+                  Color(0xFFFF6584),
+                  Color(0xFFFFB74D),
+                  Colors.white,
+                ],
+                emissionFrequency: 0.05,
+                numberOfParticles: 20,
+                maxBlastForce: 20,
+                minBlastForce: 8,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

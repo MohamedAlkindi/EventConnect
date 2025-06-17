@@ -45,31 +45,33 @@ class CompleteProfileScreenView extends StatelessWidget {
           ),
           // Main frosted glass content
           Center(
-            child: Container(
-              margin: const EdgeInsets.only(
-                  top: 40, left: 12, right: 12, bottom: 12),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.18),
-                borderRadius: BorderRadius.circular(32),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.08),
-                    blurRadius: 24,
-                    offset: const Offset(0, 8),
-                  ),
-                ],
-                border: Border.all(
-                    color: Colors.white.withOpacity(0.3), width: 1.2),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(32),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.all(24.0),
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 28.0, vertical: 32.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(32),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.18),
+                        borderRadius: BorderRadius.circular(32),
+                        border: Border.all(
+                            color: Colors.black.withOpacity(0.2), width: 1.2),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.white.withOpacity(0.3),
+                            blurRadius: 24,
+                            offset: const Offset(0, 8),
+                          ),
+                        ],
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 32),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           BlocListener<CompleteProfileCubit,
                               CompleteProfileState>(
@@ -104,23 +106,28 @@ class CompleteProfileScreenView extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  "Complete Your Profile",
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
+                                Center(
+                                  child: Text(
+                                    "Complete Your Profile",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.bold,
+                                      color: const Color(0xFF6C63FF),
+                                    ),
                                   ),
                                 ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  "Add your profile picture and location to get started",
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 16,
-                                    color: Colors.white.withOpacity(0.8),
+                                const SizedBox(height: 24),
+                                Center(
+                                  child: Text(
+                                    "Add your profile picture and location to get started",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 16,
+                                      color: Colors.black.withOpacity(0.7),
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
                                 ),
-                                const SizedBox(height: 40),
+                                const SizedBox(height: 48),
                                 Center(
                                   child: Stack(
                                     children: [
@@ -181,7 +188,7 @@ class CompleteProfileScreenView extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                const SizedBox(height: 40),
+                                const SizedBox(height: 48),
                                 Container(
                                   padding: const EdgeInsets.all(24),
                                   decoration: BoxDecoration(
@@ -207,7 +214,7 @@ class CompleteProfileScreenView extends StatelessWidget {
                                           color: const Color(0xFF6C63FF),
                                         ),
                                       ),
-                                      const SizedBox(height: 16),
+                                      const SizedBox(height: 24),
                                       BlocBuilder<CompleteProfileCubit,
                                           CompleteProfileState>(
                                         builder: (context, state) {
@@ -262,30 +269,47 @@ class CompleteProfileScreenView extends StatelessWidget {
                                           );
                                         },
                                       ),
-                                      const SizedBox(height: 32),
-                                      SizedBox(
+                                      const SizedBox(height: 40),
+                                      Container(
                                         width: double.infinity,
-                                        child: ElevatedButton(
-                                          onPressed: () => context
-                                              .read<CompleteProfileCubit>()
-                                              .completeProfile(),
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor:
-                                                const Color(0xFF6C63FF),
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 16),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(30),
-                                            ),
-                                            elevation: 5,
+                                        height: 56,
+                                        decoration: BoxDecoration(
+                                          gradient: const LinearGradient(
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                            colors: [
+                                              Color(0xFF6C63FF),
+                                              Color(0xFFFF6584)
+                                            ],
                                           ),
-                                          child: Text(
-                                            "Finalize Profile",
-                                            style: GoogleFonts.poppins(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: const Color(0xFF6C63FF)
+                                                  .withOpacity(0.3),
+                                              blurRadius: 20,
+                                              offset: const Offset(0, 10),
+                                            ),
+                                          ],
+                                        ),
+                                        child: Material(
+                                          color: Colors.transparent,
+                                          child: InkWell(
+                                            onTap: () => context
+                                                .read<CompleteProfileCubit>()
+                                                .completeProfile(),
+                                            borderRadius:
+                                                BorderRadius.circular(16),
+                                            child: Center(
+                                              child: Text(
+                                                "Finalize Profile",
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ),

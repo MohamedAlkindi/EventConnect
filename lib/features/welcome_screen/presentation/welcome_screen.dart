@@ -31,19 +31,19 @@ class WelcomeScreenView extends StatelessWidget {
       body: Stack(
         children: [
           // Modern background: gradient behind frosted glass container
-          // Container(
-          //   decoration: const BoxDecoration(
-          //     gradient: LinearGradient(
-          //       begin: Alignment.topLeft,
-          //       end: Alignment.bottomRight,
-          //       colors: [
-          //         Color(0xFFe0e7ff), // light indigo
-          //         Color.fromARGB(255, 246, 243, 235), // light yellow
-          //         Color.fromARGB(255, 251, 242, 242), // light pink
-          //       ],
-          //     ),
-          //   ),
-          // ),
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFFe0e7ff),
+                  Color(0xFFfceabb),
+                  Color(0xFFf8b6b8) // light pink
+                ],
+              ),
+            ),
+          ),
           // Main content
           Center(
             child: SingleChildScrollView(
@@ -56,13 +56,13 @@ class WelcomeScreenView extends StatelessWidget {
                     filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.95),
+                        color: Colors.white.withOpacity(0.18),
                         borderRadius: BorderRadius.circular(32),
                         border: Border.all(
-                            color: Colors.white.withOpacity(0.9), width: 1.2),
+                            color: Colors.black.withOpacity(0.2), width: 1.2),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.6),
+                            color: Colors.white.withOpacity(0.3),
                             blurRadius: 24,
                             offset: const Offset(0, 8),
                           ),

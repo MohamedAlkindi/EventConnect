@@ -19,9 +19,9 @@ final class UserHomescreenLoading extends UserHomescreenState {
   const UserHomescreenLoading({super.currentIndex, super.imageFile});
 }
 
-final class UserSignedOutSuccessfully extends UserHomescreenState {
-  const UserSignedOutSuccessfully({super.currentIndex, super.imageFile});
-}
+// final class UserSignedOutSuccessfully extends UserHomescreenState {
+//   const UserSignedOutSuccessfully({super.currentIndex, super.imageFile});
+// }
 
 final class GotUserProfilePic extends UserHomescreenState {
   final File imageFile;
