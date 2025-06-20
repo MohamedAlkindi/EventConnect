@@ -161,6 +161,7 @@ class _EmailConfirmationScreen extends State<EmailConfirmationScreen> {
                                     "Head to Home Screen",
                                     style: GoogleFonts.poppins(
                                       fontSize: 18,
+                                      fontWeight: FontWeight.bold,
                                       color: Colors.white,
                                     ),
                                   ),
