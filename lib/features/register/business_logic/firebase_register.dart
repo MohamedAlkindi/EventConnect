@@ -17,8 +17,8 @@ class FirebaseRegister {
     }
     if (password == repeatPassword) {
       try {
-        user.registerUser(email: email, password: password);
-        user.sendVerificationEmail();
+        await user.registerUser(email: email, password: password);
+        await user.sendVerificationEmail();
       } catch (e) {
         throw Exception("Error ${e.toString()}");
       }
