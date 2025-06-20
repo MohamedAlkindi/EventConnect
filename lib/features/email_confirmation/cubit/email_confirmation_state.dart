@@ -5,6 +5,8 @@ sealed class EmailConfirmationState {}
 
 final class EmailConfirmationInitial extends EmailConfirmationState {}
 
+final class LoadingState extends EmailConfirmationState {}
+
 final class EmailSentState extends EmailConfirmationState {}
 
 final class EmailConfirmed extends EmailConfirmationState {

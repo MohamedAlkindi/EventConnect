@@ -12,6 +12,7 @@ class EmailConfirmationCubit extends Cubit<EmailConfirmationState> {
 
   Future<void> sendEmailConfirmation() async {
     try {
+      emit(LoadingState());
       await _confirmation.sendEmailConfirmation();
       emit(EmailSentState());
     } catch (e) {
@@ -21,6 +22,7 @@ class EmailConfirmationCubit extends Cubit<EmailConfirmationState> {
 
   void isEmailConfirmed() {
     try {
+      emit(LoadingState());
       emit(EmailConfirmed(isConfirmed: _confirmation.isEmailConfirmed()));
     } catch (e) {
       emit(ErrorState(message: e.toString()));
@@ -29,6 +31,7 @@ class EmailConfirmationCubit extends Cubit<EmailConfirmationState> {
 
   void isDataCompleted() async {
     try {
+      emit(LoadingState());
       emit(DataCompleted(isDataCompleted: await _user.isUserDataCompleted()));
     } catch (e) {
       emit(ErrorState(message: e.toString()));

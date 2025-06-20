@@ -1,3 +1,4 @@
+import 'package:event_connect/core/utils/loading_dialog.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/features/email_confirmation/cubit/email_confirmation_cubit.dart';
 import 'package:event_connect/main.dart';
@@ -15,6 +16,7 @@ class EmailConfirmationScreen extends StatefulWidget {
 class _EmailConfirmationScreen extends State<EmailConfirmationScreen> {
   @override
   Widget build(BuildContext context) {
+    var cubit = context.read<EmailConfirmationCubit>();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
@@ -35,7 +37,10 @@ class _EmailConfirmationScreen extends State<EmailConfirmationScreen> {
           ),
           BlocListener<EmailConfirmationCubit, EmailConfirmationState>(
             listener: (context, state) {
-              if (state is EmailSentState) {
+              if (state is LoadingState) {
+                showLoadingDialog(context);
+              } else if (state is EmailSentState) {
+                hideLoadingDialog(context);
                 showMessageDialog(
                   context: context,
                   titleText: "Success",
@@ -48,9 +53,10 @@ class _EmailConfirmationScreen extends State<EmailConfirmationScreen> {
                   },
                 );
               } else if (state is EmailConfirmed) {
+                hideLoadingDialog(context);
                 // if the user has confirmed his email, activate to check user's info.
                 state.isConfirmed
-                    ? context.read<EmailConfirmationCubit>().isDataCompleted()
+                    ? cubit.isDataCompleted()
                     : showErrorDialog(
                         context: context,
                         message: "You haven't confirmed your email yet!",
@@ -64,6 +70,7 @@ class _EmailConfirmationScreen extends State<EmailConfirmationScreen> {
                     : Navigator.pushReplacementNamed(
                         context, completeProfileInfoScreenRoute);
               } else if (state is ErrorState) {
+                hideLoadingDialog(context);
                 showErrorDialog(
                     context: context, message: "Error ${state.message}");
               }
@@ -151,9 +158,7 @@ class _EmailConfirmationScreen extends State<EmailConfirmationScreen> {
                               color: Colors.transparent,
                               child: InkWell(
                                 onTap: () {
-                                  context
-                                      .read<EmailConfirmationCubit>()
-                                      .isEmailConfirmed();
+                                  cubit.isEmailConfirmed();
                                 },
                                 borderRadius: BorderRadius.circular(16),
                                 child: Center(
@@ -183,9 +188,7 @@ class _EmailConfirmationScreen extends State<EmailConfirmationScreen> {
                             Flexible(
                               child: TextButton(
                                 onPressed: () {
-                                  context
-                                      .read<EmailConfirmationCubit>()
-                                      .sendEmailConfirmation();
+                                  cubit.sendEmailConfirmation();
                                 },
                                 child: Text(
                                   'Resend',
