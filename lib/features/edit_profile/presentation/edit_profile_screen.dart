@@ -42,7 +42,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               iconColor: Colors.green,
               buttonText: 'Okay',
               onPressed: () {
-                Navigator.popAndPushNamed(
+                Navigator.pushReplacementNamed(
                   context,
                   userHomeScreenPageRoute,
                 );

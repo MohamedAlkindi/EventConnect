@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:event_connect/core/firebase/user/firebase_user.dart';
 import 'package:event_connect/features/login/business_logic/firebase_login.dart';
 import 'package:flutter/material.dart';
 
@@ -6,8 +7,8 @@ part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginInitial());
-
-  FirebaseLogin login = FirebaseLogin();
+  final _login = FirebaseLogin();
+  final _user = FirebaseUser();
 
   Future<void> firebaseLogin({
     required TextEditingController emailController,
@@ -15,15 +16,11 @@ class LoginCubit extends Cubit<LoginState> {
   }) async {
     try {
       emit(LoginLoading());
-      await login.loginWithEmailAndPassword(
+      await _login.loginWithEmailAndPassword(
         emailController.text,
         passwordController.text,
       );
-      if (await login.isUserCompleted()) {
-        emit(LoginSuccessfulWithData());
-      } else {
-        emit(LoginSuccessfulWithoutData());
-      }
+      emit(LoginSuccessful());
     } catch (e) {
       emit(LoginError(message: e.toString()));
     }
@@ -31,5 +28,21 @@ class LoginCubit extends Cubit<LoginState> {
 
   void togglePasswordVisibility(bool currentVisibility) {
     emit(PasswordVisible(currentVisibility: !currentVisibility));
+  }
+
+  void isEmailConfirmed() {
+    try {
+      emit(EmailConfirmed(isConfirmed: _login.isEmailConfirmed()));
+    } catch (e) {
+      emit(LoginError(message: e.toString()));
+    }
+  }
+
+  void isDataCompleted() async {
+    try {
+      emit(DataCompleted(isDataCompleted: await _user.isUserDataCompleted()));
+    } catch (e) {
+      emit(LoginError(message: e.toString()));
+    }
   }
 }

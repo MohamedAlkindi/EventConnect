@@ -22,7 +22,7 @@ class MyProfileBL {
 
   Future<void> deleteUser() async {
     try {
-      _dataAccess.deleteUser();
+      await _dataAccess.deleteUser();
     } catch (e) {
       throw GenericException(message: e.toString());
     }

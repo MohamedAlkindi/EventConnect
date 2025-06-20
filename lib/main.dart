@@ -4,11 +4,12 @@ import 'package:event_connect/core/theme/app_theme.dart';
 import 'package:event_connect/features/all_events/presentation/all_events_screen.dart';
 import 'package:event_connect/features/complete_profile/presentation/complete_profile_screen.dart';
 import 'package:event_connect/features/edit_profile/presentation/cubit/edit_profile_cubit.dart';
+import 'package:event_connect/features/email_confirmation/cubit/email_confirmation_cubit.dart';
+import 'package:event_connect/features/email_confirmation/email_confirmation_screen.dart';
 import 'package:event_connect/features/forgot_password/presentaion/cubit/reset_password_cubit.dart';
 import 'package:event_connect/features/forgot_password/presentaion/forgot_password_screen.dart';
 import 'package:event_connect/features/forgot_password/presentaion/reset_pass_confirmation_screen.dart';
 import 'package:event_connect/features/login/business_logic/firebase_login.dart';
-import 'package:event_connect/features/login/data_access/check_data.dart';
 import 'package:event_connect/features/login/presentation/cubit/login_cubit.dart';
 import 'package:event_connect/features/login/presentation/login_screen.dart';
 import 'package:event_connect/features/my_events/presentation/my_events_screen.dart';
@@ -33,18 +34,21 @@ String userHomeScreenPageRoute = '/UserHomeScreen';
 String allEventsRoute = '/AllEventsScreen';
 String myEventsRoute = '/MyEventsScreen';
 String userProfileRoute = '/MyProfileScreen';
-
+String emailConfirmationnRoute = '/EmailConfirmationScreen';
 late Widget startUpWidget;
 
 Future<Widget> whichWidget() async {
   final user = FirebaseUser();
-  final checkUserData = CheckData();
 
   if (user.getUser != null) {
-    if (await checkUserData.isUserDataCompleted() == true) {
-      return UserHomeScreen();
+    if (user.isVerified) {
+      if (await user.isUserDataCompleted() == true) {
+        return UserHomeScreen();
+      } else {
+        return CompleteProfileScreen();
+      }
     } else {
-      return CompleteProfileScreen();
+      return EmailConfirmationScreen();
     }
   } else {
     return WelcomeScreen();
@@ -79,11 +83,14 @@ class MainApp extends StatelessWidget {
         BlocProvider(
           create: (context) => EditProfileCubit(),
         ),
+        BlocProvider(
+          create: (context) => EmailConfirmationCubit(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
-        home: startUpWidget,
+        home: WelcomeScreen(),
         routes: {
           loginPageRoute: (context) => LoginPage(),
           registerPageRoute: (context) => RegisterPage(),
@@ -95,6 +102,7 @@ class MainApp extends StatelessWidget {
           allEventsRoute: (context) => AllEventsScreen(),
           myEventsRoute: (context) => MyEventsScreen(),
           userProfileRoute: (context) => MyProfileScreen(),
+          emailConfirmationnRoute: (context) => EmailConfirmationScreen(),
         },
       ),
     );

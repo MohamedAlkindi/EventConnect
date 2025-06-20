@@ -1,0 +1,37 @@
+import 'package:bloc/bloc.dart';
+import 'package:event_connect/core/firebase/user/firebase_user.dart';
+import 'package:event_connect/features/email_confirmation/business_logic/email_cofirmation_logic.dart';
+import 'package:meta/meta.dart';
+
+part 'email_confirmation_state.dart';
+
+class EmailConfirmationCubit extends Cubit<EmailConfirmationState> {
+  EmailConfirmationCubit() : super(EmailConfirmationInitial());
+  final _confirmation = EmailCofirmationLogic();
+  final _user = FirebaseUser();
+
+  Future<void> sendEmailConfirmation() async {
+    try {
+      await _confirmation.sendEmailConfirmation();
+      emit(EmailSentState());
+    } catch (e) {
+      emit(ErrorState(message: e.toString()));
+    }
+  }
+
+  void isEmailConfirmed() {
+    try {
+      emit(EmailConfirmed(isConfirmed: _confirmation.isEmailConfirmed()));
+    } catch (e) {
+      emit(ErrorState(message: e.toString()));
+    }
+  }
+
+  void isDataCompleted() async {
+    try {
+      emit(DataCompleted(isDataCompleted: await _user.isUserDataCompleted()));
+    } catch (e) {
+      emit(ErrorState(message: e.toString()));
+    }
+  }
+}

@@ -334,7 +334,7 @@ class MyProfileScreenView extends StatelessWidget {
                                                     .read<MyProfileCubit>()
                                                     .deleteUser();
                                                 Navigator.pop(context);
-                                                Navigator.popAndPushNamed(
+                                                Navigator.pushReplacementNamed(
                                                   context,
                                                   loginPageRoute,
                                                 );

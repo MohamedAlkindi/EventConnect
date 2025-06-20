@@ -171,17 +171,20 @@ class WelcomeScreenView extends StatelessWidget {
                                   color: Colors.black,
                                 ),
                               ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pushReplacementNamed(
-                                      context, loginPageRoute);
-                                },
-                                child: Text(
-                                  "Sign in here",
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.orangeAccent,
+                              Flexible(
+                                child: TextButton(
+                                  onPressed: () {
+                                    Navigator.pushReplacementNamed(
+                                        context, loginPageRoute);
+                                  },
+                                  child: Text(
+                                    "Sign in",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.orangeAccent,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ),

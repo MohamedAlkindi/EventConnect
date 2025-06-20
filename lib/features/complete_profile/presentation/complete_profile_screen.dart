@@ -39,11 +39,11 @@ class CompleteProfileScreenView extends StatelessWidget {
               contentText: "You have successfully completed your profile!",
               icon: Icons.check_circle_outline_rounded,
               iconColor: Colors.green,
-              buttonText: 'Head to Homepage',
+              buttonText: 'Head to Email Verification',
               onPressed: () {
                 Navigator.pushReplacementNamed(
                   context,
-                  userHomeScreenPageRoute,
+                  emailConfirmationnRoute,
                 );
               },
             );

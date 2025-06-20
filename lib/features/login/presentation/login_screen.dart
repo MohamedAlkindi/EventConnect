@@ -58,18 +58,23 @@ class _LoginPageState extends State<LoginPage> {
             listener: (context, state) {
               if (state is LoginLoading) {
                 showLoadingDialog(context);
-              } else if (state is LoginSuccessfulWithData) {
+              } else if (state is LoginSuccessful) {
                 hideLoadingDialog(context);
-                Navigator.popAndPushNamed(
-                  context,
-                  userHomeScreenPageRoute,
-                );
-              } else if (state is LoginSuccessfulWithoutData) {
-                hideLoadingDialog(context);
-                Navigator.popAndPushNamed(
-                  context,
-                  completeProfileInfoScreenRoute,
-                );
+                context.read<LoginCubit>().isEmailConfirmed();
+              } else if (state is EmailConfirmed) {
+                // if the user has confirmed his email, activate to check user's info.
+                state.isConfirmed
+                    ? context.read<LoginCubit>().isDataCompleted()
+                    : Navigator.pushReplacementNamed(
+                        context, emailConfirmationnRoute);
+              } else if (state is DataCompleted) {
+                // if user info is completed.. show the homescreen.
+                // otherwise show the complete data.
+                state.isDataCompleted
+                    ? Navigator.pushReplacementNamed(
+                        context, userHomeScreenPageRoute)
+                    : Navigator.pushReplacementNamed(
+                        context, completeProfileInfoScreenRoute);
               } else if (state is LoginError) {
                 hideLoadingDialog(context);
                 showErrorDialog(
@@ -227,11 +232,14 @@ class _LoginPageState extends State<LoginPage> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(
-                                    "Don't have an account?",
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 14,
-                                      color: Colors.grey,
+                                  Flexible(
+                                    child: Text(
+                                      "Don't have an account?",
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 14,
+                                        color: Colors.grey,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                   TextButton(
@@ -241,12 +249,15 @@ class _LoginPageState extends State<LoginPage> {
                                         registerPageRoute,
                                       );
                                     },
-                                    child: Text(
-                                      "Sign Up",
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: const Color(0xFF6C63FF),
+                                    child: Flexible(
+                                      child: Text(
+                                        "Sign Up",
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: const Color(0xFF6C63FF),
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
                                   )

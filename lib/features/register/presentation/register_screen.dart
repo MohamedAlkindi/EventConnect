@@ -64,7 +64,7 @@ class _RegisterPageState extends State<RegisterPage> {
               }
               if (state is RegisterSuccessful) {
                 hideLoadingDialog(context);
-                Navigator.popAndPushNamed(
+                Navigator.pushReplacementNamed(
                   context,
                   completeProfileInfoScreenRoute,
                 );
@@ -233,6 +233,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       fontSize: 14,
                                       color: Colors.grey,
                                     ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                   TextButton(
                                     onPressed: () {
@@ -241,15 +242,18 @@ class _RegisterPageState extends State<RegisterPage> {
                                         loginPageRoute,
                                       );
                                     },
-                                    child: Text(
-                                      "Sign In",
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: const Color(0xFF6C63FF),
+                                    child: Flexible(
+                                      child: Text(
+                                        "Sign In",
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: const Color(0xFF6C63FF),
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             ],
