@@ -1,9 +1,12 @@
 import 'package:event_connect/core/firebase/config/firebase_options.dart';
 import 'package:event_connect/core/firebase/user/firebase_user.dart';
 import 'package:event_connect/core/theme/app_theme.dart';
-import 'package:event_connect/features/all_events/presentation/all_events_screen.dart';
+import 'package:event_connect/features/attendee/all_events/presentation/all_events_screen.dart';
+import 'package:event_connect/features/attendee/edit_profile/presentation/cubit/edit_profile_cubit.dart';
+import 'package:event_connect/features/attendee/my_events/presentation/my_events_screen.dart';
+import 'package:event_connect/features/attendee/my_profile/presentation/my_profile_screen.dart';
+import 'package:event_connect/features/attendee/user_homescreen/presentation/user_homescreen.dart';
 import 'package:event_connect/features/complete_profile/presentation/complete_profile_screen.dart';
-import 'package:event_connect/features/edit_profile/presentation/cubit/edit_profile_cubit.dart';
 import 'package:event_connect/features/email_confirmation/cubit/email_confirmation_cubit.dart';
 import 'package:event_connect/features/email_confirmation/email_confirmation_screen.dart';
 import 'package:event_connect/features/forgot_password/presentaion/cubit/reset_password_cubit.dart';
@@ -12,11 +15,8 @@ import 'package:event_connect/features/forgot_password/presentaion/reset_pass_co
 import 'package:event_connect/features/login/business_logic/firebase_login.dart';
 import 'package:event_connect/features/login/presentation/cubit/login_cubit.dart';
 import 'package:event_connect/features/login/presentation/login_screen.dart';
-import 'package:event_connect/features/my_events/presentation/my_events_screen.dart';
-import 'package:event_connect/features/my_profile/presentation/my_profile_screen.dart';
 import 'package:event_connect/features/register/presentation/cubit/register_cubit.dart';
 import 'package:event_connect/features/register/presentation/register_screen.dart';
-import 'package:event_connect/features/user_homescreen/presentation/user_homescreen.dart';
 import 'package:event_connect/features/welcome_screen/presentation/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
