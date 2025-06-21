@@ -20,26 +20,33 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
     'Marib',
     'Al Mukalla'
   ];
-  String defaultCity = "Al Mukalla";
-  String? selectedCity;
+  // String defaultCity = "Al Mukalla";
+  String selectedCity = "Al Mukalla";
 
   final ImagePicker _picker = ImagePicker();
 
-  String defaultImagePath = "assets/images/generic_user.png";
-  String? selectedImagePath;
+  // String defaultImagePath = "assets/images/generic_user.png";
+  String imagePath = "assets/images/generic_user.png";
+
+  String selectedRole = "Attendee";
 
   void selectCity(String? city) {
     if (city != null) {
       selectedCity = city;
-      emit(SelectedCity(selectedCity: selectedCity!));
+      emit(SelectedCity(selectedCity: selectedCity));
     }
   }
 
-  void selectedImage(String? imagePath) {
-    if (imagePath != null) {
-      selectedImagePath = imagePath;
-      emit(SelectedImage(selectedImagePath: selectedImagePath!));
+  void selectedImage(String? newImagePath) {
+    if (newImagePath != null) {
+      imagePath = newImagePath;
+      emit(SelectedImage(selectedImagePath: imagePath));
     }
+  }
+
+  void selectRole(String role) {
+    selectedRole = role;
+    emit(SelectedRole(selectedRole: selectedRole));
   }
 
   Future<void> pickImage() async {
@@ -54,10 +61,9 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
     emit(CompleteProfileLoading());
     try {
       await _bl.finalizeProfile(
-        imageFile: selectedImagePath == null
-            ? XFile(defaultImagePath)
-            : XFile(selectedImagePath!),
-        city: selectedCity == null ? defaultCity : selectedCity!,
+        imageFile: XFile(imagePath),
+        city: selectedCity,
+        role: selectedRole,
       );
       emit(CompleteProfileSuccessul());
     } catch (e) {

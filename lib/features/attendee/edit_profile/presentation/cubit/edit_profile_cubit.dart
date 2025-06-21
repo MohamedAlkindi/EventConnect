@@ -20,6 +20,8 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     'Marib',
     'Al Mukalla'
   ];
+  // TODO: Might change it to one var like the complete profile.
+  // And might not, hehe,
   String? previouslySelectedCity;
   String? newSelectedCity;
 
@@ -27,6 +29,8 @@ class EditProfileCubit extends Cubit<EditProfileState> {
 
   String? previouslySelectedImagePath;
   String? newSelectedImagePath;
+
+  String? userRole;
 
   void selectCity(String? city) {
     if (city != null) {
@@ -59,6 +63,7 @@ class EditProfileCubit extends Cubit<EditProfileState> {
         profilePicPath: newSelectedImagePath == null
             ? previouslySelectedImagePath!
             : newSelectedImagePath!,
+        role: userRole!,
       );
       emit(EditProfileSuccess());
     } catch (e) {
@@ -71,6 +76,7 @@ class EditProfileCubit extends Cubit<EditProfileState> {
       final userProfile = await _bl.getUserProfile();
       previouslySelectedCity = userProfile.location;
       previouslySelectedImagePath = userProfile.profilePic;
+      userRole = userProfile.role;
 
       emit(GotUserProfile(userProfile: userProfile));
     } catch (e) {

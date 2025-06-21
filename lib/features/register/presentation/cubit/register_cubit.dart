@@ -10,7 +10,7 @@ class RegisterCubit extends Cubit<RegisterState> {
           currentPasswordVisibility: true,
           currentRepeatPasswordVisibility: true,
         ));
-  FirebaseRegister register = FirebaseRegister();
+  final _register = FirebaseRegister();
 
   Future<void> registerUser({
     required TextEditingController email,
@@ -19,7 +19,7 @@ class RegisterCubit extends Cubit<RegisterState> {
   }) async {
     emit(RegisterLoading());
     try {
-      await register.createUser(
+      await _register.createUser(
         email: email.text,
         password: password.text,
         repeatPassword: repeatPassword.text,

@@ -9,11 +9,13 @@ class EditProfileBL {
   Future<void> updateUserProfile({
     required String location,
     required String profilePicPath,
+    required String role,
   }) async {
     final updatedInfo = UserModel(
       userID: _user.getUserID,
       location: location,
       profilePic: profilePicPath,
+      role: role,
     );
     try {
       await _dataAccess.updateProfileDetails(updatedInfo);

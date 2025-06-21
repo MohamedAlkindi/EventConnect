@@ -26,7 +26,9 @@ class CompleteProfileScreenView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<CompleteProfileCubit>();
     return Scaffold(
+      // Receive the route name as an argument
       body: BlocListener<CompleteProfileCubit, CompleteProfileState>(
         listener: (context, state) {
           if (state is CompleteProfileLoading) {
@@ -141,18 +143,15 @@ class CompleteProfileScreenView extends StatelessWidget {
                                         final cubit = context
                                             .read<CompleteProfileCubit>();
                                         return CircleAvatar(
-                                          radius: 80,
-                                          backgroundColor: Colors.white,
-                                          backgroundImage: cubit
-                                                      .selectedImagePath !=
-                                                  null
-                                              ? FileImage(File(
-                                                      cubit.selectedImagePath!))
-                                                  as ImageProvider
-                                              : AssetImage(
-                                                      cubit.defaultImagePath)
-                                                  as ImageProvider,
-                                        );
+                                            radius: 80,
+                                            backgroundColor: Colors.white,
+                                            backgroundImage: cubit.imagePath
+                                                    .startsWith("assets/")
+                                                ? AssetImage(cubit.imagePath)
+                                                    as ImageProvider
+                                                : FileImage(
+                                                    File(cubit.imagePath),
+                                                  ) as ImageProvider);
                                       },
                                     ),
                                   ),
@@ -243,7 +242,7 @@ class CompleteProfileScreenView extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                        value: cubit.defaultCity,
+                                        value: cubit.selectedCity,
                                         items: cubit.yemeniCities.map((city) {
                                           return DropdownMenuItem<String>(
                                             value: city,
@@ -258,6 +257,79 @@ class CompleteProfileScreenView extends StatelessWidget {
                                             cubit.selectCity(value);
                                           }
                                         },
+                                      );
+                                    },
+                                  ),
+                                  const SizedBox(height: 40),
+                                  Text(
+                                    "You are:",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black.withOpacity(0.8),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 12),
+                                  BlocBuilder<CompleteProfileCubit,
+                                      CompleteProfileState>(
+                                    builder: (context, state) {
+                                      return Row(
+                                        children: [
+                                          Expanded(
+                                            child: RadioListTile<String>(
+                                              selected: true,
+                                              value: "Attendee",
+                                              groupValue: cubit.selectedRole,
+                                              onChanged: (value) {
+                                                if (value != null) {
+                                                  cubit.selectRole(value);
+                                                }
+                                              },
+                                              title: Text(
+                                                "An attendee",
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: 15,
+                                                  color: Colors.black
+                                                      .withOpacity(0.8),
+                                                ),
+                                              ),
+                                              activeColor:
+                                                  const Color(0xFF6C63FF),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                              ),
+                                              contentPadding: EdgeInsets.zero,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 8),
+                                          Expanded(
+                                            child: RadioListTile<String>(
+                                              value: "Manager",
+                                              groupValue: cubit.selectedRole,
+                                              onChanged: (value) {
+                                                if (value != null) {
+                                                  cubit.selectRole(value);
+                                                }
+                                              },
+                                              title: Text(
+                                                "A manager",
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: 15,
+                                                  color: Colors.black
+                                                      .withOpacity(0.8),
+                                                ),
+                                              ),
+                                              activeColor:
+                                                  const Color(0xFF6C63FF),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                              ),
+                                              contentPadding: EdgeInsets.zero,
+                                            ),
+                                          ),
+                                        ],
                                       );
                                     },
                                   ),

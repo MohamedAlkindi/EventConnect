@@ -126,7 +126,7 @@ class _EmailConfirmationScreen extends State<EmailConfirmationScreen> {
                                   fontSize: 20,
                                   color: Colors.black,
                                 ),
-                                textAlign: TextAlign.center,
+                                textAlign: TextAlign.justify,
                                 softWrap: true,
                                 overflow: TextOverflow.visible,
                               ),

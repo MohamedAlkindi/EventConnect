@@ -18,6 +18,12 @@ final class SelectedImage extends CompleteProfileState {
   SelectedImage({required this.selectedImagePath});
 }
 
+final class SelectedRole extends CompleteProfileState {
+  final String selectedRole;
+
+  SelectedRole({required this.selectedRole});
+}
+
 final class CompleteProfileSuccessul extends CompleteProfileState {}
 
 final class CompleteProfileError extends CompleteProfileState {
