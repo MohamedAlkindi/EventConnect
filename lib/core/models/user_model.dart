@@ -7,11 +7,13 @@ class UserModel {
   final String userID;
   final String location;
   final String profilePic;
+  final String role;
 
   UserModel({
     required this.userID,
     required this.location,
     required this.profilePic,
+    required this.role,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>

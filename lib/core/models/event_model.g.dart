@@ -16,6 +16,7 @@ EventModel _$EventModelFromJson(Map<String, dynamic> json) => EventModel(
       description: json['description'] as String,
       genderRestriction: json['genderRestriction'] as String,
       weather: json['weather'] as String?,
+      attendees: (json['attendees'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$EventModelToJson(EventModel instance) =>
@@ -26,7 +27,8 @@ Map<String, dynamic> _$EventModelToJson(EventModel instance) =>
       'picture': instance.picture,
       'location': instance.location,
       'dateAndTime': instance.dateAndTime,
-      'discription': instance.description,
+      'description': instance.description,
       'genderRestriction': instance.genderRestriction,
       'weather': instance.weather,
+      'attendees': instance.attendees,
     };
