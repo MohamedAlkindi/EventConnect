@@ -27,6 +27,12 @@ final class DataCompleted extends LoginState {
   DataCompleted({required this.isDataCompleted});
 }
 
+final class UserHomescreenState extends LoginState {
+  final String userHomeScreenRoute;
+
+  UserHomescreenState({required this.userHomeScreenRoute});
+}
+
 final class LoginError extends LoginState {
   final String message;
 

@@ -1,4 +1,3 @@
-import 'package:confetti/confetti.dart';
 import 'package:event_connect/features/attendee/all_events/presentation/all_events_screen.dart';
 import 'package:event_connect/features/attendee/my_events/presentation/my_events_screen.dart';
 import 'package:event_connect/features/attendee/my_profile/presentation/my_profile_screen.dart';
@@ -24,8 +23,6 @@ class UserHomeScreenView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final confettiController =
-        ConfettiController(duration: const Duration(seconds: 1));
     return Scaffold(
       body: Stack(
         children: [
@@ -92,7 +89,6 @@ class UserHomeScreenView extends StatelessWidget {
                         controller:
                             context.read<UserHomescreenCubit>().pageController,
                         onPageChanged: (index) {
-                          confettiController.play();
                           context
                               .read<UserHomescreenCubit>()
                               .onPageChanged(index);
@@ -127,7 +123,6 @@ class UserHomeScreenView extends StatelessWidget {
                         child: BottomNavigationBar(
                           currentIndex: state.currentIndex,
                           onTap: (index) {
-                            confettiController.play();
                             context
                                 .read<UserHomescreenCubit>()
                                 .onBottomNavTap(index);

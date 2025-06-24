@@ -21,6 +21,12 @@ final class DataCompleted extends EmailConfirmationState {
   DataCompleted({required this.isDataCompleted});
 }
 
+final class UserHomescreenState extends EmailConfirmationState {
+  final String userHomeScreenPageRoute;
+
+  UserHomescreenState({required this.userHomeScreenPageRoute});
+}
+
 final class ErrorState extends EmailConfirmationState {
   final String message;
 

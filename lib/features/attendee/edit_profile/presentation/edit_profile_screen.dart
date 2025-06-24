@@ -44,7 +44,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               onPressed: () {
                 Navigator.pushReplacementNamed(
                   context,
-                  userHomeScreenPageRoute,
+                  attendeeHomeScreenPageRoute,
                 );
               },
             );

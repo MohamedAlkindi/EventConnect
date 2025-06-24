@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:event_connect/core/firebase/user/firebase_user.dart';
 import 'package:event_connect/features/email_confirmation/business_logic/email_cofirmation_logic.dart';
+import 'package:event_connect/main.dart';
 import 'package:meta/meta.dart';
 
 part 'email_confirmation_state.dart';
@@ -35,6 +36,19 @@ class EmailConfirmationCubit extends Cubit<EmailConfirmationState> {
       emit(DataCompleted(isDataCompleted: await _user.isUserDataCompleted()));
     } catch (e) {
       emit(ErrorState(message: e.toString()));
+    }
+  }
+
+  // Based on role..
+  void showUserHomescreen() async {
+    final role = await _user.getUserRole();
+
+    if (role == "attendee") {
+      emit(UserHomescreenState(
+          userHomeScreenPageRoute: attendeeHomeScreenPageRoute));
+    } else {
+      emit(UserHomescreenState(
+          userHomeScreenPageRoute: managerHomeScreenPageRoute));
     }
   }
 }

@@ -110,6 +110,19 @@ class FirebaseUser {
     }
   }
 
+  Future<String> getUserRole() async {
+    try {
+      final document = await _firestore
+          .collection(UserCollection.userCollectionName)
+          .doc(getUserID)
+          .get();
+
+      return document.data()?["role"] as String;
+    } catch (e) {
+      throw Exception("Error ${e.toString()}");
+    }
+  }
+
   Future<void> deleteUser() async {
     try {
       // Check if user is signed in

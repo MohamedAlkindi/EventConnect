@@ -15,6 +15,7 @@ import 'package:event_connect/features/forgot_password/presentaion/reset_pass_co
 import 'package:event_connect/features/login/business_logic/firebase_login.dart';
 import 'package:event_connect/features/login/presentation/cubit/login_cubit.dart';
 import 'package:event_connect/features/login/presentation/login_screen.dart';
+import 'package:event_connect/features/manager/manager_homescreen/manager_homescreen.dart';
 import 'package:event_connect/features/register/presentation/cubit/register_cubit.dart';
 import 'package:event_connect/features/register/presentation/register_screen.dart';
 import 'package:event_connect/features/welcome_screen/presentation/welcome_screen.dart';
@@ -31,11 +32,12 @@ String registerPageRoute = '/RegisterPage';
 String forgotPasswordPageRoute = '/ForgotPasswordScreen';
 String resetPasswordConfirmationPageRoute = '/ResetPasswordConfirmationPage';
 String completeProfileInfoScreenRoute = '/CompleteProfileInfoScreen';
-String userHomeScreenPageRoute = '/UserHomeScreen';
+String attendeeHomeScreenPageRoute = '/UserHomeScreen';
 String allEventsRoute = '/AllEventsScreen';
 String myEventsRoute = '/MyEventsScreen';
-String userProfileRoute = '/MyProfileScreen';
+String attendeeProfileRoute = '/MyProfileScreen';
 String emailConfirmationnRoute = '/EmailConfirmationScreen';
+String managerHomeScreenPageRoute = '/ManagerHomescreen';
 late Widget startUpWidget;
 
 Future<Widget> whichWidget() async {
@@ -44,7 +46,11 @@ Future<Widget> whichWidget() async {
   if (user.getUser != null) {
     if (user.isVerified) {
       if (await user.isUserDataCompleted() == true) {
-        return UserHomeScreen();
+        if (await user.getUserRole() == "Attendee") {
+          return UserHomeScreen();
+        } else {
+          return ManagerHomescreen();
+        }
       } else {
         return CompleteProfileScreen();
       }
@@ -95,7 +101,7 @@ class MainApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
-        home: WelcomeScreen(),
+        home: startUpWidget,
         routes: {
           loginPageRoute: (context) => LoginPage(),
           registerPageRoute: (context) => RegisterPage(),
@@ -103,11 +109,12 @@ class MainApp extends StatelessWidget {
           resetPasswordConfirmationPageRoute: (context) =>
               ResetPasswordConfirmationPage(),
           completeProfileInfoScreenRoute: (context) => CompleteProfileScreen(),
-          userHomeScreenPageRoute: (context) => UserHomeScreen(),
+          attendeeHomeScreenPageRoute: (context) => UserHomeScreen(),
           allEventsRoute: (context) => AllEventsScreen(),
           myEventsRoute: (context) => MyEventsScreen(),
-          userProfileRoute: (context) => MyProfileScreen(),
+          attendeeProfileRoute: (context) => MyProfileScreen(),
           emailConfirmationnRoute: (context) => EmailConfirmationScreen(),
+          managerHomeScreenPageRoute: (context) => ManagerHomescreen(),
         },
       ),
     );

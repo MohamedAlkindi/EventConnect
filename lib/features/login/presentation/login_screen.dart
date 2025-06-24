@@ -71,10 +71,14 @@ class _LoginPageState extends State<LoginPage> {
                 // if user info is completed.. show the homescreen.
                 // otherwise show the complete data.
                 state.isDataCompleted
-                    ? Navigator.pushReplacementNamed(
-                        context, userHomeScreenPageRoute)
+                    ? context.read<LoginCubit>().showUserHomescreen()
                     : Navigator.pushReplacementNamed(
                         context, completeProfileInfoScreenRoute);
+              } else if (state is UserHomescreenState) {
+                Navigator.pushReplacementNamed(
+                  context,
+                  state.userHomeScreenRoute,
+                );
               } else if (state is LoginError) {
                 hideLoadingDialog(context);
                 showErrorDialog(
