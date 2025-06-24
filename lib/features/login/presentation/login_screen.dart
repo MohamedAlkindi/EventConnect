@@ -59,22 +59,28 @@ class _LoginPageState extends State<LoginPage> {
               if (state is LoginLoading) {
                 showLoadingDialog(context);
               } else if (state is LoginSuccessful) {
-                hideLoadingDialog(context);
                 context.read<LoginCubit>().isEmailConfirmed();
               } else if (state is EmailConfirmed) {
                 // if the user has confirmed his email, activate to check user's info.
-                state.isConfirmed
-                    ? context.read<LoginCubit>().isDataCompleted()
-                    : Navigator.pushReplacementNamed(
-                        context, emailConfirmationnRoute);
+                if (state.isConfirmed) {
+                  context.read<LoginCubit>().isDataCompleted();
+                } else {
+                  hideLoadingDialog(context);
+                  Navigator.pushReplacementNamed(
+                      context, emailConfirmationnRoute);
+                }
               } else if (state is DataCompleted) {
                 // if user info is completed.. show the homescreen.
                 // otherwise show the complete data.
-                state.isDataCompleted
-                    ? context.read<LoginCubit>().showUserHomescreen()
-                    : Navigator.pushReplacementNamed(
-                        context, completeProfileInfoScreenRoute);
+                if (state.isDataCompleted) {
+                  context.read<LoginCubit>().showUserHomescreen();
+                } else {
+                  hideLoadingDialog(context);
+                  Navigator.pushReplacementNamed(
+                      context, completeProfileInfoScreenRoute);
+                }
               } else if (state is UserHomescreenState) {
+                hideLoadingDialog(context);
                 Navigator.pushReplacementNamed(
                   context,
                   state.userHomeScreenRoute,

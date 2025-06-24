@@ -12,7 +12,6 @@ import 'package:event_connect/features/email_confirmation/email_confirmation_scr
 import 'package:event_connect/features/forgot_password/presentaion/cubit/reset_password_cubit.dart';
 import 'package:event_connect/features/forgot_password/presentaion/forgot_password_screen.dart';
 import 'package:event_connect/features/forgot_password/presentaion/reset_pass_confirmation_screen.dart';
-import 'package:event_connect/features/login/business_logic/firebase_login.dart';
 import 'package:event_connect/features/login/presentation/cubit/login_cubit.dart';
 import 'package:event_connect/features/login/presentation/login_screen.dart';
 import 'package:event_connect/features/manager/manager_homescreen/manager_homescreen.dart';
@@ -23,9 +22,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-FirebaseUser user = FirebaseUser();
-FirebaseLogin loginCheckup = FirebaseLogin();
 
 String loginPageRoute = '/LoginPage';
 String registerPageRoute = '/RegisterPage';
