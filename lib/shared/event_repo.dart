@@ -31,4 +31,18 @@ class EventRepo {
       throw Exception("Error ${e.toString()}");
     }
   }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getManagerEvents() async {
+    try {
+      return await _firestore
+          .collection(EventsCollection.eventCollectionName)
+          .where(
+            EventsCollection.managerIdDocumentName,
+            isEqualTo: _user.getUserID,
+          )
+          .get();
+    } catch (e) {
+      throw Exception("Error ${e.toString()}");
+    }
+  }
 }

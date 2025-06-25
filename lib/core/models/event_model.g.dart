@@ -17,6 +17,7 @@ EventModel _$EventModelFromJson(Map<String, dynamic> json) => EventModel(
       genderRestriction: json['genderRestriction'] as String,
       weather: json['weather'] as String?,
       attendees: (json['attendees'] as num?)?.toInt() ?? 0,
+      managerID: json['managerID'] as String,
     );
 
 Map<String, dynamic> _$EventModelToJson(EventModel instance) =>
@@ -31,4 +32,5 @@ Map<String, dynamic> _$EventModelToJson(EventModel instance) =>
       'genderRestriction': instance.genderRestriction,
       'weather': instance.weather,
       'attendees': instance.attendees,
+      'managerID': instance.managerID,
     };

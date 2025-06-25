@@ -15,8 +15,6 @@ final class CategorySelected extends AllEventsState {
 
 final class EventAddedToUserEvents extends AllEventsState {}
 
-final class AllEventsLogOutSuccessful extends AllEventsState {}
-
 final class AllEventsError extends AllEventsState {
   final String message;
 
