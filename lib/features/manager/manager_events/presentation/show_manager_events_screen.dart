@@ -4,6 +4,7 @@ import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/core/widgets/event_elements_widget.dart';
 import 'package:event_connect/features/manager/manager_events/presentation/cubit/manager_events_cubit.dart';
+import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -109,7 +110,10 @@ class AllEventsScreenView extends StatelessWidget {
                                     ),
                                     GestureDetector(
                                       onTap: () {
-                                        // TODO: Add your action here for the + button
+                                        Navigator.pushNamed(
+                                          context,
+                                          addEventPageRoute,
+                                        );
                                       },
                                       child: Container(
                                         width: 85,

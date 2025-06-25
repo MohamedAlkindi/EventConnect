@@ -14,6 +14,7 @@ import 'package:event_connect/features/forgot_password/presentaion/forgot_passwo
 import 'package:event_connect/features/forgot_password/presentaion/reset_pass_confirmation_screen.dart';
 import 'package:event_connect/features/login/presentation/cubit/login_cubit.dart';
 import 'package:event_connect/features/login/presentation/login_screen.dart';
+import 'package:event_connect/features/manager/manager_events/presentation/add_event.dart';
 import 'package:event_connect/features/manager/manager_homescreen/manager_homescreen.dart';
 import 'package:event_connect/features/register/presentation/cubit/register_cubit.dart';
 import 'package:event_connect/features/register/presentation/register_screen.dart';
@@ -23,17 +24,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-String loginPageRoute = '/LoginPage';
-String registerPageRoute = '/RegisterPage';
-String forgotPasswordPageRoute = '/ForgotPasswordScreen';
-String resetPasswordConfirmationPageRoute = '/ResetPasswordConfirmationPage';
-String completeProfileInfoScreenRoute = '/CompleteProfileInfoScreen';
-String attendeeHomeScreenPageRoute = '/UserHomeScreen';
-String allEventsRoute = '/AllEventsScreen';
-String myEventsRoute = '/MyEventsScreen';
-String attendeeProfileRoute = '/MyProfileScreen';
-String emailConfirmationnRoute = '/EmailConfirmationScreen';
-String managerHomeScreenPageRoute = '/ManagerHomescreen';
+const String loginPageRoute = '/LoginPage';
+const String registerPageRoute = '/RegisterPage';
+const String forgotPasswordPageRoute = '/ForgotPasswordScreen';
+const String resetPasswordConfirmationPageRoute =
+    '/ResetPasswordConfirmationPage';
+const String completeProfileInfoScreenRoute = '/CompleteProfileInfoScreen';
+const String attendeeHomeScreenPageRoute = '/UserHomeScreen';
+const String allEventsRoute = '/AllEventsScreen';
+const String myEventsRoute = '/MyEventsScreen';
+const String attendeeProfileRoute = '/MyProfileScreen';
+const String emailConfirmationnRoute = '/EmailConfirmationScreen';
+const String managerHomeScreenPageRoute = '/ManagerHomescreen';
+const String addEventPageRoute = '/AddEvent';
+
 late Widget startUpWidget;
 
 Future<Widget> whichWidget() async {
@@ -111,6 +115,7 @@ class MainApp extends StatelessWidget {
           attendeeProfileRoute: (context) => MyProfileScreen(),
           emailConfirmationnRoute: (context) => EmailConfirmationScreen(),
           managerHomeScreenPageRoute: (context) => ManagerHomescreen(),
+          addEventPageRoute: (context) => AddEvent(),
         },
       ),
     );
