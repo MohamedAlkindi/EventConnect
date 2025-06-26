@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:event_connect/core/collections/user_collection_document.dart';
 import 'package:event_connect/core/firebase/user/firebase_user.dart';
 import 'package:event_connect/core/models/user_model.dart';
 
@@ -8,7 +9,7 @@ class CompleteProfileDa {
 
   Future<void> completeProfile(UserModel model) async {
     await _firestore
-        .collection('users')
+        .collection(UserCollection.userCollectionName)
         .doc(
           _user.getUserID,
         )

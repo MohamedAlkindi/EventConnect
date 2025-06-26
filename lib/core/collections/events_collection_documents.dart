@@ -10,5 +10,5 @@ class EventsCollection {
   static String get eventGenderResrictionDocumentName => 'genderRestriction';
   static String get eventWeather => 'weather';
   static String get eventAttendeesDocumentName => 'attendees';
-  static String get managerIdDocumentName => "userID";
+  static String get managerIdDocumentName => "managerID";
 }

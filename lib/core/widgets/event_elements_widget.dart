@@ -78,14 +78,76 @@ Widget returnEventElements({
 Widget returnEventDescription({
   required String description,
 }) {
-  return Text(
-    description,
-    maxLines: 3,
-    overflow: TextOverflow.ellipsis,
-    style: TextStyle(
-      color: Colors.black,
-    ),
-  );
+  return _EventDescriptionWidget(description: description);
+}
+
+class _EventDescriptionWidget extends StatefulWidget {
+  final String description;
+
+  const _EventDescriptionWidget({required this.description});
+
+  @override
+  State<_EventDescriptionWidget> createState() =>
+      _EventDescriptionWidgetState();
+}
+
+class _EventDescriptionWidgetState extends State<_EventDescriptionWidget> {
+  bool isExpanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.grey.shade300,
+          width: 1.5,
+        ),
+        borderRadius: BorderRadius.circular(12),
+        color: Colors.white.withOpacity(0.8),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            widget.description,
+            maxLines: isExpanded ? null : 2,
+            overflow: isExpanded ? null : TextOverflow.ellipsis,
+            style: TextStyle(
+              color: Colors.black87,
+              fontSize: 14,
+              height: 1.4,
+            ),
+          ),
+          if (widget.description.length > 100) ...[
+            const SizedBox(height: 8),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  isExpanded = !isExpanded;
+                });
+              },
+              child: Text(
+                isExpanded ? 'Read less' : 'Read more...',
+                style: TextStyle(
+                  color: Colors.blue.shade600,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
 }
 
 Widget returnEventButton({

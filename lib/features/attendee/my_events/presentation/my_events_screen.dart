@@ -357,7 +357,7 @@ class MyEventsScreenView extends StatelessWidget {
                                                                   .deleteEventFromUserEvents(
                                                                       documentID:
                                                                           event
-                                                                              .eventID);
+                                                                              .eventID!);
                                                             },
                                                             borderRadius:
                                                                 BorderRadius

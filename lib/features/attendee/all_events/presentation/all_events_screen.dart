@@ -389,7 +389,7 @@ class AllEventsScreenView extends StatelessWidget {
                                                                   AllEventsCubit>()
                                                               .addEventToUserEvents(
                                                                   documentID: event
-                                                                      .eventID);
+                                                                      .eventID!);
                                                         },
                                                         borderRadius:
                                                             BorderRadius

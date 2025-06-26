@@ -14,7 +14,8 @@ import 'package:event_connect/features/forgot_password/presentaion/forgot_passwo
 import 'package:event_connect/features/forgot_password/presentaion/reset_pass_confirmation_screen.dart';
 import 'package:event_connect/features/login/presentation/cubit/login_cubit.dart';
 import 'package:event_connect/features/login/presentation/login_screen.dart';
-import 'package:event_connect/features/manager/manager_events/presentation/add_event.dart';
+import 'package:event_connect/features/manager/manager_events/presentation/add_event_screen.dart';
+import 'package:event_connect/features/manager/manager_events/presentation/cubit/add_event_cubit.dart';
 import 'package:event_connect/features/manager/manager_homescreen/manager_homescreen.dart';
 import 'package:event_connect/features/register/presentation/cubit/register_cubit.dart';
 import 'package:event_connect/features/register/presentation/register_screen.dart';
@@ -36,7 +37,7 @@ const String myEventsRoute = '/MyEventsScreen';
 const String attendeeProfileRoute = '/MyProfileScreen';
 const String emailConfirmationnRoute = '/EmailConfirmationScreen';
 const String managerHomeScreenPageRoute = '/ManagerHomescreen';
-const String addEventPageRoute = '/AddEvent';
+const String addEventScreenPageRoute = '/AddEventScreen';
 
 late Widget startUpWidget;
 
@@ -97,6 +98,9 @@ class MainApp extends StatelessWidget {
         BlocProvider(
           create: (context) => EmailConfirmationCubit(),
         ),
+        BlocProvider(
+          create: (context) => AddEventCubit(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -115,7 +119,7 @@ class MainApp extends StatelessWidget {
           attendeeProfileRoute: (context) => MyProfileScreen(),
           emailConfirmationnRoute: (context) => EmailConfirmationScreen(),
           managerHomeScreenPageRoute: (context) => ManagerHomescreen(),
-          addEventPageRoute: (context) => AddEvent(),
+          addEventScreenPageRoute: (context) => AddEventScreen(),
         },
       ),
     );

@@ -112,7 +112,7 @@ class AllEventsScreenView extends StatelessWidget {
                                       onTap: () {
                                         Navigator.pushNamed(
                                           context,
-                                          addEventPageRoute,
+                                          addEventScreenPageRoute,
                                         );
                                       },
                                       child: Container(
@@ -360,7 +360,7 @@ class AllEventsScreenView extends StatelessWidget {
                                                         onTap: () {
                                                           cubit.deleteEvent(
                                                               documentID: event
-                                                                  .eventID);
+                                                                  .eventID!);
                                                         },
                                                         borderRadius:
                                                             BorderRadius

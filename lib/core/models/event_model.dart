@@ -4,7 +4,7 @@ part 'event_model.g.dart';
 
 @JsonSerializable()
 class EventModel {
-  final String eventID;
+  final String? eventID;
   final String name;
   final String category;
   final String picture;
@@ -16,9 +16,8 @@ class EventModel {
   int attendees;
   final String managerID;
 
-  EventModel(
-      {required this.eventID,
-      required this.name,
+  EventModel(this.eventID,
+      {required this.name,
       required this.category,
       required this.picture,
       required this.location,

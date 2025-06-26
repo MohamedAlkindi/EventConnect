@@ -12,6 +12,7 @@ class ManagerEventsCubit extends Cubit<ManagerEventsState> {
 
   final _businessLogic = ManagerEventsBl();
 
+  // Start of cubit for show events.
   // Stream controller for real-time event updates
   final StreamController<List<EventModel>> _eventsStreamController =
       StreamController<List<EventModel>>.broadcast();
@@ -39,8 +40,9 @@ class ManagerEventsCubit extends Cubit<ManagerEventsState> {
       emit(ManagerEventsError(message: e.toString()));
     }
   }
+  // End of cubit for show events.
 
-  // Add events to user's events.
+  // Start of cubit to delete events.
   Future<void> deleteEvent({required String documentID}) async {
     emit(ManagerEventsLoading());
     try {
@@ -57,4 +59,5 @@ class ManagerEventsCubit extends Cubit<ManagerEventsState> {
       emit(ManagerEventsError(message: e.toString()));
     }
   }
+  // End of cubit to delete events.
 }
