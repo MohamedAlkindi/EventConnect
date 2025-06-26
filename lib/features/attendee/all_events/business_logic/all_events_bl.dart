@@ -20,10 +20,13 @@ class AllEventScreenBL {
       final userEventsSnapshot = await _eventRepo.getUserEventsSnapshot();
 
       // Extract joined event IDs
-      final joinedEventIds = userEventsSnapshot.docs
-          .map((doc) => doc[EventsCollection.eventIDDocumentName] as String?)
-          .whereType<String>()
-          .toList();
+      final joinedEventIds = userEventsSnapshot.docs.isEmpty
+          ? []
+          : userEventsSnapshot.docs
+              .map(
+                  (doc) => doc[EventsCollection.eventIDDocumentName] as String?)
+              .whereType<String>()
+              .toList();
 
       // Filter events
       final availableEventModels = joinedEventIds.isEmpty

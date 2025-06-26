@@ -43,6 +43,8 @@ class AllEventsScreenView extends StatelessWidget {
                 Navigator.pop(context);
               },
             );
+          } else if (state is AllEventsError) {
+            showErrorDialog(context: context, message: state.message);
           }
         },
         child: Stack(

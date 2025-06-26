@@ -7,7 +7,7 @@ part of 'event_model.dart';
 // **************************************************************************
 
 EventModel _$EventModelFromJson(Map<String, dynamic> json) => EventModel(
-      json['eventID'] as String,
+      json['eventID'] as String?,
       name: json['name'] as String,
       category: json['category'] as String,
       picture: json['picture'] as String,
@@ -22,7 +22,7 @@ EventModel _$EventModelFromJson(Map<String, dynamic> json) => EventModel(
 
 Map<String, dynamic> _$EventModelToJson(EventModel instance) =>
     <String, dynamic>{
-      'eventID': instance.eventID,
+      if (instance.eventID case final value?) 'eventID': value,
       'name': instance.name,
       'category': instance.category,
       'picture': instance.picture,
@@ -30,7 +30,7 @@ Map<String, dynamic> _$EventModelToJson(EventModel instance) =>
       'dateAndTime': instance.dateAndTime,
       'description': instance.description,
       'genderRestriction': instance.genderRestriction,
-      'weather': instance.weather,
+      if (instance.weather case final value?) 'weather': value,
       'attendees': instance.attendees,
       'managerID': instance.managerID,
     };
