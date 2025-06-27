@@ -309,12 +309,13 @@ class AllEventsScreenView extends StatelessWidget {
                                                         event.genderRestriction,
                                                   ),
                                                   const SizedBox(height: 14),
-                                                  // Weather
+                                                  // Attendees
                                                   returnEventElements(
-                                                    icon: Icons.wb_sunny,
-                                                    text: event.weather == null
-                                                        ? "No weather info"
-                                                        : "${event.weather} C°",
+                                                    icon: Icons
+                                                        .people_alt_rounded,
+                                                    text: event.attendees == 1
+                                                        ? "${event.attendees} Attendant"
+                                                        : "${event.attendees} Attendees",
                                                   ),
                                                   const SizedBox(height: 18),
                                                   // Description
@@ -323,64 +324,177 @@ class AllEventsScreenView extends StatelessWidget {
                                                         event.description,
                                                   ),
                                                   const SizedBox(height: 24),
-                                                  // Modern Add to Schedule Button
-                                                  Container(
-                                                    width: double.infinity,
-                                                    height: 48,
-                                                    decoration: BoxDecoration(
-                                                      gradient:
-                                                          const LinearGradient(
-                                                        begin:
-                                                            Alignment.topLeft,
-                                                        end: Alignment
-                                                            .bottomRight,
-                                                        colors: [
-                                                          Color(0xFF6C63FF),
-                                                          Color(0xFFFF6584)
-                                                        ],
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              16),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: const Color(
-                                                                  0xFF6C63FF)
-                                                              .withOpacity(
-                                                                  0.18),
-                                                          blurRadius: 10,
-                                                          offset: const Offset(
-                                                              0, 5),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    child: Material(
-                                                      color: Colors.transparent,
-                                                      child: InkWell(
-                                                        onTap: () {
-                                                          cubit.deleteEvent(
-                                                              documentID: event
-                                                                  .eventID!);
-                                                        },
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(16),
-                                                        child: Center(
-                                                          child: Text(
-                                                            'Add to Schedule',
-                                                            style: GoogleFonts
-                                                                .poppins(
-                                                              fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              color:
-                                                                  Colors.white,
+                                                  // Modern Delete and edit to Schedule Button
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Expanded(
+                                                        child: Container(
+                                                          height: 48,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            gradient:
+                                                                const LinearGradient(
+                                                              begin: Alignment
+                                                                  .topLeft,
+                                                              end: Alignment
+                                                                  .bottomRight,
+                                                              colors: [
+                                                                Color(
+                                                                    0xFF6C63FF),
+                                                                Color(
+                                                                    0xFFFF6584)
+                                                              ],
+                                                            ),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        16),
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color: const Color(
+                                                                        0xFF6C63FF)
+                                                                    .withOpacity(
+                                                                        0.18),
+                                                                blurRadius: 10,
+                                                                offset:
+                                                                    const Offset(
+                                                                        0, 5),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          child: Material(
+                                                            color: Colors
+                                                                .transparent,
+                                                            child: InkWell(
+                                                              onTap: () {
+                                                                // TODO: add edit logic here. cubit.deleteEvent(
+                                                                //     documentID: event
+                                                                //         .eventID!);
+                                                              },
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          16),
+                                                              child: Center(
+                                                                child: Text(
+                                                                  'Edit Event',
+                                                                  style: GoogleFonts
+                                                                      .poppins(
+                                                                    fontSize:
+                                                                        16,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  ),
+                                                                ),
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
+                                                      SizedBox(width: 25),
+                                                      Expanded(
+                                                        child: Container(
+                                                          height: 48,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            gradient:
+                                                                const LinearGradient(
+                                                              begin: Alignment
+                                                                  .topLeft,
+                                                              end: Alignment
+                                                                  .bottomRight,
+                                                              colors: [
+                                                                Color(
+                                                                    0xFF6C63FF),
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    255,
+                                                                    0,
+                                                                    51)
+                                                              ],
+                                                            ),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        16),
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color: const Color(
+                                                                        0xFF6C63FF)
+                                                                    .withOpacity(
+                                                                        0.18),
+                                                                blurRadius: 10,
+                                                                offset:
+                                                                    const Offset(
+                                                                        0, 5),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          child: Material(
+                                                            color: Colors
+                                                                .transparent,
+                                                            child: InkWell(
+                                                              onTap: () {
+                                                                showMessageDialog(
+                                                                  context:
+                                                                      context,
+                                                                  icon: Icons
+                                                                      .warning_rounded,
+                                                                  iconColor: Colors
+                                                                      .orangeAccent,
+                                                                  titleText:
+                                                                      'Delete Event 😐',
+                                                                  contentText:
+                                                                      'Are you sure you delete this event?',
+                                                                  buttonText:
+                                                                      'Yes',
+                                                                  onPressed:
+                                                                      () {
+                                                                    cubit.deleteEvent(
+                                                                        documentID:
+                                                                            event.eventID!);
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  secondButtonText:
+                                                                      'No',
+                                                                  secondOnPressed:
+                                                                      () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                );
+                                                              },
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          16),
+                                                              child: Center(
+                                                                child: Text(
+                                                                  'Delete Event',
+                                                                  style: GoogleFonts
+                                                                      .poppins(
+                                                                    fontSize:
+                                                                        16,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ],
                                               ),

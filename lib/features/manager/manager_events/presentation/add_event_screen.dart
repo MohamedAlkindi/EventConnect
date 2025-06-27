@@ -226,6 +226,7 @@ class _AddEventState extends State<AddEventScreen> {
                                   // Name
                                   TextField(
                                     controller: _nameController,
+                                    maxLength: 20,
                                     decoration: InputDecoration(
                                       labelText: "Event Name",
                                       labelStyle: GoogleFonts.poppins(
