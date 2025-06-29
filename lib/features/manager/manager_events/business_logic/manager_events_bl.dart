@@ -97,6 +97,7 @@ class ManagerEventsBl {
                 imageUrl: supabaseImageUrl,
                 newImagePath: picturePath,
                 isEventPic: true,
+                userID: null,
               ),
         location: location,
         dateAndTime: dateAndTime,

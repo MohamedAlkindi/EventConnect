@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:bloc/bloc.dart';
 import 'package:event_connect/features/manager/manager_homescreen/business_logic/manager_homescreen_bl.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +28,8 @@ class ManagerHomescreenCubit extends Cubit<ManagerHomescreenState> {
   Future<void> getManagerProfilePic() async {
     emit(ManagerHomescreenLoading());
     try {
-      File managerProfilePic = await managerHomescreenBl.getManagerProfilePic();
+      String managerProfilePic =
+          await managerHomescreenBl.getManagerProfilePic();
       emit(ManagerHomescreenState(
           currentIndex: state.currentIndex, imageFile: managerProfilePic));
     } catch (e) {

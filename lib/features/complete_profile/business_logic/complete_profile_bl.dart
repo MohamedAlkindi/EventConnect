@@ -3,10 +3,14 @@ import 'package:event_connect/core/exceptions_messages/messages.dart';
 import 'package:event_connect/core/firebase/user/firebase_user.dart';
 import 'package:event_connect/core/models/user_model.dart';
 import 'package:event_connect/features/complete_profile/data_access/complete_profile_da.dart';
+import 'package:event_connect/shared/image_storage_service.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CompleteProfileBl {
   final _dataAccess = CompleteProfileDa();
+  final _user = FirebaseUser();
+  final _imageService = ImageStorageService();
+
   late String imagePath;
 
   Future<void> finalizeProfile({
@@ -14,8 +18,6 @@ class CompleteProfileBl {
     required String city,
     required String role,
   }) async {
-    final FirebaseUser firebaseUser = FirebaseUser();
-
     if (city.isEmpty) {
       throw EmptyFieldException(message: ExceptionMessages.emptyFieldMessage);
     }
@@ -31,9 +33,14 @@ class CompleteProfileBl {
     try {
       // Create a map that contains the data for photo and location.
       final user = UserModel(
-        userID: firebaseUser.getUserID,
+        userID: _user.getUserID,
         location: city,
-        profilePic: imagePath,
+        profilePic: await _imageService.addAndReturnImageUrl(
+          imagePath: imagePath,
+          eventName: null,
+          userID: _user.getUserID,
+          isEventPic: false,
+        ),
         role: role,
       );
       await _dataAccess.completeProfile(user);

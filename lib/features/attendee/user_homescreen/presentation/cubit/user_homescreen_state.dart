@@ -3,7 +3,7 @@ part of 'user_homescreen_cubit.dart';
 @immutable
 class UserHomescreenState {
   final int currentIndex;
-  final File? imageFile;
+  final String? imageFile;
 
   const UserHomescreenState({
     this.currentIndex = 0,
@@ -20,7 +20,7 @@ final class UserHomescreenLoading extends UserHomescreenState {
 }
 
 final class GotUserProfilePic extends UserHomescreenState {
-  final File imageFile;
+  final String imageFile;
 
   const GotUserProfilePic({required this.imageFile});
 }

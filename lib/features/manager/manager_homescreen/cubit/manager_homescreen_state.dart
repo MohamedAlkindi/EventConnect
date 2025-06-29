@@ -3,7 +3,7 @@ part of 'manager_homescreen_cubit.dart';
 @immutable
 class ManagerHomescreenState {
   final int currentIndex;
-  final File? imageFile;
+  final String? imageFile;
 
   const ManagerHomescreenState({
     this.currentIndex = 0,
@@ -20,7 +20,7 @@ final class ManagerHomescreenLoading extends ManagerHomescreenState {
 }
 
 final class GotManagerProfilePic extends ManagerHomescreenState {
-  final File imageFile;
+  final String imageFile;
 
   const GotManagerProfilePic({required this.imageFile});
 }

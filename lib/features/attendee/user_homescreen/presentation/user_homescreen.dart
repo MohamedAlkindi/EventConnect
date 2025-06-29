@@ -171,7 +171,7 @@ class UserHomeScreenView extends StatelessWidget {
                                       ? CircleAvatar(
                                           radius: 12,
                                           backgroundImage:
-                                              FileImage(state.imageFile!),
+                                              NetworkImage(state.imageFile!),
                                         )
                                       : const Icon(Icons.person,
                                           color: Colors.white, size: 16),

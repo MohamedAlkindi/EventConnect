@@ -27,7 +27,10 @@ class EditProfileCubit extends Cubit<EditProfileState> {
 
   final ImagePicker _picker = ImagePicker();
 
-  String? previouslySelectedImagePath;
+  // This will come from the restored data which will contain the path
+  // of the image in supabase.
+  String? supabaseImageUrl;
+
   String? newSelectedImagePath;
 
   String? userRole;
@@ -56,13 +59,13 @@ class EditProfileCubit extends Cubit<EditProfileState> {
 
   Future<void> updateUserProfile() async {
     try {
-      _bl.updateUserProfile(
+      emit(EditProfileLoading());
+      await _bl.updateUserProfile(
         location: newSelectedCity == null
             ? previouslySelectedCity!
             : newSelectedCity!,
-        profilePicPath: newSelectedImagePath == null
-            ? previouslySelectedImagePath!
-            : newSelectedImagePath!,
+        supabaseImageUrl: supabaseImageUrl!,
+        profilePicPath: newSelectedImagePath,
         role: userRole!,
       );
       emit(EditProfileSuccess());
@@ -75,7 +78,7 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     try {
       final userProfile = await _bl.getUserProfile();
       previouslySelectedCity = userProfile.location;
-      previouslySelectedImagePath = userProfile.profilePic;
+      supabaseImageUrl = userProfile.profilePic;
       userRole = userProfile.role;
 
       emit(GotUserProfile(userProfile: userProfile));

@@ -35,26 +35,32 @@ class ImageStorageService {
   // newImagePath in the device. which will be the new image to be updated.
   // imageURL which is the saved url in supabase.
   Future<String> updateAndReturnImageUrl({
-    required String imageUrl,
+    // ImageUrl and userID are optional because if the user updates the event userID will be null.
+    // Otherwise if the user will update the user profile pic, then the imageUrl will be null.
     required String newImagePath,
+    required String? imageUrl,
+    required String? userID,
     required bool isEventPic,
   }) async {
     final file = File(newImagePath);
     final storage = Supabase.instance.client.storage;
 
-    if (isEventPic) {
+    if (isEventPic && imageUrl != null) {
       // this will take the full url and get the needed bit of it.
       final path = imageUrl.split('/').sublist(6).join('/');
-      await storage.from('event-pic-storage').upload(path, file,
-          // use this line to replace the existing one "update it".
-          fileOptions: const FileOptions(
-            upsert: true,
-          ));
+      // Trying to DELETE the image and UPLOAD the new one...
+      await storage.from('event-pic-storage').remove([path]);
+      await storage.from('event-pic-storage').upload(path, file);
       return storage.from('event-pic-storage').getPublicUrl(path);
     } else {
-      final path = imageUrl.split('/').sublist(6).join('/');
-      await storage.from('user-pic-storage').upload(path, file);
-      return storage.from('user-pic-storage').getPublicUrl(path);
+      if (userID != null) {
+        final path = 'users/$userID';
+        await storage.from('user-pic-storage').remove([path]);
+        await storage.from('user-pic-storage').upload(path, file);
+        return storage.from('user-pic-storage').getPublicUrl(path);
+      } else {
+        throw Exception("Error: user id cannot be empty");
+      }
     }
   }
 }

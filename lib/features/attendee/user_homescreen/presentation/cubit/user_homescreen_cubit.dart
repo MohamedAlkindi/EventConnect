@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:bloc/bloc.dart';
 import 'package:event_connect/features/attendee/user_homescreen/business_logic/user_homescreen_bl.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +28,7 @@ class UserHomescreenCubit extends Cubit<UserHomescreenState> {
   Future<void> getUserProfilePic() async {
     emit(UserHomescreenLoading());
     try {
-      File userProfilePic = await userHomescreenBl.getUserProfilePic();
+      String userProfilePic = await userHomescreenBl.getUserProfilePic();
       emit(UserHomescreenState(
           currentIndex: state.currentIndex, imageFile: userProfilePic));
     } catch (e) {

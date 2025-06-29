@@ -43,7 +43,7 @@ class EmailConfirmationCubit extends Cubit<EmailConfirmationState> {
   void showUserHomescreen() async {
     final role = await _user.getUserRole();
 
-    if (role == "attendee") {
+    if (role == "Attendee") {
       emit(UserHomescreenState(
           userHomeScreenPageRoute: attendeeHomeScreenPageRoute));
     } else {

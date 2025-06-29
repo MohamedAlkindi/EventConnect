@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:event_connect/core/utils/loading_dialog.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/features/attendee/edit_profile/presentation/cubit/edit_profile_cubit.dart';
 import 'package:event_connect/main.dart';
@@ -28,16 +29,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Scaffold(
       body: BlocListener<EditProfileCubit, EditProfileState>(
         listener: (context, state) {
+          if (state is EditProfileLoading) {
+            showLoadingDialog(context);
+          }
           if (state is EditProfileError) {
+            hideLoadingDialog(context);
             showErrorDialog(
               context: context,
               message: state.message,
             );
           } else if (state is EditProfileSuccess) {
+            hideLoadingDialog(context);
             showMessageDialog(
               context: context,
               titleText: 'Success! 🎉',
-              contentText: 'Profile updated successfully!',
+              contentText:
+                  'Profile updated successfully!\nSome edits may take longer to take effect.',
               icon: Icons.check_circle_outline_rounded,
               iconColor: Colors.green,
               buttonText: 'Okay',
@@ -127,34 +134,26 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                           // when entering the app this state will be init.
 
                                           // get the picture from the state.
-                                          ? (File(state.userProfile.profilePic)
-                                                      .existsSync()
-                                                  ? FileImage(
-                                                      File(state.userProfile
-                                                          .profilePic),
-                                                    )
-                                                  : const AssetImage(
-                                                      'assets/images/generic_user.png'))
-                                              as ImageProvider
+                                          ? NetworkImage(
+                                              state.userProfile.profilePic)
                                           // if the user changed the location only.
                                           // the state will be SelectedCity so all the states are false.
                                           // So get the old picture that was saved first from cubit,
                                           : state is SelectedImage
                                               ? FileImage(
                                                   File(state.selectedImagePath),
-                                                ) as ImageProvider
+                                                )
                                               // check if the user registered a new pic first.
                                               : cubit.newSelectedImagePath ==
                                                       null
-                                                  ? cubit.previouslySelectedImagePath ==
+                                                  ? cubit.supabaseImageUrl ==
                                                           null
                                                       ? const AssetImage(
-                                                              'assets/images/generic_user.png')
-                                                          as ImageProvider
-                                                      : FileImage(
-                                                          File(cubit
-                                                              .previouslySelectedImagePath!),
-                                                        ) as ImageProvider
+                                                          'assets/images/generic_user.png')
+                                                      : NetworkImage(
+                                                          cubit
+                                                              .supabaseImageUrl!,
+                                                        )
                                                   : FileImage(
                                                       File(cubit
                                                           .newSelectedImagePath!),

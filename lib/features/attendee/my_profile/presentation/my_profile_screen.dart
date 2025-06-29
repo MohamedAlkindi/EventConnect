@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:event_connect/core/utils/message_dialogs.dart';
@@ -139,17 +138,13 @@ class MyProfileScreenView extends StatelessWidget {
                                             CircleAvatar(
                                               radius: 80,
                                               backgroundColor: Colors.grey[200],
-                                              backgroundImage: (File(
-                                                              state.userInfo
-                                                                  .profilePic)
-                                                          .existsSync()
-                                                      ? FileImage(
-                                                          File(
-                                                              state.userInfo
-                                                                  .profilePic))
-                                                      : const AssetImage(
-                                                          'assets/images/generic_user.png'))
-                                                  as ImageProvider,
+                                              backgroundImage: state.userInfo
+                                                      .profilePic.isNotEmpty
+                                                  ? NetworkImage(
+                                                      state.userInfo.profilePic)
+                                                  : const AssetImage(
+                                                          'assets/images/generic_user.png')
+                                                      as ImageProvider,
                                             ),
                                             Positioned(
                                               bottom: 0,
