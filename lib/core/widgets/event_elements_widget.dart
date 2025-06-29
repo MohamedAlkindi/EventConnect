@@ -4,13 +4,13 @@ Widget returnEventPicture({
   required String eventPictureLink,
 }) {
   return Container(
-    height: 200,
+    height: 350,
     width: double.infinity,
     decoration: BoxDecoration(
       image: DecorationImage(
         image: NetworkImage(
             "$eventPictureLink?updated=${DateTime.now().millisecondsSinceEpoch}"),
-        fit: BoxFit.cover,
+        fit: BoxFit.fill,
       ),
     ),
   );
