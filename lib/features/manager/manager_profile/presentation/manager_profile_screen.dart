@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:event_connect/core/utils/message_dialogs.dart';
-import 'package:event_connect/features/manager/manager_profile/cubit/manager_profile_cubit.dart';
+import 'package:event_connect/features/manager/manager_profile/presentation/cubit/manager_profile_cubit.dart';
 import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

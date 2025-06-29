@@ -1,6 +1,6 @@
 import 'package:event_connect/features/manager/manager_events/presentation/show_manager_events_screen.dart';
-import 'package:event_connect/features/manager/manager_homescreen/cubit/manager_homescreen_cubit.dart';
-import 'package:event_connect/features/manager/manager_profile/manager_profile_screen.dart';
+import 'package:event_connect/features/manager/manager_homescreen/presentation/cubit/manager_homescreen_cubit.dart';
+import 'package:event_connect/features/manager/manager_profile/presentation/manager_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
