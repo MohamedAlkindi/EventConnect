@@ -101,15 +101,28 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Center(
-                            child: Text(
-                              "Edit Your Profile",
-                              style: GoogleFonts.poppins(
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xFF6C63FF),
+                          Row(
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: const Icon(Icons.arrow_back_rounded),
+                                color: Colors.black,
+                                // iconSize: 28,
+                                tooltip: 'Back',
                               ),
-                            ),
+                              Center(
+                                child: Text(
+                                  "Edit Your Profile",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(0xFF6C63FF),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                           const SizedBox(height: 35),
                           // Profile picture with modern styling
