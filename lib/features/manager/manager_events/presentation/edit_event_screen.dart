@@ -182,7 +182,7 @@ class _EditEventScreenState extends State<EditEventScreen> {
                                                 255, 230, 232, 241),
                                             child: Center(
                                               child: Image.network(
-                                                  widget.eventModel.picture),
+                                                  "${widget.eventModel.picture}?updated=${DateTime.now().millisecondsSinceEpoch}"),
                                             ),
                                           ),
                                   );

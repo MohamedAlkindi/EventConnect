@@ -158,8 +158,8 @@ class ManagerHomescreenView extends StatelessWidget {
                                   child: state.imageFile != null
                                       ? CircleAvatar(
                                           radius: 12,
-                                          backgroundImage:
-                                              NetworkImage(state.imageFile!),
+                                          backgroundImage: NetworkImage(
+                                              "${state.imageFile!}?updated=${DateTime.now().millisecondsSinceEpoch}"),
                                         )
                                       : const Icon(Icons.person,
                                           color: Colors.white, size: 16),

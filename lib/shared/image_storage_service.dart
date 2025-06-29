@@ -48,15 +48,18 @@ class ImageStorageService {
     if (isEventPic && imageUrl != null) {
       // this will take the full url and get the needed bit of it.
       final path = imageUrl.split('/').sublist(6).join('/');
-      // Trying to DELETE the image and UPLOAD the new one...
-      await storage.from('event-pic-storage').remove([path]);
-      await storage.from('event-pic-storage').upload(path, file);
+      await storage.from('event-pic-storage').upload(path, file,
+          fileOptions: const FileOptions(
+            upsert: true,
+          ));
       return storage.from('event-pic-storage').getPublicUrl(path);
     } else {
       if (userID != null) {
         final path = 'users/$userID';
-        await storage.from('user-pic-storage').remove([path]);
-        await storage.from('user-pic-storage').upload(path, file);
+        await storage.from('user-pic-storage').upload(path, file,
+            fileOptions: const FileOptions(
+              upsert: true,
+            ));
         return storage.from('user-pic-storage').getPublicUrl(path);
       } else {
         throw Exception("Error: user id cannot be empty");

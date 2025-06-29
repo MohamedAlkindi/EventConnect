@@ -22,7 +22,7 @@ class EditProfileBL {
             ? supabaseImageUrl
             : await _imageService.updateAndReturnImageUrl(
                 newImagePath: profilePicPath,
-                imageUrl: supabaseImageUrl,
+                imageUrl: null,
                 isEventPic: false,
                 userID: _user.getUserID,
               ),

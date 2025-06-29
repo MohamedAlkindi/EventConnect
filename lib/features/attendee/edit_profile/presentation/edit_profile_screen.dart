@@ -43,8 +43,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             showMessageDialog(
               context: context,
               titleText: 'Success! 🎉',
-              contentText:
-                  'Profile updated successfully!\nSome edits may take longer to take effect.',
+              contentText: 'Profile updated successfully!',
               icon: Icons.check_circle_outline_rounded,
               iconColor: Colors.green,
               buttonText: 'Okay',
@@ -148,7 +147,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                                           // get the picture from the state.
                                           ? NetworkImage(
-                                              state.userProfile.profilePic)
+                                              "${state.userProfile.profilePic}?updated=${DateTime.now().millisecondsSinceEpoch}",
+                                            )
                                           // if the user changed the location only.
                                           // the state will be SelectedCity so all the states are false.
                                           // So get the old picture that was saved first from cubit,
@@ -164,8 +164,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                       ? const AssetImage(
                                                           'assets/images/generic_user.png')
                                                       : NetworkImage(
-                                                          cubit
-                                                              .supabaseImageUrl!,
+                                                          "${cubit.supabaseImageUrl!}updated=${DateTime.now().millisecondsSinceEpoch}",
                                                         )
                                                   : FileImage(
                                                       File(cubit

@@ -8,7 +8,8 @@ Widget returnEventPicture({
     width: double.infinity,
     decoration: BoxDecoration(
       image: DecorationImage(
-        image: NetworkImage(eventPictureLink),
+        image: NetworkImage(
+            "$eventPictureLink?updated=${DateTime.now().millisecondsSinceEpoch}"),
         fit: BoxFit.cover,
       ),
     ),

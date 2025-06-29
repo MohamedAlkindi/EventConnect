@@ -141,7 +141,8 @@ class MyProfileScreenView extends StatelessWidget {
                                               backgroundImage: state.userInfo
                                                       .profilePic.isNotEmpty
                                                   ? NetworkImage(
-                                                      state.userInfo.profilePic)
+                                                      "${state.userInfo.profilePic}updated=${DateTime.now().millisecondsSinceEpoch}",
+                                                    )
                                                   : const AssetImage(
                                                           'assets/images/generic_user.png')
                                                       as ImageProvider,
