@@ -95,7 +95,7 @@ class ManagerEventsBl {
             ? supabaseImageUrl
             : await _storageService.updateAndReturnImageUrl(
                 imageUrl: supabaseImageUrl,
-                newImagePath: picturePath!,
+                newImagePath: picturePath,
                 isEventPic: true,
               ),
         location: location,
