@@ -4,6 +4,7 @@ import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/core/widgets/event_elements_widget.dart';
 import 'package:event_connect/features/manager/manager_events/presentation/cubit/manager_events_cubit.dart';
+import 'package:event_connect/features/manager/manager_events/presentation/edit_event_screen.dart';
 import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -370,9 +371,15 @@ class AllEventsScreenView extends StatelessWidget {
                                                                 .transparent,
                                                             child: InkWell(
                                                               onTap: () {
-                                                                // TODO: add edit logic here. cubit.deleteEvent(
-                                                                //     documentID: event
-                                                                //         .eventID!);
+                                                                Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                    builder: (context) =>
+                                                                        EditEventScreen(
+                                                                            eventModel:
+                                                                                event),
+                                                                  ),
+                                                                );
                                                               },
                                                               borderRadius:
                                                                   BorderRadius

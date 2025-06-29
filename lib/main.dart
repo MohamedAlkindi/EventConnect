@@ -16,6 +16,7 @@ import 'package:event_connect/features/login/presentation/cubit/login_cubit.dart
 import 'package:event_connect/features/login/presentation/login_screen.dart';
 import 'package:event_connect/features/manager/manager_events/presentation/add_event_screen.dart';
 import 'package:event_connect/features/manager/manager_events/presentation/cubit/add_event_cubit.dart';
+import 'package:event_connect/features/manager/manager_events/presentation/cubit/edit_event_cubit.dart';
 import 'package:event_connect/features/manager/manager_homescreen/manager_homescreen.dart';
 import 'package:event_connect/features/register/presentation/cubit/register_cubit.dart';
 import 'package:event_connect/features/register/presentation/register_screen.dart';
@@ -100,6 +101,9 @@ class MainApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => AddEventCubit(),
+        ),
+        BlocProvider(
+          create: (context) => EditEventCubit(),
         ),
       ],
       child: MaterialApp(
