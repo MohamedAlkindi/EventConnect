@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'dart:developer' as log;
 import 'package:http/http.dart' as http;
 
 class ApiService {
@@ -18,7 +18,7 @@ class ApiService {
 
       // Encode the location parameter to handle spaces and special characters
       final encodedLocation = Uri.encodeComponent(location);
-      print('Encoded location: $encodedLocation'); // Debug log
+      log.log('Encoded location: $encodedLocation'); // Debug log
       // Determine if we need to use forecast or history endpoint
       final now = DateTime.now();
       final isFutureDate = date.isAfter(now);
@@ -32,7 +32,7 @@ class ApiService {
         url =
             '$_baseUrl/history.json?key=$_apiKey&q=$encodedLocation&dt=$formattedDate';
       }
-      print('Final URL: $url'); // Debug log
+      log.log('Final URL: $url'); // Debug log
 
       final response = await http.get(Uri.parse(url)).timeout(
         const Duration(seconds: 10),

@@ -88,14 +88,16 @@ class _RegisterPageState extends State<RegisterPage> {
                         filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.18),
+                            color: Colors.white.withAlpha((0.18 * 255).round()),
                             borderRadius: BorderRadius.circular(32),
                             border: Border.all(
-                                color: Colors.black.withOpacity(0.2),
+                                color:
+                                    Colors.black.withAlpha((0.2 * 255).round()),
                                 width: 1.2),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.white.withOpacity(0.3),
+                                color:
+                                    Colors.white.withAlpha((0.3 * 255).round()),
                                 blurRadius: 24,
                                 offset: const Offset(0, 8),
                               ),
@@ -123,7 +125,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                   'Join our community today',
                                   style: GoogleFonts.poppins(
                                     fontSize: 16,
-                                    color: Colors.black.withOpacity(0.7),
+                                    color: Colors.black
+                                        .withAlpha((0.7 * 255).round()),
                                   ),
                                 ),
                               ),
@@ -193,7 +196,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   boxShadow: [
                                     BoxShadow(
                                       color: const Color(0xFF6C63FF)
-                                          .withOpacity(0.3),
+                                          .withAlpha((0.3 * 255).round()),
                                       blurRadius: 20,
                                       offset: const Offset(0, 10),
                                     ),

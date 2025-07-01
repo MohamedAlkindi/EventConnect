@@ -85,13 +85,16 @@ class CompleteProfileScreenView extends StatelessWidget {
                       filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.18),
+                          color: Colors.white.withAlpha((0.18 * 255).round()),
                           borderRadius: BorderRadius.circular(32),
                           border: Border.all(
-                              color: Colors.black.withOpacity(0.2), width: 1.2),
+                              color:
+                                  Colors.black.withAlpha((0.2 * 255).round()),
+                              width: 1.2),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.white.withOpacity(0.3),
+                              color:
+                                  Colors.white.withAlpha((0.3 * 255).round()),
                               blurRadius: 24,
                               offset: const Offset(0, 8),
                             ),
@@ -119,7 +122,8 @@ class CompleteProfileScreenView extends StatelessWidget {
                                 "Add your profile picture and location to get started",
                                 style: GoogleFonts.poppins(
                                   fontSize: 16,
-                                  color: Colors.black.withOpacity(0.7),
+                                  color: Colors.black
+                                      .withAlpha((0.7 * 255).round()),
                                 ),
                                 textAlign: TextAlign.center,
                               ),
@@ -190,7 +194,8 @@ class CompleteProfileScreenView extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
+                                    color: Colors.black
+                                        .withAlpha((0.1 * 255).round()),
                                     blurRadius: 10,
                                     offset: const Offset(0, 5),
                                   ),
@@ -230,8 +235,8 @@ class CompleteProfileScreenView extends StatelessWidget {
                                             borderRadius:
                                                 BorderRadius.circular(12),
                                             borderSide: BorderSide(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
+                                              color: Colors.grey.withAlpha(
+                                                  (0.5 * 255).round()),
                                             ),
                                           ),
                                           focusedBorder: OutlineInputBorder(
@@ -266,7 +271,8 @@ class CompleteProfileScreenView extends StatelessWidget {
                                     style: GoogleFonts.poppins(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
-                                      color: Colors.black.withOpacity(0.8),
+                                      color: Colors.black
+                                          .withAlpha((0.8 * 255).round()),
                                     ),
                                   ),
                                   const SizedBox(height: 12),
@@ -289,8 +295,8 @@ class CompleteProfileScreenView extends StatelessWidget {
                                                 "An attendee",
                                                 style: GoogleFonts.poppins(
                                                   fontSize: 15,
-                                                  color: Colors.black
-                                                      .withOpacity(0.8),
+                                                  color: Colors.black.withAlpha(
+                                                      (0.8 * 255).round()),
                                                 ),
                                               ),
                                               activeColor:
@@ -316,8 +322,8 @@ class CompleteProfileScreenView extends StatelessWidget {
                                                 "A manager",
                                                 style: GoogleFonts.poppins(
                                                   fontSize: 15,
-                                                  color: Colors.black
-                                                      .withOpacity(0.8),
+                                                  color: Colors.black.withAlpha(
+                                                      (0.8 * 255).round()),
                                                 ),
                                               ),
                                               activeColor:
@@ -350,7 +356,7 @@ class CompleteProfileScreenView extends StatelessWidget {
                                       boxShadow: [
                                         BoxShadow(
                                           color: const Color(0xFF6C63FF)
-                                              .withOpacity(0.3),
+                                              .withAlpha((0.3 * 255).round()),
                                           blurRadius: 20,
                                           offset: const Offset(0, 10),
                                         ),

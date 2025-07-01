@@ -31,17 +31,18 @@ class ResetPasswordConfirmationPage extends StatelessWidget {
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 40),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.18),
+                color: Colors.white.withAlpha((0.18 * 255).round()),
                 borderRadius: BorderRadius.circular(32),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.08),
+                    color: Colors.black.withAlpha((0.08 * 255).round()),
                     blurRadius: 24,
                     offset: const Offset(0, 8),
                   ),
                 ],
                 border: Border.all(
-                    color: Colors.white.withOpacity(0.3), width: 1.2),
+                    color: Colors.white.withAlpha((0.3 * 255).round()),
+                    width: 1.2),
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(32),
@@ -89,7 +90,8 @@ class ResetPasswordConfirmationPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(16),
                             boxShadow: [
                               BoxShadow(
-                                color: const Color(0xFF6C63FF).withOpacity(0.3),
+                                color: const Color(0xFF6C63FF)
+                                    .withAlpha((0.3 * 255).round()),
                                 blurRadius: 20,
                                 offset: const Offset(0, 10),
                               ),

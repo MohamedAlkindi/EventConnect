@@ -63,7 +63,7 @@ class UserHomeScreenView extends StatelessWidget {
                       letterSpacing: 0.5,
                       shadows: [
                         Shadow(
-                          color: Colors.black.withOpacity(0.18),
+                          color: Colors.black.withAlpha((0.18 * 255).round()),
                           blurRadius: 10,
                         ),
                       ],
@@ -107,7 +107,7 @@ class UserHomeScreenView extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: Colors.black.withAlpha((0.1 * 255).round()),
                         blurRadius: 20,
                         offset: const Offset(0, 5),
                       ),
@@ -130,7 +130,8 @@ class UserHomeScreenView extends StatelessWidget {
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
                                   color: state.currentIndex == 0
-                                      ? const Color(0xFF6C63FF).withOpacity(0.1)
+                                      ? const Color(0xFF6C63FF)
+                                          .withAlpha((0.1 * 255).round())
                                       : Colors.transparent,
                                   borderRadius: BorderRadius.circular(12),
                                 ),
@@ -143,7 +144,8 @@ class UserHomeScreenView extends StatelessWidget {
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
                                   color: state.currentIndex == 1
-                                      ? const Color(0xFF6C63FF).withOpacity(0.1)
+                                      ? const Color(0xFF6C63FF)
+                                          .withAlpha((0.1 * 255).round())
                                       : Colors.transparent,
                                   borderRadius: BorderRadius.circular(12),
                                 ),
@@ -157,7 +159,8 @@ class UserHomeScreenView extends StatelessWidget {
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
                                   color: state.currentIndex == 2
-                                      ? const Color(0xFF6C63FF).withOpacity(0.1)
+                                      ? const Color(0xFF6C63FF)
+                                          .withAlpha((0.1 * 255).round())
                                       : Colors.transparent,
                                   borderRadius: BorderRadius.circular(12),
                                 ),

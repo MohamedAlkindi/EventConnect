@@ -74,14 +74,16 @@ class AllEventsScreenView extends StatelessWidget {
                         filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.18),
+                            color: Colors.white.withAlpha((0.18 * 255).round()),
                             borderRadius: BorderRadius.circular(32),
                             border: Border.all(
-                                color: Colors.black.withOpacity(0.12),
+                                color: Colors.black
+                                    .withAlpha((0.12 * 255).round()),
                                 width: 1.2),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.white.withOpacity(0.18),
+                                color: Colors.white
+                                    .withAlpha((0.18 * 255).round()),
                                 blurRadius: 24,
                                 offset: const Offset(0, 8),
                               ),
@@ -142,17 +144,19 @@ class AllEventsScreenView extends StatelessWidget {
                                             decoration: BoxDecoration(
                                               color: isSelected
                                                   ? const Color(0xFF6C63FF)
-                                                  : Colors.white
-                                                      .withOpacity(0.7),
+                                                  : Colors.white.withAlpha(
+                                                      (0.7 * 255).round()),
                                               borderRadius:
                                                   BorderRadius.circular(30),
                                               boxShadow: [
                                                 BoxShadow(
                                                   color: isSelected
                                                       ? const Color(0xFF6C63FF)
-                                                          .withOpacity(0.18)
-                                                      : Colors.black
-                                                          .withOpacity(0.03),
+                                                          .withAlpha(
+                                                              (0.18 * 255)
+                                                                  .round())
+                                                      : Colors.black.withAlpha(
+                                                          (0.03 * 255).round()),
                                                   blurRadius: 10,
                                                   offset: const Offset(0, 5),
                                                 ),
@@ -228,7 +232,8 @@ class AllEventsScreenView extends StatelessWidget {
                                               Icons.event_busy_rounded,
                                               size: 80,
                                               color: const Color(0xFF6C63FF)
-                                                  .withOpacity(0.5),
+                                                  .withAlpha(
+                                                      (0.5 * 255).round()),
                                             ),
                                             const SizedBox(height: 16),
                                             Text(
@@ -269,14 +274,14 @@ class AllEventsScreenView extends StatelessWidget {
                                           margin: const EdgeInsets.only(
                                               bottom: 24, left: 20, right: 20),
                                           decoration: BoxDecoration(
-                                            color:
-                                                Colors.white.withOpacity(0.95),
+                                            color: Colors.white.withAlpha(
+                                                (0.95 * 255).round()),
                                             borderRadius:
                                                 BorderRadius.circular(24),
                                             boxShadow: [
                                               BoxShadow(
-                                                color: Colors.black
-                                                    .withOpacity(0.05),
+                                                color: Colors.black.withAlpha(
+                                                    (0.05 * 255).round()),
                                                 blurRadius: 20,
                                                 offset: const Offset(0, 10),
                                               ),
@@ -317,8 +322,9 @@ class AllEventsScreenView extends StatelessWidget {
                                                           colors: [
                                                             Colors.transparent,
                                                             Colors.black
-                                                                .withOpacity(
-                                                                    0.7),
+                                                                .withAlpha((0.7 *
+                                                                        255)
+                                                                    .round()),
                                                           ],
                                                         ),
                                                       ),
@@ -402,8 +408,9 @@ class AllEventsScreenView extends StatelessWidget {
                                                           BoxShadow(
                                                             color: const Color(
                                                                     0xFF6C63FF)
-                                                                .withOpacity(
-                                                                    0.18),
+                                                                .withAlpha(
+                                                                    (0.18 * 255)
+                                                                        .round()),
                                                             blurRadius: 10,
                                                             offset:
                                                                 const Offset(

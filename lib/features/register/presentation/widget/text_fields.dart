@@ -24,7 +24,7 @@ Widget customTextField({
             borderRadius: BorderRadius.circular(30),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.08),
+                color: Colors.black.withAlpha((0.08 * 255).round()),
                 blurRadius: 8,
                 spreadRadius: 5,
                 offset: const Offset(4, 4),
@@ -37,7 +37,7 @@ Widget customTextField({
           controller: controller,
           decoration: InputDecoration(
             // filled: true,
-            // fillColor: Colors.white.withOpacity(0.85),
+            // fillColor: Colors.white.withAlpha(0.85),
             label: Text(
               labelText,
               style: TextStyle(

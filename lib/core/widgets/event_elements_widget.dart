@@ -105,10 +105,10 @@ class _EventDescriptionWidgetState extends State<_EventDescriptionWidget> {
           width: 1.5,
         ),
         borderRadius: BorderRadius.circular(12),
-        color: Colors.white.withOpacity(0.8),
+        color: Colors.white.withAlpha((0.8 * 255).round()),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withAlpha((0.1 * 255).round()),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),

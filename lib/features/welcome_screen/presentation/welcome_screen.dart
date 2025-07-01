@@ -56,13 +56,15 @@ class WelcomeScreenView extends StatelessWidget {
                     filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.18),
+                        color: Colors.white.withAlpha((0.18 * 255).round()),
                         borderRadius: BorderRadius.circular(32),
                         border: Border.all(
-                            color: Colors.black.withOpacity(0.2), width: 1.2),
+                          color: Colors.black.withAlpha((0.2 * 255).round()),
+                          width: 1.2,
+                        ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.white.withOpacity(0.3),
+                            color: Colors.white.withAlpha((0.3 * 255).round()),
                             blurRadius: 24,
                             offset: const Offset(0, 8),
                           ),
@@ -96,7 +98,8 @@ class WelcomeScreenView extends StatelessWidget {
                                 letterSpacing: 0.5,
                                 shadows: [
                                   Shadow(
-                                    color: Colors.black.withOpacity(0.18),
+                                    color: Colors.black
+                                        .withAlpha((0.18 * 255).round()),
                                     blurRadius: 10,
                                   ),
                                 ],

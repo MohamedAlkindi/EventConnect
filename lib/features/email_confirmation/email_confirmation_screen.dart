@@ -86,13 +86,14 @@ class _EmailConfirmationScreen extends State<EmailConfirmationScreen> {
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 40),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.18),
+                      color: Colors.white.withAlpha((0.18 * 255).round()),
                       borderRadius: BorderRadius.circular(32),
                       border: Border.all(
-                          color: Colors.black.withOpacity(0.2), width: 1.2),
+                          color: Colors.black.withAlpha((0.2 * 255).round()),
+                          width: 1.2),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.white.withOpacity(0.3),
+                          color: Colors.white.withAlpha((0.3 * 255).round()),
                           blurRadius: 24,
                           offset: const Offset(0, 8),
                         ),
@@ -151,8 +152,8 @@ class _EmailConfirmationScreen extends State<EmailConfirmationScreen> {
                               borderRadius: BorderRadius.circular(16),
                               boxShadow: [
                                 BoxShadow(
-                                  color:
-                                      const Color(0xFF6C63FF).withOpacity(0.3),
+                                  color: const Color(0xFF6C63FF)
+                                      .withAlpha((0.3 * 255).round()),
                                   blurRadius: 20,
                                   offset: const Offset(0, 10),
                                 ),
