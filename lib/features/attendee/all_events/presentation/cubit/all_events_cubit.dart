@@ -91,7 +91,11 @@ class AllEventsCubit extends Cubit<AllEventsState> {
     }
   }
 
-  Future<void> forceRefreshEvents() async {
+  Future<void> forceRefreshAllEvents() async {
     await getAllEvents(forceRefresh: true);
+  }
+
+  Future<void> forceRefreshCategoryEvents({required String category}) async {
+    await getEventsByCategory(category: category);
   }
 }

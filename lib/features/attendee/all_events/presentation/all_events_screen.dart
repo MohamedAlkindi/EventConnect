@@ -23,6 +23,7 @@ class AllEventsScreenView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<AllEventsCubit>();
     final confettiController =
         ConfettiController(duration: const Duration(seconds: 2));
     return Scaffold(
@@ -62,7 +63,7 @@ class AllEventsScreenView extends StatelessWidget {
             ),
             // Main frosted glass content
             RefreshIndicator(
-              onRefresh: context.read<AllEventsCubit>().forceRefreshEvents,
+              onRefresh: cubit.forceRefreshAllEvents,
               child: SingleChildScrollView(
                 child: Center(
                   child: Padding(
@@ -236,6 +237,24 @@ class AllEventsScreenView extends StatelessWidget {
                                                 fontSize: 24,
                                                 color: const Color(0xFF6C63FF),
                                                 fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                cubit.selectedCategory == "All"
+                                                    ? cubit
+                                                        .forceRefreshAllEvents()
+                                                    : cubit.forceRefreshCategoryEvents(
+                                                        category: cubit
+                                                            .selectedCategory);
+                                              },
+                                              child: Text(
+                                                'Click here to refresh',
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: 16,
+                                                  color: const Color.fromARGB(
+                                                      255, 230, 138, 32),
+                                                ),
                                               ),
                                             ),
                                           ],

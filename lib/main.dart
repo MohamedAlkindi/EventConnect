@@ -4,6 +4,7 @@ import 'package:event_connect/core/theme/app_theme.dart';
 import 'package:event_connect/features/attendee/all_events/presentation/all_events_screen.dart';
 import 'package:event_connect/features/attendee/all_events/presentation/cubit/all_events_cubit.dart';
 import 'package:event_connect/features/attendee/edit_profile/presentation/cubit/edit_profile_cubit.dart';
+import 'package:event_connect/features/attendee/my_events/presentation/cubit/my_events_cubit.dart';
 import 'package:event_connect/features/attendee/my_events/presentation/my_events_screen.dart';
 import 'package:event_connect/features/attendee/my_profile/presentation/my_profile_screen.dart';
 import 'package:event_connect/features/attendee/user_homescreen/presentation/cubit/user_homescreen_cubit.dart';
@@ -115,6 +116,11 @@ class MainApp extends StatelessWidget {
         BlocProvider(
           create: (context) => UserHomescreenCubit(),
           child: const UserHomeScreenView(),
+        ),
+        BlocProvider(
+          create: (context) =>
+              MyEventsCubit()..getAllEventsByUserID(forceRefresh: false),
+          child: const MyEventsScreenView(),
         ),
       ],
       child: MaterialApp(
