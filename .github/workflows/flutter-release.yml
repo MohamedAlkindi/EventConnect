@@ -14,7 +14,7 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.22.0'  # or your current version
+          flutter-version: '3.27.4'  # or your current version
 
       - run: flutter pub get
       - run: flutter build apk --release
