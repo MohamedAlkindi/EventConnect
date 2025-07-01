@@ -10,6 +10,8 @@ class ManagerEventsBl {
   final _eventRepo = EventRepo();
   final _user = FirebaseUser();
   final _storageService = ImageStorageService();
+  // Might delete later..
+  // final _managerCubit = ManagerEventsCubit();
 
   Future<List<EventModel>> getEvents() async {
     try {
@@ -41,7 +43,8 @@ class ManagerEventsBl {
     }
   }
 
-  Future<void> addEvent(
+// Return a model to put it in the cubit stream later.
+  Future<EventModel> addEvent(
       {required String name,
       required String category,
       required String picturePath,
@@ -50,6 +53,7 @@ class ManagerEventsBl {
       required String description,
       required String genderRestriction}) async {
     try {
+      // Prepare the event model to add it to the firestore.
       var eventModel = EventModel(
         null,
         name: name,
@@ -66,13 +70,18 @@ class ManagerEventsBl {
         managerID: _user.getUserID,
       );
 
-      await _dataAccess.addEvent(eventModel);
+      // get the document id and put it in the event model, and return it,
+      // to be used later in the cubit to add it to the stream.
+      String modelId = await _dataAccess.addEvent(eventModel);
+      eventModel.eventID = modelId;
+      return eventModel;
     } catch (e) {
       throw Exception("Error ${e.toString()}");
     }
   }
 
-  Future<void> editEvent(
+  // similar work to add event, but this time the docID is already here.
+  Future<EventModel> editEvent(
       {required String docID,
       required String name,
       required String category,
@@ -84,7 +93,7 @@ class ManagerEventsBl {
       required String genderRestriction}) async {
     try {
       var updatedEvent = EventModel(
-        null,
+        docID,
         name: name,
         category: category,
         // check if the picturePath sent from the cubit is not null
@@ -105,7 +114,8 @@ class ManagerEventsBl {
         genderRestriction: genderRestriction,
         managerID: _user.getUserID,
       );
-      await _dataAccess.editEvent(docID, updatedEvent);
+      await _dataAccess.editEvent(updatedEvent);
+      return updatedEvent;
     } catch (e) {
       throw Exception("Error ${e.toString()}");
     }

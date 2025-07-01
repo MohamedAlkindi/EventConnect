@@ -1,12 +1,15 @@
 import 'package:bloc/bloc.dart';
+import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/features/manager/manager_events/business_logic/manager_events_bl.dart';
+import 'package:event_connect/features/manager/manager_events/presentation/cubit/manager_events_cubit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 
 part 'edit_event_state.dart';
 
 class EditEventCubit extends Cubit<EditEventState> {
-  EditEventCubit() : super(EditEventInitial());
+  final ManagerEventsCubit managerCubit;
+  EditEventCubit(this.managerCubit) : super(EditEventInitial());
   final _businessLogic = ManagerEventsBl();
 
   final List<String> categories = [
@@ -77,7 +80,7 @@ class EditEventCubit extends Cubit<EditEventState> {
     required String supabaseImageUrl,
   }) async {
     try {
-      await _businessLogic.editEvent(
+      EventModel eventModel = await _businessLogic.editEvent(
         docID: docID,
         name: name,
         category: selectedCategory,
@@ -91,6 +94,7 @@ class EditEventCubit extends Cubit<EditEventState> {
         description: description,
         genderRestriction: selectedGenderRestriction,
       );
+      managerCubit.editEventInStream(eventModel);
       emit(EventUpdatedSuccessfully());
     } catch (e) {
       emit(EditEventError(message: e.toString()));

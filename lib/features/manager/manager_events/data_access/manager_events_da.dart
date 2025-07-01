@@ -16,21 +16,22 @@ class ManagerEventsDa {
     }
   }
 
-  Future<void> addEvent(EventModel eventModel) async {
+  Future<String> addEvent(EventModel eventModel) async {
     try {
-      await _firestore
+      final docRef = await _firestore
           .collection(EventsCollection.eventCollectionName)
           .add(eventModel.toJson());
+      return docRef.id;
     } catch (e) {
       throw Exception("Error ${e.toString()}");
     }
   }
 
-  Future<void> editEvent(String docID, EventModel eventModel) async {
+  Future<void> editEvent(EventModel eventModel) async {
     try {
       await _firestore
           .collection(EventsCollection.eventCollectionName)
-          .doc(docID)
+          .doc(eventModel.eventID)
           .update(eventModel.toJson());
     } catch (e) {
       throw Exception("Error ${e.toString()}");

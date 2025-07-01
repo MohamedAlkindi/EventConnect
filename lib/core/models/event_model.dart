@@ -5,7 +5,7 @@ part 'event_model.g.dart';
 @JsonSerializable()
 class EventModel {
   @JsonKey(includeIfNull: false)
-  final String? eventID;
+  String? eventID;
   final String name;
   final String category;
   final String picture;

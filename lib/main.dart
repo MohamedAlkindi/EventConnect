@@ -20,6 +20,8 @@ import 'package:event_connect/features/login/presentation/login_screen.dart';
 import 'package:event_connect/features/manager/manager_events/presentation/add_event_screen.dart';
 import 'package:event_connect/features/manager/manager_events/presentation/cubit/add_event_cubit.dart';
 import 'package:event_connect/features/manager/manager_events/presentation/cubit/edit_event_cubit.dart';
+import 'package:event_connect/features/manager/manager_events/presentation/cubit/manager_events_cubit.dart';
+import 'package:event_connect/features/manager/manager_homescreen/presentation/cubit/manager_homescreen_cubit.dart';
 import 'package:event_connect/features/manager/manager_homescreen/presentation/manager_homescreen.dart';
 import 'package:event_connect/features/register/presentation/cubit/register_cubit.dart';
 import 'package:event_connect/features/register/presentation/register_screen.dart';
@@ -88,6 +90,32 @@ class MainApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
+          create: (context) =>
+              ManagerEventsCubit()..getAllEvents(forceRefresh: false),
+        ),
+        BlocProvider(
+          create: (context) =>
+              AddEventCubit(context.read<ManagerEventsCubit>()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              EditEventCubit(context.read<ManagerEventsCubit>()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              AllEventsCubit()..getAllEvents(forceRefresh: false),
+        ),
+        BlocProvider(
+          create: (context) => UserHomescreenCubit(),
+        ),
+        BlocProvider(
+          create: (context) =>
+              MyEventsCubit()..getAllEventsByUserID(forceRefresh: false),
+        ),
+        BlocProvider(
+          create: (context) => ManagerHomescreenCubit(),
+        ),
+        BlocProvider(
           create: (context) => LoginCubit(),
         ),
         BlocProvider(
@@ -101,26 +129,6 @@ class MainApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => EmailConfirmationCubit(),
-        ),
-        BlocProvider(
-          create: (context) => AddEventCubit(),
-        ),
-        BlocProvider(
-          create: (context) => EditEventCubit(),
-        ),
-        BlocProvider(
-          create: (context) =>
-              AllEventsCubit()..getAllEvents(forceRefresh: false),
-          child: const AllEventsScreenView(),
-        ),
-        BlocProvider(
-          create: (context) => UserHomescreenCubit(),
-          child: const UserHomeScreenView(),
-        ),
-        BlocProvider(
-          create: (context) =>
-              MyEventsCubit()..getAllEventsByUserID(forceRefresh: false),
-          child: const MyEventsScreenView(),
         ),
       ],
       child: MaterialApp(

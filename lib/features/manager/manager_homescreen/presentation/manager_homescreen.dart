@@ -10,10 +10,7 @@ class ManagerHomescreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ManagerHomescreenCubit(),
-      child: const ManagerHomescreenView(),
-    );
+    return ManagerHomescreenView();
   }
 }
 
