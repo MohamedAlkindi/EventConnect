@@ -1,7 +1,7 @@
 name: Build Flutter APK
 
 on:
-  push:
+  workflow_dispatch:
     branches:
       - main  # or your default branch
 
