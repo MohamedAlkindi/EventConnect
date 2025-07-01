@@ -2,9 +2,11 @@ import 'package:event_connect/core/firebase/config/firebase_options.dart';
 import 'package:event_connect/core/firebase/user/firebase_user.dart';
 import 'package:event_connect/core/theme/app_theme.dart';
 import 'package:event_connect/features/attendee/all_events/presentation/all_events_screen.dart';
+import 'package:event_connect/features/attendee/all_events/presentation/cubit/all_events_cubit.dart';
 import 'package:event_connect/features/attendee/edit_profile/presentation/cubit/edit_profile_cubit.dart';
 import 'package:event_connect/features/attendee/my_events/presentation/my_events_screen.dart';
 import 'package:event_connect/features/attendee/my_profile/presentation/my_profile_screen.dart';
+import 'package:event_connect/features/attendee/user_homescreen/presentation/cubit/user_homescreen_cubit.dart';
 import 'package:event_connect/features/attendee/user_homescreen/presentation/user_homescreen.dart';
 import 'package:event_connect/features/complete_profile/presentation/complete_profile_screen.dart';
 import 'package:event_connect/features/email_confirmation/cubit/email_confirmation_cubit.dart';
@@ -104,6 +106,15 @@ class MainApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => EditEventCubit(),
+        ),
+        BlocProvider(
+          create: (context) =>
+              AllEventsCubit()..getAllEvents(forceRefresh: false),
+          child: const AllEventsScreenView(),
+        ),
+        BlocProvider(
+          create: (context) => UserHomescreenCubit(),
+          child: const UserHomeScreenView(),
         ),
       ],
       child: MaterialApp(

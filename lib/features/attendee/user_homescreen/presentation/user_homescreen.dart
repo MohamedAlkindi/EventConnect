@@ -11,10 +11,7 @@ class UserHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => UserHomescreenCubit(),
-      child: const UserHomeScreenView(),
-    );
+    return UserHomeScreenView();
   }
 }
 

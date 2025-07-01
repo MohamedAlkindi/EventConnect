@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/features/attendee/all_events/business_logic/all_events_bl.dart';
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 
 part 'all_events_state.dart';
 
@@ -12,18 +13,17 @@ class AllEventsCubit extends Cubit<AllEventsState> {
 
   final AllEventScreenBL _businessLogic = AllEventScreenBL();
 
-  // Stream controller for real-time event updates
-  final StreamController<List<EventModel>> _eventsStreamController =
-      StreamController<List<EventModel>>.broadcast();
+  // Use BehaviorSubject for caching and replaying the latest value
+  final BehaviorSubject<List<EventModel>> _eventsSubject =
+      BehaviorSubject<List<EventModel>>();
 
-  // Expose the stream to listen for real-time updates
-  Stream<List<EventModel>> get eventsStream => _eventsStreamController.stream;
+  Stream<List<EventModel>> get eventsStream => _eventsSubject.stream;
 
   List<EventModel> _allEvents = [];
 
   @override
   Future<void> close() {
-    _eventsStreamController.close();
+    _eventsSubject.close();
     return super.close();
   }
 
@@ -46,13 +46,15 @@ class AllEventsCubit extends Cubit<AllEventsState> {
   }
 
   // Show all events.
-  Future<void> getAllEvents() async {
+  Future<void> getAllEvents({required bool forceRefresh}) async {
     emit(AllEventsLoading());
     try {
-      List<EventModel> allEvents = await _businessLogic.getEvents();
-      _allEvents = allEvents;
-      // Update stream for real-time listeners
-      _eventsStreamController.add(_allEvents);
+      if (_allEvents.isEmpty || forceRefresh) {
+        List<EventModel> allEvents = await _businessLogic.getEvents();
+        _allEvents = allEvents;
+      }
+      // Always emit the latest cached data
+      _eventsSubject.add(_allEvents);
     } catch (e) {
       emit(AllEventsError(message: e.toString()));
     }
@@ -65,9 +67,7 @@ class AllEventsCubit extends Cubit<AllEventsState> {
       final filteredEvents = category == "All"
           ? _allEvents
           : _allEvents.where((event) => event.category == category).toList();
-
-      // Update stream for real-time listeners
-      _eventsStreamController.add(filteredEvents);
+      _eventsSubject.add(filteredEvents);
     } catch (e) {
       emit(AllEventsError(message: e.toString()));
     }
@@ -83,11 +83,15 @@ class AllEventsCubit extends Cubit<AllEventsState> {
       _allEvents.removeWhere((event) => event.eventID == documentID);
 
       // Update stream with the new list
-      _eventsStreamController.add(_allEvents);
+      _eventsSubject.add(_allEvents);
 
       emit(EventAddedToUserEvents());
     } catch (e) {
       emit(AllEventsError(message: e.toString()));
     }
+  }
+
+  Future<void> forceRefreshEvents() async {
+    await getAllEvents(forceRefresh: true);
   }
 }

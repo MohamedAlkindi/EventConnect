@@ -14,10 +14,7 @@ class AllEventsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AllEventsCubit()..getAllEvents(),
-      child: const AllEventsScreenView(),
-    );
+    return AllEventsScreenView();
   }
 }
 
@@ -64,366 +61,384 @@ class AllEventsScreenView extends StatelessWidget {
               ),
             ),
             // Main frosted glass content
-            SingleChildScrollView(
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(5),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(32),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.18),
-                          borderRadius: BorderRadius.circular(32),
-                          border: Border.all(
-                              color: Colors.black.withOpacity(0.12),
-                              width: 1.2),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.white.withOpacity(0.18),
-                              blurRadius: 24,
-                              offset: const Offset(0, 8),
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            // Modern glossy transparent app bar
-                            SizedBox(
-                              height: 64,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 28.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Discover Events",
-                                      style: GoogleFonts.poppins(
-                                        color: const Color(0xFF6C63FF),
-                                        fontSize: 26,
-                                        fontWeight: FontWeight.bold,
+            RefreshIndicator(
+              onRefresh: context.read<AllEventsCubit>().forceRefreshEvents,
+              child: SingleChildScrollView(
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(32),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.18),
+                            borderRadius: BorderRadius.circular(32),
+                            border: Border.all(
+                                color: Colors.black.withOpacity(0.12),
+                                width: 1.2),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.white.withOpacity(0.18),
+                                blurRadius: 24,
+                                offset: const Offset(0, 8),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              // Modern glossy transparent app bar
+                              SizedBox(
+                                height: 64,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 28.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "Discover Events",
+                                        style: GoogleFonts.poppins(
+                                          color: const Color(0xFF6C63FF),
+                                          fontSize: 26,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
 
-                            // Categories with modern design
-                            Container(
-                              height: 60,
-                              margin:
-                                  const EdgeInsets.only(top: 20, bottom: 10),
-                              child:
-                                  BlocBuilder<AllEventsCubit, AllEventsState>(
-                                builder: (context, state) {
-                                  final cubit = context.read<AllEventsCubit>();
-                                  return ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20),
-                                    itemCount: cubit.categories.length,
-                                    itemBuilder: (context, index) {
-                                      final isSelected =
-                                          cubit.selectedCategory ==
-                                              cubit.categories[index];
-                                      return Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 12),
-                                        child: AnimatedContainer(
-                                          duration:
-                                              const Duration(milliseconds: 200),
-                                          decoration: BoxDecoration(
-                                            color: isSelected
-                                                ? const Color(0xFF6C63FF)
-                                                : Colors.white.withOpacity(0.7),
-                                            borderRadius:
-                                                BorderRadius.circular(30),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: isSelected
-                                                    ? const Color(0xFF6C63FF)
-                                                        .withOpacity(0.18)
-                                                    : Colors.black
-                                                        .withOpacity(0.03),
-                                                blurRadius: 10,
-                                                offset: const Offset(0, 5),
-                                              ),
-                                            ],
-                                          ),
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20, vertical: 8),
-                                          child: InkWell(
-                                            onTap: () =>
-                                                cubit.selectCategory(index),
-                                            borderRadius:
-                                                BorderRadius.circular(30),
-                                            child: Center(
-                                              child: Text(
-                                                cubit.categories[index],
-                                                style: GoogleFonts.poppins(
+                              // Categories with modern design
+                              Container(
+                                height: 60,
+                                margin:
+                                    const EdgeInsets.only(top: 20, bottom: 10),
+                                child:
+                                    BlocBuilder<AllEventsCubit, AllEventsState>(
+                                  builder: (context, state) {
+                                    final cubit =
+                                        context.read<AllEventsCubit>();
+                                    return ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
+                                      itemCount: cubit.categories.length,
+                                      itemBuilder: (context, index) {
+                                        final isSelected =
+                                            cubit.selectedCategory ==
+                                                cubit.categories[index];
+                                        return Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 12),
+                                          child: AnimatedContainer(
+                                            duration: const Duration(
+                                                milliseconds: 200),
+                                            decoration: BoxDecoration(
+                                              color: isSelected
+                                                  ? const Color(0xFF6C63FF)
+                                                  : Colors.white
+                                                      .withOpacity(0.7),
+                                              borderRadius:
+                                                  BorderRadius.circular(30),
+                                              boxShadow: [
+                                                BoxShadow(
                                                   color: isSelected
-                                                      ? Colors.white
-                                                      : const Color(0xFF6C63FF),
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 14,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-                            ),
-                            // Events List with modern cards
-                            StreamBuilder<List<EventModel>>(
-                              stream:
-                                  context.read<AllEventsCubit>().eventsStream,
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 60),
-                                    child: Center(
-                                      child: CircularProgressIndicator(
-                                        color: Color(0xFF6C63FF),
-                                      ),
-                                    ),
-                                  );
-                                } else if (snapshot.hasError) {
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 60),
-                                    child: Center(
-                                      child: Text(
-                                        'Error:  ${snapshot.error}',
-                                        style: const TextStyle(
-                                            color: Color(0xFF6C63FF)),
-                                      ),
-                                    ),
-                                  );
-                                } else if (!snapshot.hasData ||
-                                    snapshot.data!.isEmpty) {
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 60),
-                                    child: Center(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.event_busy_rounded,
-                                            size: 80,
-                                            color: const Color(0xFF6C63FF)
-                                                .withOpacity(0.5),
-                                          ),
-                                          const SizedBox(height: 16),
-                                          Text(
-                                            'No Events Yet! 😱',
-                                            style: GoogleFonts.poppins(
-                                              fontSize: 24,
-                                              color: const Color(0xFF6C63FF),
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                }
-                                return Column(
-                                  children: [
-                                    for (final event in snapshot.data!)
-                                      Container(
-                                        margin: const EdgeInsets.only(
-                                            bottom: 24, left: 20, right: 20),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(0.95),
-                                          borderRadius:
-                                              BorderRadius.circular(24),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.black
-                                                  .withOpacity(0.05),
-                                              blurRadius: 20,
-                                              offset: const Offset(0, 10),
-                                            ),
-                                          ],
-                                        ),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            // Event Image with gradient overlay
-                                            Stack(
-                                              children: [
-                                                ClipRRect(
-                                                  borderRadius:
-                                                      const BorderRadius
-                                                          .vertical(
-                                                          top: Radius.circular(
-                                                              24)),
-                                                  child: returnEventPicture(
-                                                    eventPictureLink:
-                                                        event.picture,
-                                                  ),
-                                                ),
-                                                Positioned(
-                                                  bottom: 0,
-                                                  left: 0,
-                                                  right: 0,
-                                                  child: Container(
-                                                    height: 100,
-                                                    decoration: BoxDecoration(
-                                                      gradient: LinearGradient(
-                                                        begin:
-                                                            Alignment.topCenter,
-                                                        end: Alignment
-                                                            .bottomCenter,
-                                                        colors: [
-                                                          Colors.transparent,
-                                                          Colors.black
-                                                              .withOpacity(0.7),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
+                                                      ? const Color(0xFF6C63FF)
+                                                          .withOpacity(0.18)
+                                                      : Colors.black
+                                                          .withOpacity(0.03),
+                                                  blurRadius: 10,
+                                                  offset: const Offset(0, 5),
                                                 ),
                                               ],
                                             ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(24.0),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 20, vertical: 8),
+                                            child: InkWell(
+                                              onTap: () =>
+                                                  cubit.selectCategory(index),
+                                              borderRadius:
+                                                  BorderRadius.circular(30),
+                                              child: Center(
+                                                child: Text(
+                                                  cubit.categories[index],
+                                                  style: GoogleFonts.poppins(
+                                                    color: isSelected
+                                                        ? Colors.white
+                                                        : const Color(
+                                                            0xFF6C63FF),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                              // Events List with modern cards
+                              StreamBuilder<List<EventModel>>(
+                                stream:
+                                    context.read<AllEventsCubit>().eventsStream,
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 60),
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                          color: Color(0xFF6C63FF),
+                                        ),
+                                      ),
+                                    );
+                                  } else if (snapshot.hasError) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 60),
+                                      child: Center(
+                                        child: Text(
+                                          'Error:  ${snapshot.error}',
+                                          style: const TextStyle(
+                                              color: Color(0xFF6C63FF)),
+                                        ),
+                                      ),
+                                    );
+                                  } else if (!snapshot.hasData ||
+                                      snapshot.data!.isEmpty) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 60),
+                                      child: Center(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.event_busy_rounded,
+                                              size: 80,
+                                              color: const Color(0xFF6C63FF)
+                                                  .withOpacity(0.5),
+                                            ),
+                                            const SizedBox(height: 16),
+                                            Text(
+                                              'No Events Yet! 😱',
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 24,
+                                                color: const Color(0xFF6C63FF),
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  return Column(
+                                    children: [
+                                      for (final event in snapshot.data!)
+                                        Container(
+                                          margin: const EdgeInsets.only(
+                                              bottom: 24, left: 20, right: 20),
+                                          decoration: BoxDecoration(
+                                            color:
+                                                Colors.white.withOpacity(0.95),
+                                            borderRadius:
+                                                BorderRadius.circular(24),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black
+                                                    .withOpacity(0.05),
+                                                blurRadius: 20,
+                                                offset: const Offset(0, 10),
+                                              ),
+                                            ],
+                                          ),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              // Event Image with gradient overlay
+                                              Stack(
                                                 children: [
-                                                  // Event Name and Location
-                                                  returnEventMainElements(
-                                                    eventName: event.name,
-                                                    eventLocation:
-                                                        event.location,
-                                                  ),
-                                                  const SizedBox(height: 18),
-                                                  // Category
-                                                  returnEventElements(
-                                                    icon:
-                                                        Icons.category_rounded,
-                                                    text: event.category,
-                                                  ),
-                                                  const SizedBox(height: 14),
-                                                  // Date and Time
-                                                  returnEventElements(
-                                                    icon: Icons.calendar_today,
-                                                    icon2: Icons.access_time,
-                                                    text: event.dateAndTime,
-                                                  ),
-                                                  const SizedBox(height: 14),
-                                                  // Gender Restriction
-                                                  returnEventElements(
-                                                    icon: Icons.male_rounded,
-                                                    icon2: Icons.female_rounded,
-                                                    text:
-                                                        event.genderRestriction,
-                                                  ),
-                                                  const SizedBox(height: 14),
-                                                  // Weather
-                                                  returnEventElements(
-                                                    icon: Icons.wb_sunny,
-                                                    text: event.weather == null
-                                                        ? "No weather info"
-                                                        : "${event.weather} C°",
-                                                  ),
-                                                  const SizedBox(height: 18),
-                                                  // Description
-                                                  returnEventDescription(
-                                                    description:
-                                                        event.description,
-                                                  ),
-                                                  const SizedBox(height: 24),
-                                                  // Modern Add to Schedule Button
-                                                  Container(
-                                                    width: double.infinity,
-                                                    height: 48,
-                                                    decoration: BoxDecoration(
-                                                      gradient:
-                                                          const LinearGradient(
-                                                        begin:
-                                                            Alignment.topLeft,
-                                                        end: Alignment
-                                                            .bottomRight,
-                                                        colors: [
-                                                          Color(0xFF6C63FF),
-                                                          Color(0xFFFF6584)
-                                                        ],
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              16),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: const Color(
-                                                                  0xFF6C63FF)
-                                                              .withOpacity(
-                                                                  0.18),
-                                                          blurRadius: 10,
-                                                          offset: const Offset(
-                                                              0, 5),
-                                                        ),
-                                                      ],
+                                                  ClipRRect(
+                                                    borderRadius:
+                                                        const BorderRadius
+                                                            .vertical(
+                                                            top:
+                                                                Radius.circular(
+                                                                    24)),
+                                                    child: returnEventPicture(
+                                                      eventPictureLink:
+                                                          event.picture,
                                                     ),
-                                                    child: Material(
-                                                      color: Colors.transparent,
-                                                      child: InkWell(
-                                                        onTap: () {
-                                                          confettiController
-                                                              .play();
-                                                          context
-                                                              .read<
-                                                                  AllEventsCubit>()
-                                                              .addEventToUserEvents(
-                                                                  documentID: event
-                                                                      .eventID!);
-                                                        },
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(16),
-                                                        child: Center(
-                                                          child: Text(
-                                                            'Add to Schedule',
-                                                            style: GoogleFonts
-                                                                .poppins(
-                                                              fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              color:
-                                                                  Colors.white,
-                                                            ),
-                                                          ),
+                                                  ),
+                                                  Positioned(
+                                                    bottom: 0,
+                                                    left: 0,
+                                                    right: 0,
+                                                    child: Container(
+                                                      height: 100,
+                                                      decoration: BoxDecoration(
+                                                        gradient:
+                                                            LinearGradient(
+                                                          begin: Alignment
+                                                              .topCenter,
+                                                          end: Alignment
+                                                              .bottomCenter,
+                                                          colors: [
+                                                            Colors.transparent,
+                                                            Colors.black
+                                                                .withOpacity(
+                                                                    0.7),
+                                                          ],
                                                         ),
                                                       ),
                                                     ),
                                                   ),
                                                 ],
                                               ),
-                                            ),
-                                          ],
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(24.0),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    // Event Name and Location
+                                                    returnEventMainElements(
+                                                      eventName: event.name,
+                                                      eventLocation:
+                                                          event.location,
+                                                    ),
+                                                    const SizedBox(height: 18),
+                                                    // Category
+                                                    returnEventElements(
+                                                      icon: Icons
+                                                          .category_rounded,
+                                                      text: event.category,
+                                                    ),
+                                                    const SizedBox(height: 14),
+                                                    // Date and Time
+                                                    returnEventElements(
+                                                      icon:
+                                                          Icons.calendar_today,
+                                                      icon2: Icons.access_time,
+                                                      text: event.dateAndTime,
+                                                    ),
+                                                    const SizedBox(height: 14),
+                                                    // Gender Restriction
+                                                    returnEventElements(
+                                                      icon: Icons.male_rounded,
+                                                      icon2:
+                                                          Icons.female_rounded,
+                                                      text: event
+                                                          .genderRestriction,
+                                                    ),
+                                                    const SizedBox(height: 14),
+                                                    // Weather
+                                                    returnEventElements(
+                                                      icon: Icons.wb_sunny,
+                                                      text: event.weather ==
+                                                              null
+                                                          ? "No weather info"
+                                                          : "${event.weather} C°",
+                                                    ),
+                                                    const SizedBox(height: 18),
+                                                    // Description
+                                                    returnEventDescription(
+                                                      description:
+                                                          event.description,
+                                                    ),
+                                                    const SizedBox(height: 24),
+                                                    // Modern Add to Schedule Button
+                                                    Container(
+                                                      width: double.infinity,
+                                                      height: 48,
+                                                      decoration: BoxDecoration(
+                                                        gradient:
+                                                            const LinearGradient(
+                                                          begin:
+                                                              Alignment.topLeft,
+                                                          end: Alignment
+                                                              .bottomRight,
+                                                          colors: [
+                                                            Color(0xFF6C63FF),
+                                                            Color(0xFFFF6584)
+                                                          ],
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(16),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: const Color(
+                                                                    0xFF6C63FF)
+                                                                .withOpacity(
+                                                                    0.18),
+                                                            blurRadius: 10,
+                                                            offset:
+                                                                const Offset(
+                                                                    0, 5),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      child: Material(
+                                                        color:
+                                                            Colors.transparent,
+                                                        child: InkWell(
+                                                          onTap: () {
+                                                            confettiController
+                                                                .play();
+                                                            context
+                                                                .read<
+                                                                    AllEventsCubit>()
+                                                                .addEventToUserEvents(
+                                                                    documentID:
+                                                                        event
+                                                                            .eventID!);
+                                                          },
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(16),
+                                                          child: Center(
+                                                            child: Text(
+                                                              'Add to Schedule',
+                                                              style: GoogleFonts
+                                                                  .poppins(
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                  ],
-                                );
-                              },
-                            ),
-                          ],
+                                    ],
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
