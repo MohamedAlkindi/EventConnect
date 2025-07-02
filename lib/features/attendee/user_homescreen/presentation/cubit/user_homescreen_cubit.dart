@@ -29,6 +29,7 @@ class UserHomescreenCubit extends Cubit<UserHomescreenState> {
     emit(UserHomescreenLoading());
     try {
       String userProfilePic = await userHomescreenBl.getUserProfilePic();
+
       emit(UserHomescreenState(
           currentIndex: state.currentIndex, imageFile: userProfilePic));
     } catch (e) {

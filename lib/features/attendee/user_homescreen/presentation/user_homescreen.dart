@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:event_connect/features/attendee/all_events/presentation/all_events_screen.dart';
 import 'package:event_connect/features/attendee/my_events/presentation/my_events_screen.dart';
 import 'package:event_connect/features/attendee/my_profile/presentation/my_profile_screen.dart';
@@ -172,8 +174,13 @@ class UserHomeScreenView extends StatelessWidget {
                                   child: state.imageFile != null
                                       ? CircleAvatar(
                                           radius: 12,
-                                          backgroundImage: NetworkImage(
-                                              "${state.imageFile!}?updated=${DateTime.now().millisecondsSinceEpoch}"),
+                                          backgroundImage: state.imageFile!
+                                                  .startsWith("https:/")
+                                              ? NetworkImage(
+                                                  "${state.imageFile!}?updated=${DateTime.now().millisecondsSinceEpoch}")
+                                              : FileImage(
+                                                  File(state.imageFile!),
+                                                ),
                                         )
                                       : const Icon(Icons.person,
                                           color: Colors.white, size: 16),

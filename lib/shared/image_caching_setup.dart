@@ -31,4 +31,27 @@ class ImageCachingSetup {
       }
     }
   }
+
+  Future<String> downloadAndCacheImageByUrl(String url) async {
+    final dir = await getTemporaryDirectory();
+    final filename = Uri.parse(url).pathSegments.isNotEmpty
+        ? Uri.parse(url).pathSegments.last
+        : 'cached_image.jpg';
+    final file = File('${dir.path}/$filename');
+
+    if (await file.exists()) {
+      return file.path;
+    }
+
+    try {
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        await file.writeAsBytes(response.bodyBytes);
+        return file.path;
+      }
+    } catch (_) {
+      return url;
+    }
+    return url;
+  }
 }
