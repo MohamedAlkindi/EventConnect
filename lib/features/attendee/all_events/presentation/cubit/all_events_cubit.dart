@@ -5,7 +5,7 @@ import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/features/attendee/all_events/business_logic/all_events_bl.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
-
+import 'dart:developer' as log;
 part 'all_events_state.dart';
 
 class AllEventsCubit extends Cubit<AllEventsState> {
@@ -89,6 +89,13 @@ class AllEventsCubit extends Cubit<AllEventsState> {
     } catch (e) {
       emit(AllEventsError(message: e.toString()));
     }
+  }
+
+  // This method will take the newly deleted user event and put it in the list.
+  void getAndAddUserEvent(EventModel event) {
+    _allEvents.add(event);
+    _eventsSubject.add(List<EventModel>.from(_allEvents));
+    log.log(_allEvents.last.name);
   }
 
   Future<void> forceRefreshAllEvents() async {

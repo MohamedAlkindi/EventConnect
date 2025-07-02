@@ -38,7 +38,7 @@ class ManagerEventsCubit extends Cubit<ManagerEventsState> {
         _managerEvents = allEvents;
       }
       // Update stream for real-time listeners
-      _eventsSubject.add(_managerEvents);
+      _eventsSubject.add(List<EventModel>.from(_managerEvents));
     } catch (e) {
       emit(ManagerEventsError(message: e.toString()));
     }

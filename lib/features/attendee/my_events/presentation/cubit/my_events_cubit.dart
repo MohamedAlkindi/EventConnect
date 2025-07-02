@@ -34,14 +34,7 @@ class MyEventsCubit extends Cubit<MyEventsState> {
       }
 
       // Update stream for real-time listeners
-      _eventsSubject.add(_events);
-
-      // To show something else in the Bloc Builder.
-      if (_events.isEmpty) {
-        emit(MyEventsNoEventsAddedYet());
-      } else {
-        emit(MyEventsGotEvents(events: _events));
-      }
+      _eventsSubject.add(List<EventModel>.from(_events));
     } catch (e) {
       emit(MyEventsError(message: e.toString()));
     }
@@ -56,7 +49,7 @@ class MyEventsCubit extends Cubit<MyEventsState> {
       _events.removeWhere((event) => event.eventID == documentID);
 
       // Update stream with the new list
-      _eventsSubject.add(_events);
+      _eventsSubject.add(List<EventModel>.from(_events));
       emit(MyEventsDeletedEvent());
     } catch (e) {
       emit(MyEventsError(message: e.toString()));
@@ -65,5 +58,11 @@ class MyEventsCubit extends Cubit<MyEventsState> {
 
   Future<void> forceRefreshEvents() async {
     await getAllEventsByUserID(forceRefresh: true);
+  }
+
+  // This method will take the newly added user event and put it in the list.
+  void getAndAddUserEvent(EventModel event) {
+    _events.add(event);
+    _eventsSubject.add(List<EventModel>.from(_events));
   }
 }

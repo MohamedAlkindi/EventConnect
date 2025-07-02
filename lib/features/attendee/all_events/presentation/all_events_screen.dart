@@ -5,6 +5,7 @@ import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/core/widgets/event_elements_widget.dart';
 import 'package:event_connect/features/attendee/all_events/presentation/cubit/all_events_cubit.dart';
+import 'package:event_connect/features/attendee/my_events/presentation/cubit/my_events_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,7 +24,9 @@ class AllEventsScreenView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<AllEventsCubit>();
+    final allEventsCubit = context.read<AllEventsCubit>();
+    final myEventsCubit = context.read<MyEventsCubit>();
+
     final confettiController =
         ConfettiController(duration: const Duration(seconds: 2));
     return Scaffold(
@@ -63,7 +66,7 @@ class AllEventsScreenView extends StatelessWidget {
             ),
             // Main frosted glass content
             RefreshIndicator(
-              onRefresh: cubit.forceRefreshAllEvents,
+              onRefresh: allEventsCubit.forceRefreshAllEvents,
               child: SingleChildScrollView(
                 child: Center(
                   child: Padding(
@@ -246,12 +249,15 @@ class AllEventsScreenView extends StatelessWidget {
                                             ),
                                             TextButton(
                                               onPressed: () {
-                                                cubit.selectedCategory == "All"
-                                                    ? cubit
+                                                allEventsCubit
+                                                            .selectedCategory ==
+                                                        "All"
+                                                    ? allEventsCubit
                                                         .forceRefreshAllEvents()
-                                                    : cubit.forceRefreshCategoryEvents(
-                                                        category: cubit
-                                                            .selectedCategory);
+                                                    : allEventsCubit
+                                                        .forceRefreshCategoryEvents(
+                                                            category: allEventsCubit
+                                                                .selectedCategory);
                                               },
                                               child: Text(
                                                 'Click here to refresh',
@@ -425,9 +431,10 @@ class AllEventsScreenView extends StatelessWidget {
                                                           onTap: () {
                                                             confettiController
                                                                 .play();
-                                                            context
-                                                                .read<
-                                                                    AllEventsCubit>()
+                                                            myEventsCubit
+                                                                .getAndAddUserEvent(
+                                                                    event);
+                                                            allEventsCubit
                                                                 .addEventToUserEvents(
                                                                     documentID:
                                                                         event
