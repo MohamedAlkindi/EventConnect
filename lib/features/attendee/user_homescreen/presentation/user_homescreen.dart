@@ -1,7 +1,10 @@
 import 'dart:io';
 
 import 'package:event_connect/features/attendee/all_events/presentation/all_events_screen.dart';
+import 'package:event_connect/features/attendee/all_events/presentation/cubit/all_events_cubit.dart';
+import 'package:event_connect/features/attendee/my_events/presentation/cubit/my_events_cubit.dart';
 import 'package:event_connect/features/attendee/my_events/presentation/my_events_screen.dart';
+import 'package:event_connect/features/attendee/my_profile/presentation/cubit/my_profile_cubit.dart';
 import 'package:event_connect/features/attendee/my_profile/presentation/my_profile_screen.dart';
 import 'package:event_connect/features/attendee/user_homescreen/presentation/cubit/user_homescreen_cubit.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +16,11 @@ class UserHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // these will reset and refetch the data when the user signs out and in with another account.
+    context.read<AllEventsCubit>().getAllEvents(forceRefresh: true);
+    context.read<MyEventsCubit>().getAllEventsByUserID(forceRefresh: true);
+    context.read<MyProfileCubit>().getUserPicAndName();
+    context.read<UserHomescreenCubit>().getUserProfilePic();
     return UserHomeScreenView();
   }
 }

@@ -1,11 +1,12 @@
 import 'dart:async';
+import 'dart:developer' as log;
 
 import 'package:bloc/bloc.dart';
 import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/features/attendee/all_events/business_logic/all_events_bl.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
-import 'dart:developer' as log;
+
 part 'all_events_state.dart';
 
 class AllEventsCubit extends Cubit<AllEventsState> {
@@ -104,5 +105,10 @@ class AllEventsCubit extends Cubit<AllEventsState> {
 
   Future<void> forceRefreshCategoryEvents({required String category}) async {
     await getEventsByCategory(category: category);
+  }
+
+// method to reset cubit and all cached data after logging out or deleting account.
+  void reset() {
+    emit(AllEventsInitial());
   }
 }

@@ -2,8 +2,12 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:event_connect/core/utils/message_dialogs.dart';
+import 'package:event_connect/features/attendee/all_events/presentation/cubit/all_events_cubit.dart';
 import 'package:event_connect/features/attendee/edit_profile/presentation/edit_profile_screen.dart';
+import 'package:event_connect/features/attendee/my_events/presentation/cubit/my_events_cubit.dart';
 import 'package:event_connect/features/attendee/my_profile/presentation/cubit/my_profile_cubit.dart';
+import 'package:event_connect/features/attendee/user_homescreen/presentation/cubit/user_homescreen_cubit.dart';
+import 'package:event_connect/features/welcome_screen/presentation/welcome_screen.dart';
 import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,9 +31,24 @@ class MyProfileScreenView extends StatelessWidget {
       body: BlocListener<MyProfileCubit, MyProfileState>(
         listener: (context, state) {
           if (state is UserSignedOutSuccessfully) {
-            Navigator.pushReplacementNamed(
-              context,
+            // reset cubits to initial state...
+            context.read<AllEventsCubit>().reset();
+            context.read<MyEventsCubit>().reset();
+            context.read<MyProfileCubit>().reset();
+            context.read<UserHomescreenCubit>().reset();
+            Navigator.of(context).pushNamedAndRemoveUntil(
               loginPageRoute,
+              (Route<dynamic> route) => false,
+            );
+          } else if (state is UserDeletedSuccessfully) {
+            context.read<AllEventsCubit>().reset();
+            context.read<MyEventsCubit>().reset();
+            context.read<MyProfileCubit>().reset();
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (context) => const WelcomeScreen(),
+              ),
+              (Route<dynamic> route) => false,
             );
           }
         },

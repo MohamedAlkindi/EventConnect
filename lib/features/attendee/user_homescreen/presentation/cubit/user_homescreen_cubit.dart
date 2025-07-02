@@ -42,4 +42,8 @@ class UserHomescreenCubit extends Cubit<UserHomescreenState> {
     pageController.dispose();
     return super.close();
   }
+
+  void reset() {
+    emit(UserHomescreenInitial());
+  }
 }

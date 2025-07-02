@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer' as log;
 
 import 'package:bloc/bloc.dart';
 import 'package:event_connect/core/models/event_model.dart';
@@ -29,6 +30,7 @@ class MyEventsCubit extends Cubit<MyEventsState> {
     emit(MyEventsLoading());
     try {
       if (_events.isEmpty || forceRefresh) {
+        log.log("Reset again");
         List<EventModel> allEvents = await _myEventsBL.getAllEventsByUserID();
         _events = allEvents;
       }
@@ -64,5 +66,10 @@ class MyEventsCubit extends Cubit<MyEventsState> {
   void getAndAddUserEvent(EventModel event) {
     _events.add(event);
     _eventsSubject.add(List<EventModel>.from(_events));
+  }
+
+  // method to reset cubit and all cached data after logging out or deleting account.
+  void reset() {
+    emit(MyEventsInitial());
   }
 }

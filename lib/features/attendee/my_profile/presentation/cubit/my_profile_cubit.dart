@@ -35,4 +35,9 @@ class MyProfileCubit extends Cubit<MyProfileState> {
       emit(MyProfileError(message: e.toString()));
     }
   }
+
+  // method to reset cubit and all cached data after logging out or deleting account.
+  void reset() {
+    emit(MyProfileInitial());
+  }
 }
