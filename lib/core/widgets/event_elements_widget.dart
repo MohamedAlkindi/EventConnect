@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 Widget returnEventPicture({
@@ -8,8 +10,10 @@ Widget returnEventPicture({
     width: double.infinity,
     decoration: BoxDecoration(
       image: DecorationImage(
-        image: NetworkImage(
-            "$eventPictureLink?updated=${DateTime.now().millisecondsSinceEpoch}"),
+        image: eventPictureLink.contains("https:/")
+            ? NetworkImage(
+                "$eventPictureLink?updated=${DateTime.now().millisecondsSinceEpoch}")
+            : FileImage(File(eventPictureLink)),
         fit: BoxFit.fill,
       ),
     ),

@@ -8,7 +8,8 @@ class EventModel {
   String? eventID;
   final String name;
   final String category;
-  final String picture;
+  // Not final, used in caching and returning cached data later..
+  String picture;
   final String location;
   final String dateAndTime;
   final String description;
