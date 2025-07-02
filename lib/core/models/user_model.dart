@@ -6,7 +6,8 @@ part 'user_model.g.dart';
 class UserModel {
   final String userID;
   final String location;
-  final String profilePic;
+  // similar to event model
+  String profilePic;
   final String role;
 
   UserModel({

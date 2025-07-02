@@ -6,6 +6,7 @@ import 'package:event_connect/features/attendee/all_events/presentation/cubit/al
 import 'package:event_connect/features/attendee/edit_profile/presentation/cubit/edit_profile_cubit.dart';
 import 'package:event_connect/features/attendee/my_events/presentation/cubit/my_events_cubit.dart';
 import 'package:event_connect/features/attendee/my_events/presentation/my_events_screen.dart';
+import 'package:event_connect/features/attendee/my_profile/presentation/cubit/my_profile_cubit.dart';
 import 'package:event_connect/features/attendee/my_profile/presentation/my_profile_screen.dart';
 import 'package:event_connect/features/attendee/user_homescreen/presentation/cubit/user_homescreen_cubit.dart';
 import 'package:event_connect/features/attendee/user_homescreen/presentation/user_homescreen.dart';
@@ -129,6 +130,9 @@ class MainApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => EmailConfirmationCubit(),
+        ),
+        BlocProvider(
+          create: (context) => MyProfileCubit()..getUserPicAndName(),
         ),
       ],
       child: MaterialApp(

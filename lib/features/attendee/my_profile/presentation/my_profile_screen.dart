@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:event_connect/core/utils/message_dialogs.dart';
@@ -13,10 +14,7 @@ class MyProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => MyProfileCubit()..getUserPicAndName(),
-      child: const MyProfileScreenView(),
-    );
+    return MyProfileScreenView();
   }
 }
 
@@ -78,15 +76,7 @@ class MyProfileScreenView extends StatelessWidget {
                             ),
                           ],
                         ),
-                        child: BlocConsumer<MyProfileCubit, MyProfileState>(
-                          listener: (context, state) {
-                            if (state is MyProfileError) {
-                              showErrorDialog(
-                                context: context,
-                                message: state.message,
-                              );
-                            }
-                          },
+                        child: BlocBuilder<MyProfileCubit, MyProfileState>(
                           builder: (context, state) {
                             if (state is GotMyProfileInfo) {
                               return Padding(
@@ -142,12 +132,21 @@ class MyProfileScreenView extends StatelessWidget {
                                               backgroundColor: Colors.grey[200],
                                               backgroundImage: state.userInfo
                                                       .profilePic.isNotEmpty
-                                                  ? NetworkImage(
-                                                      "${state.userInfo.profilePic}updated=${DateTime.now().millisecondsSinceEpoch}",
-                                                    )
+                                                  ? state.userInfo.profilePic
+                                                          .startsWith("http")
+                                                      ? NetworkImage(
+                                                          "${state.userInfo.profilePic}${state.userInfo.profilePic.contains('?') ? '&' : '?'}updated=${DateTime.now().millisecondsSinceEpoch}",
+                                                        )
+                                                      : File(state.userInfo
+                                                                  .profilePic)
+                                                              .existsSync()
+                                                          ? FileImage(File(state
+                                                              .userInfo
+                                                              .profilePic))
+                                                          : const AssetImage(
+                                                              'assets/images/generic_user.png')
                                                   : const AssetImage(
-                                                          'assets/images/generic_user.png')
-                                                      as ImageProvider,
+                                                      'assets/images/generic_user.png'),
                                             ),
                                             Positioned(
                                               bottom: 0,
