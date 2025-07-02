@@ -69,6 +69,8 @@ class UserHomeScreenView extends StatelessWidget {
                       ],
                     ),
                     textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
                 ),
               ],

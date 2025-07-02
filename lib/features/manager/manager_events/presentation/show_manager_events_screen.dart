@@ -97,63 +97,101 @@ class AllEventsScreenView extends StatelessWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 28.0),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "Manage Events",
-                                        style: GoogleFonts.poppins(
-                                          color: const Color(0xFF6C63FF),
-                                          fontSize: 26,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.pushNamed(
-                                            context,
-                                            addEventScreenPageRoute,
-                                          );
-                                        },
-                                        child: Container(
-                                          width: 85,
-                                          height: 35,
-                                          decoration: BoxDecoration(
-                                            gradient: const LinearGradient(
-                                              colors: [
-                                                Color(0xFF6C63FF),
-                                                Color(0xFFFF6584)
-                                              ],
-                                              begin: Alignment.topLeft,
-                                              end: Alignment.bottomRight,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(16),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.black.withAlpha(
-                                                    (0.18 * 255).round()),
-                                                blurRadius: 10,
-                                                offset: const Offset(0, 4),
+                                  child: LayoutBuilder(
+                                    builder: (context, constraints) {
+                                      // Calculate available width for each element
+                                      double totalWidth = constraints.maxWidth;
+                                      // Reserve at least 100 for the button, 12 for spacing
+                                      double buttonWidth = totalWidth * 0.22;
+                                      if (buttonWidth < 70) buttonWidth = 70;
+                                      if (buttonWidth > 120) buttonWidth = 120;
+                                      double textMaxWidth =
+                                          totalWidth - buttonWidth - 12;
+
+                                      return Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          // Flexible text to avoid overflow
+                                          Flexible(
+                                            child: Container(
+                                              constraints: BoxConstraints(
+                                                maxWidth: textMaxWidth,
                                               ),
-                                            ],
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              "Add",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
+                                              child: FittedBox(
+                                                fit: BoxFit.scaleDown,
+                                                alignment: Alignment.centerLeft,
+                                                child: Text(
+                                                  "Manage Events",
+                                                  style: GoogleFonts.poppins(
+                                                    color:
+                                                        const Color(0xFF6C63FF),
+                                                    fontSize: 26,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                    ],
+                                          const SizedBox(width: 12),
+                                          GestureDetector(
+                                            onTap: () {
+                                              Navigator.pushNamed(
+                                                context,
+                                                addEventScreenPageRoute,
+                                              );
+                                            },
+                                            child: Container(
+                                              width: buttonWidth,
+                                              height: 35,
+                                              decoration: BoxDecoration(
+                                                gradient: const LinearGradient(
+                                                  colors: [
+                                                    Color(0xFF6C63FF),
+                                                    Color(0xFFFF6584)
+                                                  ],
+                                                  begin: Alignment.topLeft,
+                                                  end: Alignment.bottomRight,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(16),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.black
+                                                        .withAlpha((0.18 * 255)
+                                                            .round()),
+                                                    blurRadius: 10,
+                                                    offset: const Offset(0, 4),
+                                                  ),
+                                                ],
+                                              ),
+                                              child: Center(
+                                                child: FittedBox(
+                                                  fit: BoxFit.scaleDown,
+                                                  child: Text(
+                                                    "Add",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
                                   ),
                                 ),
                               ),
