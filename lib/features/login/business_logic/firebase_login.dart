@@ -21,9 +21,9 @@ class FirebaseLogin {
     }
   }
 
-  bool isEmailConfirmed() {
+  Future<bool> isEmailConfirmed() async {
     try {
-      return _user.isVerified;
+      return await _user.isVerified;
     } catch (e) {
       throw Exception("Error ${e.toString()}");
     }

@@ -7,6 +7,18 @@ final class CompleteProfileInitial extends CompleteProfileState {}
 
 final class CompleteProfileLoading extends CompleteProfileState {}
 
+final class UserHomescreenState extends CompleteProfileState {
+  final String userHomeScreenPageRoute;
+
+  UserHomescreenState({required this.userHomeScreenPageRoute});
+}
+
+final class EmailConfirmed extends CompleteProfileState {
+  final bool isConfirmed;
+
+  EmailConfirmed({required this.isConfirmed});
+}
+
 final class SelectedCity extends CompleteProfileState {
   final String selectedCity;
   SelectedCity({required this.selectedCity});

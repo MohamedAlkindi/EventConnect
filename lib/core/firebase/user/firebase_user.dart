@@ -84,10 +84,10 @@ class FirebaseUser {
     }
   }
 
-  bool get isVerified {
+  Future<bool> get isVerified async {
     if (getUser != null) {
       try {
-        getUser!.reload();
+        await getUser!.reload();
         return getUser!.emailVerified;
       } catch (e) {
         throw Exception("Error ${e.toString()}");

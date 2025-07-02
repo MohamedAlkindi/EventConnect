@@ -1,5 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:event_connect/core/firebase/user/firebase_user.dart';
 import 'package:event_connect/features/complete_profile/business_logic/complete_profile_bl.dart';
+import 'package:event_connect/features/email_confirmation/business_logic/email_cofirmation_logic.dart';
+import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -8,7 +11,9 @@ part 'complete_profile_state.dart';
 class CompleteProfileCubit extends Cubit<CompleteProfileState> {
   CompleteProfileCubit() : super(CompleteProfileInitial());
 
-  final CompleteProfileBl _bl = CompleteProfileBl();
+  final _bl = CompleteProfileBl();
+  final _confirmation = EmailCofirmationLogic();
+  final _user = FirebaseUser();
 
   final List<String> yemeniCities = [
     'Hadramout',
@@ -68,6 +73,28 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
       emit(CompleteProfileSuccessul());
     } catch (e) {
       emit(CompleteProfileError(message: e.toString()));
+    }
+  }
+
+  Future<void> isEmailConfirmed() async {
+    try {
+      emit(CompleteProfileLoading());
+      emit(EmailConfirmed(isConfirmed: await _confirmation.isEmailConfirmed()));
+    } catch (e) {
+      emit(CompleteProfileError(message: e.toString()));
+    }
+  }
+
+  // Based on role..
+  void showUserHomescreen() async {
+    final role = await _user.getUserRole();
+
+    if (role == "Attendee") {
+      emit(UserHomescreenState(
+          userHomeScreenPageRoute: attendeeHomeScreenPageRoute));
+    } else {
+      emit(UserHomescreenState(
+          userHomeScreenPageRoute: managerHomeScreenPageRoute));
     }
   }
 }

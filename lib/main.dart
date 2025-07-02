@@ -51,7 +51,7 @@ Future<Widget> whichWidget() async {
   final user = FirebaseUser();
 
   if (user.getUser != null) {
-    if (user.isVerified) {
+    if (await user.isVerified) {
       if (await user.isUserDataCompleted() == true) {
         if (await user.getUserRole() == "Attendee") {
           return UserHomeScreen();

@@ -21,10 +21,10 @@ class EmailConfirmationCubit extends Cubit<EmailConfirmationState> {
     }
   }
 
-  void isEmailConfirmed() {
+  Future<void> isEmailConfirmed() async {
     try {
       emit(LoadingState());
-      emit(EmailConfirmed(isConfirmed: _confirmation.isEmailConfirmed()));
+      emit(EmailConfirmed(isConfirmed: await _confirmation.isEmailConfirmed()));
     } catch (e) {
       emit(ErrorState(message: e.toString()));
     }

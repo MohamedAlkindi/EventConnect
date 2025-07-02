@@ -41,13 +41,22 @@ class CompleteProfileScreenView extends StatelessWidget {
               contentText: "You have successfully completed your profile!",
               icon: Icons.check_circle_outline_rounded,
               iconColor: Colors.green,
-              buttonText: 'Head to Email Verification',
+              buttonText: 'Proceed',
               onPressed: () {
-                Navigator.pushReplacementNamed(
-                  context,
-                  emailConfirmationnRoute,
-                );
+                cubit.isEmailConfirmed();
               },
+            );
+          } else if (state is EmailConfirmed) {
+            state.isConfirmed
+                ? cubit.showUserHomescreen()
+                : Navigator.pushReplacementNamed(
+                    context,
+                    emailConfirmationnRoute,
+                  );
+          } else if (state is UserHomescreenState) {
+            Navigator.pushReplacementNamed(
+              context,
+              state.userHomeScreenPageRoute,
             );
           } else if (state is CompleteProfileError) {
             hideLoadingDialog(context);
@@ -279,61 +288,58 @@ class CompleteProfileScreenView extends StatelessWidget {
                                   BlocBuilder<CompleteProfileCubit,
                                       CompleteProfileState>(
                                     builder: (context, state) {
-                                      return Row(
+                                      return Column(
                                         children: [
-                                          Expanded(
-                                            child: RadioListTile<String>(
-                                              selected: true,
-                                              value: "Attendee",
-                                              groupValue: cubit.selectedRole,
-                                              onChanged: (value) {
-                                                if (value != null) {
-                                                  cubit.selectRole(value);
-                                                }
-                                              },
-                                              title: Text(
-                                                "An attendee",
-                                                style: GoogleFonts.poppins(
-                                                  fontSize: 15,
-                                                  color: Colors.black.withAlpha(
-                                                      (0.8 * 255).round()),
-                                                ),
+                                          RadioListTile<String>(
+                                            selected: true,
+                                            value: "Attendee",
+                                            groupValue: cubit.selectedRole,
+                                            onChanged: (value) {
+                                              if (value != null) {
+                                                cubit.selectRole(value);
+                                              }
+                                            },
+                                            title: Text(
+                                              "An attendee",
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 15,
+                                                color: Colors.black.withAlpha(
+                                                    (0.8 * 255).round()),
                                               ),
-                                              activeColor:
-                                                  const Color(0xFF6C63FF),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                              ),
-                                              contentPadding: EdgeInsets.zero,
+                                              overflow: TextOverflow.clip,
                                             ),
+                                            activeColor:
+                                                const Color(0xFF6C63FF),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                            ),
+                                            contentPadding: EdgeInsets.zero,
                                           ),
                                           const SizedBox(width: 8),
-                                          Expanded(
-                                            child: RadioListTile<String>(
-                                              value: "Manager",
-                                              groupValue: cubit.selectedRole,
-                                              onChanged: (value) {
-                                                if (value != null) {
-                                                  cubit.selectRole(value);
-                                                }
-                                              },
-                                              title: Text(
-                                                "A manager",
-                                                style: GoogleFonts.poppins(
-                                                  fontSize: 15,
-                                                  color: Colors.black.withAlpha(
-                                                      (0.8 * 255).round()),
-                                                ),
+                                          RadioListTile<String>(
+                                            value: "Manager",
+                                            groupValue: cubit.selectedRole,
+                                            onChanged: (value) {
+                                              if (value != null) {
+                                                cubit.selectRole(value);
+                                              }
+                                            },
+                                            title: Text(
+                                              "A manager",
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 15,
+                                                color: Colors.black.withAlpha(
+                                                    (0.8 * 255).round()),
                                               ),
-                                              activeColor:
-                                                  const Color(0xFF6C63FF),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                              ),
-                                              contentPadding: EdgeInsets.zero,
                                             ),
+                                            activeColor:
+                                                const Color(0xFF6C63FF),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                            ),
+                                            contentPadding: EdgeInsets.zero,
                                           ),
                                         ],
                                       );

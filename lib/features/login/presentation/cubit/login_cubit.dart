@@ -31,9 +31,9 @@ class LoginCubit extends Cubit<LoginState> {
     emit(PasswordVisible(currentVisibility: !currentVisibility));
   }
 
-  void isEmailConfirmed() {
+  Future<void> isEmailConfirmed() async {
     try {
-      emit(EmailConfirmed(isConfirmed: _login.isEmailConfirmed()));
+      emit(EmailConfirmed(isConfirmed: await _login.isEmailConfirmed()));
     } catch (e) {
       emit(LoginError(message: e.toString()));
     }
