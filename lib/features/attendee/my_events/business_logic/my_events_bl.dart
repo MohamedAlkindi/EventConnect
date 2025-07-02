@@ -4,11 +4,13 @@ import 'package:event_connect/core/exceptions_messages/messages.dart';
 import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/features/attendee/my_events/data_access/my_events_da.dart';
 import 'package:event_connect/shared/event_repo.dart';
+import 'package:event_connect/shared/image_caching_setup.dart';
 import 'package:event_connect/shared/weather_setup.dart';
 
 class MyEventsBL {
   final _dataAccess = MyEventsDa();
   final eventRepo = EventRepo();
+  final _imageCaching = ImageCachingSetup();
   final _weatherSetup = WeatherSetup();
 
   Future<List<EventModel>> getAllEventsByUserID() async {
@@ -44,7 +46,7 @@ class MyEventsBL {
               })
               .whereType<EventModel>()
               .toList();
-
+      await _imageCaching.downloadAndCacheImages(userEvents);
       // Inject weather asynchronously
       _weatherSetup.setupWeather(userEvents);
       return userEvents;
