@@ -24,6 +24,7 @@ import 'package:event_connect/features/manager/manager_events/presentation/cubit
 import 'package:event_connect/features/manager/manager_events/presentation/cubit/manager_events_cubit.dart';
 import 'package:event_connect/features/manager/manager_homescreen/presentation/cubit/manager_homescreen_cubit.dart';
 import 'package:event_connect/features/manager/manager_homescreen/presentation/manager_homescreen.dart';
+import 'package:event_connect/features/manager/manager_profile/presentation/cubit/manager_profile_cubit.dart';
 import 'package:event_connect/features/register/presentation/cubit/register_cubit.dart';
 import 'package:event_connect/features/register/presentation/register_screen.dart';
 import 'package:event_connect/features/welcome_screen/presentation/welcome_screen.dart';
@@ -134,6 +135,9 @@ class MainApp extends StatelessWidget {
         BlocProvider(
           create: (context) => MyProfileCubit()..getUserPicAndName(),
         ),
+        BlocProvider(
+          create: (context) => ManagerProfileCubit()..getUserPicAndName(),
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

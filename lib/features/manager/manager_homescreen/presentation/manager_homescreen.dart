@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:event_connect/features/manager/manager_events/presentation/show_manager_events_screen.dart';
 import 'package:event_connect/features/manager/manager_homescreen/presentation/cubit/manager_homescreen_cubit.dart';
 import 'package:event_connect/features/manager/manager_profile/presentation/manager_profile_screen.dart';
@@ -157,8 +159,13 @@ class ManagerHomescreenView extends StatelessWidget {
                                   child: state.imageFile != null
                                       ? CircleAvatar(
                                           radius: 12,
-                                          backgroundImage: NetworkImage(
-                                              "${state.imageFile!}?updated=${DateTime.now().millisecondsSinceEpoch}"),
+                                          backgroundImage: state.imageFile!
+                                                  .startsWith("https:/")
+                                              ? NetworkImage(
+                                                  "${state.imageFile!}?updated=${DateTime.now().millisecondsSinceEpoch}")
+                                              : FileImage(
+                                                  File(state.imageFile!),
+                                                ),
                                         )
                                       : const Icon(Icons.person,
                                           color: Colors.white, size: 16),

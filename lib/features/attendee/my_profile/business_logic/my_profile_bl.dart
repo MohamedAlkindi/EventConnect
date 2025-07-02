@@ -11,7 +11,6 @@ class MyProfileBL {
 
   Future<UserModel> getUserPicAndLocation() async {
     try {
-      // Put it in a variable for a better debugging "not nec."
       final userModel = await _dataAccess.getUserPicAndLocation();
       final imagePath =
           await _imageCaching.downloadAndCacheImageByUrl(userModel.profilePic);

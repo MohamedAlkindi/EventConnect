@@ -3,15 +3,15 @@ import 'package:event_connect/core/firebase/user/firebase_user.dart';
 import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/features/manager/manager_events/data_access/manager_events_da.dart';
 import 'package:event_connect/shared/event_repo.dart';
+import 'package:event_connect/shared/image_caching_setup.dart';
 import 'package:event_connect/shared/image_storage_service.dart';
 
 class ManagerEventsBl {
   final _dataAccess = ManagerEventsDa();
   final _eventRepo = EventRepo();
   final _user = FirebaseUser();
+  final _imageCaching = ImageCachingSetup();
   final _storageService = ImageStorageService();
-  // Might delete later..
-  // final _managerCubit = ManagerEventsCubit();
 
   Future<List<EventModel>> getEvents() async {
     try {
@@ -28,7 +28,7 @@ class ManagerEventsBl {
           })
           .whereType<EventModel>()
           .toList();
-
+      await _imageCaching.downloadAndCacheImages(managerEvents);
       return managerEvents;
     } catch (e) {
       throw Exception("Error ${e.toString()}");

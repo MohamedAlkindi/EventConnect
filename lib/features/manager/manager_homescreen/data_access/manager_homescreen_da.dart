@@ -6,7 +6,7 @@ class ManagerHomescreenDa {
   final FirebaseUser _user = FirebaseUser();
   final _firestore = FirebaseFirestore.instance;
 
-  Future<String> getUserProfilePic() async {
+  Future<String> getManagerProfilePic() async {
     try {
       // get all user data.
       final doc = await _firestore

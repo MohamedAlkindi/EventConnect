@@ -13,10 +13,7 @@ class ManagerProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ManagerProfileCubit()..getUserPicAndName(),
-      child: const ManagerProfileScreenView(),
-    );
+    return ManagerProfileScreenView();
   }
 }
 
@@ -78,16 +75,8 @@ class ManagerProfileScreenView extends StatelessWidget {
                             ),
                           ],
                         ),
-                        child: BlocConsumer<ManagerProfileCubit,
+                        child: BlocBuilder<ManagerProfileCubit,
                             ManagerProfileState>(
-                          listener: (context, state) {
-                            if (state is ManagerProfileError) {
-                              showErrorDialog(
-                                context: context,
-                                message: state.message,
-                              );
-                            }
-                          },
                           builder: (context, state) {
                             if (state is GotManagerProfileInfo) {
                               return Padding(
@@ -140,18 +129,23 @@ class ManagerProfileScreenView extends StatelessWidget {
                                           children: [
                                             CircleAvatar(
                                               radius: 80,
-                                              backgroundColor: Colors.grey[200],
-                                              backgroundImage: (File(
-                                                              state.userInfo
+                                              backgroundImage: state.userInfo
+                                                      .profilePic.isNotEmpty
+                                                  ? state.userInfo.profilePic
+                                                          .startsWith("http")
+                                                      ? NetworkImage(
+                                                          "${state.userInfo.profilePic}${state.userInfo.profilePic.contains('?') ? '&' : '?'}updated=${DateTime.now().millisecondsSinceEpoch}",
+                                                        )
+                                                      : File(state.userInfo
                                                                   .profilePic)
-                                                          .existsSync()
-                                                      ? FileImage(
-                                                          File(
-                                                              state.userInfo
-                                                                  .profilePic))
-                                                      : const AssetImage(
-                                                          'assets/images/generic_user.png'))
-                                                  as ImageProvider,
+                                                              .existsSync()
+                                                          ? FileImage(File(state
+                                                              .userInfo
+                                                              .profilePic))
+                                                          : const AssetImage(
+                                                              'assets/images/generic_user.png')
+                                                  : const AssetImage(
+                                                      'assets/images/generic_user.png'),
                                             ),
                                             Positioned(
                                               bottom: 0,
