@@ -221,14 +221,25 @@ class MyProfileScreenView extends StatelessWidget {
                                       child: Material(
                                         color: Colors.transparent,
                                         child: InkWell(
-                                          onTap: () {
-                                            Navigator.push(
+                                          onTap: () async {
+                                            // Use local variable for context.read
+                                            final myProfileCubit =
+                                                context.read<MyProfileCubit>();
+                                            final userHomescreenCubit = context
+                                                .read<UserHomescreenCubit>();
+                                            final result = await Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
                                                     const EditProfileScreen(),
                                               ),
                                             );
+                                            if (result != null) {
+                                              myProfileCubit
+                                                  .getUserPicAndName();
+                                              userHomescreenCubit
+                                                  .getUserProfilePic();
+                                            }
                                           },
                                           borderRadius:
                                               BorderRadius.circular(16),

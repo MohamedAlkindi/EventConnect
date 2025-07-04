@@ -34,23 +34,31 @@ class ImageCachingSetup {
 
   Future<String> downloadAndCacheImageByUrl(String url) async {
     final dir = await getTemporaryDirectory();
-    final filename = Uri.parse(url).pathSegments.isNotEmpty
-        ? Uri.parse(url).pathSegments.last
-        : 'cached_image.jpg';
+    // Use a hash of the URL to ensure uniqueness and refresh on URL change
+    final urlHash = url.hashCode;
+    final extension = Uri.parse(url).pathSegments.isNotEmpty
+        ? Uri.parse(url).pathSegments.last.split('.').last
+        : 'jpg';
+    final filename = 'cached_image_$urlHash.$extension';
     final file = File('${dir.path}/$filename');
-
-    if (await file.exists()) {
-      return file.path;
-    }
 
     try {
       final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
         await file.writeAsBytes(response.bodyBytes);
         return file.path;
+      } else if (await file.exists()) {
+        // Return cached file if download fails but cache exists
+        return file.path;
       }
     } catch (_) {
+      if (await file.exists()) {
+        return file.path;
+      }
       return url;
+    }
+    if (await file.exists()) {
+      return file.path;
     }
     return url;
   }

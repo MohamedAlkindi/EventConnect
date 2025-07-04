@@ -61,9 +61,7 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     try {
       emit(EditProfileLoading());
       await _bl.updateUserProfile(
-        location: newSelectedCity == null
-            ? previouslySelectedCity!
-            : newSelectedCity!,
+        location: newSelectedCity ?? previouslySelectedCity!,
         supabaseImageUrl: supabaseImageUrl!,
         profilePicPath: newSelectedImagePath,
         role: userRole!,

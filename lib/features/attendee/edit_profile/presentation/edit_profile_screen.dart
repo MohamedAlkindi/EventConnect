@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:event_connect/core/utils/loading_dialog.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/features/attendee/edit_profile/presentation/cubit/edit_profile_cubit.dart';
-import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -48,10 +47,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               iconColor: Colors.green,
               buttonText: 'Okay',
               onPressed: () {
-                Navigator.pushReplacementNamed(
-                  context,
-                  attendeeHomeScreenPageRoute,
-                );
+                Navigator.pop(context);
               },
             );
           }
@@ -105,7 +101,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             children: [
                               IconButton(
                                 onPressed: () {
-                                  Navigator.pop(context);
+                                  Navigator.pop(
+                                      context,
+                                      context
+                                          .read<EditProfileCubit>()
+                                          .newSelectedImagePath);
                                 },
                                 icon: const Icon(Icons.arrow_back_rounded),
                                 color: Colors.black,

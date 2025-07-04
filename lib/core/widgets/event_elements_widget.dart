@@ -101,55 +101,61 @@ class _EventDescriptionWidgetState extends State<_EventDescriptionWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.grey.shade300,
-          width: 1.5,
-        ),
-        borderRadius: BorderRadius.circular(12),
-        color: Colors.white.withAlpha((0.8 * 255).round()),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withAlpha((0.1 * 255).round()),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+    return SizedBox(
+      width: double.infinity,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.grey.shade300,
+            width: 1.5,
           ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            widget.description,
-            maxLines: isExpanded ? null : 2,
-            overflow: isExpanded ? null : TextOverflow.ellipsis,
-            style: TextStyle(
-              color: Colors.black87,
-              fontSize: 14,
-              height: 1.4,
+          borderRadius: BorderRadius.circular(12),
+          color: Colors.white.withAlpha((0.8 * 255).round()),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withAlpha((0.1 * 255).round()),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
             ),
-          ),
-          if (widget.description.length > 100) ...[
-            const SizedBox(height: 8),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  isExpanded = !isExpanded;
-                });
-              },
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: double.infinity,
               child: Text(
-                isExpanded ? 'Read less' : 'Read more...',
-                style: TextStyle(
-                  color: Colors.blue.shade600,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
+                widget.description,
+                maxLines: isExpanded ? null : 2,
+                overflow: isExpanded ? null : TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: Colors.black87,
+                  fontSize: 14,
+                  height: 1.4,
                 ),
               ),
             ),
+            if (widget.description.length > 100) ...[
+              const SizedBox(height: 8),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    isExpanded = !isExpanded;
+                  });
+                },
+                child: Text(
+                  isExpanded ? 'Read less' : 'Read more...',
+                  style: TextStyle(
+                    color: Colors.blue.shade600,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }
