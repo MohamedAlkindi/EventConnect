@@ -43,8 +43,7 @@ class _ManagerEditProfileScreenState extends State<ManagerEditProfileScreen> {
             showMessageDialog(
               context: context,
               titleText: 'Success! 🎉',
-              contentText:
-                  'Profile updated successfully!\nSome changes might take time to take effect.',
+              contentText: 'Profile updated successfully!',
               icon: Icons.check_circle_outline_rounded,
               iconColor: Colors.green,
               buttonText: 'Okay',

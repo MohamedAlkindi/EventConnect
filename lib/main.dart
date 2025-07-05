@@ -18,6 +18,7 @@ import 'package:event_connect/features/forgot_password/presentaion/forgot_passwo
 import 'package:event_connect/features/forgot_password/presentaion/reset_pass_confirmation_screen.dart';
 import 'package:event_connect/features/login/presentation/cubit/login_cubit.dart';
 import 'package:event_connect/features/login/presentation/login_screen.dart';
+import 'package:event_connect/features/manager/manager_edit_profile/presentation/cubit/manager_edit_profile_cubit.dart';
 import 'package:event_connect/features/manager/manager_events/presentation/add_event_screen.dart';
 import 'package:event_connect/features/manager/manager_events/presentation/cubit/add_event_cubit.dart';
 import 'package:event_connect/features/manager/manager_events/presentation/cubit/edit_event_cubit.dart';
@@ -136,8 +137,12 @@ class MainApp extends StatelessWidget {
           create: (context) => MyProfileCubit()..getUserPicAndName(),
         ),
         BlocProvider(
-          create: (context) => ManagerProfileCubit()..getUserPicAndName(),
-        )
+          create: (context) =>
+              ManagerProfileCubit()..getManagerPicAndLocation(),
+        ),
+        BlocProvider(
+          create: (context) => ManagerEditProfileCubit(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

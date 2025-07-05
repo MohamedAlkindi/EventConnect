@@ -10,7 +10,7 @@ class ManagerProfileCubit extends Cubit<ManagerProfileState> {
 
   final _businessLogic = ManagerProfileBl();
 
-  Future<void> getUserPicAndName() async {
+  Future<void> getManagerPicAndLocation() async {
     try {
       final result = await _businessLogic.getManagerPicAndLocation();
       emit(GotManagerProfileInfo(userInfo: result));

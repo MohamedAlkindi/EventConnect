@@ -8,7 +8,8 @@ class ManagerHomescreenBl {
   Future<String> getManagerProfilePic() async {
     try {
       String imageUrl = await _dataAccess.getManagerProfilePic();
-      return await _imageCaching.downloadAndCacheImageByUrl(imageUrl);
+      return await _imageCaching.downloadAndCacheImageByUrl(
+          "$imageUrl${imageUrl.contains('?') ? '&' : '?'}updated=${DateTime.now().millisecondsSinceEpoch}");
     } catch (e) {
       throw Exception("Error ${e.toString()}");
     }

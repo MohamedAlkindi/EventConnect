@@ -11,11 +11,12 @@ class ManagerProfileBl {
 
   Future<UserModel> getManagerPicAndLocation() async {
     try {
-      final userModel = await _dataAccess.getManagerPicAndLocation();
-      final imagePath =
-          await _imageCaching.downloadAndCacheImageByUrl(userModel.profilePic);
-      userModel.profilePic = imagePath;
-      return userModel;
+      final managerModel = await _dataAccess.getManagerPicAndLocation();
+      final imagePath = await _imageCaching.downloadAndCacheImageByUrl(
+          "${managerModel.profilePic}${managerModel.profilePic.contains('?') ? '&' : '?'}updated=${DateTime.now().millisecondsSinceEpoch}");
+
+      managerModel.profilePic = imagePath;
+      return managerModel;
     } catch (e) {
       throw GenericException(message: e.toString());
     }

@@ -2,6 +2,8 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:event_connect/core/utils/message_dialogs.dart';
+import 'package:event_connect/features/manager/manager_edit_profile/presentation/manager_edit_profile_screen.dart';
+import 'package:event_connect/features/manager/manager_homescreen/presentation/cubit/manager_homescreen_cubit.dart';
 import 'package:event_connect/features/manager/manager_profile/presentation/cubit/manager_profile_cubit.dart';
 import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
@@ -201,15 +203,26 @@ class ManagerProfileScreenView extends StatelessWidget {
                                       child: Material(
                                         color: Colors.transparent,
                                         child: InkWell(
-                                          onTap: () {
-                                            // TODO: Here'll be the edit page...
-                                            // Navigator.push(
-                                            //   context,
-                                            //   MaterialPageRoute(
-                                            //     builder: (context) =>
-                                            //         const EditProfileScreen(),
-                                            //   ),
-                                            // );
+                                          onTap: () async {
+                                            // Use local variable for context.read
+                                            final managerProfileCubit = context
+                                                .read<ManagerProfileCubit>();
+                                            final managerHomescreenCubit =
+                                                context.read<
+                                                    ManagerHomescreenCubit>();
+                                            final result = await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const ManagerEditProfileScreen(),
+                                              ),
+                                            );
+                                            if (result != null) {
+                                              managerProfileCubit
+                                                  .getManagerPicAndLocation();
+                                              managerHomescreenCubit
+                                                  .getManagerProfilePic();
+                                            }
                                           },
                                           borderRadius:
                                               BorderRadius.circular(16),
