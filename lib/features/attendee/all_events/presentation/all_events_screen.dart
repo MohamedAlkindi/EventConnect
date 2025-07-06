@@ -120,79 +120,7 @@ class AllEventsScreenView extends StatelessWidget {
                               ),
 
                               // Categories with modern design
-                              Container(
-                                height: 60,
-                                margin:
-                                    const EdgeInsets.only(top: 20, bottom: 10),
-                                child:
-                                    BlocBuilder<AllEventsCubit, AllEventsState>(
-                                  builder: (context, state) {
-                                    final cubit =
-                                        context.read<AllEventsCubit>();
-                                    return ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20),
-                                      itemCount: cubit.categories.length,
-                                      itemBuilder: (context, index) {
-                                        final isSelected =
-                                            cubit.selectedCategory ==
-                                                cubit.categories[index];
-                                        return Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 12),
-                                          child: AnimatedContainer(
-                                            duration: const Duration(
-                                                milliseconds: 200),
-                                            decoration: BoxDecoration(
-                                              color: isSelected
-                                                  ? const Color(0xFF6C63FF)
-                                                  : Colors.white.withAlpha(
-                                                      (0.7 * 255).round()),
-                                              borderRadius:
-                                                  BorderRadius.circular(30),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: isSelected
-                                                      ? const Color(0xFF6C63FF)
-                                                          .withAlpha(
-                                                              (0.18 * 255)
-                                                                  .round())
-                                                      : Colors.black.withAlpha(
-                                                          (0.03 * 255).round()),
-                                                  blurRadius: 10,
-                                                  offset: const Offset(0, 5),
-                                                ),
-                                              ],
-                                            ),
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 20, vertical: 8),
-                                            child: InkWell(
-                                              onTap: () =>
-                                                  cubit.selectCategory(index),
-                                              borderRadius:
-                                                  BorderRadius.circular(30),
-                                              child: Center(
-                                                child: Text(
-                                                  cubit.categories[index],
-                                                  style: GoogleFonts.poppins(
-                                                    color: isSelected
-                                                        ? Colors.white
-                                                        : const Color(
-                                                            0xFF6C63FF),
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 14,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  },
-                                ),
-                              ),
+
                               // Events List with modern cards
                               StreamBuilder<List<EventModel>>(
                                 stream:
@@ -275,6 +203,97 @@ class AllEventsScreenView extends StatelessWidget {
                                   }
                                   return Column(
                                     children: [
+                                      Container(
+                                        height: 60,
+                                        margin: const EdgeInsets.only(
+                                            top: 20, bottom: 10),
+                                        child: BlocBuilder<AllEventsCubit,
+                                            AllEventsState>(
+                                          builder: (context, state) {
+                                            final cubit =
+                                                context.read<AllEventsCubit>();
+                                            return ListView.builder(
+                                              scrollDirection: Axis.horizontal,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 20),
+                                              itemCount:
+                                                  cubit.categories.length,
+                                              itemBuilder: (context, index) {
+                                                final isSelected =
+                                                    cubit.selectedCategory ==
+                                                        cubit.categories[index];
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 12),
+                                                  child: AnimatedContainer(
+                                                    duration: const Duration(
+                                                        milliseconds: 200),
+                                                    decoration: BoxDecoration(
+                                                      color: isSelected
+                                                          ? const Color(
+                                                              0xFF6C63FF)
+                                                          : Colors.white
+                                                              .withAlpha(
+                                                                  (0.7 * 255)
+                                                                      .round()),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: isSelected
+                                                              ? const Color(
+                                                                      0xFF6C63FF)
+                                                                  .withAlpha((0.18 *
+                                                                          255)
+                                                                      .round())
+                                                              : Colors.black
+                                                                  .withAlpha((0.03 *
+                                                                          255)
+                                                                      .round()),
+                                                          blurRadius: 10,
+                                                          offset: const Offset(
+                                                              0, 5),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 20,
+                                                        vertical: 8),
+                                                    child: InkWell(
+                                                      onTap: () =>
+                                                          cubit.selectCategory(
+                                                              index),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30),
+                                                      child: Center(
+                                                        child: Text(
+                                                          cubit.categories[
+                                                              index],
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                            color: isSelected
+                                                                ? Colors.white
+                                                                : const Color(
+                                                                    0xFF6C63FF),
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontSize: 14,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            );
+                                          },
+                                        ),
+                                      ),
                                       for (final event in snapshot.data!)
                                         Container(
                                           margin: const EdgeInsets.only(
