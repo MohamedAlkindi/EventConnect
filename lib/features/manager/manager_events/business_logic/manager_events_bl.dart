@@ -1,15 +1,17 @@
 import 'package:event_connect/core/collections/events_collection_documents.dart';
 import 'package:event_connect/core/firebase/user/firebase_user.dart';
 import 'package:event_connect/core/models/event_model.dart';
+import 'package:event_connect/core/service/image_compression_service.dart';
+import 'package:event_connect/core/service/image_storage_service.dart';
 import 'package:event_connect/features/manager/manager_events/data_access/manager_events_da.dart';
 import 'package:event_connect/shared/event_repo.dart';
 import 'package:event_connect/shared/image_caching_setup.dart';
-import 'package:event_connect/shared/image_storage_service.dart';
 
 class ManagerEventsBl {
   final _dataAccess = ManagerEventsDa();
   final _eventRepo = EventRepo();
   final _user = FirebaseUser();
+  final _imageCompression = ImageCompressionService();
   final _imageCaching = ImageCachingSetup();
   final _storageService = ImageStorageService();
 
@@ -53,13 +55,15 @@ class ManagerEventsBl {
       required String description,
       required String genderRestriction}) async {
     try {
+      final String imagePath =
+          await _imageCompression.compressAndReplaceImage(picturePath);
       // Prepare the event model to add it to the firestore.
       var eventModel = EventModel(
         null,
         name: name,
         category: category,
         picture: await _storageService.addAndReturnImageUrl(
-            imagePath: picturePath,
+            imagePath: imagePath,
             eventName: name,
             userID: _user.getUserID,
             isEventPic: true),
@@ -92,6 +96,9 @@ class ManagerEventsBl {
       required String description,
       required String genderRestriction}) async {
     try {
+      final String? imagePath = picturePath != null
+          ? await _imageCompression.compressAndReplaceImage(picturePath)
+          : null;
       var updatedEvent = EventModel(
         docID,
         name: name,
@@ -100,11 +107,11 @@ class ManagerEventsBl {
         // if it does then the user didnt change the picture so save the supabaseImageUrl in firestore.
         // otherwise if it doesnt then the user changed the picture.
         // so send the path and supabase link to update and get the url again.
-        picture: picturePath == null
+        picture: imagePath == null
             ? supabaseImageUrl
             : await _storageService.updateAndReturnImageUrl(
                 imageUrl: supabaseImageUrl,
-                newImagePath: picturePath,
+                newImagePath: imagePath,
                 isEventPic: true,
                 userID: null,
               ),
