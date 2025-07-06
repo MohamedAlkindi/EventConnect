@@ -245,7 +245,7 @@ class _LoginPageState extends State<LoginPage> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Flexible(
+                                  Expanded(
                                     child: Text(
                                       "Don't have an account?",
                                       style: GoogleFonts.poppins(
@@ -253,6 +253,7 @@ class _LoginPageState extends State<LoginPage> {
                                         color: Colors.grey,
                                       ),
                                       overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
                                     ),
                                   ),
                                   TextButton(
@@ -262,18 +263,17 @@ class _LoginPageState extends State<LoginPage> {
                                         registerPageRoute,
                                       );
                                     },
-                                    child: Flexible(
-                                      child: Text(
-                                        "Sign Up",
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                          color: const Color(0xFF6C63FF),
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
+                                    child: Text(
+                                      "Sign Up",
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: const Color(0xFF6C63FF),
                                       ),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             ],
