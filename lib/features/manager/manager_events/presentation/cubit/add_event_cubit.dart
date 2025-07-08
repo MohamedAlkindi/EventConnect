@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/features/manager/manager_events/business_logic/manager_events_bl.dart';
 import 'package:event_connect/features/manager/manager_events/presentation/cubit/manager_events_cubit.dart';
 import 'package:image_picker/image_picker.dart';
@@ -85,7 +84,7 @@ class AddEventCubit extends Cubit<AddEventState> {
           eventImage == null) {
         throw Exception("Please enter valid inputs");
       } else {
-        EventModel eventModel = await _businessLogic.addEvent(
+        await _businessLogic.addEvent(
             name: name,
             category: selectedCategory,
             picturePath: eventImage!.path,
@@ -93,7 +92,6 @@ class AddEventCubit extends Cubit<AddEventState> {
             dateAndTime: dateAndTime,
             description: description,
             genderRestriction: selectedGenderRestriction);
-        managerCubit.addEventToStream(eventModel);
         emit(EventAddedSuccessfully());
       }
     } catch (e) {

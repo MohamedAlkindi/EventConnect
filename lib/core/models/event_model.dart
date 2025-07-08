@@ -35,4 +35,22 @@ class EventModel {
       _$EventModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$EventModelToJson(this);
+
+  Map<String, dynamic> toUpdateJson() {
+    final data = <String, dynamic>{};
+    if (name.isNotEmpty) data['name'] = name;
+    if (category.isNotEmpty) data['category'] = category;
+    if (picture.isNotEmpty) data['picture'] = picture;
+    if (location.isNotEmpty) data['location'] = location;
+    if (dateAndTime.isNotEmpty) data['dateAndTime'] = dateAndTime;
+    if (description.isNotEmpty) data['description'] = description;
+    if (genderRestriction.isNotEmpty) {
+      data['genderRestriction'] = genderRestriction;
+    }
+    if (weather != null) data['weather'] = weather;
+    // Do NOT include attendees unless you want to update it!
+    // if (attendees != null) data['attendees'] = attendees;
+    if (managerID.isNotEmpty) data['managerID'] = managerID;
+    return data;
+  }
 }

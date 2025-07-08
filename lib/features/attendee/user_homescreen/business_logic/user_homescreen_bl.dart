@@ -8,8 +8,7 @@ class UserHomescreenBl {
   Future<String> getUserProfilePic() async {
     try {
       String imageUrl = await _dataAccess.getUserProfilePic();
-      return await _imageCaching.downloadAndCacheImageByUrl(
-          "$imageUrl${imageUrl.contains('?') ? '&' : '?'}updated=${DateTime.now().millisecondsSinceEpoch}");
+      return await _imageCaching.downloadAndCacheImageByUrl(imageUrl);
     } catch (e) {
       throw Exception("Error ${e.toString()}");
     }

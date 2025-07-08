@@ -58,7 +58,6 @@ class _EditEventScreenState extends State<EditEventScreen> {
           if (state is ManagerEventsLoading) {
             showLoadingDialog(context);
           } else if (state is EventUpdatedSuccessfully) {
-            hideLoadingDialog(context);
             showMessageDialog(
               context: context,
               icon: Icons.check_circle_outline_rounded,
@@ -172,6 +171,7 @@ class _EditEventScreenState extends State<EditEventScreen> {
                                 builder: (context, state) {
                                   return ClipRRect(
                                     borderRadius: BorderRadius.circular(22),
+                                    // prioritize the new image over the old "cached" one.
                                     child: cubit.eventImage != null
                                         ? Image.file(
                                             File(cubit.eventImage!.path),
@@ -179,14 +179,22 @@ class _EditEventScreenState extends State<EditEventScreen> {
                                             width: double.infinity,
                                             height: double.infinity,
                                           )
-                                        : Container(
-                                            color: const Color.fromARGB(
-                                                255, 230, 232, 241),
-                                            child: Center(
-                                              child: Image.network(
-                                                  "${widget.eventModel.picture}?updated=${DateTime.now().millisecondsSinceEpoch}"),
-                                            ),
-                                          ),
+                                        : widget.eventModel.picture
+                                                .startsWith("http")
+                                            ? Container(
+                                                color: const Color.fromARGB(
+                                                    255, 230, 232, 241),
+                                                child: Center(
+                                                  child: Image.network(
+                                                      "${widget.eventModel.picture}?updated=${DateTime.now().millisecondsSinceEpoch}"),
+                                                ),
+                                              )
+                                            : Image.file(
+                                                File(widget.eventModel.picture),
+                                                fit: BoxFit.cover,
+                                                width: double.infinity,
+                                                height: double.infinity,
+                                              ),
                                   );
                                 },
                               ),

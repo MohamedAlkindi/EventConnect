@@ -184,8 +184,7 @@ class UserHomeScreenView extends StatelessWidget {
                                           radius: 12,
                                           backgroundImage: state.imageFile!
                                                   .startsWith("https:/")
-                                              ? NetworkImage(
-                                                  "${state.imageFile!}?updated=${DateTime.now().millisecondsSinceEpoch}")
+                                              ? NetworkImage(state.imageFile!)
                                               : FileImage(
                                                   File(state.imageFile!),
                                                 ),

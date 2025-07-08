@@ -50,6 +50,8 @@ dependencies:
   supabase_flutter: ^2.9.1
   rxdart: ^0.28.0
   image: ^4.3.0
+  path_provider: ^2.1.5
+  meta: ^1.15.0
 dev_dependencies:
   # flutter_native_splash: ^2.4.4
   flutter_test:

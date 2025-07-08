@@ -9,7 +9,8 @@ part of 'user_model.dart';
 UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       userID: json['userID'] as String,
       location: json['location'] as String,
-      profilePic: json['profilePic'] as String,
+      profilePic:
+          "${json['profilePic']}${(json['profilePic'] as String).contains('?') ? '&' : '?'}updated=${DateTime.now().millisecondsSinceEpoch}",
       role: json['role'] as String,
     );
 

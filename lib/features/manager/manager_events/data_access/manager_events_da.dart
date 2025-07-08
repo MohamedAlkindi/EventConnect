@@ -32,7 +32,7 @@ class ManagerEventsDa {
       await _firestore
           .collection(EventsCollection.eventCollectionName)
           .doc(eventModel.eventID)
-          .update(eventModel.toJson());
+          .update(eventModel.toUpdateJson());
     } catch (e) {
       throw Exception("Error ${e.toString()}");
     }

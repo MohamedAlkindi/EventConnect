@@ -10,7 +10,8 @@ EventModel _$EventModelFromJson(Map<String, dynamic> json) => EventModel(
       json['eventID'] as String?,
       name: json['name'] as String,
       category: json['category'] as String,
-      picture: json['picture'] as String,
+      picture:
+          "${json['picture']}${(json['picture'] as String).contains('?') ? '&' : '?'}updated=${DateTime.now().millisecondsSinceEpoch}",
       location: json['location'] as String,
       dateAndTime: json['dateAndTime'] as String,
       description: json['description'] as String,

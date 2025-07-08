@@ -12,9 +12,8 @@ class ManagerProfileBl {
   Future<UserModel> getManagerPicAndLocation() async {
     try {
       final managerModel = await _dataAccess.getManagerPicAndLocation();
-      final imagePath = await _imageCaching.downloadAndCacheImageByUrl(
-          "${managerModel.profilePic}${managerModel.profilePic.contains('?') ? '&' : '?'}updated=${DateTime.now().millisecondsSinceEpoch}");
-
+      final imagePath = await _imageCaching
+          .downloadAndCacheImageByUrl(managerModel.profilePic);
       managerModel.profilePic = imagePath;
       return managerModel;
     } catch (e) {

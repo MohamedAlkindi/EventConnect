@@ -13,8 +13,8 @@ class MyProfileBL {
     try {
       final userModel = await _dataAccess.getUserPicAndLocation();
       // Get the newest picture from supabase.
-      final imagePath = await _imageCaching.downloadAndCacheImageByUrl(
-          "${userModel.profilePic}${userModel.profilePic.contains('?') ? '&' : '?'}updated=${DateTime.now().millisecondsSinceEpoch}");
+      final imagePath =
+          await _imageCaching.downloadAndCacheImageByUrl(userModel.profilePic);
       userModel.profilePic = imagePath;
       return userModel;
     } catch (e) {

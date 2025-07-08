@@ -136,7 +136,8 @@ class ManagerProfileScreenView extends StatelessWidget {
                                                   ? state.userInfo.profilePic
                                                           .startsWith("http")
                                                       ? NetworkImage(
-                                                          "${state.userInfo.profilePic}${state.userInfo.profilePic.contains('?') ? '&' : '?'}updated=${DateTime.now().millisecondsSinceEpoch}",
+                                                          state.userInfo
+                                                              .profilePic,
                                                         )
                                                       : File(state.userInfo
                                                                   .profilePic)
