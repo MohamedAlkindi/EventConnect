@@ -11,7 +11,12 @@ class ImageCachingSetup {
     for (final event in eventModels) {
       if (event.picture.isNotEmpty &&
           Uri.tryParse(event.picture)?.isAbsolute == true) {
-        final filename = 'event_${event.eventID}.jpg';
+        final uri = Uri.parse(event.picture);
+        final extension = uri.pathSegments.isNotEmpty
+            ? uri.pathSegments.last.split('.').last
+            : 'jpg';
+        final filename =
+            'event_${event.eventID}_${event.picture.hashCode}.$extension';
         final file = File('${dir.path}/$filename');
 
         if (await file.exists()) {

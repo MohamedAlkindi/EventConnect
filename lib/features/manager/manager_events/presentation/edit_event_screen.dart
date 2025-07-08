@@ -58,6 +58,7 @@ class _EditEventScreenState extends State<EditEventScreen> {
           if (state is ManagerEventsLoading) {
             showLoadingDialog(context);
           } else if (state is EventUpdatedSuccessfully) {
+            hideLoadingDialog(context);
             showMessageDialog(
               context: context,
               icon: Icons.check_circle_outline_rounded,
