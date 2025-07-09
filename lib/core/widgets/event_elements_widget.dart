@@ -99,8 +99,11 @@ class _EventDescriptionWidget extends StatefulWidget {
 class _EventDescriptionWidgetState extends State<_EventDescriptionWidget> {
   bool isExpanded = false;
 
+  bool get _shouldShowButton => widget.description.length > 100;
+
   @override
   Widget build(BuildContext context) {
+    final showButton = _shouldShowButton;
     return SizedBox(
       width: double.infinity,
       child: Container(
@@ -127,8 +130,9 @@ class _EventDescriptionWidgetState extends State<_EventDescriptionWidget> {
               width: double.infinity,
               child: Text(
                 widget.description,
-                maxLines: isExpanded ? null : 2,
-                overflow: isExpanded ? null : TextOverflow.ellipsis,
+                maxLines: showButton && !isExpanded ? 2 : null,
+                overflow:
+                    showButton && !isExpanded ? TextOverflow.ellipsis : null,
                 style: const TextStyle(
                   color: Colors.black87,
                   fontSize: 14,
@@ -136,7 +140,7 @@ class _EventDescriptionWidgetState extends State<_EventDescriptionWidget> {
                 ),
               ),
             ),
-            if (widget.description.length > 100) ...[
+            if (showButton) ...[
               const SizedBox(height: 8),
               GestureDetector(
                 onTap: () {
