@@ -241,16 +241,14 @@ class _RegisterPageState extends State<RegisterPage> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Flexible(
-                                    child: Text(
-                                      AppLocalizations.of(context)!
-                                          .alreadyHaveAccount,
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 14,
-                                        color: Colors.grey,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
+                                  Text(
+                                    AppLocalizations.of(context)!
+                                        .alreadyHaveAccount,
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 14,
+                                      color: Colors.grey,
                                     ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                   TextButton(
                                     onPressed: () {
@@ -259,16 +257,14 @@ class _RegisterPageState extends State<RegisterPage> {
                                         loginPageRoute,
                                       );
                                     },
-                                    child: Flexible(
-                                      child: Text(
-                                        AppLocalizations.of(context)!.signIn,
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                          color: const Color(0xFF6C63FF),
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
+                                    child: Text(
+                                      AppLocalizations.of(context)!.signIn,
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: const Color(0xFF6C63FF),
                                       ),
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                 ],
