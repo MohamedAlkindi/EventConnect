@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_connect/core/collections/user_collection_document.dart';
+import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
 import 'package:event_connect/core/firebase/user/firebase_user.dart';
 
 class ManagerHomescreenDa {
@@ -19,7 +20,7 @@ class ManagerHomescreenDa {
 
       return profilePic;
     } catch (e) {
-      throw Exception("Error ${e.toString()}");
+      throw GenericException("Error: ${e.toString()}");
     }
   }
 }

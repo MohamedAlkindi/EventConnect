@@ -51,7 +51,7 @@ class MyEventsBL {
       _weatherSetup.setupWeather(userEvents);
       return userEvents;
     } catch (e) {
-      throw GenericException(message: ExceptionMessages.apiError);
+      throw GenericException(ExceptionMessages.apiError);
     }
   }
 
@@ -59,7 +59,7 @@ class MyEventsBL {
     try {
       await _dataAccess.deleteEventFromUserEvents(documentID);
     } catch (e) {
-      throw Exception("Error: ${e.toString()}");
+      throw GenericException("Error:: ${e.toString()}");
     }
   }
 }

@@ -36,8 +36,7 @@ class FirebaseUser {
                 "${ExceptionMessages.firebaseUnknownException}\n${e.message}");
       }
     } catch (e) {
-      throw GenericException(
-          message: ExceptionMessages.genericExceptionMessage);
+      throw GenericException(ExceptionMessages.genericExceptionMessage);
     }
   }
 
@@ -67,8 +66,7 @@ class FirebaseUser {
                 "${ExceptionMessages.firebaseUnknownException}\n${e.message}");
       }
     } catch (e) {
-      throw GenericException(
-          message: ExceptionMessages.genericExceptionMessage);
+      throw GenericException(ExceptionMessages.genericExceptionMessage);
     }
   }
 
@@ -77,10 +75,10 @@ class FirebaseUser {
       try {
         await getUser!.sendEmailVerification();
       } catch (e) {
-        throw Exception("Error ${e.toString()}");
+        throw GenericException("Error: ${e.toString()}");
       }
     } else {
-      throw Exception("This user is invalid");
+      throw GenericException("This user is invalid");
     }
   }
 
@@ -90,10 +88,10 @@ class FirebaseUser {
         await getUser!.reload();
         return getUser!.emailVerified;
       } catch (e) {
-        throw Exception("Error ${e.toString()}");
+        throw GenericException("Error: ${e.toString()}");
       }
     } else {
-      throw Exception("This user is invalid");
+      throw GenericException("This user is invalid");
     }
   }
 
@@ -106,7 +104,7 @@ class FirebaseUser {
 
       return result.exists ? true : false;
     } catch (e) {
-      throw Exception("Error ${e.toString()}");
+      throw GenericException("Error: ${e.toString()}");
     }
   }
 
@@ -119,7 +117,7 @@ class FirebaseUser {
 
       return document.data()?["role"] as String;
     } catch (e) {
-      throw Exception("Error ${e.toString()}");
+      throw GenericException("Error: ${e.toString()}");
     }
   }
 
@@ -127,7 +125,7 @@ class FirebaseUser {
     try {
       // Check if user is signed in
       if (getUser == null) {
-        throw Exception('No user is currently signed in');
+        throw GenericException('No user is currently signed in');
       }
 
       // Try to delete the user
@@ -136,11 +134,12 @@ class FirebaseUser {
       if (e.code == 'requires-recent-login') {
         // If the user needs to reauthenticate, you should handle this case
         // by prompting the user to sign in again before deletion
-        throw Exception('Please sign in again before deleting your account');
+        throw GenericException(
+            'Please sign in again before deleting your account');
       }
-      throw Exception('Failed to delete user: ${e.message}');
+      throw GenericException('Failed to delete user: ${e.message}');
     } catch (e) {
-      throw Exception('An error occurred while deleting the user: $e');
+      throw GenericException('An error occurred while deleting the user: $e');
     }
   }
 

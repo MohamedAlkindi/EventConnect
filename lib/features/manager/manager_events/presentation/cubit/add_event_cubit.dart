@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
 import 'package:event_connect/features/manager/manager_events/business_logic/manager_events_bl.dart';
 import 'package:event_connect/features/manager/manager_events/presentation/cubit/manager_events_cubit.dart';
 import 'package:image_picker/image_picker.dart';
@@ -82,7 +83,7 @@ class AddEventCubit extends Cubit<AddEventState> {
           dateAndTime.trim().isEmpty ||
           description.trim().isEmpty ||
           eventImage == null) {
-        throw Exception("Please enter valid inputs");
+        throw GenericException("Please enter valid inputs");
       } else {
         await _businessLogic.addEvent(
             name: name,

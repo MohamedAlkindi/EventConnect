@@ -219,7 +219,7 @@ class AllEventsScreenView extends StatelessWidget {
                                           vertical: 60),
                                       child: Center(
                                         child: Text(
-                                          'Error:  ${snapshot.error}',
+                                          'Error::  ${snapshot.error}',
                                           style: const TextStyle(
                                               color: Color(0xFF6C63FF)),
                                         ),

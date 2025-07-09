@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ImageStorageService {
@@ -62,7 +63,7 @@ class ImageStorageService {
             ));
         return storage.from('user-pic-storage').getPublicUrl(path);
       } else {
-        throw Exception("Error: user id cannot be empty");
+        throw GenericException("Error:: user id cannot be empty");
       }
     }
   }

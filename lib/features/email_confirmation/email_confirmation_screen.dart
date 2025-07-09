@@ -76,7 +76,7 @@ class _EmailConfirmationScreen extends State<EmailConfirmationScreen> {
               } else if (state is ErrorState) {
                 hideLoadingDialog(context);
                 showErrorDialog(
-                    context: context, message: "Error ${state.message}");
+                    context: context, message: "Error: ${state.message}");
               }
             },
             child: Center(

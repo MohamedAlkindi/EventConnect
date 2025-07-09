@@ -59,7 +59,7 @@ class AllEventScreenBL {
       _weatherSetup.setupWeather(availableEventModels);
       return availableEventModels;
     } catch (e) {
-      throw GenericException(message: ExceptionMessages.apiError);
+      throw GenericException(ExceptionMessages.apiError);
     }
   }
 
@@ -67,7 +67,7 @@ class AllEventScreenBL {
     try {
       await _dataAccess.addEventToUserEvents(eventDocumentID);
     } catch (e) {
-      throw GenericException(message: ExceptionMessages.addEventError);
+      throw GenericException(ExceptionMessages.addEventError);
     }
   }
 }

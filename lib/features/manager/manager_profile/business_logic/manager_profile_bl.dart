@@ -17,7 +17,7 @@ class ManagerProfileBl {
       managerModel.profilePic = imagePath;
       return managerModel;
     } catch (e) {
-      throw GenericException(message: e.toString());
+      throw GenericException(e.toString());
     }
   }
 
@@ -29,7 +29,7 @@ class ManagerProfileBl {
     try {
       await _dataAccess.deleteUser();
     } catch (e) {
-      throw GenericException(message: e.toString());
+      throw GenericException(e.toString());
     }
   }
 }

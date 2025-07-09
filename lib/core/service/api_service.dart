@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer' as log;
+import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
@@ -37,7 +38,7 @@ class ApiService {
       final response = await http.get(Uri.parse(url)).timeout(
         const Duration(seconds: 10),
         onTimeout: () {
-          throw Exception(
+          throw GenericException(
             'Request timed out. Please try again later.',
           );
         },

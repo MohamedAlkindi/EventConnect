@@ -1,3 +1,4 @@
+import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
 import 'package:event_connect/core/firebase/user/firebase_user.dart';
 
 class EmailCofirmationLogic {
@@ -7,7 +8,7 @@ class EmailCofirmationLogic {
     try {
       await _user.sendVerificationEmail();
     } catch (e) {
-      throw Exception("Error ${e.toString()}");
+      throw GenericException("Error: ${e.toString()}");
     }
   }
 
@@ -15,7 +16,7 @@ class EmailCofirmationLogic {
     try {
       return await _user.isVerified;
     } catch (e) {
-      throw Exception("Error ${e.toString()}");
+      throw GenericException("Error: ${e.toString()}");
     }
   }
 }

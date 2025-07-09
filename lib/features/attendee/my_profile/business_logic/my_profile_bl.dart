@@ -18,7 +18,7 @@ class MyProfileBL {
       userModel.profilePic = imagePath;
       return userModel;
     } catch (e) {
-      throw GenericException(message: e.toString());
+      throw GenericException(e.toString());
     }
   }
 
@@ -30,7 +30,7 @@ class MyProfileBL {
     try {
       await _dataAccess.deleteUser();
     } catch (e) {
-      throw GenericException(message: e.toString());
+      throw GenericException(e.toString());
     }
   }
 }

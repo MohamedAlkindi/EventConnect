@@ -10,7 +10,7 @@ class EmptyFieldException implements Exception {
 class GenericException implements Exception {
   final String message;
 
-  GenericException({required this.message});
+  GenericException(this.message);
 
   @override
   toString() => message;

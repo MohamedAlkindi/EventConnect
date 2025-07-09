@@ -1,4 +1,5 @@
 import 'package:event_connect/core/collections/events_collection_documents.dart';
+import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
 import 'package:event_connect/core/firebase/user/firebase_user.dart';
 import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/core/service/image_compression_service.dart';
@@ -33,7 +34,7 @@ class ManagerEventsBl {
       await _imageCaching.downloadAndCacheImages(managerEvents);
       return managerEvents;
     } catch (e) {
-      throw Exception("Error ${e.toString()}");
+      throw GenericException("Error: ${e.toString()}");
     }
   }
 
@@ -41,7 +42,7 @@ class ManagerEventsBl {
     try {
       await _dataAccess.deleteManagerEvent(documentID);
     } catch (e) {
-      throw Exception("Error ${e.toString()}");
+      throw GenericException("Error: ${e.toString()}");
     }
   }
 
@@ -80,7 +81,7 @@ class ManagerEventsBl {
       eventModel.eventID = modelId;
       return eventModel;
     } catch (e) {
-      throw Exception("Error ${e.toString()}");
+      throw GenericException("Error: ${e.toString()}");
     }
   }
 
@@ -124,7 +125,7 @@ class ManagerEventsBl {
       await _dataAccess.editEvent(updatedEvent);
       return updatedEvent;
     } catch (e) {
-      throw Exception("Error ${e.toString()}");
+      throw GenericException("Error: ${e.toString()}");
     }
   }
 }

@@ -39,7 +39,7 @@ class CompleteProfileBl {
       await _dataAccess.completeProfile(user);
       // Send the data to be saved.
     } catch (e) {
-      throw Exception(ExceptionMessages.genericExceptionMessage);
+      throw GenericException(ExceptionMessages.genericExceptionMessage);
     }
   }
 }

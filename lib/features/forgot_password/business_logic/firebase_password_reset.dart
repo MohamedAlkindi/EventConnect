@@ -26,7 +26,7 @@ class FirebasePasswordReset {
       }
     } catch (e) {
       throw GenericException(
-        message: ExceptionMessages.genericExceptionMessage,
+        ExceptionMessages.genericExceptionMessage,
       );
     }
   }

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_connect/core/collections/events_collection_documents.dart';
+import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
 import 'package:event_connect/core/models/event_model.dart';
 
 class ManagerEventsDa {
@@ -12,7 +13,7 @@ class ManagerEventsDa {
           .doc(documentID)
           .delete();
     } catch (e) {
-      throw Exception("Error ${e.toString()}");
+      throw GenericException("Error: ${e.toString()}");
     }
   }
 
@@ -23,7 +24,7 @@ class ManagerEventsDa {
           .add(eventModel.toJson());
       return docRef.id;
     } catch (e) {
-      throw Exception("Error ${e.toString()}");
+      throw GenericException("Error: ${e.toString()}");
     }
   }
 
@@ -34,7 +35,7 @@ class ManagerEventsDa {
           .doc(eventModel.eventID)
           .update(eventModel.toUpdateJson());
     } catch (e) {
-      throw Exception("Error ${e.toString()}");
+      throw GenericException("Error: ${e.toString()}");
     }
   }
 }

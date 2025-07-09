@@ -1,3 +1,4 @@
+import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
 import 'package:event_connect/core/firebase/user/firebase_user.dart';
 import 'package:event_connect/core/models/user_model.dart';
 import 'package:event_connect/core/service/image_compression_service.dart';
@@ -35,7 +36,7 @@ class ManagerEditProfileBL {
       );
       await _dataAccess.updateProfileDetails(updatedInfo);
     } catch (e) {
-      throw Exception("Error ${e.toString()}");
+      throw GenericException("Error: ${e.toString()}");
     }
   }
 
@@ -43,7 +44,7 @@ class ManagerEditProfileBL {
     try {
       return await _dataAccess.getManagerDetails();
     } catch (e) {
-      throw Exception("Error ${e.toString()}");
+      throw GenericException("Error: ${e.toString()}");
     }
   }
 }

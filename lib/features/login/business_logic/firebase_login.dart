@@ -12,7 +12,7 @@ class FirebaseLogin {
       try {
         await _user.signInUser(email: email, password: password);
       } catch (e) {
-        throw Exception("Error ${e.toString()}");
+        throw GenericException("Error: ${e.toString()}");
       }
     } else {
       throw EmptyFieldException(
@@ -25,7 +25,7 @@ class FirebaseLogin {
     try {
       return await _user.isVerified;
     } catch (e) {
-      throw Exception("Error ${e.toString()}");
+      throw GenericException("Error: ${e.toString()}");
     }
   }
 }

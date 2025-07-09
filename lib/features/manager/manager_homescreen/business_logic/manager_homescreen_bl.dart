@@ -1,3 +1,4 @@
+import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
 import 'package:event_connect/features/manager/manager_homescreen/data_access/manager_homescreen_da.dart';
 import 'package:event_connect/shared/image_caching_setup.dart';
 
@@ -10,7 +11,7 @@ class ManagerHomescreenBl {
       String imageUrl = await _dataAccess.getManagerProfilePic();
       return await _imageCaching.downloadAndCacheImageByUrl(imageUrl);
     } catch (e) {
-      throw Exception("Error ${e.toString()}");
+      throw GenericException("Error: ${e.toString()}");
     }
   }
 }
