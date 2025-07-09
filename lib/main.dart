@@ -39,6 +39,9 @@ import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:event_connect/core/service/notification_service.dart';
 import 'dart:async';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter/services.dart';
+import 'dart:io';
 
 const String loginPageRoute = '/LoginPage';
 const String registerPageRoute = '/RegisterPage';
@@ -103,10 +106,11 @@ Future<void> main() async {
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
   // Request notification permissions (Android 13+ and iOS)
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.requestPermission();
+  if (Platform.isAndroid && (await _getAndroidSdkInt()) >= 33) {
+    if (await Permission.notification.isDenied) {
+      await Permission.notification.request();
+    }
+  }
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
           IOSFlutterLocalNotificationsPlugin>()
@@ -118,6 +122,16 @@ Future<void> main() async {
 
   startUpWidget = await whichWidget();
   runApp(const MainApp());
+}
+
+Future<int> _getAndroidSdkInt() async {
+  try {
+    final methodChannel = const MethodChannel('com.example.Event_Connect/info');
+    final int sdkInt = await methodChannel.invokeMethod('getAndroidSdkInt');
+    return sdkInt;
+  } catch (_) {
+    return 0;
+  }
 }
 
 class MainApp extends StatelessWidget {
