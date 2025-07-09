@@ -49,10 +49,10 @@ class MyEventsCubit extends Cubit<MyEventsState> {
       // Refresh the events list after deleting
       // Remove the event from the local list
       _events.removeWhere((event) => event.eventID == documentID);
-
       // Update stream with the new list
       _eventsSubject.add(List<EventModel>.from(_events));
       emit(MyEventsDeletedEvent());
+      // Notification logic will be handled by a listener, not here
     } catch (e) {
       emit(MyEventsError(message: e.toString()));
     }
@@ -66,6 +66,7 @@ class MyEventsCubit extends Cubit<MyEventsState> {
   void getAndAddUserEvent(EventModel event) {
     _events.add(event);
     _eventsSubject.add(List<EventModel>.from(_events));
+    // Notification logic will be handled by a listener, not here
   }
 
   // method to reset cubit and all cached data after logging out or deleting account.

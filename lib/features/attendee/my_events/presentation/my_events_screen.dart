@@ -364,6 +364,8 @@ class MyEventsScreenView extends StatelessWidget {
                                                                     documentID:
                                                                         event
                                                                             .eventID!);
+                                                            myEventsCubit
+                                                                .forceRefreshEvents();
                                                           },
                                                           borderRadius:
                                                               BorderRadius

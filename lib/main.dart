@@ -33,6 +33,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+import 'package:event_connect/core/service/notification_service.dart';
+import 'dart:async';
 
 const String loginPageRoute = '/LoginPage';
 const String registerPageRoute = '/RegisterPage';
@@ -81,6 +87,35 @@ Future<void> main() async {
       url: 'https://mretvbuvvmcbjdivlogc.supabase.co',
       anonKey:
           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1yZXR2YnV2dm1jYmpkaXZsb2djIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA0NTM0MzgsImV4cCI6MjA2NjAyOTQzOH0.xPz552lN_TfgO1RX7CjHYheRJ04nmio0WV_Z6Yw-7Fw');
+
+  // Initialize timezone and notifications
+  tz.initializeTimeZones();
+  final String currentTimeZone = await FlutterTimezone.getLocalTimezone();
+  tz.setLocalLocation(tz.getLocation(currentTimeZone));
+
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/launcher_icon');
+  final InitializationSettings initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+  );
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+  // Request notification permissions (Android 13+ and iOS)
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.requestPermission();
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          IOSFlutterLocalNotificationsPlugin>()
+      ?.requestPermissions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+
   startUpWidget = await whichWidget();
   runApp(const MainApp());
 }
@@ -112,8 +147,17 @@ class MainApp extends StatelessWidget {
           create: (context) => UserHomescreenCubit(),
         ),
         BlocProvider(
-          create: (context) =>
-              MyEventsCubit()..getAllEventsByUserID(forceRefresh: false),
+          create: (context) {
+            final cubit = MyEventsCubit()
+              ..getAllEventsByUserID(forceRefresh: false);
+            // Attach notification listener
+            NotificationEventListener(cubit.eventsStream);
+            // Periodically refresh events every 5 minutes
+            Timer.periodic(const Duration(minutes: 5), (_) {
+              cubit.forceRefreshEvents();
+            });
+            return cubit;
+          },
         ),
         BlocProvider(
           create: (context) => ManagerHomescreenCubit(),
