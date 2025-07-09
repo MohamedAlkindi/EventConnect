@@ -52,7 +52,7 @@ dependencies:
   image: ^4.3.0
   path_provider: ^2.1.5
   meta: ^1.15.0
-  flutter_local_notifications: ^15.0.0
+  flutter_local_notifications: ^17.2.1
   flutter_timezone: ^3.0.0
   collection: ^1.19.0
   timezone: ^0.9.4
