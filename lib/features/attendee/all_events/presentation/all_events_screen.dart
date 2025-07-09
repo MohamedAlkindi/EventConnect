@@ -9,6 +9,8 @@ import 'package:event_connect/features/attendee/my_events/presentation/cubit/my_
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:event_connect/core/utils/localization_extensions.dart';
 
 class AllEventsScreen extends StatelessWidget {
   const AllEventsScreen({super.key});
@@ -36,16 +38,18 @@ class AllEventsScreenView extends StatelessWidget {
             showMessageDialog(
               context: context,
               icon: Icons.check_circle_outline_rounded,
-              titleText: "Success 🥳",
-              contentText: "The event has been added to your events!",
+              titleText: AppLocalizations.of(context)!.success,
+              contentText: AppLocalizations.of(context)!.eventAdded,
               iconColor: Colors.green,
-              buttonText: "Okay!",
+              buttonText: AppLocalizations.of(context)!.okay,
               onPressed: () {
                 Navigator.pop(context);
               },
             );
           } else if (state is AllEventsError) {
-            showErrorDialog(context: context, message: state.message);
+            final l10n = AppLocalizations.of(context)!;
+            final errorMsg = l10n.tryTranslate(state.message);
+            showErrorDialog(context: context, message: errorMsg);
           }
         },
         child: Stack(
@@ -107,7 +111,8 @@ class AllEventsScreenView extends StatelessWidget {
                                         CrossAxisAlignment.center,
                                     children: [
                                       Text(
-                                        "Discover Events",
+                                        AppLocalizations.of(context)!
+                                            .discoverEvents,
                                         style: GoogleFonts.poppins(
                                           color: const Color(0xFF6C63FF),
                                           fontSize: 26,
@@ -168,7 +173,8 @@ class AllEventsScreenView extends StatelessWidget {
                                             ),
                                             const SizedBox(height: 16),
                                             Text(
-                                              'No Events Yet! 😱',
+                                              AppLocalizations.of(context)!
+                                                  .noEventsYet,
                                               style: GoogleFonts.poppins(
                                                 fontSize: 24,
                                                 color: const Color(0xFF6C63FF),
@@ -188,7 +194,8 @@ class AllEventsScreenView extends StatelessWidget {
                                                                 .selectedCategory);
                                               },
                                               child: Text(
-                                                'Click here to refresh',
+                                                AppLocalizations.of(context)!
+                                                    .clickToRefresh,
                                                 style: GoogleFonts.poppins(
                                                   fontSize: 16,
                                                   color: const Color.fromARGB(
@@ -272,8 +279,13 @@ class AllEventsScreenView extends StatelessWidget {
                                                               30),
                                                       child: Center(
                                                         child: Text(
-                                                          cubit.categories[
-                                                              index],
+                                                          AllEventsCubit
+                                                              .getCategoryDisplay(
+                                                            cubit.categories[
+                                                                index],
+                                                            AppLocalizations.of(
+                                                                context)!,
+                                                          ),
                                                           style: GoogleFonts
                                                               .poppins(
                                                             color: isSelected
@@ -367,15 +379,22 @@ class AllEventsScreenView extends StatelessWidget {
                                                     // Event Name and Location
                                                     returnEventMainElements(
                                                       eventName: event.name,
-                                                      eventLocation:
-                                                          event.location,
+                                                      eventLocation: AllEventsCubit
+                                                          .getCityDisplay(
+                                                              event.location,
+                                                              AppLocalizations
+                                                                  .of(context)!),
                                                     ),
                                                     const SizedBox(height: 18),
                                                     // Category
                                                     returnEventElements(
                                                       icon: Icons
                                                           .category_rounded,
-                                                      text: event.category,
+                                                      text: AllEventsCubit
+                                                          .getCategoryDisplay(
+                                                              event.category,
+                                                              AppLocalizations
+                                                                  .of(context)!),
                                                     ),
                                                     const SizedBox(height: 14),
                                                     // Date and Time
@@ -391,8 +410,12 @@ class AllEventsScreenView extends StatelessWidget {
                                                       icon: Icons.male_rounded,
                                                       icon2:
                                                           Icons.female_rounded,
-                                                      text: event
-                                                          .genderRestriction,
+                                                      text: AllEventsCubit
+                                                          .getGenderRestrictionDisplay(
+                                                              event
+                                                                  .genderRestriction,
+                                                              AppLocalizations
+                                                                  .of(context)!),
                                                     ),
                                                     const SizedBox(height: 14),
                                                     // Weather
@@ -400,7 +423,9 @@ class AllEventsScreenView extends StatelessWidget {
                                                       icon: Icons.wb_sunny,
                                                       text: event.weather ==
                                                               null
-                                                          ? "No weather info"
+                                                          ? AppLocalizations.of(
+                                                                  context)!
+                                                              .noWeatherInfo
                                                           : "${event.weather} C°",
                                                     ),
                                                     const SizedBox(height: 18),
@@ -464,7 +489,9 @@ class AllEventsScreenView extends StatelessWidget {
                                                                   .circular(16),
                                                           child: Center(
                                                             child: Text(
-                                                              'Add to Schedule',
+                                                              AppLocalizations.of(
+                                                                      context)!
+                                                                  .addToSchedule,
                                                               style: GoogleFonts
                                                                   .poppins(
                                                                 fontSize: 16,

@@ -8,6 +8,8 @@ import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:event_connect/core/utils/localization_extensions.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -63,9 +65,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 );
               } else if (state is ResetPasswordError) {
                 hideLoadingDialog(context);
+                final l10n = AppLocalizations.of(context)!;
+                final errorMsg = l10n.tryTranslate(state.message);
                 showErrorDialog(
                   context: context,
-                  message: state.message,
+                  message: errorMsg,
                 );
               }
             },
@@ -104,7 +108,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             children: [
                               Center(
                                 child: Text(
-                                  'Reset Password',
+                                  AppLocalizations.of(context)!.resetPassword,
                                   style: GoogleFonts.poppins(
                                     fontSize: 28,
                                     fontWeight: FontWeight.bold,
@@ -115,7 +119,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               const SizedBox(height: 14),
                               Center(
                                 child: Text(
-                                  "We'll help you recover it",
+                                  AppLocalizations.of(context)!
+                                      .helpRecoverPassword,
                                   style: GoogleFonts.poppins(
                                     fontSize: 16,
                                     color: Colors.black
@@ -126,8 +131,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               const SizedBox(height: 40),
                               customTextField(
                                 controller: _emailController,
-                                labelText: 'Email Address',
-                                hintText: 'example@ex.com',
+                                labelText:
+                                    AppLocalizations.of(context)!.emailAddress,
+                                hintText:
+                                    AppLocalizations.of(context)!.emailHint,
                                 icon: Icons.email_outlined,
                               ),
                               const SizedBox(height: 40),
@@ -180,7 +187,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "Remember your password?",
+                                    AppLocalizations.of(context)!
+                                        .rememberPassword,
                                     style: GoogleFonts.poppins(
                                       fontSize: 14,
                                       color: Colors.grey,
@@ -194,7 +202,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                       );
                                     },
                                     child: Text(
-                                      "Sign In",
+                                      AppLocalizations.of(context)!.signIn,
                                       style: GoogleFonts.poppins(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,

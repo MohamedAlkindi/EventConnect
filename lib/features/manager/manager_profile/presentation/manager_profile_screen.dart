@@ -9,6 +9,7 @@ import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ManagerProfileScreen extends StatelessWidget {
   const ManagerProfileScreen({super.key});
@@ -91,7 +92,7 @@ class ManagerProfileScreenView extends StatelessWidget {
                                     // Profile header
                                     Center(
                                       child: Text(
-                                        'My Profile',
+                                        AppLocalizations.of(context)!.myProfile,
                                         style: GoogleFonts.poppins(
                                           fontSize: 28,
                                           fontWeight: FontWeight.bold,
@@ -236,7 +237,8 @@ class ManagerProfileScreenView extends StatelessWidget {
                                                     color: Colors.white),
                                                 const SizedBox(width: 8),
                                                 Text(
-                                                  'Edit Account',
+                                                  AppLocalizations.of(context)!
+                                                      .editAccount,
                                                   style: GoogleFonts.poppins(
                                                     fontSize: 18,
                                                     fontWeight: FontWeight.w600,
@@ -273,17 +275,24 @@ class ManagerProfileScreenView extends StatelessWidget {
                                               context: context,
                                               icon: Icons.warning_rounded,
                                               iconColor: Colors.orangeAccent,
-                                              titleText: 'Sign out😐',
+                                              titleText:
+                                                  AppLocalizations.of(context)!
+                                                      .signOutTitle,
                                               contentText:
-                                                  'Are you sure you want to sign out?',
-                                              buttonText: 'Yes',
+                                                  AppLocalizations.of(context)!
+                                                      .signOutContent,
+                                              buttonText:
+                                                  AppLocalizations.of(context)!
+                                                      .yes,
                                               onPressed: () {
                                                 context
                                                     .read<ManagerProfileCubit>()
                                                     .userSignOut();
                                                 Navigator.pop(context);
                                               },
-                                              secondButtonText: 'No',
+                                              secondButtonText:
+                                                  AppLocalizations.of(context)!
+                                                      .no,
                                               secondOnPressed: () {
                                                 Navigator.pop(context);
                                               },
@@ -300,7 +309,8 @@ class ManagerProfileScreenView extends StatelessWidget {
                                                     color: Colors.orangeAccent),
                                                 const SizedBox(width: 8),
                                                 Text(
-                                                  'Sign Out',
+                                                  AppLocalizations.of(context)!
+                                                      .signOut,
                                                   style: GoogleFonts.poppins(
                                                     fontSize: 18,
                                                     fontWeight: FontWeight.w600,
@@ -337,10 +347,15 @@ class ManagerProfileScreenView extends StatelessWidget {
                                               context: context,
                                               icon: Icons.warning_rounded,
                                               iconColor: Colors.red,
-                                              titleText: 'Delete Account 😐',
+                                              titleText:
+                                                  AppLocalizations.of(context)!
+                                                      .deleteAccountTitle,
                                               contentText:
-                                                  'Are you sure you want to delete your account?',
-                                              buttonText: 'Delete',
+                                                  AppLocalizations.of(context)!
+                                                      .deleteAccountContent,
+                                              buttonText:
+                                                  AppLocalizations.of(context)!
+                                                      .delete,
                                               onPressed: () {
                                                 context
                                                     .read<ManagerProfileCubit>()
@@ -351,7 +366,9 @@ class ManagerProfileScreenView extends StatelessWidget {
                                                   loginPageRoute,
                                                 );
                                               },
-                                              secondButtonText: 'Cancel',
+                                              secondButtonText:
+                                                  AppLocalizations.of(context)!
+                                                      .cancel,
                                               secondOnPressed: () {
                                                 Navigator.pop(context);
                                               },
@@ -368,7 +385,8 @@ class ManagerProfileScreenView extends StatelessWidget {
                                                     color: Color(0xFFFF6584)),
                                                 const SizedBox(width: 8),
                                                 Text(
-                                                  'Delete Account',
+                                                  AppLocalizations.of(context)!
+                                                      .deleteAccount,
                                                   style: GoogleFonts.poppins(
                                                     fontSize: 18,
                                                     fontWeight: FontWeight.w600,

@@ -6,6 +6,7 @@ import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/features/attendee/all_events/business_logic/all_events_bl.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'all_events_state.dart';
 
@@ -110,5 +111,70 @@ class AllEventsCubit extends Cubit<AllEventsState> {
 // method to reset cubit and all cached data after logging out or deleting account.
   void reset() {
     emit(AllEventsInitial());
+  }
+
+  static String getCategoryDisplay(String value, AppLocalizations l10n) {
+    if (value == 'All') return l10n.allCategories;
+    const categories = [
+      'Music',
+      'Art',
+      'Sports',
+      'Food',
+      'Business',
+      'Technology',
+      'Education',
+    ];
+    final idx = categories.indexOf(value);
+    final localized = [
+      l10n.categoryMusic,
+      l10n.categoryArt,
+      l10n.categorySports,
+      l10n.categoryFood,
+      l10n.categoryBusiness,
+      l10n.categoryTechnology,
+      l10n.categoryEducation,
+    ];
+    return idx >= 0 ? localized[idx] : value;
+  }
+
+  static String getCityDisplay(String value, AppLocalizations l10n) {
+    const cities = [
+      'Hadramout',
+      "San'aa",
+      'Aden',
+      'Taiz',
+      'Ibb',
+      'Al Hudaydah',
+      'Marib',
+      'Al Mukalla',
+    ];
+    final idx = cities.indexOf(value);
+    final localized = [
+      l10n.cityHadramout,
+      l10n.citySanaa,
+      l10n.cityAden,
+      l10n.cityTaiz,
+      l10n.cityIbb,
+      l10n.cityHudaydah,
+      l10n.cityMarib,
+      l10n.cityMukalla,
+    ];
+    return idx >= 0 ? localized[idx] : value;
+  }
+
+  static String getGenderRestrictionDisplay(
+      String value, AppLocalizations l10n) {
+    const restrictions = [
+      'No Restrictions',
+      'Male Only',
+      'Female Only',
+    ];
+    final idx = restrictions.indexOf(value);
+    final localized = [
+      l10n.genderNoRestrictions,
+      l10n.genderMaleOnly,
+      l10n.genderFemaleOnly,
+    ];
+    return idx >= 0 ? localized[idx] : value;
   }
 }

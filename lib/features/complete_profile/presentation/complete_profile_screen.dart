@@ -8,6 +8,8 @@ import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:event_connect/core/utils/localization_extensions.dart';
 
 class CompleteProfileScreen extends StatelessWidget {
   const CompleteProfileScreen({super.key});
@@ -37,11 +39,11 @@ class CompleteProfileScreenView extends StatelessWidget {
             hideLoadingDialog(context);
             showMessageDialog(
               context: context,
-              titleText: 'Success! 🥳',
-              contentText: "You have successfully completed your profile!",
+              titleText: AppLocalizations.of(context)!.profileSuccessTitle,
+              contentText: AppLocalizations.of(context)!.profileSuccessContent,
               icon: Icons.check_circle_outline_rounded,
               iconColor: Colors.green,
-              buttonText: 'Proceed',
+              buttonText: AppLocalizations.of(context)!.proceed,
               onPressed: () {
                 cubit.isEmailConfirmed();
               },
@@ -60,9 +62,11 @@ class CompleteProfileScreenView extends StatelessWidget {
             );
           } else if (state is CompleteProfileError) {
             hideLoadingDialog(context);
+            final l10n = AppLocalizations.of(context)!;
+            final errorMsg = l10n.tryTranslate(state.message);
             showErrorDialog(
               context: context,
-              message: state.message,
+              message: errorMsg,
             );
           }
         },
@@ -117,7 +121,7 @@ class CompleteProfileScreenView extends StatelessWidget {
                           children: [
                             Center(
                               child: Text(
-                                "Complete Your Profile",
+                                AppLocalizations.of(context)!.completeProfile,
                                 style: GoogleFonts.poppins(
                                   fontSize: 28,
                                   fontWeight: FontWeight.bold,
@@ -128,7 +132,8 @@ class CompleteProfileScreenView extends StatelessWidget {
                             const SizedBox(height: 24),
                             Center(
                               child: Text(
-                                "Add your profile picture and location to get started",
+                                AppLocalizations.of(context)!
+                                    .addProfilePicAndLocation,
                                 style: GoogleFonts.poppins(
                                   fontSize: 16,
                                   color: Colors.black
@@ -214,7 +219,8 @@ class CompleteProfileScreenView extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Select Your City",
+                                    AppLocalizations.of(context)!
+                                        .selectYourCity,
                                     style: GoogleFonts.poppins(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600,
@@ -229,7 +235,9 @@ class CompleteProfileScreenView extends StatelessWidget {
                                           context.read<CompleteProfileCubit>();
                                       return DropdownButtonFormField<String>(
                                         decoration: InputDecoration(
-                                          labelText: "City",
+                                          labelText:
+                                              AppLocalizations.of(context)!
+                                                  .city,
                                           labelStyle: GoogleFonts.poppins(
                                             color: Colors.grey,
                                           ),
@@ -261,7 +269,10 @@ class CompleteProfileScreenView extends StatelessWidget {
                                           return DropdownMenuItem<String>(
                                             value: city,
                                             child: Text(
-                                              city,
+                                              cubit.getCityDisplay(
+                                                  city,
+                                                  AppLocalizations.of(
+                                                      context)!),
                                               style: GoogleFonts.poppins(),
                                             ),
                                           );
@@ -276,7 +287,7 @@ class CompleteProfileScreenView extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 40),
                                   Text(
-                                    "You are:",
+                                    AppLocalizations.of(context)!.youAre,
                                     style: GoogleFonts.poppins(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
@@ -300,7 +311,8 @@ class CompleteProfileScreenView extends StatelessWidget {
                                               }
                                             },
                                             title: Text(
-                                              "An attendee",
+                                              AppLocalizations.of(context)!
+                                                  .roleAttendee,
                                               style: GoogleFonts.poppins(
                                                 fontSize: 15,
                                                 color: Colors.black.withAlpha(
@@ -326,7 +338,8 @@ class CompleteProfileScreenView extends StatelessWidget {
                                               }
                                             },
                                             title: Text(
-                                              "A manager",
+                                              AppLocalizations.of(context)!
+                                                  .roleManager,
                                               style: GoogleFonts.poppins(
                                                 fontSize: 15,
                                                 color: Colors.black.withAlpha(
@@ -377,7 +390,8 @@ class CompleteProfileScreenView extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(16),
                                         child: Center(
                                           child: Text(
-                                            "Finalize Profile",
+                                            AppLocalizations.of(context)!
+                                                .finalizeProfile,
                                             style: GoogleFonts.poppins(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold,

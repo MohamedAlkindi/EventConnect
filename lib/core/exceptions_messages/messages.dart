@@ -1,42 +1,36 @@
 class ExceptionMessages {
-  static String emptyFieldMessage = "Please provide info for all fields.";
+  // Instead of returning localized strings, return keys. UI should localize using AppLocalizations.of(context)!.key
+  static String emptyFieldMessage = 'emptyFieldMessage';
   // Firebase exception messages.
-  static String firebaseWeakPassMessage = "Please provide a stronger password.";
+  static String firebaseWeakPassMessage = 'firebaseWeakPassMessage';
 
-  static String firebaseEmailInUseMessage = "This email is already in use.";
+  static String firebaseEmailInUseMessage = 'firebaseEmailInUseMessage';
 
-  static String firebaseInvalidEmailMessage = "Please provide a valid email.";
+  static String firebaseInvalidEmailMessage = 'firebaseInvalidEmailMessage';
 
-  static String firebaseUnknownException =
-      "Please check your internet connection or try again later.";
+  static String firebaseUnknownException = 'firebaseUnknownException';
 
   // Firebase Register exceptions messages.
-  static String passwordsDontMatchMessage = "Please provide the same password.";
+  static String passwordsDontMatchMessage = 'passwordsDontMatchMessage';
 
   // Firebase login messages.
   // for all sign in errors exception the generic or the no internet conenction.
 
   static String firebaseInvalidCredentialsException =
-      'Please check your inputs or try to sign up.';
+      'firebaseInvalidCredentialsException';
 
-  static String firebaseNoConnectionException =
-      'Please check your internet connection.';
+  static String firebaseNoConnectionException = 'firebaseNoConnectionException';
 
   // Generic exception message.
-  static String genericExceptionMessage =
-      "An error occurred, please check your inputs or try again later.";
+  static String genericExceptionMessage = 'genericExceptionMessage';
 
-  static String notUniqueUsernameMessage =
-      "This username is already being used.";
+  static String notUniqueUsernameMessage = 'notUniqueUsernameMessage';
 
-  static String shortUsernameMessage =
-      "This username is too short, please at least enter 6 characters";
+  static String shortUsernameMessage = 'shortUsernameMessage';
 
-  static String apiError = "Something went wrong restart the app";
+  static String apiError = 'apiError';
 
-  static String categoryError =
-      "An error happened while fetching the category events";
+  static String categoryError = 'categoryError';
 
-  static String addEventError =
-      "An error happened while adding an event to your events";
+  static String addEventError = 'addEventError';
 }

@@ -7,6 +7,8 @@ import 'package:event_connect/features/attendee/edit_profile/presentation/cubit/
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:event_connect/core/utils/localization_extensions.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -33,19 +35,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           }
           if (state is EditProfileError) {
             hideLoadingDialog(context);
+            final l10n = AppLocalizations.of(context)!;
+            final errorMsg = l10n.tryTranslate(state.message);
             showErrorDialog(
               context: context,
-              message: state.message,
+              message: errorMsg,
             );
           } else if (state is EditProfileSuccess) {
             hideLoadingDialog(context);
             showMessageDialog(
               context: context,
-              titleText: 'Success! 🎉',
-              contentText: 'Profile updated successfully!',
+              titleText:
+                  AppLocalizations.of(context)!.profileUpdateSuccessTitle,
+              contentText:
+                  AppLocalizations.of(context)!.profileUpdateSuccessContent,
               icon: Icons.check_circle_outline_rounded,
               iconColor: Colors.green,
-              buttonText: 'Okay',
+              buttonText: AppLocalizations.of(context)!.okay,
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -114,7 +120,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               ),
                               Center(
                                 child: Text(
-                                  "Edit Your Profile",
+                                  AppLocalizations.of(context)!.editProfile,
                                   style: GoogleFonts.poppins(
                                     fontSize: 28,
                                     fontWeight: FontWeight.bold,

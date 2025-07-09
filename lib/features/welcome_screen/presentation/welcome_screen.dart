@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -90,7 +91,7 @@ class WelcomeScreenView extends StatelessWidget {
                               ).createShader(bounds);
                             },
                             child: Text(
-                              "Welcome to EventConnect!",
+                              AppLocalizations.of(context)!.welcomeTitle,
                               style: GoogleFonts.poppins(
                                 fontSize: 34,
                                 fontWeight: FontWeight.bold,
@@ -109,7 +110,7 @@ class WelcomeScreenView extends StatelessWidget {
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            "Your Ultimate Event Companion",
+                            AppLocalizations.of(context)!.welcomeSubtitle,
                             style: GoogleFonts.poppins(
                               fontSize: 18,
                               color: Colors.black,
@@ -157,7 +158,8 @@ class WelcomeScreenView extends StatelessWidget {
                                   const Icon(Icons.celebration,
                                       color: Color(0xFF6C63FF)),
                                   const SizedBox(width: 12),
-                                  const Text("Get Started"),
+                                  Text(
+                                      AppLocalizations.of(context)!.getStarted),
                                 ],
                               ),
                             ),
@@ -168,7 +170,7 @@ class WelcomeScreenView extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "Already a user?",
+                                AppLocalizations.of(context)!.alreadyUser,
                                 style: GoogleFonts.poppins(
                                   fontSize: 17,
                                   color: Colors.black,
@@ -181,7 +183,7 @@ class WelcomeScreenView extends StatelessWidget {
                                         context, loginPageRoute);
                                   },
                                   child: Text(
-                                    "Sign in",
+                                    AppLocalizations.of(context)!.signIn,
                                     style: GoogleFonts.poppins(
                                       fontSize: 17,
                                       fontWeight: FontWeight.bold,

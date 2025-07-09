@@ -27,31 +27,32 @@ class NotificationService {
     final eventDayMidnight =
         DateTime(eventDateTime.year, eventDateTime.month, eventDateTime.day);
     final threeHoursBefore = eventDateTime.subtract(const Duration(hours: 3));
-
-    // Schedule notification at 00:00 on event day
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-      event.hashCode, // unique id
-      'Event Today: ${event.name}',
-      'Don\'t forget your event: ${event.name} is today!',
-      tz.TZDateTime.from(eventDayMidnight, tz.local),
-      platformChannelSpecifics,
-      androidAllowWhileIdle: true,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-      matchDateTimeComponents: DateTimeComponents.dateAndTime,
-    );
-    // Schedule notification 3 hours before event
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-      event.hashCode + 1, // unique id
-      'Event Reminder: ${event.name}',
-      'Your event starts in 3 hours at ${event.location}',
-      tz.TZDateTime.from(threeHoursBefore, tz.local),
-      platformChannelSpecifics,
-      androidAllowWhileIdle: true,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-      matchDateTimeComponents: DateTimeComponents.dateAndTime,
-    );
+    try {
+      // Schedule notification at 00:00 on event day
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+        event.hashCode, // unique id
+        'Event Today: ${event.name}',
+        'Don\'t forget your event: ${event.name} is today!',
+        tz.TZDateTime.from(eventDayMidnight, tz.local),
+        platformChannelSpecifics,
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.dateAndTime,
+      );
+      // Schedule notification 3 hours before event
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+        event.hashCode + 1, // unique id
+        'Event Reminder: ${event.name}',
+        'Your event starts in 3 hours at ${event.location}',
+        tz.TZDateTime.from(threeHoursBefore, tz.local),
+        platformChannelSpecifics,
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.dateAndTime,
+      );
+    } catch (e) {}
   }
 
   Future<void> cancelEventNotifications(EventModel event) async {

@@ -8,6 +8,8 @@ import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:event_connect/core/utils/localization_extensions.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -87,9 +89,11 @@ class _LoginPageState extends State<LoginPage> {
                 );
               } else if (state is LoginError) {
                 hideLoadingDialog(context);
+                final l10n = AppLocalizations.of(context)!;
+                final errorMsg = l10n.tryTranslate(state.message);
                 showErrorDialog(
                   context: context,
-                  message: state.message,
+                  message: errorMsg,
                 );
               }
             },
@@ -129,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                               const SizedBox(height: 8),
                               Center(
                                 child: Text(
-                                  'Welcome Back!',
+                                  AppLocalizations.of(context)!.welcomeBack,
                                   style: GoogleFonts.poppins(
                                     fontSize: 28,
                                     fontWeight: FontWeight.bold,
@@ -140,7 +144,8 @@ class _LoginPageState extends State<LoginPage> {
                               const SizedBox(height: 18),
                               Center(
                                 child: Text(
-                                  'Sign in to continue',
+                                  AppLocalizations.of(context)!
+                                      .signInToContinue,
                                   style: GoogleFonts.poppins(
                                     fontSize: 16,
                                     color: Colors.black
@@ -151,8 +156,10 @@ class _LoginPageState extends State<LoginPage> {
                               const SizedBox(height: 38),
                               customTextField(
                                 controller: _emailController,
-                                labelText: 'Email Address',
-                                hintText: 'example@ex.com',
+                                labelText:
+                                    AppLocalizations.of(context)!.emailAddress,
+                                hintText:
+                                    AppLocalizations.of(context)!.emailHint,
                                 icon: Icons.email_outlined,
                               ),
                               const SizedBox(height: 28),
@@ -164,8 +171,10 @@ class _LoginPageState extends State<LoginPage> {
                                   }
                                   return customTextField(
                                     controller: _passwordController,
-                                    labelText: 'Password',
-                                    hintText: 'Enter your password',
+                                    labelText:
+                                        AppLocalizations.of(context)!.password,
+                                    hintText: AppLocalizations.of(context)!
+                                        .enterPassword,
                                     icon: isObsecure
                                         ? Icons.visibility_off_outlined
                                         : Icons.visibility_outlined,
@@ -186,7 +195,8 @@ class _LoginPageState extends State<LoginPage> {
                                     );
                                   },
                                   child: Text(
-                                    "Forgot password?",
+                                    AppLocalizations.of(context)!
+                                        .forgotPassword,
                                     style: GoogleFonts.poppins(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w600,
@@ -230,7 +240,7 @@ class _LoginPageState extends State<LoginPage> {
                                     borderRadius: BorderRadius.circular(16),
                                     child: Center(
                                       child: Text(
-                                        "Sign In",
+                                        AppLocalizations.of(context)!.signIn,
                                         style: GoogleFonts.poppins(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
@@ -247,7 +257,8 @@ class _LoginPageState extends State<LoginPage> {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      "Don't have an account?",
+                                      AppLocalizations.of(context)!
+                                          .dontHaveAccountYet,
                                       style: GoogleFonts.poppins(
                                         fontSize: 14,
                                         color: Colors.grey,
@@ -264,7 +275,7 @@ class _LoginPageState extends State<LoginPage> {
                                       );
                                     },
                                     child: Text(
-                                      "Sign Up",
+                                      AppLocalizations.of(context)!.signUp,
                                       style: GoogleFonts.poppins(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,

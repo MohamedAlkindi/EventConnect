@@ -6,6 +6,7 @@ import 'package:event_connect/features/manager/manager_profile/presentation/mana
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ManagerHomescreen extends StatelessWidget {
   const ManagerHomescreen({super.key});
@@ -56,7 +57,7 @@ class ManagerHomescreenView extends StatelessWidget {
                     ).createShader(bounds);
                   },
                   child: Text(
-                    "EventConnect 🎉",
+                    AppLocalizations.of(context)!.eventConnect,
                     style: GoogleFonts.poppins(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
@@ -141,7 +142,7 @@ class ManagerHomescreenView extends StatelessWidget {
                                 ),
                                 child: const Icon(Icons.celebration),
                               ),
-                              label: "Manage Events",
+                              label: AppLocalizations.of(context)!.manageEvents,
                             ),
                             BottomNavigationBarItem(
                               icon: Container(
@@ -170,7 +171,7 @@ class ManagerHomescreenView extends StatelessWidget {
                                           color: Colors.white, size: 16),
                                 ),
                               ),
-                              label: "Profile",
+                              label: AppLocalizations.of(context)!.profile,
                             ),
                           ],
                           selectedItemColor: const Color(0xFF6C63FF),

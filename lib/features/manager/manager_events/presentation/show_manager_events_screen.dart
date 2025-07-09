@@ -9,6 +9,8 @@ import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:event_connect/features/manager/manager_events/presentation/cubit/add_event_cubit.dart';
 
 class ShowManagerEventsScreen extends StatelessWidget {
   const ShowManagerEventsScreen({super.key});
@@ -25,6 +27,7 @@ class AllEventsScreenView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<ManagerEventsCubit>();
+    final addEventCubit = AddEventCubit(context.read<ManagerEventsCubit>());
 
     return Scaffold(
       body: BlocListener<ManagerEventsCubit, ManagerEventsState>(
@@ -124,7 +127,8 @@ class AllEventsScreenView extends StatelessWidget {
                                                 fit: BoxFit.scaleDown,
                                                 alignment: Alignment.centerLeft,
                                                 child: Text(
-                                                  "Manage Events",
+                                                  AppLocalizations.of(context)!
+                                                      .manageEvents,
                                                   style: GoogleFonts.poppins(
                                                     color:
                                                         const Color(0xFF6C63FF),
@@ -174,7 +178,9 @@ class AllEventsScreenView extends StatelessWidget {
                                                 child: FittedBox(
                                                   fit: BoxFit.scaleDown,
                                                   child: Text(
-                                                    "Add",
+                                                    AppLocalizations.of(
+                                                            context)!
+                                                        .add,
                                                     style: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 16,
@@ -331,15 +337,22 @@ class AllEventsScreenView extends StatelessWidget {
                                                     // Event Name and Location
                                                     returnEventMainElements(
                                                       eventName: event.name,
-                                                      eventLocation:
-                                                          event.location,
+                                                      eventLocation: addEventCubit
+                                                          .getCityDisplay(
+                                                              event.location,
+                                                              AppLocalizations
+                                                                  .of(context)!),
                                                     ),
                                                     const SizedBox(height: 18),
                                                     // Category
                                                     returnEventElements(
                                                       icon: Icons
                                                           .category_rounded,
-                                                      text: event.category,
+                                                      text: addEventCubit
+                                                          .getCategoryDisplay(
+                                                              event.category,
+                                                              AppLocalizations
+                                                                  .of(context)!),
                                                     ),
                                                     const SizedBox(height: 14),
                                                     // Date and Time
@@ -355,8 +368,12 @@ class AllEventsScreenView extends StatelessWidget {
                                                       icon: Icons.male_rounded,
                                                       icon2:
                                                           Icons.female_rounded,
-                                                      text: event
-                                                          .genderRestriction,
+                                                      text: addEventCubit
+                                                          .getGenderRestrictionDisplay(
+                                                              event
+                                                                  .genderRestriction,
+                                                              AppLocalizations
+                                                                  .of(context)!),
                                                     ),
                                                     const SizedBox(height: 14),
                                                     // Attendees
@@ -364,8 +381,8 @@ class AllEventsScreenView extends StatelessWidget {
                                                       icon: Icons
                                                           .people_alt_rounded,
                                                       text: event.attendees == 1
-                                                          ? "${event.attendees} Attendant"
-                                                          : "${event.attendees} Attendees",
+                                                          ? "${event.attendees} ${AppLocalizations.of(context)!.attendant}"
+                                                          : "${event.attendees} ${AppLocalizations.of(context)!.attendees}",
                                                     ),
                                                     const SizedBox(height: 18),
                                                     // Description
@@ -438,7 +455,9 @@ class AllEventsScreenView extends StatelessWidget {
                                                                             16),
                                                                 child: Center(
                                                                   child: Text(
-                                                                    'Edit Event',
+                                                                    AppLocalizations.of(
+                                                                            context)!
+                                                                        .editEvent,
                                                                     style: GoogleFonts
                                                                         .poppins(
                                                                       fontSize:
@@ -510,12 +529,15 @@ class AllEventsScreenView extends StatelessWidget {
                                                                     iconColor:
                                                                         Colors
                                                                             .orangeAccent,
-                                                                    titleText:
-                                                                        'Delete Event 😐',
+                                                                    titleText: AppLocalizations.of(
+                                                                            context)!
+                                                                        .deleteEvent,
                                                                     contentText:
-                                                                        'Are you sure you delete this event?',
+                                                                        AppLocalizations.of(context)!
+                                                                            .deleteEventDialogContent,
                                                                     buttonText:
-                                                                        'Yes',
+                                                                        AppLocalizations.of(context)!
+                                                                            .yes,
                                                                     onPressed:
                                                                         () {
                                                                       cubit.deleteEvent(
@@ -525,7 +547,8 @@ class AllEventsScreenView extends StatelessWidget {
                                                                           context);
                                                                     },
                                                                     secondButtonText:
-                                                                        'No',
+                                                                        AppLocalizations.of(context)!
+                                                                            .no,
                                                                     secondOnPressed:
                                                                         () {
                                                                       Navigator.pop(
@@ -539,7 +562,9 @@ class AllEventsScreenView extends StatelessWidget {
                                                                             16),
                                                                 child: Center(
                                                                   child: Text(
-                                                                    'Delete Event',
+                                                                    AppLocalizations.of(
+                                                                            context)!
+                                                                        .deleteEvent,
                                                                     style: GoogleFonts
                                                                         .poppins(
                                                                       fontSize:

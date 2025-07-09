@@ -8,6 +8,8 @@ import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:event_connect/core/utils/localization_extensions.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -70,9 +72,11 @@ class _RegisterPageState extends State<RegisterPage> {
                 );
               } else if (state is RegisterErrorState) {
                 hideLoadingDialog(context);
+                final l10n = AppLocalizations.of(context)!;
+                final errorMsg = l10n.tryTranslate(state.message);
                 showErrorDialog(
                   context: context,
-                  message: state.message,
+                  message: errorMsg,
                 );
               }
             },
@@ -111,7 +115,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             children: [
                               Center(
                                 child: Text(
-                                  'Create Account',
+                                  AppLocalizations.of(context)!.createAccount,
                                   style: GoogleFonts.poppins(
                                     fontSize: 28,
                                     fontWeight: FontWeight.bold,
@@ -122,7 +126,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               const SizedBox(height: 12),
                               Center(
                                 child: Text(
-                                  'Join our community today',
+                                  AppLocalizations.of(context)!.joinCommunity,
                                   style: GoogleFonts.poppins(
                                     fontSize: 16,
                                     color: Colors.black
@@ -133,8 +137,10 @@ class _RegisterPageState extends State<RegisterPage> {
                               const SizedBox(height: 40),
                               customTextField(
                                 controller: _emailController,
-                                labelText: 'Email Address',
-                                hintText: 'example@ex.com',
+                                labelText:
+                                    AppLocalizations.of(context)!.emailAddress,
+                                hintText:
+                                    AppLocalizations.of(context)!.emailHint,
                                 icon: Icons.email_outlined,
                               ),
                               const SizedBox(height: 28),
@@ -147,8 +153,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                   }
                                   return customTextField(
                                     controller: _passwordController,
-                                    labelText: 'Password',
-                                    hintText: 'Create a password',
+                                    labelText:
+                                        AppLocalizations.of(context)!.password,
+                                    hintText: AppLocalizations.of(context)!
+                                        .createPassword,
                                     icon: isObsecure
                                         ? Icons.visibility_off_outlined
                                         : Icons.visibility_outlined,
@@ -168,8 +176,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                   }
                                   return customTextField(
                                     controller: _repeatPassController,
-                                    labelText: 'Confirm Password',
-                                    hintText: 'Repeat your password',
+                                    labelText: AppLocalizations.of(context)!
+                                        .confirmPassword,
+                                    hintText: AppLocalizations.of(context)!
+                                        .repeatPassword,
                                     icon: isObsecure
                                         ? Icons.visibility_off_outlined
                                         : Icons.visibility_outlined,
@@ -215,7 +225,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                     borderRadius: BorderRadius.circular(16),
                                     child: Center(
                                       child: Text(
-                                        "Create Account",
+                                        AppLocalizations.of(context)!
+                                            .createAccount,
                                         style: GoogleFonts.poppins(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
@@ -232,7 +243,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                 children: [
                                   Flexible(
                                     child: Text(
-                                      "Already have an account?",
+                                      AppLocalizations.of(context)!
+                                          .alreadyHaveAccount,
                                       style: GoogleFonts.poppins(
                                         fontSize: 14,
                                         color: Colors.grey,
@@ -249,7 +261,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                     },
                                     child: Flexible(
                                       child: Text(
-                                        "Sign In",
+                                        AppLocalizations.of(context)!.signIn,
                                         style: GoogleFonts.poppins(
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,

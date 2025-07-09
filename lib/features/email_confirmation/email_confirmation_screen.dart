@@ -5,6 +5,7 @@ import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EmailConfirmationScreen extends StatefulWidget {
   const EmailConfirmationScreen({super.key});
@@ -43,11 +44,12 @@ class _EmailConfirmationScreen extends State<EmailConfirmationScreen> {
                 hideLoadingDialog(context);
                 showMessageDialog(
                   context: context,
-                  titleText: "Success",
-                  contentText: "We've resent you the confirmation email.",
+                  titleText: AppLocalizations.of(context)!.success,
+                  contentText:
+                      AppLocalizations.of(context)!.confirmationEmailResent,
                   icon: Icons.check_circle_outline_rounded,
                   iconColor: Colors.green,
-                  buttonText: "Ok",
+                  buttonText: AppLocalizations.of(context)!.okay,
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -59,7 +61,8 @@ class _EmailConfirmationScreen extends State<EmailConfirmationScreen> {
                     ? cubit.isDataCompleted()
                     : showErrorDialog(
                         context: context,
-                        message: "You haven't confirmed your email yet!",
+                        message:
+                            AppLocalizations.of(context)!.emailNotConfirmed,
                       );
               } else if (state is DataCompleted) {
                 // if user info is completed.. show the homescreen.
@@ -112,7 +115,7 @@ class _EmailConfirmationScreen extends State<EmailConfirmationScreen> {
                         ),
                         const SizedBox(height: 20),
                         Text(
-                          "Check your email",
+                          AppLocalizations.of(context)!.checkYourEmail,
                           style: GoogleFonts.poppins(
                             color: const Color(0xFF6C63FF),
                             fontSize: 26,
@@ -126,7 +129,7 @@ class _EmailConfirmationScreen extends State<EmailConfirmationScreen> {
                           children: [
                             Expanded(
                               child: Text(
-                                "Hello! We've sent you an email containing a verification link. Please check your inbox or spam folder to activate your account.",
+                                AppLocalizations.of(context)!.emailSentMessage,
                                 style: GoogleFonts.poppins(
                                   fontSize: 20,
                                   color: Colors.black,
@@ -168,7 +171,8 @@ class _EmailConfirmationScreen extends State<EmailConfirmationScreen> {
                                 borderRadius: BorderRadius.circular(16),
                                 child: Center(
                                   child: Text(
-                                    "Head to Home Screen",
+                                    AppLocalizations.of(context)!
+                                        .headToHomeScreen,
                                     style: GoogleFonts.poppins(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
@@ -185,7 +189,7 @@ class _EmailConfirmationScreen extends State<EmailConfirmationScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Resend email?",
+                              AppLocalizations.of(context)!.resendEmail,
                               style: GoogleFonts.poppins(
                                   color: Colors.black, fontSize: 18),
                               overflow: TextOverflow.ellipsis,
@@ -196,7 +200,7 @@ class _EmailConfirmationScreen extends State<EmailConfirmationScreen> {
                                   cubit.sendEmailConfirmation();
                                 },
                                 child: Text(
-                                  'Resend',
+                                  AppLocalizations.of(context)!.resend,
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.poppins(
                                     fontSize: 18,
@@ -213,7 +217,7 @@ class _EmailConfirmationScreen extends State<EmailConfirmationScreen> {
                           children: [
                             Flexible(
                               child: Text(
-                                "Wrong email?",
+                                AppLocalizations.of(context)!.wrongEmail,
                                 style: GoogleFonts.poppins(
                                     color: Colors.black, fontSize: 18),
                                 overflow: TextOverflow.ellipsis,
@@ -228,7 +232,7 @@ class _EmailConfirmationScreen extends State<EmailConfirmationScreen> {
                                   );
                                 },
                                 child: Text(
-                                  'Register',
+                                  AppLocalizations.of(context)!.register,
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.poppins(
                                     fontSize: 18,

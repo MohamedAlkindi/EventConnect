@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void showMessageDialog({
   required BuildContext context,
@@ -84,11 +85,11 @@ void showErrorDialog({
 }) {
   showMessageDialog(
     context: context,
-    titleText: 'Ouch! 😓',
+    titleText: AppLocalizations.of(context)?.errorTitle ?? 'Ouch! 😓',
     contentText: message,
     icon: Icons.error_outline_outlined,
     iconColor: Colors.red,
-    buttonText: 'Try Again',
+    buttonText: AppLocalizations.of(context)?.tryAgain ?? 'Try Again',
     onPressed: () {
       Navigator.pop(context);
     },

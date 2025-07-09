@@ -4,6 +4,7 @@ import 'package:event_connect/features/manager/manager_events/business_logic/man
 import 'package:event_connect/features/manager/manager_events/presentation/cubit/manager_events_cubit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'edit_event_state.dart';
 
@@ -99,5 +100,44 @@ class EditEventCubit extends Cubit<EditEventState> {
     } catch (e) {
       emit(EditEventError(message: e.toString()));
     }
+  }
+
+  List<String> getLocalizedCategories(AppLocalizations l10n) => [
+        l10n.categoryMusic,
+        l10n.categoryArt,
+        l10n.categorySports,
+        l10n.categoryFood,
+        l10n.categoryBusiness,
+        l10n.categoryTechnology,
+        l10n.categoryEducation,
+      ];
+  String getCategoryDisplay(String value, AppLocalizations l10n) {
+    final idx = categories.indexOf(value);
+    return idx >= 0 ? getLocalizedCategories(l10n)[idx] : value;
+  }
+
+  List<String> getLocalizedCities(AppLocalizations l10n) => [
+        l10n.cityHadramout,
+        l10n.citySanaa,
+        l10n.cityAden,
+        l10n.cityTaiz,
+        l10n.cityIbb,
+        l10n.cityHudaydah,
+        l10n.cityMarib,
+        l10n.cityMukalla,
+      ];
+  String getCityDisplay(String value, AppLocalizations l10n) {
+    final idx = yemeniCities.indexOf(value);
+    return idx >= 0 ? getLocalizedCities(l10n)[idx] : value;
+  }
+
+  List<String> getLocalizedGenderRestrictions(AppLocalizations l10n) => [
+        l10n.genderNoRestrictions,
+        l10n.genderMaleOnly,
+        l10n.genderFemaleOnly,
+      ];
+  String getGenderRestrictionDisplay(String value, AppLocalizations l10n) {
+    final idx = genderRestrictions.indexOf(value);
+    return idx >= 0 ? getLocalizedGenderRestrictions(l10n)[idx] : value;
   }
 }

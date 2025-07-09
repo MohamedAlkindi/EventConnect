@@ -10,6 +10,7 @@ import 'package:event_connect/features/attendee/user_homescreen/presentation/cub
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserHomeScreen extends StatelessWidget {
   const UserHomeScreen({super.key});
@@ -65,7 +66,7 @@ class UserHomeScreenView extends StatelessWidget {
                     ).createShader(bounds);
                   },
                   child: Text(
-                    "EventConnect 🎉",
+                    AppLocalizations.of(context)!.eventConnect,
                     style: GoogleFonts.poppins(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
@@ -149,7 +150,7 @@ class UserHomeScreenView extends StatelessWidget {
                                 ),
                                 child: const Icon(Icons.celebration),
                               ),
-                              label: "All Events",
+                              label: AppLocalizations.of(context)!.allEvents,
                             ),
                             BottomNavigationBarItem(
                               icon: Container(
@@ -164,7 +165,7 @@ class UserHomeScreenView extends StatelessWidget {
                                 child:
                                     const Icon(Icons.event_available_rounded),
                               ),
-                              label: "My Events",
+                              label: AppLocalizations.of(context)!.myEvents,
                             ),
                             BottomNavigationBarItem(
                               icon: Container(
@@ -193,7 +194,7 @@ class UserHomeScreenView extends StatelessWidget {
                                           color: Colors.white, size: 16),
                                 ),
                               ),
-                              label: "Profile",
+                              label: AppLocalizations.of(context)!.profile,
                             ),
                           ],
                           selectedItemColor: const Color(0xFF6C63FF),

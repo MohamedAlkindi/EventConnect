@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void showLoadingDialog(BuildContext context) {
   showDialog(
@@ -24,7 +25,7 @@ void showLoadingDialog(BuildContext context) {
             ),
             SizedBox(height: 35),
             Text(
-              "Loading...",
+              AppLocalizations.of(context)?.loading ?? "Loading...",
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,

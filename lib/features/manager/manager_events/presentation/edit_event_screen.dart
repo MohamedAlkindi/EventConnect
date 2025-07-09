@@ -9,6 +9,8 @@ import 'package:event_connect/features/manager/manager_events/presentation/cubit
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:event_connect/core/utils/localization_extensions.dart';
 
 class EditEventScreen extends StatefulWidget {
   final EventModel eventModel;
@@ -72,9 +74,11 @@ class _EditEventScreenState extends State<EditEventScreen> {
             );
           } else if (state is EditEventError) {
             hideLoadingDialog(context);
+            final l10n = AppLocalizations.of(context)!;
+            final errorMsg = l10n.tryTranslate(state.message);
             showErrorDialog(
               context: context,
-              message: state.message,
+              message: errorMsg,
             );
           }
         },
@@ -135,7 +139,7 @@ class _EditEventScreenState extends State<EditEventScreen> {
                               tooltip: 'Back',
                             ),
                             Text(
-                              "Edit Event",
+                              AppLocalizations.of(context)!.editEventTitle,
                               style: GoogleFonts.poppins(
                                 fontSize: 28,
                                 fontWeight: FontWeight.bold,
@@ -248,7 +252,10 @@ class _EditEventScreenState extends State<EditEventScreen> {
                                 controller: _nameController,
                                 maxLength: 20,
                                 decoration: InputDecoration(
-                                  labelText: "Event Name",
+                                  labelText:
+                                      AppLocalizations.of(context)!.eventName,
+                                  hintText: AppLocalizations.of(context)!
+                                      .eventNameHint,
                                   labelStyle:
                                       GoogleFonts.poppins(color: Colors.grey),
                                   border: OutlineInputBorder(
@@ -271,7 +278,10 @@ class _EditEventScreenState extends State<EditEventScreen> {
                                 controller: _descriptionController,
                                 maxLines: 3,
                                 decoration: InputDecoration(
-                                  labelText: "Description",
+                                  labelText:
+                                      AppLocalizations.of(context)!.description,
+                                  hintText: AppLocalizations.of(context)!
+                                      .descriptionHint,
                                   labelStyle:
                                       GoogleFonts.poppins(color: Colors.grey),
                                   border: OutlineInputBorder(
@@ -320,7 +330,10 @@ class _EditEventScreenState extends State<EditEventScreen> {
                                   }
                                 },
                                 decoration: InputDecoration(
-                                  labelText: "Date & Time",
+                                  labelText:
+                                      AppLocalizations.of(context)!.dateAndTime,
+                                  hintText: AppLocalizations.of(context)!
+                                      .dateAndTimeHint,
                                   labelStyle:
                                       GoogleFonts.poppins(color: Colors.grey),
                                   border: OutlineInputBorder(
@@ -345,7 +358,8 @@ class _EditEventScreenState extends State<EditEventScreen> {
                               DropdownButtonFormField<String>(
                                 value: cubit.selectedCategory,
                                 decoration: InputDecoration(
-                                  labelText: "Category",
+                                  labelText:
+                                      AppLocalizations.of(context)!.category,
                                   labelStyle:
                                       GoogleFonts.poppins(color: Colors.grey),
                                   border: OutlineInputBorder(
@@ -361,8 +375,11 @@ class _EditEventScreenState extends State<EditEventScreen> {
                                 items: cubit.categories.map((String category) {
                                   return DropdownMenuItem<String>(
                                     value: category,
-                                    child: Text(category,
-                                        style: GoogleFonts.poppins()),
+                                    child: Text(
+                                      cubit.getCategoryDisplay(category,
+                                          AppLocalizations.of(context)!),
+                                      style: GoogleFonts.poppins(),
+                                    ),
                                   );
                                 }).toList(),
                                 onChanged: (String? newCategory) {
@@ -374,7 +391,8 @@ class _EditEventScreenState extends State<EditEventScreen> {
                               DropdownButtonFormField<String>(
                                 value: cubit.selectedLocation,
                                 decoration: InputDecoration(
-                                  labelText: "Location",
+                                  labelText:
+                                      AppLocalizations.of(context)!.location,
                                   labelStyle:
                                       GoogleFonts.poppins(color: Colors.grey),
                                   border: OutlineInputBorder(
@@ -391,8 +409,11 @@ class _EditEventScreenState extends State<EditEventScreen> {
                                     cubit.yemeniCities.map((String location) {
                                   return DropdownMenuItem<String>(
                                     value: location,
-                                    child: Text(location,
-                                        style: GoogleFonts.poppins()),
+                                    child: Text(
+                                      cubit.getCityDisplay(location,
+                                          AppLocalizations.of(context)!),
+                                      style: GoogleFonts.poppins(),
+                                    ),
                                   );
                                 }).toList(),
                                 onChanged: (String? newLocation) {
@@ -404,7 +425,8 @@ class _EditEventScreenState extends State<EditEventScreen> {
                               DropdownButtonFormField<String>(
                                 value: cubit.selectedGenderRestriction,
                                 decoration: InputDecoration(
-                                  labelText: "Gender Restriction",
+                                  labelText: AppLocalizations.of(context)!
+                                      .genderRestriction,
                                   labelStyle:
                                       GoogleFonts.poppins(color: Colors.grey),
                                   border: OutlineInputBorder(
@@ -421,8 +443,11 @@ class _EditEventScreenState extends State<EditEventScreen> {
                                     .map((String gender) {
                                   return DropdownMenuItem<String>(
                                     value: gender,
-                                    child: Text(gender,
-                                        style: GoogleFonts.poppins()),
+                                    child: Text(
+                                      cubit.getGenderRestrictionDisplay(gender,
+                                          AppLocalizations.of(context)!),
+                                      style: GoogleFonts.poppins(),
+                                    ),
                                   );
                                 }).toList(),
                                 onChanged: (String? selectedRes) {
@@ -470,7 +495,8 @@ class _EditEventScreenState extends State<EditEventScreen> {
                                     borderRadius: BorderRadius.circular(16),
                                     child: Center(
                                       child: Text(
-                                        'Update Event',
+                                        AppLocalizations.of(context)!
+                                            .updateEventButton,
                                         style: GoogleFonts.poppins(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,

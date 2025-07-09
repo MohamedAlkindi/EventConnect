@@ -5,6 +5,7 @@ import 'package:event_connect/features/email_confirmation/business_logic/email_c
 import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'complete_profile_state.dart';
 
@@ -96,5 +97,31 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
       emit(UserHomescreenState(
           userHomeScreenPageRoute: managerHomeScreenPageRoute));
     }
+  }
+
+  // Helper to get localized city name
+  String getCityDisplay(String value, AppLocalizations l10n) {
+    const cities = [
+      'Hadramout',
+      "San'aa",
+      'Aden',
+      'Taiz',
+      'Ibb',
+      'Al Hudaydah',
+      'Marib',
+      'Al Mukalla',
+    ];
+    final idx = cities.indexOf(value);
+    final localized = [
+      l10n.cityHadramout,
+      l10n.citySanaa,
+      l10n.cityAden,
+      l10n.cityTaiz,
+      l10n.cityIbb,
+      l10n.cityHudaydah,
+      l10n.cityMarib,
+      l10n.cityMukalla,
+    ];
+    return idx >= 0 ? localized[idx] : value;
   }
 }
