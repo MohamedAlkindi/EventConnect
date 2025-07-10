@@ -11,8 +11,8 @@ import 'package:event_connect/features/attendee/my_profile/presentation/my_profi
 import 'package:event_connect/features/attendee/user_homescreen/presentation/cubit/user_homescreen_cubit.dart';
 import 'package:event_connect/features/attendee/user_homescreen/presentation/user_homescreen.dart';
 import 'package:event_connect/features/complete_profile/presentation/complete_profile_screen.dart';
-import 'package:event_connect/features/email_confirmation/cubit/email_confirmation_cubit.dart';
-import 'package:event_connect/features/email_confirmation/email_confirmation_screen.dart';
+import 'package:event_connect/features/email_confirmation/presentation/cubit/email_confirmation_cubit.dart';
+import 'package:event_connect/features/email_confirmation/presentation/email_confirmation_screen.dart';
 import 'package:event_connect/features/forgot_password/presentaion/cubit/reset_password_cubit.dart';
 import 'package:event_connect/features/forgot_password/presentaion/forgot_password_screen.dart';
 import 'package:event_connect/features/forgot_password/presentaion/reset_pass_confirmation_screen.dart';
