@@ -1,9 +1,55 @@
-<!-- Language Tabs -->
+<!-- 🎊 Welcoming Section with Confetti (Arabic & English) -->
 <p align="center">
-  <a href="#english"><img src="https://img.shields.io/badge/English-🇺🇸-blue?style=for-the-badge" alt="English"></a>
-  <a href="#arabic"><img src="https://img.shields.io/badge/العربية-🇦🇪-green?style=for-the-badge" alt="Arabic"></a>
+  <img src="https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif" alt="Confetti" width="120"/>
 </p>
 
+<p align="center">
+  <b><span style="font-size:1.5em;">مرحبًا بك في عالم الفعاليات المبهج! 🎉<br/>Let the celebration begin – Welcome to the most vibrant event app! 🎉</span></b>
+</p>
+
+<p align="center">
+  <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" alt="Confetti Celebration" width="120"/>
+</p>
+
+---
+
+<!-- 🖼️ Moments Gallery / معرض اللحظات -->
+<h2 align="center">🖼️ معرض اللحظات | Moments Gallery</h2>
+
+<table align="center" width="100%">
+  <tr>
+    <td align="center" width="33%">
+      <b>🔐 Authentication<br/><span style="font-size:1.1em;">Login & Sign Up</span><br/><span style="color:#888;">(Add your screenshots here!)</span></b>
+    </td>
+    <td align="center" width="33%">
+      <b>🔐 التوثيق<br/><span style="font-size:1.1em;">تسجيل الدخول والتسجيل</span><br/><span style="color:#888;">(أضف لقطات الشاشة هنا!)</span></b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="33%">
+      <b>🎬 Attendee Showroom<br/><span style="font-size:1.1em;">All Events (GIF!)</span><br/><span style="color:#888;">(Add your GIF here!)</span></b>
+    </td>
+    <td align="center" width="33%">
+      <b>🎟️ صالة المشاركين<br/><span style="font-size:1.1em;">كل الفعاليات (GIF!)</span><br/><span style="color:#888;">(أضف GIF هنا!)</span></b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="33%">
+      <b>🛠️ Manager's Wonderoom<br/><span style="font-size:1.1em;">Manager's Events</span><br/><span style="color:#888;">(Add your screenshots here!)</span></b>
+    </td>
+    <td align="center" width="33%">
+      <b>🛠️ غرفة المديرين العجيبة<br/><span style="font-size:1.1em;">فعاليات المدير</span><br/><span style="color:#888;">(أضف لقطات الشاشة هنا!)</span></b>
+    </td>
+  </tr>
+</table>
+
+---
+
+<!-- Language Tabs -->
+<p align="center">
+  <a href="#arabic"><img src="https://img.shields.io/badge/العربية-🇦🇪-green?style=for-the-badge" alt="Arabic"></a>
+  <a href="#english"><img src="https://img.shields.io/badge/English-🇺🇸-blue?style=for-the-badge" alt="English"></a>
+</p>
 
 <!-- Arabic Section -->
 <h2 id="arabic">🇦🇪 العربية</h2>
@@ -70,6 +116,37 @@
 
 ---
 
+## 📸 لقطات الشاشة
+
+<table align="center" width="100%">
+  <tr>
+    <td align="center" width="33%">
+      <b>🔐 التوثيق<br/><span style="font-size:1.1em;">تسجيل حساب جديد</span><br/><span style="color:#888;">(أضف لقطات الشاشة هنا!)</span></b>
+    </td>
+    <td align="center" width="33%">
+      <b>🔐 التوثيق<br/><span style="font-size:1.1em;">تسجيل الدخول</span><br/><span style="color:#888;">(أضف لقطات الشاشة هنا!)</span></b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="33%">
+      <b>🎟️ صالة المشاركين<br/><span style="font-size:1.1em;">كل الفعاليات (GIF!)</span><br/><span style="color:#888;">(أضف GIF هنا!)</span></b>
+    </td>
+    <td align="center" width="33%">
+      <b>🎟️ صالة المشاركين<br/><span style="font-size:1.1em;">فعالياتي (GIF!)</span><br/><span style="color:#888;">(أضف GIF هنا!)</span></b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="33%">
+      <b>🛠️ غرفة المديرين العجيبة<br/><span style="font-size:1.1em;">فعاليات المدير</span><br/><span style="color:#888;">(أضف لقطات الشاشة هنا!)</span></b>
+    </td>
+    <td align="center" width="33%">
+      <b>🎟️ صالة المشاركين<br/><span style="font-size:1.1em;">اضافة حدث (GIF!)</span><br/><span style="color:#888;">(أضف GIF هنا!)</span></b>
+    </td>
+  </tr>
+</table>
+
+---
+
 ## 🛠️ التقنيات المستخدمة
 - **فلاتر** – لواجهات مستخدم جميلة وعبر المنصات
 - **فايربيز** – للمصادقة والخلفية
@@ -98,7 +175,6 @@
 
 ---
 </details>
-
 
 <!-- English Section -->
 <h2 id="english">🇺🇸 English</h2>
@@ -163,6 +239,37 @@ EventConnect is a modern Flutter application that bridges the gap between event 
    ```bash
    flutter run
    ```
+
+---
+
+## 📸 Screenshots
+
+<table align="center" width="100%">
+  <tr>
+    <td align="center" width="33%">
+      <b>🔐 Authentication<br/><span style="font-size:1.1em;">Login</span><br/><span style="color:#888;">(Add your screenshots here!)</span></b>
+    </td>
+    <td align="center" width="33%">
+      <b>🔐 Authentication<br/><span style="font-size:1.1em;">Sign Up</span><br/><span style="color:#888;">(Add your screenshots here!)</span></b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="33%">
+      <b>🎬 Attendee Showroom<br/><span style="font-size:1.1em;">All Events (GIF!)</span><br/><span style="color:#888;">(Add your GIF here!)</span></b>
+    </td>
+    <td align="center" width="33%">
+      <b>🎬 Attendee Showroom<br/><span style="font-size:1.1em;">My Events (GIF!)</span><br/><span style="color:#888;">(Add your GIF here!)</span></b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="33%">
+      <b>🛠️ Manager's Wonderoom<br/><span style="font-size:1.1em;">Manager's Events</span><br/><span style="color:#888;">(Add your screenshots here!)</span></b>
+    </td>
+    <td align="center" width="33%">
+      <b>🛠️ Manager's Wonderoom<br/><span style="font-size:1.1em;">Manager's Add Events</span><br/><span style="color:#888;">(Add your screenshots here!)</span></b>
+    </td>
+  </tr>
+</table>
 
 ---
 
