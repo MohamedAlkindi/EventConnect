@@ -1,4 +1,4 @@
-<!-- 🎊 Welcoming Section with Confetti (Arabic & English) -->
+![ادارة الفعاليات](https://github.com/user-attachments/assets/25a1c277-f839-4140-b4db-1581bdf52474)<!-- 🎊 Welcoming Section with Confetti (Arabic & English) -->
 <p align="center">
   <b><span style="font-size:1.5em;">مرحبًا بك في عالم الفعاليات المبهج! 🎉<br/>Let the celebration begin – Welcome to the most vibrant event app! 🎉</span></b>
 </p>
@@ -84,26 +84,31 @@
 <table align="center" width="100%">
   <tr>
     <td align="center" width="33%">
-      <b>🔐 التوثيق<br/><span style="font-size:1.1em;">تسجيل حساب جديد</span><br/><span style="color:#888;">(أضف لقطات الشاشة هنا!)</span></b>
+      <b>🔐 التوثيق<br/><span style="font-size:1.1em;">تسجيل حساب جديد</span><br/><span style="color:#888;">![تسجيل حساب جديد](https://github.com/user-attachments/assets/ff332c93-c8a6-474e-996b-bf4774771d64)
+</span></b>
     </td>
     <td align="center" width="33%">
-      <b>🔐 التوثيق<br/><span style="font-size:1.1em;">تسجيل الدخول</span><br/><span style="color:#888;">(أضف لقطات الشاشة هنا!)</span></b>
-    </td>
-  </tr>
-  <tr>
-    <td align="center" width="33%">
-      <b>🎟️ صالة المشاركين<br/><span style="font-size:1.1em;">كل الفعاليات (GIF!)</span><br/><span style="color:#888;">(أضف GIF هنا!)</span></b>
-    </td>
-    <td align="center" width="33%">
-      <b>🎟️ صالة المشاركين<br/><span style="font-size:1.1em;">فعالياتي (GIF!)</span><br/><span style="color:#888;">(أضف GIF هنا!)</span></b>
+      <b>🔐 التوثيق<br/><span style="font-size:1.1em;">تسجيل الدخول</span><br/><span style="color:#888;">![تسجيل الدخول](https://github.com/user-attachments/assets/4726f8db-6f99-4fa9-a6e8-a421778cb96c)
+</span></b>
     </td>
   </tr>
   <tr>
     <td align="center" width="33%">
-      <b>🛠️ غرفة المديرين العجيبة<br/><span style="font-size:1.1em;">فعاليات المدير</span><br/><span style="color:#888;">(أضف لقطات الشاشة هنا!)</span></b>
+      <b>🎟️ صالة المشاركين<br/><span style="font-size:1.1em;">كل الفعاليات (GIF!)</span><br/><span style="color:#888;">![جميع الفعاليات](https://github.com/user-attachments/assets/a4818d93-c89e-489a-977a-439f363a0cdb)
+</span></b>
     </td>
     <td align="center" width="33%">
-      <b>🎟️ صالة المشاركين<br/><span style="font-size:1.1em;">اضافة حدث (GIF!)</span><br/><span style="color:#888;">(أضف GIF هنا!)</span></b>
+      <b>🎟️ صالة المشاركين<br/><span style="font-size:1.1em;">فعالياتي</span><br/><span style="color:#888;">![فعالياتي](https://github.com/user-attachments/assets/bf9f1b7c-cc48-4a4f-b167-8d45f1c7216e)
+</span></b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="33%">
+      <b>🛠️ غرفة المديرين العجيبة<br/><span style="font-size:1.1em;">ادارة الفعاليات</span><br/><span style="color:#888;">![ادارة الفعاليات](https://github.com/user-attachments/assets/526b1e2e-914a-47bb-a578-85075b18fc54)</span></b>
+    </td>
+    <td align="center" width="33%">
+      <b>🎟️ صالة المشاركين<br/><span style="font-size:1.1em;">اضافة حدث</span><br/><span style="color:#888;">![اضافة فعالية](https://github.com/user-attachments/assets/fd078c1c-6e4a-485b-a3e0-e6b4529a4bb2)
+</span></b>
     </td>
   </tr>
 </table>
@@ -219,7 +224,8 @@ EventConnect is a modern Flutter application that bridges the gap between event 
   </tr>
   <tr>
     <td align="center" width="33%">
-      <b>🎬 Attendee Showroom<br/><span style="font-size:1.1em;">All Events (GIF!)</span><br/><span style="color:#888;">
+      <b>🎬 Attendee Showroom<br/><span style="font-size:1.1em;">All Events (GIF!)</span>![Add Event Confetti](https://github.com/user-attachments/assets/482f4274-141f-485a-992f-2dc303580d42)
+<br/><span style="color:#888;">
 
 </span></b>
     </td>
@@ -230,11 +236,13 @@ EventConnect is a modern Flutter application that bridges the gap between event 
   </tr>
   <tr>
     <td align="center" width="33%">
-      <b>🛠️ Manager's Wonderoom<br/><span style="font-size:1.1em;">Manager's Events</span><br/><span style="color:#888;">![SmartSelect_٢٠٢٥٠٧٠٩_٢١٢٤٥٨](https://github.com/user-attachments/assets/83ffe29a-8e57-499b-98fb-bf5f03478e8b)
+      <b>🛠️ Manager's Wonderoom<br/><span style="font-size:1.1em;">Manager's Events</span>![Manage events screen](https://github.com/user-attachments/assets/e1e73860-4800-49d3-93cb-bc4f16de2870)
+<br/><span style="color:#888;">
 </span></b>
     </td>
     <td align="center" width="33%">
-      <b>🛠️ Manager's Wonderoom<br/><span style="font-size:1.1em;">Manager's Add Events</span><br/><span style="color:#888;">![SmartSelect_٢٠٢٥٠٧٠٩_٢١٢٥١٤](https://github.com/user-attachments/assets/677b24c2-f118-46cc-bf49-75410c0f3e41)
+      <b>🛠️ Manager's Wonderoom<br/><span style="font-size:1.1em;">Manager's Add Events</span><br/><span style="color:#888;">![Add event screen](https://github.com/user-attachments/assets/b0a71b6a-2372-44ea-a650-7b6ddb4fe7df)
+
 </span></b>
     </td>
   </tr>
