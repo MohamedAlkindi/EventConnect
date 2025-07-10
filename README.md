@@ -1,50 +1,13 @@
 <!-- 🎊 Welcoming Section with Confetti (Arabic & English) -->
 <p align="center">
-  <img src="https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif" alt="Confetti" width="120"/>
-</p>
-
-<p align="center">
   <b><span style="font-size:1.5em;">مرحبًا بك في عالم الفعاليات المبهج! 🎉<br/>Let the celebration begin – Welcome to the most vibrant event app! 🎉</span></b>
 </p>
 
 <p align="center">
-  <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" alt="Confetti Celebration" width="120"/>
+  <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExYTczbWlpM2RhbGs4aDBzbWk4aWk5c3JtMHQ0N3JsZm12a3I0MjRvZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/5jT0jaNDsM6Ik7X9yq/giphy.gif" alt="Confetti Celebration" width="120"/>
 </p>
 
 ---
-
-<!-- 🖼️ Moments Gallery / معرض اللحظات -->
-<h2 align="center">🖼️ معرض اللحظات | Moments Gallery</h2>
-
-<table align="center" width="100%">
-  <tr>
-    <td align="center" width="33%">
-      <b>🔐 Authentication<br/><span style="font-size:1.1em;">Login & Sign Up</span><br/><span style="color:#888;">(Add your screenshots here!)</span></b>
-    </td>
-    <td align="center" width="33%">
-      <b>🔐 التوثيق<br/><span style="font-size:1.1em;">تسجيل الدخول والتسجيل</span><br/><span style="color:#888;">(أضف لقطات الشاشة هنا!)</span></b>
-    </td>
-  </tr>
-  <tr>
-    <td align="center" width="33%">
-      <b>🎬 Attendee Showroom<br/><span style="font-size:1.1em;">All Events (GIF!)</span><br/><span style="color:#888;">(Add your GIF here!)</span></b>
-    </td>
-    <td align="center" width="33%">
-      <b>🎟️ صالة المشاركين<br/><span style="font-size:1.1em;">كل الفعاليات (GIF!)</span><br/><span style="color:#888;">(أضف GIF هنا!)</span></b>
-    </td>
-  </tr>
-  <tr>
-    <td align="center" width="33%">
-      <b>🛠️ Manager's Wonderoom<br/><span style="font-size:1.1em;">Manager's Events</span><br/><span style="color:#888;">(Add your screenshots here!)</span></b>
-    </td>
-    <td align="center" width="33%">
-      <b>🛠️ غرفة المديرين العجيبة<br/><span style="font-size:1.1em;">فعاليات المدير</span><br/><span style="color:#888;">(أضف لقطات الشاشة هنا!)</span></b>
-    </td>
-  </tr>
-</table>
-
----
-
 <!-- Language Tabs -->
 <p align="center">
   <a href="#arabic"><img src="https://img.shields.io/badge/العربية-🇦🇪-green?style=for-the-badge" alt="Arabic"></a>
@@ -247,26 +210,32 @@ EventConnect is a modern Flutter application that bridges the gap between event 
 <table align="center" width="100%">
   <tr>
     <td align="center" width="33%">
-      <b>🔐 Authentication<br/><span style="font-size:1.1em;">Login</span><br/><span style="color:#888;">(Add your screenshots here!)</span></b>
+      <b>🔐 Authentication<br/><span style="font-size:1.1em;">Login</span><br/><span style="color:#888;">![Screenshot_20250709_195251](https://github.com/user-attachments/assets/90c6fab1-1bac-4646-a7eb-9ed04945bda2)</span></b>
     </td>
     <td align="center" width="33%">
-      <b>🔐 Authentication<br/><span style="font-size:1.1em;">Sign Up</span><br/><span style="color:#888;">(Add your screenshots here!)</span></b>
-    </td>
-  </tr>
-  <tr>
-    <td align="center" width="33%">
-      <b>🎬 Attendee Showroom<br/><span style="font-size:1.1em;">All Events (GIF!)</span><br/><span style="color:#888;">(Add your GIF here!)</span></b>
-    </td>
-    <td align="center" width="33%">
-      <b>🎬 Attendee Showroom<br/><span style="font-size:1.1em;">My Events (GIF!)</span><br/><span style="color:#888;">(Add your GIF here!)</span></b>
+      <b>🔐 Authentication<br/><span style="font-size:1.1em;">Sign Up</span><br/><span style="color:#888;">![Screenshot_20250709_195219](https://github.com/user-attachments/assets/f11235b9-b5f0-4201-a4e9-ea86c1056a4f)
+</span></b>
     </td>
   </tr>
   <tr>
     <td align="center" width="33%">
-      <b>🛠️ Manager's Wonderoom<br/><span style="font-size:1.1em;">Manager's Events</span><br/><span style="color:#888;">(Add your screenshots here!)</span></b>
+      <b>🎬 Attendee Showroom<br/><span style="font-size:1.1em;">All Events (GIF!)</span><br/><span style="color:#888;">
+
+</span></b>
     </td>
     <td align="center" width="33%">
-      <b>🛠️ Manager's Wonderoom<br/><span style="font-size:1.1em;">Manager's Add Events</span><br/><span style="color:#888;">(Add your screenshots here!)</span></b>
+      <b>🎬 Attendee Showroom<br/><span style="font-size:1.1em;">My Events</span><br/><span style="color:#888;">![SmartSelect_20250710_113512](https://github.com/user-attachments/assets/bfe4ef95-035a-4e60-9767-227dff0fd973)
+</span></b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="33%">
+      <b>🛠️ Manager's Wonderoom<br/><span style="font-size:1.1em;">Manager's Events</span><br/><span style="color:#888;">![SmartSelect_٢٠٢٥٠٧٠٩_٢١٢٤٥٨](https://github.com/user-attachments/assets/83ffe29a-8e57-499b-98fb-bf5f03478e8b)
+</span></b>
+    </td>
+    <td align="center" width="33%">
+      <b>🛠️ Manager's Wonderoom<br/><span style="font-size:1.1em;">Manager's Add Events</span><br/><span style="color:#888;">![SmartSelect_٢٠٢٥٠٧٠٩_٢١٢٥١٤](https://github.com/user-attachments/assets/677b24c2-f118-46cc-bf49-75410c0f3e41)
+</span></b>
     </td>
   </tr>
 </table>
