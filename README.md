@@ -214,35 +214,32 @@ EventConnect is a modern Flutter application that bridges the gap between event 
 <table align="center" width="100%">
   <tr>
     <td align="center" width="33%">
-      <b>🔐 Authentication<br/><span style="font-size:1.1em;">Login</span><br/><span style="color:#888;">![Screenshot_20250709_195251](https://github.com/user-attachments/assets/90c6fab1-1bac-4646-a7eb-9ed04945bda2)</span></b>
+      <b>🔐 Authentication<br/><span style="font-size:1.1em;">Login</span></b><br/>
+      <img src="https://github.com/user-attachments/assets/90c6fab1-1bac-4646-a7eb-9ed04945bda2" alt="Login" width="100%">
     </td>
     <td align="center" width="33%">
-      <b>🔐 Authentication<br/><span style="font-size:1.1em;">Sign Up</span><br/><span style="color:#888;">![Screenshot_20250709_195219](https://github.com/user-attachments/assets/f11235b9-b5f0-4201-a4e9-ea86c1056a4f)
-</span></b>
-    </td>
-  </tr>
-  <tr>
-    <td align="center" width="33%">
-      <b>🎬 Attendee Showroom<br/><span style="font-size:1.1em;">All Events (GIF!)</span>![Add Event Confetti](https://github.com/user-attachments/assets/482f4274-141f-485a-992f-2dc303580d42)
-<br/><span style="color:#888;">
-
-</span></b>
-    </td>
-    <td align="center" width="33%">
-      <b>🎬 Attendee Showroom<br/><span style="font-size:1.1em;">My Events</span><br/><span style="color:#888;">![SmartSelect_20250710_113512](https://github.com/user-attachments/assets/bfe4ef95-035a-4e60-9767-227dff0fd973)
-</span></b>
+      <b>🔐 Authentication<br/><span style="font-size:1.1em;">Sign Up</span></b><br/>
+      <img src="https://github.com/user-attachments/assets/f11235b9-b5f0-4201-a4e9-ea86c1056a4f" alt="Sign Up" width="100%">
     </td>
   </tr>
   <tr>
     <td align="center" width="33%">
-      <b>🛠️ Manager's Wonderoom<br/><span style="font-size:1.1em;">Manager's Events</span>![Manage events screen](https://github.com/user-attachments/assets/e1e73860-4800-49d3-93cb-bc4f16de2870)
-<br/><span style="color:#888;">
-</span></b>
+      <b>🎬 Attendee Showroom<br/><span style="font-size:1.1em;">All Events (GIF!)</span></b><br/>
+      <img src="https://github.com/user-attachments/assets/482f4274-141f-485a-992f-2dc303580d42" alt="All Events" width="100%">
     </td>
     <td align="center" width="33%">
-      <b>🛠️ Manager's Wonderoom<br/><span style="font-size:1.1em;">Manager's Add Events</span><br/><span style="color:#888;">![Add event screen](https://github.com/user-attachments/assets/b0a71b6a-2372-44ea-a650-7b6ddb4fe7df)
-
-</span></b>
+      <b>🎬 Attendee Showroom<br/><span style="font-size:1.1em;">My Events</span></b><br/>
+      <img src="https://github.com/user-attachments/assets/bfe4ef95-035a-4e60-9767-227dff0fd973" alt="My Events" width="100%">
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="33%">
+      <b>🛠️ Manager's Wonderoom<br/><span style="font-size:1.1em;">Manager's Events</span></b><br/>
+      <img src="https://github.com/user-attachments/assets/e1e73860-4800-49d3-93cb-bc4f16de2870" alt="Manager's Events" width="100%">
+    </td>
+    <td align="center" width="33%">
+      <b>🛠️ Manager's Wonderoom<br/><span style="font-size:1.1em;">Manager's Add Events</span></b><br/>
+      <img src="https://github.com/user-attachments/assets/b0a71b6a-2372-44ea-a650-7b6ddb4fe7df" alt="Manager's Add Events" width="100%">
     </td>
   </tr>
 </table>
