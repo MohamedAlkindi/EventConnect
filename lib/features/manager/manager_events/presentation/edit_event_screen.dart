@@ -5,7 +5,6 @@ import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/core/utils/loading_dialog.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/features/manager/manager_events/presentation/cubit/edit_event_cubit.dart';
-import 'package:event_connect/features/manager/manager_events/presentation/cubit/manager_events_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -57,15 +56,16 @@ class _EditEventScreenState extends State<EditEventScreen> {
     return Scaffold(
       body: BlocListener<EditEventCubit, EditEventState>(
         listener: (context, state) {
-          if (state is ManagerEventsLoading) {
+          if (state is EventUpdateLoading) {
             showLoadingDialog(context);
           } else if (state is EventUpdatedSuccessfully) {
             hideLoadingDialog(context);
             showMessageDialog(
               context: context,
               icon: Icons.check_circle_outline_rounded,
-              titleText: "Success 🥳",
-              contentText: "Your event has been updated successfully!",
+              titleText: AppLocalizations.of(context)!.eventUpdateSuccessTitle,
+              contentText:
+                  AppLocalizations.of(context)!.eventUpdateSuccessContent,
               iconColor: Colors.green,
               buttonText: "Okay!",
               onPressed: () {

@@ -81,6 +81,7 @@ class EditEventCubit extends Cubit<EditEventState> {
     required String supabaseImageUrl,
   }) async {
     try {
+      emit(EventUpdateLoading());
       EventModel eventModel = await _businessLogic.editEvent(
         docID: docID,
         name: name,

@@ -132,5 +132,7 @@
   "emailNotConfirmed": "You haven't confirmed your email yet!",
   "headToHomeScreen": "Head to Home Screen",
   "resendEmail": "Resend email?",
-  "resend": "Resend"
+  "resend": "Resend",
+  "eventUpdateSuccessTitle":"Success 🥳",
+  "eventUpdateSuccessContent":"Your event has been updated successfully!"
 }

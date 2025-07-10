@@ -5,6 +5,8 @@ sealed class EditEventState {}
 
 final class EditEventInitial extends EditEventState {}
 
+final class EventUpdateLoading extends EditEventState {}
+
 final class EventUpdatedSuccessfully extends EditEventState {}
 
 final class SelectedCategory extends EditEventState {
