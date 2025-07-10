@@ -1,4 +1,3 @@
-![ادارة الفعاليات](https://github.com/user-attachments/assets/25a1c277-f839-4140-b4db-1581bdf52474)<!-- 🎊 Welcoming Section with Confetti (Arabic & English) -->
 <p align="center">
   <b><span style="font-size:1.5em;">مرحبًا بك في عالم الفعاليات المبهج! 🎉<br/>Let the celebration begin – Welcome to the most vibrant event app! 🎉</span></b>
 </p>
