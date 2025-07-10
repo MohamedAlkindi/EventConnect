@@ -83,31 +83,32 @@
 <table align="center" width="100%">
   <tr>
     <td align="center" width="33%">
-      <b>🔐 التوثيق<br/><span style="font-size:1.1em;">تسجيل حساب جديد</span><br/><span style="color:#888;">![تسجيل حساب جديد](https://github.com/user-attachments/assets/ff332c93-c8a6-474e-996b-bf4774771d64)
-</span></b>
+      <b>🔐 التوثيق<br/><span style="font-size:1.1em;">تسجيل حساب جديد</span></b><br/>
+      <img src="https://github.com/user-attachments/assets/ff332c93-c8a6-474e-996b-bf4774771d64" alt="تسجيل حساب جديد" width="100%">
     </td>
     <td align="center" width="33%">
-      <b>🔐 التوثيق<br/><span style="font-size:1.1em;">تسجيل الدخول</span><br/><span style="color:#888;">![تسجيل الدخول](https://github.com/user-attachments/assets/4726f8db-6f99-4fa9-a6e8-a421778cb96c)
-</span></b>
-    </td>
-  </tr>
-  <tr>
-    <td align="center" width="33%">
-      <b>🎟️ صالة المشاركين<br/><span style="font-size:1.1em;">كل الفعاليات (GIF!)</span><br/><span style="color:#888;">![جميع الفعاليات](https://github.com/user-attachments/assets/a4818d93-c89e-489a-977a-439f363a0cdb)
-</span></b>
-    </td>
-    <td align="center" width="33%">
-      <b>🎟️ صالة المشاركين<br/><span style="font-size:1.1em;">فعالياتي</span><br/><span style="color:#888;">![فعالياتي](https://github.com/user-attachments/assets/bf9f1b7c-cc48-4a4f-b167-8d45f1c7216e)
-</span></b>
+      <b>🔐 التوثيق<br/><span style="font-size:1.1em;">تسجيل الدخول</span></b><br/>
+      <img src="https://github.com/user-attachments/assets/4726f8db-6f99-4fa9-a6e8-a421778cb96c" alt="تسجيل الدخول" width="100%">
     </td>
   </tr>
   <tr>
     <td align="center" width="33%">
-      <b>🛠️ غرفة المديرين العجيبة<br/><span style="font-size:1.1em;">ادارة الفعاليات</span><br/><span style="color:#888;">![ادارة الفعاليات](https://github.com/user-attachments/assets/526b1e2e-914a-47bb-a578-85075b18fc54)</span></b>
+      <b>🎟️ صالة المشاركين<br/><span style="font-size:1.1em;">كل الفعاليات (GIF!)</span></b><br/>
+      <img src="https://github.com/user-attachments/assets/a4818d93-c89e-489a-977a-439f363a0cdb" alt="جميع الفعاليات" width="100%">
     </td>
     <td align="center" width="33%">
-      <b>🎟️ صالة المشاركين<br/><span style="font-size:1.1em;">اضافة حدث</span><br/><span style="color:#888;">![اضافة فعالية](https://github.com/user-attachments/assets/fd078c1c-6e4a-485b-a3e0-e6b4529a4bb2)
-</span></b>
+      <b>🎟️ صالة المشاركين<br/><span style="font-size:1.1em;">فعالياتي</span></b><br/>
+      <img src="https://github.com/user-attachments/assets/bf9f1b7c-cc48-4a4f-b167-8d45f1c7216e" alt="فعالياتي" width="100%">
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="33%">
+      <b>🛠️ غرفة المديرين العجيبة<br/><span style="font-size:1.1em;">ادارة الفعاليات</span></b><br/>
+      <img src="https://github.com/user-attachments/assets/526b1e2e-914a-47bb-a578-85075b18fc54" alt="ادارة الفعاليات" width="100%">
+    </td>
+    <td align="center" width="33%">
+      <b>🎟️ صالة المشاركين<br/><span style="font-size:1.1em;">اضافة حدث</span></b><br/>
+      <img src="https://github.com/user-attachments/assets/fd078c1c-6e4a-485b-a3e0-e6b4529a4bb2" alt="اضافة فعالية" width="100%">
     </td>
   </tr>
 </table>
