@@ -107,7 +107,7 @@
       <img src="https://github.com/user-attachments/assets/526b1e2e-914a-47bb-a578-85075b18fc54" alt="ادارة الفعاليات" width="100%">
     </td>
     <td align="center" width="33%">
-      <b>🎟️ صالة المشاركين<br/><span style="font-size:1.1em;">اضافة حدث</span></b><br/>
+      <b>🛠️ غرفة المديرين العجيبة<br/><span style="font-size:1.1em;">اضافة حدث</span></b><br/>
       <img src="https://github.com/user-attachments/assets/fd078c1c-6e4a-485b-a3e0-e6b4529a4bb2" alt="اضافة فعالية" width="100%">
     </td>
   </tr>
