@@ -25,11 +25,15 @@ class AllEventsDa {
   }
 
   Future<void> incrementAttendees(String eventDocumentID) async {
-    await _firestore
-        .collection(EventsCollection.eventCollectionName)
-        .doc(eventDocumentID)
-        .update({
-      EventsCollection.eventAttendeesDocumentName: FieldValue.increment(1)
-    });
+    try {
+      await _firestore
+          .collection(EventsCollection.eventCollectionName)
+          .doc(eventDocumentID)
+          .update({
+        EventsCollection.eventAttendeesDocumentName: FieldValue.increment(1)
+      });
+    } catch (e) {
+      throw GenericException("Error ${e.toString()}");
+    }
   }
 }

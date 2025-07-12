@@ -1,15 +1,16 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:event_connect/core/constants/event_categories.dart';
 import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/core/utils/loading_dialog.dart';
+import 'package:event_connect/core/utils/localization_extensions.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/features/manager/manager_events/presentation/cubit/edit_event_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:event_connect/core/utils/localization_extensions.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class EditEventScreen extends StatefulWidget {
   final EventModel eventModel;
@@ -372,7 +373,7 @@ class _EditEventScreenState extends State<EditEventScreen> {
                                     ),
                                   ),
                                 ),
-                                items: cubit.categories.map((String category) {
+                                items: categories.map((String category) {
                                   return DropdownMenuItem<String>(
                                     value: category,
                                     child: Text(

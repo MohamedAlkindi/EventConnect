@@ -1,11 +1,12 @@
 import 'package:bloc/bloc.dart';
+import 'package:event_connect/core/constants/event_categories.dart';
 import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
 import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/features/manager/manager_events/business_logic/manager_events_bl.dart';
 import 'package:event_connect/features/manager/manager_events/presentation/cubit/manager_events_cubit.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'add_event_state.dart';
 
@@ -14,15 +15,6 @@ class AddEventCubit extends Cubit<AddEventState> {
   AddEventCubit(this.managerCubit) : super(AddEventInitial());
   final _businessLogic = ManagerEventsBl();
 
-  final List<String> categories = [
-    'Music',
-    'Art',
-    'Sports',
-    'Food',
-    'Business',
-    'Technology',
-    'Education'
-  ];
   String selectedCategory = 'Music';
   void selectCategoty(String? category) {
     if (category != null) {

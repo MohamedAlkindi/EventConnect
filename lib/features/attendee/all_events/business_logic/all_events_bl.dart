@@ -56,7 +56,7 @@ class AllEventScreenBL {
 
       await _imageCaching.downloadAndCacheImages(
           availableEventModels); // Await and use new method
-      _weatherSetup.setupWeather(availableEventModels);
+      await _weatherSetup.setupWeather(availableEventModels);
       return availableEventModels;
     } catch (e) {
       throw GenericException(ExceptionMessages.apiError);
