@@ -1,7 +1,9 @@
 import 'dart:async';
-import 'dart:developer' as log;
 
 import 'package:bloc/bloc.dart';
+import 'package:event_connect/core/constants/event_categories.dart';
+import 'package:event_connect/core/constants/gender_restrictions.dart';
+import 'package:event_connect/core/constants/user_cities.dart';
 import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/features/attendee/my_events/business_logic/my_events_bl.dart';
 import 'package:meta/meta.dart';
@@ -31,7 +33,6 @@ class MyEventsCubit extends Cubit<MyEventsState> {
     emit(MyEventsLoading());
     try {
       if (_events.isEmpty || forceRefresh) {
-        log.log("Reset again");
         List<EventModel> allEvents = await _myEventsBL.getAllEventsByUserID();
         _events = allEvents;
       }
@@ -75,16 +76,8 @@ class MyEventsCubit extends Cubit<MyEventsState> {
     emit(MyEventsInitial());
   }
 
+// TODO: New Feature: Add sorting by category for my events later.
   static String getCategoryDisplay(String value, AppLocalizations l10n) {
-    const categories = [
-      'Music',
-      'Art',
-      'Sports',
-      'Food',
-      'Business',
-      'Technology',
-      'Education',
-    ];
     final idx = categories.indexOf(value);
     final localized = [
       l10n.categoryMusic,
@@ -99,16 +92,6 @@ class MyEventsCubit extends Cubit<MyEventsState> {
   }
 
   static String getCityDisplay(String value, AppLocalizations l10n) {
-    const cities = [
-      'Hadramout',
-      "San'aa",
-      'Aden',
-      'Taiz',
-      'Ibb',
-      'Al Hudaydah',
-      'Marib',
-      'Al Mukalla',
-    ];
     final idx = cities.indexOf(value);
     final localized = [
       l10n.cityHadramout,
@@ -125,12 +108,7 @@ class MyEventsCubit extends Cubit<MyEventsState> {
 
   static String getGenderRestrictionDisplay(
       String value, AppLocalizations l10n) {
-    const restrictions = [
-      'No Restrictions',
-      'Male Only',
-      'Female Only',
-    ];
-    final idx = restrictions.indexOf(value);
+    final idx = genderRestrictions.indexOf(value);
     final localized = [
       l10n.genderNoRestrictions,
       l10n.genderMaleOnly,

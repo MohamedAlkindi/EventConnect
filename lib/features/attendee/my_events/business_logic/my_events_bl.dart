@@ -48,7 +48,7 @@ class MyEventsBL {
               .toList();
       await _imageCaching.downloadAndCacheImages(userEvents);
       // Inject weather asynchronously
-      _weatherSetup.setupWeather(userEvents);
+      await _weatherSetup.setupWeather(userEvents);
       return userEvents;
     } catch (e) {
       throw GenericException(ExceptionMessages.apiError);

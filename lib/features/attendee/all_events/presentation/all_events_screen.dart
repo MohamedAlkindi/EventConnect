@@ -81,7 +81,7 @@ class AllEventsScreenView extends StatelessWidget {
                               mainAppBar(context: context),
 
                               // Categories with modern design
-                              // Not used in other pages, leave it alone.
+                              // Not used in other pages, leave it alone for now.
                               Container(
                                 height: 60,
                                 margin:
@@ -215,6 +215,7 @@ class AllEventsScreenView extends StatelessWidget {
                                             allEventsCubit.addEventToUserEvents(
                                                 documentID: event.eventID!);
                                           },
+                                          isAllEventsPage: true,
                                         )
                                     ],
                                   );
