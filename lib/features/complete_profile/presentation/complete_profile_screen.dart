@@ -87,6 +87,7 @@ class CompleteProfileScreenView extends StatelessWidget {
               ),
             ),
             // Main frosted glass content
+            // TODO: use userProfileBackground(childWidget) method starting here.
             Center(
               child: SingleChildScrollView(
                 child: Padding(
@@ -115,6 +116,7 @@ class CompleteProfileScreenView extends StatelessWidget {
                         ),
                         padding: const EdgeInsets.symmetric(
                             horizontal: 24, vertical: 32),
+                        // Ending here!
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,

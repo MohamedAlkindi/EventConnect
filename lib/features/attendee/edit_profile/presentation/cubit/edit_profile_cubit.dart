@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
+import 'package:event_connect/core/constants/user_cities.dart';
 import 'package:event_connect/core/models/user_model.dart';
 import 'package:event_connect/features/attendee/edit_profile/business_logic/edit_profile_bl.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'edit_profile_state.dart';
 
@@ -10,16 +14,6 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   EditProfileCubit() : super(EditProfileInitial());
   final EditProfileBL _bl = EditProfileBL();
 
-  final List<String> yemeniCities = [
-    'Hadramout',
-    "San'aa",
-    'Aden',
-    'Taiz',
-    'Ibb',
-    'Al Hudaydah',
-    'Marib',
-    'Al Mukalla'
-  ];
   // TODO: Might change it to one var like the complete profile.
   // And might not, hehe,
   String? previouslySelectedCity;
@@ -42,6 +36,14 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     }
   }
 
+  Future<void> pickImage() async {
+    final XFile? pickedImage =
+        await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      selectedImage(pickedImage.path);
+    }
+  }
+
   void selectedImage(String? imagePath) {
     if (imagePath != null) {
       newSelectedImagePath = imagePath;
@@ -49,12 +51,51 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     }
   }
 
-  Future<void> pickImage() async {
-    final XFile? pickedImage =
-        await _picker.pickImage(source: ImageSource.gallery);
-    if (pickedImage != null) {
-      selectedImage(pickedImage.path);
+  ImageProvider getProfileImage(
+    EditProfileState state,
+    EditProfileCubit cubit,
+  ) {
+    if (state is GotUserProfile) {
+      return NetworkImage(
+        "${state.userProfile.profilePic}?updated=${DateTime.now().millisecondsSinceEpoch}",
+      );
+    } else if (state is SelectedImage) {
+      return FileImage(File(state.selectedImagePath));
+    } else if (cubit.newSelectedImagePath != null) {
+      return FileImage(File(cubit.newSelectedImagePath!));
+    } else if (cubit.supabaseImageUrl != null) {
+      return NetworkImage(
+        "${cubit.supabaseImageUrl!}updated=${DateTime.now().millisecondsSinceEpoch}",
+      );
     }
+    return const AssetImage('assets/images/generic_user.png');
+  }
+
+  String getCity(
+      {required EditProfileState state, required EditProfileCubit cubit}) {
+    if (state is GotUserProfile) {
+      return state.userProfile.location;
+    } else if (state is SelectedCity) {
+      return state.selectedCity;
+    } else if (cubit.newSelectedCity != null) {
+      return cubit.newSelectedCity!;
+    }
+    return cubit.previouslySelectedCity ?? "Al Mukalla";
+  }
+
+  String getCityDisplay(String value, AppLocalizations l10n) {
+    final idx = cities.indexOf(value);
+    final localized = [
+      l10n.cityHadramout,
+      l10n.citySanaa,
+      l10n.cityAden,
+      l10n.cityTaiz,
+      l10n.cityIbb,
+      l10n.cityHudaydah,
+      l10n.cityMarib,
+      l10n.cityMukalla,
+    ];
+    return idx >= 0 ? localized[idx] : value;
   }
 
   Future<void> updateUserProfile() async {

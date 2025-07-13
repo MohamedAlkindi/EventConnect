@@ -28,7 +28,7 @@ class ManagerEditProfileBL {
             ? supabaseImageUrl
             : await _imageService.updateAndReturnImageUrl(
                 newImagePath: imagePath,
-                imageUrl: null,
+                eventImageUrl: null,
                 isEventPic: false,
                 userID: _user.getUserID,
               ),

@@ -7,7 +7,7 @@ import 'package:event_connect/features/attendee/edit_profile/data_access/edit_pr
 
 class EditProfileBL {
   final _dataAccess = EditProfileDa();
-  final _user = FirebaseUser();
+  final _userID = FirebaseUser().getUserID;
   final _imageService = ImageStorageService();
   final _imageCompression = ImageCompressionService();
 
@@ -21,16 +21,17 @@ class EditProfileBL {
       final String? imagePath = profilePicPath != null
           ? await _imageCompression.compressAndReplaceImage(profilePicPath)
           : null;
+
       final updatedInfo = UserModel(
-        userID: _user.getUserID,
+        userID: _userID,
         location: location,
         profilePic: imagePath == null
             ? supabaseImageUrl
             : await _imageService.updateAndReturnImageUrl(
                 newImagePath: imagePath,
-                imageUrl: null,
+                eventImageUrl: null,
                 isEventPic: false,
-                userID: _user.getUserID,
+                userID: _userID,
               ),
         role: role,
       );

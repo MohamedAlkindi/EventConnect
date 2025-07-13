@@ -6,28 +6,28 @@ import 'package:event_connect/core/models/user_model.dart';
 
 class EditProfileDa {
   final _firestore = FirebaseFirestore.instance;
-  final _user = FirebaseUser();
-
-  Future<void> updateProfileDetails(UserModel model) async {
-    try {
-      await _firestore
-          .collection(UserCollection.userCollectionName)
-          .doc(_user.getUserID)
-          .update(model.toJson());
-    } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
-    }
-  }
+  final _userID = FirebaseUser().getUserID;
 
   Future<UserModel> getUserDetails() async {
     try {
       final result = await _firestore
           .collection(UserCollection.userCollectionName)
-          .doc(_user.getUserID)
+          .doc(_userID)
           .get();
 
       var userData = UserModel.fromJson(result.data()!);
       return userData;
+    } catch (e) {
+      throw GenericException("Error: ${e.toString()}");
+    }
+  }
+
+  Future<void> updateProfileDetails(UserModel model) async {
+    try {
+      await _firestore
+          .collection(UserCollection.userCollectionName)
+          .doc(model.userID)
+          .update(model.toJson());
     } catch (e) {
       throw GenericException("Error: ${e.toString()}");
     }

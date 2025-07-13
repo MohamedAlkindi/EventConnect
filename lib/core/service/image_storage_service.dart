@@ -39,16 +39,16 @@ class ImageStorageService {
     // ImageUrl and userID are optional because if the user updates the event userID will be null.
     // Otherwise if the user will update the user profile pic, then the imageUrl will be null.
     required String newImagePath,
-    required String? imageUrl,
+    required String? eventImageUrl,
     required String? userID,
     required bool isEventPic,
   }) async {
     final file = File(newImagePath);
     final storage = Supabase.instance.client.storage;
 
-    if (isEventPic && imageUrl != null) {
+    if (isEventPic && eventImageUrl != null) {
       // this will take the full url and get the needed bit of it.
-      final path = imageUrl.split('/').sublist(6).join('/');
+      final path = eventImageUrl.split('/').sublist(6).join('/');
       await storage.from('event-pic-storage').upload(path, file,
           fileOptions: const FileOptions(
             upsert: true,

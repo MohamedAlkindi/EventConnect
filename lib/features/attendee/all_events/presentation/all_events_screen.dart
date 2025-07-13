@@ -7,7 +7,7 @@ import 'package:event_connect/core/utils/localization_extensions.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/core/widgets/app_background.dart';
 import 'package:event_connect/core/widgets/confetti_effect.dart';
-import 'package:event_connect/core/widgets/user_main_pages_widgets.dart';
+import 'package:event_connect/core/widgets/user_events_pages_widgets.dart';
 import 'package:event_connect/features/attendee/all_events/presentation/cubit/all_events_cubit.dart';
 import 'package:event_connect/features/attendee/my_events/presentation/cubit/my_events_cubit.dart';
 import 'package:flutter/material.dart';
