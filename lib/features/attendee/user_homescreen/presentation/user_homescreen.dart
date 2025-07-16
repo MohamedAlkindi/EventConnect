@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:event_connect/core/widgets/app_background.dart';
 import 'package:event_connect/features/attendee/all_events/presentation/all_events_screen.dart';
 import 'package:event_connect/features/attendee/all_events/presentation/cubit/all_events_cubit.dart';
 import 'package:event_connect/features/attendee/my_events/presentation/cubit/my_events_cubit.dart';
@@ -7,6 +6,7 @@ import 'package:event_connect/features/attendee/my_events/presentation/my_events
 import 'package:event_connect/features/attendee/my_profile/presentation/cubit/my_profile_cubit.dart';
 import 'package:event_connect/features/attendee/my_profile/presentation/my_profile_screen.dart';
 import 'package:event_connect/features/attendee/user_homescreen/presentation/cubit/user_homescreen_cubit.dart';
+import 'package:event_connect/features/attendee/user_homescreen/presentation/widgets/bottom_nav_bar_items.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -35,21 +35,10 @@ class UserHomeScreenView extends StatelessWidget {
       body: Stack(
         children: [
           // Gradient background to match All Events screen
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Color(0xFFe0e7ff),
-                  Color(0xFFfceabb),
-                  Color(0xFFf8b6b8)
-                ],
-              ),
-            ),
-          ),
+          appBackgroundColors(),
           SafeArea(
             child: Row(
+              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(width: 48), // For balance
@@ -128,6 +117,7 @@ class UserHomeScreenView extends StatelessWidget {
                   ),
                   child: BlocBuilder<UserHomescreenCubit, UserHomescreenState>(
                     builder: (context, state) {
+                      final cubit = context.read<UserHomescreenCubit>();
                       return ClipRRect(
                         borderRadius: BorderRadius.circular(30),
                         child: BottomNavigationBar(
@@ -138,63 +128,27 @@ class UserHomeScreenView extends StatelessWidget {
                                 .onBottomNavTap(index);
                           },
                           items: [
-                            BottomNavigationBarItem(
-                              icon: Container(
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  color: state.currentIndex == 0
-                                      ? const Color(0xFF6C63FF)
-                                          .withAlpha((0.1 * 255).round())
-                                      : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: const Icon(Icons.celebration),
-                              ),
-                              label: AppLocalizations.of(context)!.allEvents,
+                            bottomNavBarItem(
+                              state: state,
+                              icon: Icons.celebration,
+                              itemLabel:
+                                  AppLocalizations.of(context)!.allEvents,
+                              itemIndex: 0,
+                              cubit: null,
                             ),
-                            BottomNavigationBarItem(
-                              icon: Container(
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  color: state.currentIndex == 1
-                                      ? const Color(0xFF6C63FF)
-                                          .withAlpha((0.1 * 255).round())
-                                      : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child:
-                                    const Icon(Icons.event_available_rounded),
-                              ),
-                              label: AppLocalizations.of(context)!.myEvents,
+                            bottomNavBarItem(
+                              state: state,
+                              icon: Icons.event_available_rounded,
+                              itemLabel: AppLocalizations.of(context)!.myEvents,
+                              itemIndex: 1,
+                              cubit: null,
                             ),
-                            BottomNavigationBarItem(
-                              icon: Container(
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  color: state.currentIndex == 2
-                                      ? const Color(0xFF6C63FF)
-                                          .withAlpha((0.1 * 255).round())
-                                      : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: CircleAvatar(
-                                  radius: 12,
-                                  backgroundColor: Colors.purple.shade100,
-                                  child: state.imageFile != null
-                                      ? CircleAvatar(
-                                          radius: 12,
-                                          backgroundImage: state.imageFile!
-                                                  .startsWith("https:/")
-                                              ? NetworkImage(state.imageFile!)
-                                              : FileImage(
-                                                  File(state.imageFile!),
-                                                ),
-                                        )
-                                      : const Icon(Icons.person,
-                                          color: Colors.white, size: 16),
-                                ),
-                              ),
-                              label: AppLocalizations.of(context)!.profile,
+                            bottomNavBarItem(
+                              state: state,
+                              icon: null,
+                              itemLabel: AppLocalizations.of(context)!.profile,
+                              itemIndex: 2,
+                              cubit: cubit,
                             ),
                           ],
                           selectedItemColor: const Color(0xFF6C63FF),

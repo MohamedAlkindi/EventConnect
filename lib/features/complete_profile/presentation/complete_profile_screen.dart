@@ -55,7 +55,7 @@ class CompleteProfileScreenView extends StatelessWidget {
                     context,
                     emailConfirmationnRoute,
                   );
-          } else if (state is UserHomescreenState) {
+          } else if (state is UserHomescreenRoute) {
             Navigator.pushReplacementNamed(
               context,
               state.userHomeScreenPageRoute,

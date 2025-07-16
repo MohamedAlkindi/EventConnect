@@ -23,7 +23,7 @@ Widget glossyContainerBackground({required Widget childWidget}) {
   );
 }
 
-Widget mainAppBar({required BuildContext context}) {
+Widget mainAppBar({required BuildContext context, required String text}) {
   return SizedBox(
     height: 64,
     child: Padding(
@@ -33,7 +33,7 @@ Widget mainAppBar({required BuildContext context}) {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            AppLocalizations.of(context)!.discoverEvents,
+            text,
             style: GoogleFonts.poppins(
               color: const Color(0xFF6C63FF),
               fontSize: 26,

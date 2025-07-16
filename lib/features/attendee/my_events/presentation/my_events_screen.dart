@@ -63,7 +63,9 @@ class MyEventsScreenView extends StatelessWidget {
                           childWidget: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              mainAppBar(context: context),
+                              mainAppBar(
+                                  context: context,
+                                  text: AppLocalizations.of(context)!.myEvents),
 
                               // TODO: Add the categories here
 

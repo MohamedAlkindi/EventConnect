@@ -78,7 +78,10 @@ class AllEventsScreenView extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               // Modern glossy transparent app bar
-                              mainAppBar(context: context),
+                              mainAppBar(
+                                  context: context,
+                                  text: AppLocalizations.of(context)!
+                                      .discoverEvents),
 
                               // Categories with modern design
                               // Not used in other pages, leave it alone for now.

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:event_connect/features/attendee/user_homescreen/business_logic/user_homescreen_bl.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +37,13 @@ class UserHomescreenCubit extends Cubit<UserHomescreenState> {
     } catch (e) {
       emit(UserHomescreenError(message: e.toString()));
     }
+  }
+
+  ImageProvider getPicturePath({required UserHomescreenState state}) {
+    if (state.imageFile!.startsWith("https:/")) {
+      return NetworkImage(state.imageFile!);
+    }
+    return FileImage(File(state.imageFile!));
   }
 
   @override

@@ -7,10 +7,10 @@ final class CompleteProfileInitial extends CompleteProfileState {}
 
 final class CompleteProfileLoading extends CompleteProfileState {}
 
-final class UserHomescreenState extends CompleteProfileState {
+final class UserHomescreenRoute extends CompleteProfileState {
   final String userHomeScreenPageRoute;
 
-  UserHomescreenState({required this.userHomeScreenPageRoute});
+  UserHomescreenRoute({required this.userHomeScreenPageRoute});
 }
 
 final class EmailConfirmed extends CompleteProfileState {

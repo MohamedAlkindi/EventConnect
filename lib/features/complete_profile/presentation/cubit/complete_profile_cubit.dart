@@ -91,10 +91,10 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
     final role = await _user.getUserRole();
 
     if (role == "Attendee") {
-      emit(UserHomescreenState(
+      emit(UserHomescreenRoute(
           userHomeScreenPageRoute: attendeeHomeScreenPageRoute));
     } else {
-      emit(UserHomescreenState(
+      emit(UserHomescreenRoute(
           userHomeScreenPageRoute: managerHomeScreenPageRoute));
     }
   }
