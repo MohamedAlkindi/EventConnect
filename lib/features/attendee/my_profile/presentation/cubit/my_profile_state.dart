@@ -6,9 +6,9 @@ sealed class MyProfileState {}
 final class MyProfileInitial extends MyProfileState {}
 
 final class GotMyProfileInfo extends MyProfileState {
-  final UserModel userInfo;
+  final String userPic;
 
-  GotMyProfileInfo({required this.userInfo});
+  GotMyProfileInfo({required this.userPic});
 }
 
 final class UserDeletedSuccessfully extends MyProfileState {}

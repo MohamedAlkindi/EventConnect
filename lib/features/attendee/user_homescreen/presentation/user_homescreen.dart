@@ -20,7 +20,7 @@ class UserHomeScreen extends StatelessWidget {
     // these will reset and refetch the data when the user signs out and in with another account.
     context.read<AllEventsCubit>().getAllEvents(forceRefresh: true);
     context.read<MyEventsCubit>().getAllEventsByUserID(forceRefresh: true);
-    context.read<MyProfileCubit>().getUserPicAndName();
+    context.read<MyProfileCubit>().getUserPic();
     context.read<UserHomescreenCubit>().getUserProfilePic();
     return UserHomeScreenView();
   }

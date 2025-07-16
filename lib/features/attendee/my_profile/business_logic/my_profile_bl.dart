@@ -1,6 +1,5 @@
 import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
 import 'package:event_connect/core/firebase/user/firebase_user.dart';
-import 'package:event_connect/core/models/user_model.dart';
 import 'package:event_connect/features/attendee/my_profile/data_access/my_profile_da.dart';
 import 'package:event_connect/shared/image_caching_setup.dart';
 
@@ -9,21 +8,23 @@ class MyProfileBL {
   final _imageCaching = ImageCachingSetup();
   final _user = FirebaseUser();
 
-  Future<UserModel> getUserPicAndLocation() async {
+  Future<String> getUserPicAndLocation() async {
     try {
-      final userModel = await _dataAccess.getUserPicAndLocation();
-      // Get the newest picture from supabase.
-      final imagePath =
-          await _imageCaching.downloadAndCacheImageByUrl(userModel.profilePic);
-      userModel.profilePic = imagePath;
-      return userModel;
+      final userPic = await _dataAccess.getUserPic();
+      // Cache the image locally..
+      final imagePath = await _imageCaching.downloadAndCacheImageByUrl(userPic);
+      return imagePath;
     } catch (e) {
       throw GenericException(e.toString());
     }
   }
 
   Future<void> signOut() async {
-    await _user.signOut();
+    try {
+      await _user.signOut();
+    } catch (e) {
+      throw GenericException("Error ${e.toString()}");
+    }
   }
 
   Future<void> deleteUser() async {

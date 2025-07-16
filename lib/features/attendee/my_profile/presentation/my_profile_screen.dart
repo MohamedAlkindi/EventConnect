@@ -1,11 +1,10 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:event_connect/core/utils/message_dialogs.dart';
-import 'package:event_connect/features/attendee/all_events/presentation/cubit/all_events_cubit.dart';
+import 'package:event_connect/core/widgets/app_background.dart';
 import 'package:event_connect/features/attendee/edit_profile/presentation/edit_profile_screen.dart';
-import 'package:event_connect/features/attendee/my_events/presentation/cubit/my_events_cubit.dart';
 import 'package:event_connect/features/attendee/my_profile/presentation/cubit/my_profile_cubit.dart';
+import 'package:event_connect/features/attendee/my_profile/presentation/widgets/screen_buttons.dart';
 import 'package:event_connect/features/attendee/user_homescreen/presentation/cubit/user_homescreen_cubit.dart';
 import 'package:event_connect/features/welcome_screen/presentation/welcome_screen.dart';
 import 'package:event_connect/main.dart';
@@ -33,18 +32,13 @@ class MyProfileScreenView extends StatelessWidget {
         listener: (context, state) {
           if (state is UserSignedOutSuccessfully) {
             // reset cubits to initial state...
-            context.read<AllEventsCubit>().reset();
-            context.read<MyEventsCubit>().reset();
-            context.read<MyProfileCubit>().reset();
-            context.read<UserHomescreenCubit>().reset();
+            context.read<MyProfileCubit>().resetAllCubits(context: context);
             Navigator.of(context).pushNamedAndRemoveUntil(
               loginPageRoute,
               (Route<dynamic> route) => false,
             );
           } else if (state is UserDeletedSuccessfully) {
-            context.read<AllEventsCubit>().reset();
-            context.read<MyEventsCubit>().reset();
-            context.read<MyProfileCubit>().reset();
+            context.read<MyProfileCubit>().resetAllCubits(context: context);
             Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
                 builder: (context) => const WelcomeScreen(),
@@ -56,19 +50,7 @@ class MyProfileScreenView extends StatelessWidget {
         child: Stack(
           children: [
             // Modern background with gradient and subtle overlay
-            Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Color(0xFFe0e7ff),
-                    Color(0xFFfceabb),
-                    Color(0xFFf8b6b8)
-                  ],
-                ),
-              ),
-            ),
+            appBackgroundColors(),
             // Main frosted glass content
             Center(
               child: SingleChildScrollView(
@@ -150,23 +132,9 @@ class MyProfileScreenView extends StatelessWidget {
                                             CircleAvatar(
                                               radius: 80,
                                               backgroundColor: Colors.grey[200],
-                                              backgroundImage: state.userInfo
-                                                      .profilePic.isNotEmpty
-                                                  ? state.userInfo.profilePic
-                                                          .startsWith("http")
-                                                      ? NetworkImage(
-                                                          "${state.userInfo.profilePic}${state.userInfo.profilePic.contains('?') ? '&' : '?'}updated=${DateTime.now().millisecondsSinceEpoch}",
-                                                        )
-                                                      : File(state.userInfo
-                                                                  .profilePic)
-                                                              .existsSync()
-                                                          ? FileImage(File(state
-                                                              .userInfo
-                                                              .profilePic))
-                                                          : const AssetImage(
-                                                              'assets/images/generic_user.png')
-                                                  : const AssetImage(
-                                                      'assets/images/generic_user.png'),
+                                              backgroundImage: context
+                                                  .read<MyProfileCubit>()
+                                                  .getPicturePath(state),
                                             ),
                                             Positioned(
                                               bottom: 0,
@@ -196,226 +164,111 @@ class MyProfileScreenView extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 32),
                                     // Modern action buttons
-                                    Container(
-                                      width: double.infinity,
-                                      height: 56,
-                                      decoration: BoxDecoration(
-                                        gradient: const LinearGradient(
-                                          begin: Alignment.topLeft,
-                                          end: Alignment.bottomRight,
-                                          colors: [
-                                            Color(0xFF6C63FF),
-                                            Color(0xFFFF6584)
-                                          ],
-                                        ),
-                                        borderRadius: BorderRadius.circular(16),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: const Color(0xFF6C63FF)
-                                                .withAlpha(
-                                                    (0.18 * 255).round()),
-                                            blurRadius: 10,
-                                            offset: const Offset(0, 5),
+                                    actionButton(
+                                      isEditProfileButton: true,
+                                      onTap: () async {
+                                        final myProfileCubit =
+                                            context.read<MyProfileCubit>();
+                                        final userHomescreenCubit =
+                                            context.read<UserHomescreenCubit>();
+                                        final result = await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const EditProfileScreen(),
                                           ),
-                                        ],
-                                      ),
-                                      child: Material(
-                                        color: Colors.transparent,
-                                        child: InkWell(
-                                          onTap: () async {
-                                            // Use local variable for context.read
-                                            final myProfileCubit =
-                                                context.read<MyProfileCubit>();
-                                            final userHomescreenCubit = context
-                                                .read<UserHomescreenCubit>();
-                                            final result = await Navigator.push(
+                                        );
+                                        if (result != null) {
+                                          myProfileCubit.getUserPic();
+                                          userHomescreenCubit
+                                              .getUserProfilePic();
+                                        }
+                                      },
+                                      text: AppLocalizations.of(context)!
+                                          .editAccount,
+                                      textColor: Colors.white,
+                                      icon: Icons.edit,
+                                      iconColor: Colors.white,
+                                    ),
+                                    const SizedBox(height: 16),
+
+                                    actionButton(
+                                      isEditProfileButton: false,
+                                      onTap: () {
+                                        showMessageDialog(
+                                          context: context,
+                                          icon: Icons.warning_rounded,
+                                          iconColor: Colors.orangeAccent,
+                                          titleText:
+                                              AppLocalizations.of(context)!
+                                                  .signOutTitle,
+                                          contentText:
+                                              AppLocalizations.of(context)!
+                                                  .signOutContent,
+                                          buttonText:
+                                              AppLocalizations.of(context)!.yes,
+                                          onPressed: () {
+                                            context
+                                                .read<MyProfileCubit>()
+                                                .userSignOut();
+                                            Navigator.pop(context);
+                                          },
+                                          secondButtonText:
+                                              AppLocalizations.of(context)!.no,
+                                          secondOnPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                        );
+                                      },
+                                      icon: Icons.logout_rounded,
+                                      iconColor: Colors.orangeAccent,
+                                      text:
+                                          AppLocalizations.of(context)!.signOut,
+                                      textColor: Colors.orangeAccent,
+                                    ),
+                                    const SizedBox(height: 16),
+
+                                    actionButton(
+                                      isEditProfileButton: false,
+                                      onTap: () {
+                                        showMessageDialog(
+                                          context: context,
+                                          icon: Icons.warning_rounded,
+                                          iconColor: Colors.red,
+                                          titleText:
+                                              AppLocalizations.of(context)!
+                                                  .deleteAccountTitle,
+                                          contentText:
+                                              AppLocalizations.of(context)!
+                                                  .deleteAccountContent,
+                                          buttonText:
+                                              AppLocalizations.of(context)!
+                                                  .delete,
+                                          onPressed: () {
+                                            context
+                                                .read<MyProfileCubit>()
+                                                .deleteUser();
+                                            Navigator.pop(context);
+                                            Navigator.pushReplacementNamed(
                                               context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const EditProfileScreen(),
-                                              ),
-                                            );
-                                            if (result != null) {
-                                              myProfileCubit
-                                                  .getUserPicAndName();
-                                              userHomescreenCubit
-                                                  .getUserProfilePic();
-                                            }
-                                          },
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                          child: Center(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                const Icon(Icons.edit_rounded,
-                                                    color: Colors.white),
-                                                const SizedBox(width: 8),
-                                                Text(
-                                                  AppLocalizations.of(context)!
-                                                      .editAccount,
-                                                  style: GoogleFonts.poppins(
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Container(
-                                      width: double.infinity,
-                                      height: 56,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(16),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black
-                                                .withAlpha((0.1 * 255).round()),
-                                            blurRadius: 20,
-                                            offset: const Offset(0, 10),
-                                          ),
-                                        ],
-                                      ),
-                                      child: Material(
-                                        color: Colors.transparent,
-                                        child: InkWell(
-                                          onTap: () {
-                                            showMessageDialog(
-                                              context: context,
-                                              icon: Icons.warning_rounded,
-                                              iconColor: Colors.orangeAccent,
-                                              titleText:
-                                                  AppLocalizations.of(context)!
-                                                      .signOutTitle,
-                                              contentText:
-                                                  AppLocalizations.of(context)!
-                                                      .signOutContent,
-                                              buttonText:
-                                                  AppLocalizations.of(context)!
-                                                      .yes,
-                                              onPressed: () {
-                                                context
-                                                    .read<MyProfileCubit>()
-                                                    .userSignOut();
-                                                Navigator.pop(context);
-                                              },
-                                              secondButtonText:
-                                                  AppLocalizations.of(context)!
-                                                      .no,
-                                              secondOnPressed: () {
-                                                Navigator.pop(context);
-                                              },
+                                              loginPageRoute,
                                             );
                                           },
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                          child: Center(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                const Icon(Icons.logout_rounded,
-                                                    color: Colors.orangeAccent),
-                                                const SizedBox(width: 8),
-                                                Text(
-                                                  AppLocalizations.of(context)!
-                                                      .signOut,
-                                                  style: GoogleFonts.poppins(
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.orangeAccent,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Container(
-                                      width: double.infinity,
-                                      height: 56,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(16),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black
-                                                .withAlpha((0.1 * 255).round()),
-                                            blurRadius: 20,
-                                            offset: const Offset(0, 10),
-                                          ),
-                                        ],
-                                      ),
-                                      child: Material(
-                                        color: Colors.transparent,
-                                        child: InkWell(
-                                          onTap: () {
-                                            showMessageDialog(
-                                              context: context,
-                                              icon: Icons.warning_rounded,
-                                              iconColor: Colors.red,
-                                              titleText:
-                                                  AppLocalizations.of(context)!
-                                                      .deleteAccountTitle,
-                                              contentText:
-                                                  AppLocalizations.of(context)!
-                                                      .deleteAccountContent,
-                                              buttonText:
-                                                  AppLocalizations.of(context)!
-                                                      .delete,
-                                              onPressed: () {
-                                                context
-                                                    .read<MyProfileCubit>()
-                                                    .deleteUser();
-                                                Navigator.pop(context);
-                                                Navigator.pushReplacementNamed(
-                                                  context,
-                                                  loginPageRoute,
-                                                );
-                                              },
-                                              secondButtonText:
-                                                  AppLocalizations.of(context)!
-                                                      .cancel,
-                                              secondOnPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                            );
+                                          secondButtonText:
+                                              AppLocalizations.of(context)!
+                                                  .cancel,
+                                          secondOnPressed: () {
+                                            Navigator.pop(context);
                                           },
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                          child: Center(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                const Icon(Icons.delete_rounded,
-                                                    color: Color(0xFFFF6584)),
-                                                const SizedBox(width: 8),
-                                                Text(
-                                                  AppLocalizations.of(context)!
-                                                      .deleteAccount,
-                                                  style: GoogleFonts.poppins(
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.w600,
-                                                    color:
-                                                        const Color(0xFFFF6584),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
+                                        );
+                                      },
+                                      icon: Icons.delete_forever_rounded,
+                                      iconColor: Colors.redAccent,
+                                      text: AppLocalizations.of(context)!
+                                          .deleteAccount,
+                                      textColor: const Color(0xFFFF6584),
                                     ),
+
                                     const SizedBox(height: 32),
                                   ],
                                 ),

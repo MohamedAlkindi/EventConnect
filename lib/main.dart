@@ -194,7 +194,7 @@ class MainApp extends StatelessWidget {
           create: (context) => EmailConfirmationCubit(),
         ),
         BlocProvider(
-          create: (context) => MyProfileCubit()..getUserPicAndName(),
+          create: (context) => MyProfileCubit()..getUserPic(),
         ),
         BlocProvider(
           create: (context) =>
