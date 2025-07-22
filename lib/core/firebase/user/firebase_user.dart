@@ -8,9 +8,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseUser {
   User? get getUser => FirebaseAuth.instance.currentUser;
-
   String get getUserID => getUser!.uid;
 
+  final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
 
   Future<void> registerUser(
@@ -92,6 +92,44 @@ class FirebaseUser {
       }
     } else {
       throw GenericException("This user is invalid");
+    }
+  }
+
+  /// Sends a password reset email to the given email address.
+  ///
+  /// Common reasons for not receiving the email:
+  /// - The email address is incorrect or not registered.
+  /// - The email is in the spam/junk folder.
+  /// - There are issues with Firebase configuration (e.g., email template not set, domain not whitelisted).
+  /// - The app is using the wrong Firebase project/environment.
+  /// - The email sending quota is exceeded.
+  ///
+  /// This method throws a [GenericException] for unknown errors.
+  Future<void> sendResetEmail(String email) async {
+    try {
+      if (email.isEmpty) {
+        throw GenericException("Email address cannot be empty.");
+      }
+      // Optionally, validate email format here if needed.
+      await _auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      // Handle specific Firebase errors for better debugging
+      if (e.code == 'user-not-found') {
+        throw GenericException("No user found for that email.");
+      } else if (e.code == 'invalid-email') {
+        throw GenericException("The email address is not valid.");
+      } else if (e.code == 'missing-android-pkg-name' ||
+          e.code == 'missing-continue-uri' ||
+          e.code == 'missing-ios-bundle-id' ||
+          e.code == 'invalid-continue-uri' ||
+          e.code == 'unauthorized-continue-uri') {
+        throw GenericException(
+            "There is a configuration issue with your Firebase project. Please check your Firebase console settings for password reset.");
+      } else {
+        throw GenericException("Firebase error: ${e.message}");
+      }
+    } catch (e) {
+      throw GenericException("Error: ${e.toString()}");
     }
   }
 

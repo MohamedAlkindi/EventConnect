@@ -2,17 +2,18 @@ import 'package:event_connect/core/exceptions/firebase_exceptions/firebase_excep
 import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
 import 'package:event_connect/core/exceptions_messages/error_codes.dart';
 import 'package:event_connect/core/exceptions_messages/messages.dart';
+import 'package:event_connect/core/firebase/user/firebase_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebasePasswordReset {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final _user = FirebaseUser();
 
   Future<void> sendPasswordResetEmail(String email) async {
     if (email.isEmpty) {
       throw EmptyFieldException(message: ExceptionMessages.emptyFieldMessage);
     }
     try {
-      await _auth.sendPasswordResetEmail(email: email);
+      await _user.sendResetEmail(email);
     } on FirebaseAuthException catch (e) {
       if (e.code == ErrorCodes.userNotFoundErrorCode) {
         throw FirebaseCredentialsExceptions(
@@ -26,7 +27,7 @@ class FirebasePasswordReset {
       }
     } catch (e) {
       throw GenericException(
-        ExceptionMessages.genericExceptionMessage,
+        e.toString(),
       );
     }
   }
