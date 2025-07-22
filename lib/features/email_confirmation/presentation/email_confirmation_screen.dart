@@ -1,5 +1,6 @@
 import 'package:event_connect/core/utils/loading_dialog.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
+import 'package:event_connect/core/widgets/app_background.dart';
 import 'package:event_connect/features/email_confirmation/presentation/cubit/email_confirmation_cubit.dart';
 import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
@@ -23,19 +24,7 @@ class _EmailConfirmationScreen extends State<EmailConfirmationScreen> {
       body: Stack(
         children: [
           // Gradient background (glossy effect)
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Color(0xFFe0e7ff),
-                  Color(0xFFfceabb),
-                  Color(0xFFf8b6b8)
-                ],
-              ),
-            ),
-          ),
+          appBackgroundColors(),
           BlocListener<EmailConfirmationCubit, EmailConfirmationState>(
             listener: (context, state) {
               if (state is LoadingState) {
@@ -70,7 +59,9 @@ class _EmailConfirmationScreen extends State<EmailConfirmationScreen> {
                 state.isDataCompleted
                     ? cubit.showUserHomescreen
                     : Navigator.pushReplacementNamed(
-                        context, completeProfileInfoScreenRoute);
+                        context,
+                        completeProfileInfoScreenRoute,
+                      );
               } else if (state is UserHomescreenState) {
                 Navigator.pushReplacementNamed(
                   context,
@@ -191,7 +182,9 @@ class _EmailConfirmationScreen extends State<EmailConfirmationScreen> {
                             Text(
                               AppLocalizations.of(context)!.resendEmail,
                               style: GoogleFonts.poppins(
-                                  color: Colors.black, fontSize: 18),
+                                color: Colors.black,
+                                fontSize: 18,
+                              ),
                               overflow: TextOverflow.ellipsis,
                             ),
                             Flexible(
@@ -219,7 +212,9 @@ class _EmailConfirmationScreen extends State<EmailConfirmationScreen> {
                               child: Text(
                                 AppLocalizations.of(context)!.wrongEmail,
                                 style: GoogleFonts.poppins(
-                                    color: Colors.black, fontSize: 18),
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                ),
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),

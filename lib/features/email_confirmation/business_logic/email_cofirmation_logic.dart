@@ -19,4 +19,25 @@ class EmailCofirmationLogic {
       throw GenericException("Error: ${e.toString()}");
     }
   }
+
+  // Based on role..
+  Future<String> getUserRole() async {
+    try {
+      // More maintainable.
+      final role = await _user.getUserRole();
+
+      return role;
+    } catch (e) {
+      throw GenericException("Error ${e.toString()}");
+    }
+  }
+
+  Future<bool> isDataCompleted() async {
+    try {
+      bool isCompeleted = await _user.isUserDataCompleted();
+      return isCompeleted;
+    } catch (e) {
+      throw GenericException("Error ${e.toString()}");
+    }
+  }
 }
