@@ -24,7 +24,6 @@ class CompleteProfileBl {
         await _imageCompression.compressAndReplaceImage(imageFile);
     try {
       // Create a map that contains the data for photo and location.
-      // TODO: Try and later remove _userID.
       final user = UserModel(
         userID: _userID,
         location: city,

@@ -26,21 +26,9 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
         messageId = e.message;
       } else if (e is GenericException) {
         messageId = e.message;
-      } else if (e is PasswordsDontMatchException) {
-        messageId = e.message;
-      } else if (e is NotUniqueUsername) {
-        messageId = e.message;
-      } else if (e is ShortUsername) {
-        messageId = e.message;
-      } else if (e is FirebaseWeakPass) {
-        messageId = e.message;
-      } else if (e is FirebaseEmailInUse) {
-        messageId = e.message;
       } else if (e is FirebaseInvalidEmail) {
         messageId = e.message;
       } else if (e is FirebaseUnknownException) {
-        messageId = e.message;
-      } else if (e is FirebaseCredentialsExceptions) {
         messageId = e.message;
       } else if (e is FirebaseNoConnectionException) {
         messageId = e.message;

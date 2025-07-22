@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:event_connect/core/firebase/user/firebase_user.dart';
+import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
+import 'package:event_connect/core/exceptions/firebase_exceptions/firebase_exceptions.dart';
+import 'package:event_connect/core/exceptions_messages/messages.dart';
 import 'package:event_connect/features/login/business_logic/firebase_login.dart';
 import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +10,7 @@ part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginInitial());
-  final _login = FirebaseLogin();
-  final _user = FirebaseUser();
+  final _loginLogic = FirebaseLogin();
 
   Future<void> firebaseLogin({
     required TextEditingController emailController,
@@ -17,13 +18,29 @@ class LoginCubit extends Cubit<LoginState> {
   }) async {
     try {
       emit(LoginLoading());
-      await _login.loginWithEmailAndPassword(
+      await _loginLogic.loginWithEmailAndPassword(
         emailController.text,
         passwordController.text,
       );
       emit(LoginSuccessful());
     } catch (e) {
-      emit(LoginError(message: e.toString()));
+      String messageId = ExceptionMessages.genericExceptionMessage;
+
+      // Check for known custom exceptions with a message property
+      if (e is EmptyFieldException) {
+        messageId = e.message;
+      } else if (e is FirebaseCredentialsExceptions) {
+        messageId = e.message;
+      } else if (e is GenericException) {
+        messageId = e.message;
+      } else if (e is FirebaseInvalidEmail) {
+        messageId = e.message;
+      } else if (e is FirebaseUnknownException) {
+        messageId = e.message;
+      } else if (e is FirebaseNoConnectionException) {
+        messageId = e.message;
+      }
+      emit(LoginError(message: messageId));
     }
   }
 
@@ -33,7 +50,7 @@ class LoginCubit extends Cubit<LoginState> {
 
   Future<void> isEmailConfirmed() async {
     try {
-      emit(EmailConfirmed(isConfirmed: await _login.isEmailConfirmed()));
+      emit(EmailConfirmed(isConfirmed: await _loginLogic.isEmailConfirmed()));
     } catch (e) {
       emit(LoginError(message: e.toString()));
     }
@@ -41,7 +58,8 @@ class LoginCubit extends Cubit<LoginState> {
 
   void isDataCompleted() async {
     try {
-      emit(DataCompleted(isDataCompleted: await _user.isUserDataCompleted()));
+      bool isDataCompleted = await _loginLogic.isDataCompleted();
+      emit(DataCompleted(isDataCompleted: isDataCompleted));
     } catch (e) {
       emit(LoginError(message: e.toString()));
     }
@@ -49,7 +67,7 @@ class LoginCubit extends Cubit<LoginState> {
 
   // Based on role..
   void showUserHomescreen() async {
-    final role = await _user.getUserRole();
+    final role = await _loginLogic.getUserRole();
 
     if (role == "Attendee") {
       emit(UserHomescreenState(

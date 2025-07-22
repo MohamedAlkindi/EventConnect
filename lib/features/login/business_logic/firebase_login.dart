@@ -12,7 +12,7 @@ class FirebaseLogin {
       try {
         await _user.signInUser(email: email, password: password);
       } catch (e) {
-        throw GenericException("Error: ${e.toString()}");
+        throw GenericException(e.toString());
       }
     } else {
       throw EmptyFieldException(
@@ -26,6 +26,26 @@ class FirebaseLogin {
       return await _user.isVerified;
     } catch (e) {
       throw GenericException("Error: ${e.toString()}");
+    }
+  }
+
+  Future<bool> isDataCompleted() async {
+    try {
+      bool isDataCompleted = await _user.isUserDataCompleted();
+      return isDataCompleted;
+    } catch (e) {
+      throw GenericException("Error ${e.toString()}");
+    }
+  }
+
+  Future<String> getUserRole() async {
+    try {
+      // More maintainable.
+      final role = await _user.getUserRole();
+
+      return role;
+    } catch (e) {
+      throw GenericException("Error ${e.toString()}");
     }
   }
 }
