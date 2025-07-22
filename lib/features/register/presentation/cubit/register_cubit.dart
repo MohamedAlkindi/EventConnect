@@ -1,4 +1,7 @@
 import 'package:bloc/bloc.dart';
+import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
+import 'package:event_connect/core/exceptions/firebase_exceptions/firebase_exceptions.dart';
+import 'package:event_connect/core/exceptions_messages/messages.dart';
 import 'package:event_connect/features/register/business_logic/firebase_register.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +29,27 @@ class RegisterCubit extends Cubit<RegisterState> {
       );
       emit(RegisterSuccessful());
     } catch (e) {
-      emit(RegisterErrorState(message: e.toString()));
+      String messageId = ExceptionMessages.genericExceptionMessage;
+
+      // Check for known custom exceptions with a message property
+      if (e is EmptyFieldException) {
+        messageId = e.message;
+      } else if (e is FirebaseCredentialsExceptions) {
+        messageId = e.message;
+      } else if (e is FirebaseWeakPass) {
+        messageId = e.message;
+      } else if (e is FirebaseEmailInUse) {
+        messageId = e.message;
+      } else if (e is GenericException) {
+        messageId = e.message;
+      } else if (e is FirebaseInvalidEmail) {
+        messageId = e.message;
+      } else if (e is FirebaseUnknownException) {
+        messageId = e.message;
+      } else if (e is FirebaseNoConnectionException) {
+        messageId = e.message;
+      }
+      emit(RegisterErrorState(message: messageId));
     }
   }
 

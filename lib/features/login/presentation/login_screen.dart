@@ -171,7 +171,7 @@ class _LoginPageState extends State<LoginPage> {
                       );
                     },
                     textButtonText: AppLocalizations.of(context)!.signUp,
-                  )
+                  ),
                 ],
               ),
             ),
