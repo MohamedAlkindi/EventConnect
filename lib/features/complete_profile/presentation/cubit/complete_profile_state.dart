@@ -36,7 +36,7 @@ final class SelectedRole extends CompleteProfileState {
   SelectedRole({required this.selectedRole});
 }
 
-final class CompleteProfileSuccessul extends CompleteProfileState {}
+final class CompleteProfileSuccessful extends CompleteProfileState {}
 
 final class CompleteProfileError extends CompleteProfileState {
   final String message;

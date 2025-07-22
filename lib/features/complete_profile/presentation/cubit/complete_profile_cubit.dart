@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
+import 'package:event_connect/core/constants/user_cities.dart';
 import 'package:event_connect/core/firebase/user/firebase_user.dart';
 import 'package:event_connect/features/complete_profile/business_logic/complete_profile_bl.dart';
 import 'package:event_connect/features/email_confirmation/business_logic/email_cofirmation_logic.dart';
@@ -16,16 +19,6 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
   final _confirmation = EmailCofirmationLogic();
   final _user = FirebaseUser();
 
-  final List<String> yemeniCities = [
-    'Hadramout',
-    "San'aa",
-    'Aden',
-    'Taiz',
-    'Ibb',
-    'Al Hudaydah',
-    'Marib',
-    'Al Mukalla'
-  ];
   // String defaultCity = "Al Mukalla";
   String selectedCity = "Al Mukalla";
 
@@ -63,15 +56,24 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
     }
   }
 
+  ImageProvider getImage({required CompleteProfileCubit cubit}) {
+    if (cubit.imagePath.startsWith("assets/")) {
+      return AssetImage(cubit.imagePath) as ImageProvider;
+    }
+    return FileImage(
+      File(cubit.imagePath),
+    ) as ImageProvider;
+  }
+
   Future<void> completeProfile() async {
     emit(CompleteProfileLoading());
     try {
       await _bl.finalizeProfile(
-        imageFile: XFile(imagePath),
+        imageFile: imagePath,
         city: selectedCity,
         role: selectedRole,
       );
-      emit(CompleteProfileSuccessul());
+      emit(CompleteProfileSuccessful());
     } catch (e) {
       emit(CompleteProfileError(message: e.toString()));
     }
@@ -101,16 +103,6 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
 
   // Helper to get localized city name
   String getCityDisplay(String value, AppLocalizations l10n) {
-    const cities = [
-      'Hadramout',
-      "San'aa",
-      'Aden',
-      'Taiz',
-      'Ibb',
-      'Al Hudaydah',
-      'Marib',
-      'Al Mukalla',
-    ];
     final idx = cities.indexOf(value);
     final localized = [
       l10n.cityHadramout,

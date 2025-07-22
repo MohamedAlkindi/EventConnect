@@ -50,7 +50,7 @@ const String registerPageRoute = '/RegisterPage';
 const String forgotPasswordPageRoute = '/ForgotPasswordScreen';
 const String resetPasswordConfirmationPageRoute =
     '/ResetPasswordConfirmationPage';
-const String completeProfileInfoScreenRoute = '/CompleteProfileInfoScreen';
+const String completeProfileInfoScreenRoute = '/CompleteProfileScreenView';
 const String attendeeHomeScreenPageRoute = '/UserHomeScreen';
 const String allEventsRoute = '/AllEventsScreen';
 const String myEventsRoute = '/MyEventsScreen';
@@ -64,23 +64,23 @@ late Widget startUpWidget;
 Future<Widget> whichWidget() async {
   final user = FirebaseUser();
 
-  if (user.getUser != null) {
-    if (await user.isVerified) {
-      if (await user.isUserDataCompleted() == true) {
-        if (await user.getUserRole() == "Attendee") {
-          return UserHomeScreen();
-        } else {
-          return ManagerHomescreen();
-        }
-      } else {
-        return CompleteProfileScreen();
-      }
-    } else {
-      return EmailConfirmationScreen();
-    }
-  } else {
+  if (user.getUser == null) {
     return WelcomeScreen();
   }
+  if (!await user.isVerified) {
+    return EmailConfirmationScreen();
+  }
+  if (!await user.isUserDataCompleted()) {
+    return CompleteProfileScreen();
+  }
+  final role = await user.getUserRole();
+  if (role == "Attendee") {
+    return UserHomeScreen();
+  }
+  if (role == "Manager") {
+    return ManagerHomescreen();
+  }
+  return WelcomeScreen();
 }
 
 Future<void> main() async {

@@ -248,11 +248,6 @@ class MyProfileScreenView extends StatelessWidget {
                                             context
                                                 .read<MyProfileCubit>()
                                                 .deleteUser();
-                                            Navigator.pop(context);
-                                            Navigator.pushReplacementNamed(
-                                              context,
-                                              loginPageRoute,
-                                            );
                                           },
                                           secondButtonText:
                                               AppLocalizations.of(context)!

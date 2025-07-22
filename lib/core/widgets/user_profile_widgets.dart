@@ -233,3 +233,31 @@ Widget headerText({
     ),
   );
 }
+
+Widget radioTileWidget({
+  required bool isSelected,
+  required String valueText,
+  required String groupValue,
+  required void Function(String?)? onChanged,
+  required String buttonTitle,
+}) {
+  return RadioListTile<String>(
+    selected: isSelected,
+    value: valueText,
+    groupValue: groupValue,
+    onChanged: onChanged,
+    title: Text(
+      buttonTitle,
+      style: GoogleFonts.poppins(
+        fontSize: 15,
+        color: Colors.black.withAlpha((0.8 * 255).round()),
+      ),
+      overflow: TextOverflow.clip,
+    ),
+    activeColor: const Color(0xFF6C63FF),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(12),
+    ),
+    contentPadding: EdgeInsets.zero,
+  );
+}
