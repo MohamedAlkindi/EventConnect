@@ -15,7 +15,7 @@ class EventRepo {
           .collection(EventsCollection.eventCollectionName)
           .get();
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 
@@ -29,7 +29,7 @@ class EventRepo {
           )
           .get();
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 
@@ -43,7 +43,7 @@ class EventRepo {
           )
           .get();
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 }

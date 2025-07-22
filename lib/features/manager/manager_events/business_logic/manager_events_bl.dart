@@ -34,7 +34,7 @@ class ManagerEventsBl {
       await _imageCaching.downloadAndCacheImages(managerEvents);
       return managerEvents;
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 
@@ -42,7 +42,7 @@ class ManagerEventsBl {
     try {
       await _dataAccess.deleteManagerEvent(documentID);
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 
@@ -81,7 +81,7 @@ class ManagerEventsBl {
       eventModel.eventID = modelId;
       return eventModel;
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 
@@ -125,7 +125,7 @@ class ManagerEventsBl {
       await _dataAccess.editEvent(updatedEvent);
       return updatedEvent;
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 }

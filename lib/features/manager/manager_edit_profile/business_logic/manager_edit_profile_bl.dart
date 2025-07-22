@@ -36,7 +36,7 @@ class ManagerEditProfileBL {
       );
       await _dataAccess.updateProfileDetails(updatedInfo);
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 
@@ -44,7 +44,7 @@ class ManagerEditProfileBL {
     try {
       return await _dataAccess.getManagerDetails();
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 }

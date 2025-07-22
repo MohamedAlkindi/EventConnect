@@ -37,7 +37,7 @@ class EditProfileBL {
       );
       await _dataAccess.updateProfileDetails(updatedInfo);
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 
@@ -45,7 +45,7 @@ class EditProfileBL {
     try {
       return await _dataAccess.getUserDetails();
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 }

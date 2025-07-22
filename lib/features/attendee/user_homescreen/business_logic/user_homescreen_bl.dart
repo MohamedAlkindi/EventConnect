@@ -11,7 +11,7 @@ class UserHomescreenBl {
       String imageUrl = await _dataAccess.getUserProfilePic();
       return await _imageCaching.downloadAndCacheImageByUrl(imageUrl);
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 }

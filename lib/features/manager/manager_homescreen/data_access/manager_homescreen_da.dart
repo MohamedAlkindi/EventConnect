@@ -20,7 +20,7 @@ class ManagerHomescreenDa {
 
       return profilePic;
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 }

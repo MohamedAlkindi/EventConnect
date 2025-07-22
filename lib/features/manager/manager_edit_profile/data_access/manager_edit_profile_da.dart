@@ -15,7 +15,7 @@ class ManagerEditProfileDa {
           .doc(_user.getUserID)
           .update(model.toJson());
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 
@@ -29,7 +29,7 @@ class ManagerEditProfileDa {
       var userData = UserModel.fromJson(result.data()!);
       return userData;
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 }

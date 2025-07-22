@@ -20,7 +20,7 @@ class AllEventsDa {
       });
       await incrementAttendees(eventDocumentID);
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 

@@ -18,7 +18,7 @@ class MyEventsDa {
           .delete();
       await decrementAttendees(documentID);
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 

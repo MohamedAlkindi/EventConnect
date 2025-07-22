@@ -25,7 +25,7 @@ class FirebaseLogin {
     try {
       return await _user.isVerified;
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 

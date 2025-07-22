@@ -21,7 +21,7 @@ class MyProfileDa {
 
       return profilePic ?? '';
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 
@@ -34,7 +34,7 @@ class MyProfileDa {
           .doc(_user.getUserID)
           .delete();
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 }

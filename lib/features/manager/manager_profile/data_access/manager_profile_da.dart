@@ -19,7 +19,7 @@ class ManagerProfileDa {
 
       return UserModel.fromJson(data!);
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 
@@ -32,7 +32,7 @@ class ManagerProfileDa {
           .doc(_user.getUserID)
           .delete();
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 }

@@ -8,7 +8,7 @@ class EmailCofirmationLogic {
     try {
       await _user.sendVerificationEmail();
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 
@@ -16,7 +16,7 @@ class EmailCofirmationLogic {
     try {
       return await _user.isVerified;
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 

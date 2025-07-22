@@ -18,7 +18,7 @@ class EditProfileDa {
       var userData = UserModel.fromJson(result.data()!);
       return userData;
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 
@@ -29,7 +29,7 @@ class EditProfileDa {
           .doc(model.userID)
           .update(model.toJson());
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 }

@@ -13,7 +13,7 @@ class ManagerEventsDa {
           .doc(documentID)
           .delete();
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 
@@ -24,7 +24,7 @@ class ManagerEventsDa {
           .add(eventModel.toJson());
       return docRef.id;
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 
@@ -35,7 +35,7 @@ class ManagerEventsDa {
           .doc(eventModel.eventID)
           .update(eventModel.toUpdateJson());
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 }

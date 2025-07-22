@@ -75,7 +75,7 @@ class FirebaseUser {
       try {
         await getUser!.sendEmailVerification();
       } catch (e) {
-        throw GenericException("Error: ${e.toString()}");
+        throw GenericException(e.toString());
       }
     } else {
       throw GenericException("This user is invalid");
@@ -88,7 +88,7 @@ class FirebaseUser {
         await getUser!.reload();
         return getUser!.emailVerified;
       } catch (e) {
-        throw GenericException("Error: ${e.toString()}");
+        throw GenericException(e.toString());
       }
     } else {
       throw GenericException("This user is invalid");
@@ -129,7 +129,7 @@ class FirebaseUser {
         throw GenericException("Firebase error: ${e.message}");
       }
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 
@@ -142,7 +142,7 @@ class FirebaseUser {
 
       return result.exists ? true : false;
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 
@@ -155,7 +155,7 @@ class FirebaseUser {
 
       return document.data()?["role"] as String;
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 

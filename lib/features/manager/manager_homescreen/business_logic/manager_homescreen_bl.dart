@@ -11,7 +11,7 @@ class ManagerHomescreenBl {
       String imageUrl = await _dataAccess.getManagerProfilePic();
       return await _imageCaching.downloadAndCacheImageByUrl(imageUrl);
     } catch (e) {
-      throw GenericException("Error: ${e.toString()}");
+      throw GenericException(e.toString());
     }
   }
 }

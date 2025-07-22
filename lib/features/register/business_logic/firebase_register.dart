@@ -20,7 +20,7 @@ class FirebaseRegister {
         await user.registerUser(email: email, password: password);
         await user.sendVerificationEmail();
       } catch (e) {
-        throw GenericException("Error: ${e.toString()}");
+        throw GenericException(e.toString());
       }
     } else if (password != repeatPassword) {
       throw PasswordsDontMatchException(
