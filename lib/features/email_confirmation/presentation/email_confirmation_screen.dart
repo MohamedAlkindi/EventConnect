@@ -1,6 +1,6 @@
 import 'package:event_connect/core/utils/loading_dialog.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
-import 'package:event_connect/core/widgets/app_background.dart';
+import 'package:event_connect/core/widgets/shared/app_background.dart';
 import 'package:event_connect/features/email_confirmation/presentation/cubit/email_confirmation_cubit.dart';
 import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';

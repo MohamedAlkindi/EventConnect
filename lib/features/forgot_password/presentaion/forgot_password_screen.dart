@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:event_connect/core/utils/loading_dialog.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
-import 'package:event_connect/core/widgets/app_background.dart';
+import 'package:event_connect/core/widgets/shared/app_background.dart';
 import 'package:event_connect/features/forgot_password/presentaion/cubit/reset_password_cubit.dart';
 import 'package:event_connect/features/forgot_password/presentaion/widgets.dart';
 import 'package:event_connect/features/register/presentation/widget/text_fields.dart';

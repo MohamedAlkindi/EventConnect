@@ -1,4 +1,4 @@
-import 'package:event_connect/core/widgets/app_background.dart';
+import 'package:event_connect/core/widgets/shared/app_background.dart';
 import 'package:event_connect/features/attendee/all_events/presentation/all_events_screen.dart';
 import 'package:event_connect/features/attendee/all_events/presentation/cubit/all_events_cubit.dart';
 import 'package:event_connect/features/attendee/my_events/presentation/cubit/my_events_cubit.dart';
@@ -9,8 +9,8 @@ import 'package:event_connect/features/attendee/user_homescreen/presentation/cub
 import 'package:event_connect/features/attendee/user_homescreen/presentation/widgets/bottom_nav_bar_items.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class UserHomeScreen extends StatelessWidget {
   const UserHomeScreen({super.key});

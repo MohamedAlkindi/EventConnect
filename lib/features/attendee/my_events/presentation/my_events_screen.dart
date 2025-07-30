@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
-import 'package:event_connect/core/widgets/app_background.dart';
-import 'package:event_connect/core/widgets/user_events_pages_widgets.dart';
+import 'package:event_connect/core/widgets/shared/app_background.dart';
+import 'package:event_connect/core/widgets/attendee_widgets/user_events_pages_widgets.dart';
 import 'package:event_connect/features/attendee/all_events/presentation/cubit/all_events_cubit.dart';
 import 'package:event_connect/features/attendee/my_events/presentation/cubit/my_events_cubit.dart';
 import 'package:flutter/material.dart';

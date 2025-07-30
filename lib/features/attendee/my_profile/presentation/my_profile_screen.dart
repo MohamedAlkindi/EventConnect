@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:event_connect/core/utils/message_dialogs.dart';
-import 'package:event_connect/core/widgets/app_background.dart';
+import 'package:event_connect/core/widgets/shared/app_background.dart';
 import 'package:event_connect/features/attendee/edit_profile/presentation/edit_profile_screen.dart';
 import 'package:event_connect/features/attendee/my_profile/presentation/cubit/my_profile_cubit.dart';
 import 'package:event_connect/features/attendee/my_profile/presentation/widgets/screen_buttons.dart';

@@ -1,7 +1,7 @@
 import 'package:event_connect/core/utils/loading_dialog.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
-import 'package:event_connect/core/widgets/app_background.dart';
-import 'package:event_connect/core/widgets/user_profile_widgets.dart';
+import 'package:event_connect/core/widgets/shared/app_background.dart';
+import 'package:event_connect/core/widgets/attendee_widgets/user_profile_widgets.dart';
 import 'package:event_connect/features/attendee/edit_profile/presentation/cubit/edit_profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
