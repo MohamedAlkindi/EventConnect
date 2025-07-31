@@ -1,9 +1,15 @@
+import 'dart:io';
+import 'dart:ui';
+
 import 'package:bloc/bloc.dart';
 import 'package:event_connect/core/constants/event_categories.dart';
+import 'package:event_connect/core/constants/gender_restrictions.dart';
+import 'package:event_connect/core/constants/user_cities.dart';
 import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
 import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/features/manager/manager_events/business_logic/manager_events_bl.dart';
 import 'package:event_connect/features/manager/manager_events/presentation/cubit/manager_events_cubit.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
@@ -23,16 +29,6 @@ class AddEventCubit extends Cubit<AddEventState> {
     }
   }
 
-  final List<String> yemeniCities = [
-    'Hadramout',
-    "San'aa",
-    'Aden',
-    'Taiz',
-    'Ibb',
-    'Al Hudaydah',
-    'Marib',
-    'Al Mukalla'
-  ];
   String selectedLocation = 'Al Mukalla';
   void selectLocation(String? location) {
     if (location != null) {
@@ -41,11 +37,6 @@ class AddEventCubit extends Cubit<AddEventState> {
     }
   }
 
-  final List<String> genderRestrictions = [
-    'No Restrictions',
-    'Male Only',
-    'Female Only'
-  ];
   String selectedGenderRestriction = 'No Restrictions';
   void selectGenderRestriction(String? genderRestriction) {
     if (genderRestriction != null) {
@@ -64,6 +55,28 @@ class AddEventCubit extends Cubit<AddEventState> {
       eventImage = image;
       emit(SelectedImage(selectedImagePath: image.path));
     }
+  }
+
+  Widget getImageForClipRRect() {
+    if (eventImage != null) {
+      return Image.file(
+        File(eventImage!.path),
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: double.infinity,
+      );
+    }
+
+    return Container(
+      color: const Color.fromARGB(255, 230, 232, 241),
+      child: const Center(
+        child: Icon(
+          Icons.event,
+          size: 64,
+          color: Color(0xFF6C63FF),
+        ),
+      ),
+    );
   }
 
   Future<void> addEventInfo({
@@ -105,7 +118,7 @@ class AddEventCubit extends Cubit<AddEventState> {
         l10n.categoryEducation,
       ];
   String getCategoryDisplay(String value, AppLocalizations l10n) {
-    final idx = categories.indexOf(value);
+    final idx = eventCategories.indexOf(value);
     return idx >= 0 ? getLocalizedCategories(l10n)[idx] : value;
   }
 
@@ -120,7 +133,7 @@ class AddEventCubit extends Cubit<AddEventState> {
         l10n.cityMukalla,
       ];
   String getCityDisplay(String value, AppLocalizations l10n) {
-    final idx = yemeniCities.indexOf(value);
+    final idx = cities.indexOf(value);
     return idx >= 0 ? getLocalizedCities(l10n)[idx] : value;
   }
 

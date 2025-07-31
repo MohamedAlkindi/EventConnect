@@ -1,10 +1,14 @@
-const List<String> categories = [
-  'All',
+const List<String> eventCategories = [
   'Music',
   'Art',
   'Sports',
   'Food',
   'Business',
   'Technology',
-  'Education'
+  'Education',
+];
+
+const List<String> attendeeEventCategories = [
+  'All',
+  ...eventCategories,
 ];

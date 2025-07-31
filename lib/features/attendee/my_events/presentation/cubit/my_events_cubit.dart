@@ -78,7 +78,7 @@ class MyEventsCubit extends Cubit<MyEventsState> {
 
 // TODO: New Feature: Add sorting by category for my events later.
   static String getCategoryDisplay(String value, AppLocalizations l10n) {
-    final idx = categories.indexOf(value);
+    final idx = attendeeEventCategories.indexOf(value);
     final localized = [
       l10n.categoryMusic,
       l10n.categoryArt,

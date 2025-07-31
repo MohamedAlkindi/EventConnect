@@ -36,9 +36,9 @@ class AllEventsCubit extends Cubit<AllEventsState> {
   String selectedCategory = 'All';
 
   void selectCategory(int index) {
-    selectedCategory = categories[index];
-    emit(CategorySelected(category: categories[index]));
-    getEventsByCategory(category: categories[index]);
+    selectedCategory = attendeeEventCategories[index];
+    emit(CategorySelected(category: attendeeEventCategories[index]));
+    getEventsByCategory(category: attendeeEventCategories[index]);
   }
 
   // Show all events.
@@ -108,7 +108,7 @@ class AllEventsCubit extends Cubit<AllEventsState> {
 
   static String getCategoryDisplay(String value, AppLocalizations l10n) {
     // if (value == 'All') return l10n.allCategories;
-    final idx = categories.indexOf(value);
+    final idx = attendeeEventCategories.indexOf(value);
     final localized = [
       l10n.allCategories,
       l10n.categoryMusic,

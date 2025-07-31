@@ -86,10 +86,10 @@ class AllEventsScreenView extends StatelessWidget {
                           return ListView.builder(
                             scrollDirection: Axis.horizontal,
                             padding: const EdgeInsets.symmetric(horizontal: 20),
-                            itemCount: categories.length,
+                            itemCount: attendeeEventCategories.length,
                             itemBuilder: (context, index) {
-                              final isSelected =
-                                  cubit.selectedCategory == categories[index];
+                              final isSelected = cubit.selectedCategory ==
+                                  attendeeEventCategories[index];
                               return Padding(
                                 padding: const EdgeInsets.only(right: 12),
                                 child: AnimatedContainer(
@@ -120,7 +120,7 @@ class AllEventsScreenView extends StatelessWidget {
                                     child: Center(
                                       child: Text(
                                         AllEventsCubit.getCategoryDisplay(
-                                          categories[index],
+                                          attendeeEventCategories[index],
                                           AppLocalizations.of(context)!,
                                         ),
                                         style: GoogleFonts.poppins(

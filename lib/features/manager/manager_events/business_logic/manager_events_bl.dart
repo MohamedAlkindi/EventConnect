@@ -61,19 +61,21 @@ class ManagerEventsBl {
       // Prepare the event model to add it to the firestore.
       var eventModel = EventModel(
         // EventID is null because we havent yet added it so we can use it in the model.
-        null,
+        eventID: null,
+        // Picture is also null
         name: name,
         category: category,
-        picture: await _storageService.addAndReturnImageUrl(
-            imagePath: imagePath,
-            eventName: name,
-            userID: _userID,
-            isEventPic: true),
+        pictureUrl: await _storageService.addAndReturnImageUrl(
+          imagePath: imagePath,
+          eventName: name,
+          userID: _userID,
+          isEventPic: true,
+        ),
         location: location,
         dateAndTime: dateAndTime,
         description: description,
         genderRestriction: genderRestriction,
-        managerID: _userID,
+        managerID: _userID, cachedPicturePath: null,
       );
 
       // get the document id and put it in the event model, and return it,
@@ -87,29 +89,30 @@ class ManagerEventsBl {
   }
 
   // similar work to add event, but this time the docID is already here.
-  Future<EventModel> editEvent(
-      {required String docID,
-      required String name,
-      required String category,
-      required String supabaseImageUrl,
-      required String? picturePath,
-      required String location,
-      required String dateAndTime,
-      required String description,
-      required String genderRestriction}) async {
+  Future<EventModel> editEvent({
+    required String docID,
+    required String name,
+    required String category,
+    required String supabaseImageUrl,
+    required String? picturePath,
+    required String location,
+    required String dateAndTime,
+    required String description,
+    required String genderRestriction,
+  }) async {
     try {
       final String? imagePath = picturePath != null
           ? await _imageCompression.compressAndReplaceImage(picturePath)
           : null;
       var updatedEvent = EventModel(
-        docID,
+        eventID: docID,
         name: name,
         category: category,
         // check if the picturePath sent from the cubit is not null
         // if it does then the user didnt change the picture so save the supabaseImageUrl in firestore.
         // otherwise the user has changed the picture.
         // so send the path and supabase link to update and get the url again.
-        picture: imagePath == null
+        pictureUrl: imagePath == null
             ? supabaseImageUrl
             : await _storageService.updateAndReturnImageUrl(
                 eventImageUrl: supabaseImageUrl,
@@ -121,7 +124,7 @@ class ManagerEventsBl {
         dateAndTime: dateAndTime,
         description: description,
         genderRestriction: genderRestriction,
-        managerID: _userID,
+        managerID: _userID, cachedPicturePath: imagePath,
       );
       await _dataAccess.editEvent(updatedEvent);
       return updatedEvent;

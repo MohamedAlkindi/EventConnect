@@ -3,7 +3,8 @@ class EventsCollection {
   static String get eventIDDocumentName => 'eventID';
   static String get eventNameDocumentName => 'name';
   static String get eventCategoryDocumentName => 'category';
-  static String get eventPictureDocumentName => 'picture';
+  static String get eventCachedPicturePathDocumentName => 'cachedPicturePath';
+  static String get eventPictureLinkDocumentName => 'pictureLink';
   static String get eventLocationDocumentName => 'location';
   static String get eventDateTimeDocumentName => 'dateAndTime';
   static String get eventDescriptionDocumentName => 'description';
