@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
-import 'package:event_connect/core/widgets/attendee_widgets/event_elements_widget.dart';
+import 'package:event_connect/core/widgets/shared/event_elements_widget.dart';
 import 'package:event_connect/features/manager/manager_events/presentation/cubit/add_event_cubit.dart';
 import 'package:event_connect/features/manager/manager_events/presentation/cubit/manager_events_cubit.dart';
 import 'package:event_connect/features/manager/manager_events/presentation/edit_event_screen.dart';
