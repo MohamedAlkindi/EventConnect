@@ -53,7 +53,10 @@ class ImageStorageService {
           fileOptions: const FileOptions(
             upsert: true,
           ));
-      return storage.from('event-pic-storage').getPublicUrl(path);
+      // Just return the same url, as it'll not be changed
+      // The only thing will be changed is the content not the url path.
+      return eventImageUrl;
+      // return storage.from('event-pic-storage').getPublicUrl(path);
     } else {
       if (userID != null) {
         final path = 'users/$userID';

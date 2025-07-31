@@ -11,7 +11,7 @@ import 'package:event_connect/shared/image_caching_setup.dart';
 class ManagerEventsBl {
   final _dataAccess = ManagerEventsDa();
   final _eventRepo = EventRepo();
-  final _user = FirebaseUser();
+  final _userID = FirebaseUser().getUserID;
   final _imageCompression = ImageCompressionService();
   final _imageCaching = ImageCachingSetup();
   final _storageService = ImageStorageService();
@@ -60,19 +60,20 @@ class ManagerEventsBl {
           await _imageCompression.compressAndReplaceImage(picturePath);
       // Prepare the event model to add it to the firestore.
       var eventModel = EventModel(
+        // EventID is null because we havent yet added it so we can use it in the model.
         null,
         name: name,
         category: category,
         picture: await _storageService.addAndReturnImageUrl(
             imagePath: imagePath,
             eventName: name,
-            userID: _user.getUserID,
+            userID: _userID,
             isEventPic: true),
         location: location,
         dateAndTime: dateAndTime,
         description: description,
         genderRestriction: genderRestriction,
-        managerID: _user.getUserID,
+        managerID: _userID,
       );
 
       // get the document id and put it in the event model, and return it,
@@ -106,7 +107,7 @@ class ManagerEventsBl {
         category: category,
         // check if the picturePath sent from the cubit is not null
         // if it does then the user didnt change the picture so save the supabaseImageUrl in firestore.
-        // otherwise if it doesnt then the user changed the picture.
+        // otherwise the user has changed the picture.
         // so send the path and supabase link to update and get the url again.
         picture: imagePath == null
             ? supabaseImageUrl
@@ -120,7 +121,7 @@ class ManagerEventsBl {
         dateAndTime: dateAndTime,
         description: description,
         genderRestriction: genderRestriction,
-        managerID: _user.getUserID,
+        managerID: _userID,
       );
       await _dataAccess.editEvent(updatedEvent);
       return updatedEvent;

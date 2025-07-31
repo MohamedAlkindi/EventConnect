@@ -105,7 +105,9 @@ class EditEventCubit extends Cubit<EditEventState> {
         l10n.categoryEducation,
       ];
   String getCategoryDisplay(String value, AppLocalizations l10n) {
-    final idx = categories.indexOf(value);
+    // Categories contain 8 elements, the "all" for the user and 7 other cats.
+    // So u -1 from the index to get the right index for the manager's cats.
+    final idx = categories.indexOf(value) - 1;
     return idx >= 0 ? getLocalizedCategories(l10n)[idx] : value;
   }
 

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/core/widgets/shared/app_background.dart';
@@ -51,83 +49,65 @@ class MyEventsScreenView extends StatelessWidget {
               // Modern background with gradient and subtle overlay
               appBackgroundColors(),
               // Main frosted glass content
-              SingleChildScrollView(
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(32),
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-                        child: glossyContainerBackground(
-                          childWidget: Column(
-                            mainAxisSize: MainAxisSize.min,
+              refreshIndicatorWithClip(
+                onRefresh: myEventsCubit.forceRefreshEvents,
+                childWidget: glossyContainerBackground(
+                  childWidget: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      mainAppBar(
+                          context: context,
+                          text: AppLocalizations.of(context)!.myEvents),
+
+                      // TODO: Add the categories here
+
+                      // Events List with modern cards
+                      StreamBuilder<List<EventModel>>(
+                        stream: myEventsCubit.eventsStream,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return waitingCircularIndicator();
+                          } else if (snapshot.hasError) {
+                            return snapshotErrorWidget(error: snapshot.error);
+                          } else if (!snapshot.hasData ||
+                              snapshot.data!.isEmpty) {
+                            return noEventsWidget(
+                              context: context,
+                              onPressed: () {
+                                myEventsCubit.forceRefreshEvents();
+                              },
+                            );
+                          }
+                          return Column(
                             children: [
-                              mainAppBar(
+                              for (final event in snapshot.data!)
+                                contentWidget(
                                   context: context,
-                                  text: AppLocalizations.of(context)!.myEvents),
-
-                              // TODO: Add the categories here
-
-                              // Events List with modern cards
-                              StreamBuilder<List<EventModel>>(
-                                stream: myEventsCubit.eventsStream,
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return waitingCircularIndicator();
-                                  } else if (snapshot.hasError) {
-                                    return snapshotErrorWidget(
-                                        error: snapshot.error);
-                                  } else if (!snapshot.hasData ||
-                                      snapshot.data!.isEmpty) {
-                                    return noEventsWidget(
-                                      context: context,
-                                      onPressed: () {
-                                        myEventsCubit.forceRefreshEvents();
-                                      },
-                                    );
-                                  }
-                                  return Column(
-                                    children: [
-                                      for (final event in snapshot.data!)
-                                        contentWidget(
-                                          context: context,
-                                          eventModel: event,
-                                          location:
-                                              MyEventsCubit.getCityDisplay(
-                                                  event.location,
-                                                  AppLocalizations.of(
-                                                      context)!),
-                                          category:
-                                              MyEventsCubit.getCategoryDisplay(
-                                                  event.category,
-                                                  AppLocalizations.of(
-                                                      context)!),
-                                          genderRestrection: MyEventsCubit
-                                              .getGenderRestrictionDisplay(
-                                                  event.genderRestriction,
-                                                  AppLocalizations.of(
-                                                      context)!),
-                                          onTap: () {
-                                            allEventsCubit
-                                                .getAndAddUserEvent(event);
-                                            myEventsCubit
-                                                .deleteEventFromUserEvents(
-                                                    documentID: event.eventID!);
-                                            myEventsCubit.forceRefreshEvents();
-                                          },
-                                          isAllEventsPage: false,
-                                        ),
-                                    ],
-                                  );
-                                },
-                              ),
+                                  eventModel: event,
+                                  location: MyEventsCubit.getCityDisplay(
+                                      event.location,
+                                      AppLocalizations.of(context)!),
+                                  category: MyEventsCubit.getCategoryDisplay(
+                                      event.category,
+                                      AppLocalizations.of(context)!),
+                                  genderRestrection:
+                                      MyEventsCubit.getGenderRestrictionDisplay(
+                                          event.genderRestriction,
+                                          AppLocalizations.of(context)!),
+                                  onTap: () {
+                                    allEventsCubit.getAndAddUserEvent(event);
+                                    myEventsCubit.deleteEventFromUserEvents(
+                                        documentID: event.eventID!);
+                                    myEventsCubit.forceRefreshEvents();
+                                  },
+                                  isAllEventsPage: false,
+                                ),
                             ],
-                          ),
-                        ),
+                          );
+                        },
                       ),
-                    ),
+                    ],
                   ),
                 ),
               ),

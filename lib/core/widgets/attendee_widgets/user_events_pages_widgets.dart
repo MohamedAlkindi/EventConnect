@@ -1,8 +1,33 @@
+import 'dart:ui';
+
 import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/core/widgets/attendee_widgets/event_elements_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+Widget refreshIndicatorWithClip({
+  required Future<void> Function() onRefresh,
+  required Widget childWidget,
+}) {
+  return RefreshIndicator(
+    onRefresh: onRefresh,
+    child: SingleChildScrollView(
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(5),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(32),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+              child: childWidget,
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
 
 Widget glossyContainerBackground({required Widget childWidget}) {
   return Container(
