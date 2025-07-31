@@ -9,13 +9,15 @@ part of 'user_model.dart';
 UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       userID: json['userID'] as String,
       location: json['location'] as String,
-      profilePic: json['profilePic'] as String,
+      profilePicUrl: json['profilePicUrl'] as String,
+      cachedPicturePath: json['cachedPicturePath'] as String?,
       role: json['role'] as String,
     );
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'userID': instance.userID,
       'location': instance.location,
-      'profilePic': instance.profilePic,
+      'profilePicUrl': instance.profilePicUrl,
+      'cachedPicturePath': instance.cachedPicturePath,
       'role': instance.role,
     };

@@ -7,13 +7,15 @@ class UserModel {
   final String userID;
   final String location;
   // similar to event model
-  String profilePic;
+  String profilePicUrl;
+  String? cachedPicturePath;
   final String role;
 
   UserModel({
     required this.userID,
     required this.location,
-    required this.profilePic,
+    required this.profilePicUrl,
+    required this.cachedPicturePath,
     required this.role,
   });
 
