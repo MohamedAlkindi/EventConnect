@@ -110,7 +110,9 @@ class _EditEventScreenState extends State<EditEventScreen> {
                               // prioritize the new image over the old "cached" one.
                               // TODO: Fix the caching and storing issue!!
                               child: cubit.getImageForClipRRect(
-                                  picturePath: widget.eventModel.pictureUrl),
+                                picturePath:
+                                    widget.eventModel.cachedPicturePath!,
+                              ),
                             );
                           },
                         ),
@@ -228,7 +230,9 @@ class _EditEventScreenState extends State<EditEventScreen> {
                                 dateAndTime: _dateTimeController.text,
                                 description: _descriptionController.text,
                                 docID: widget.eventModel.eventID!,
-                                supabaseImageUrl: widget.eventModel.picture,
+                                supabaseImageUrl: widget.eventModel.pictureUrl,
+                                oldPicturePath:
+                                    widget.eventModel.cachedPicturePath!,
                               );
                             },
                             textButton:

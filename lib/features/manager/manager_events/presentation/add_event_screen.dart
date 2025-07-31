@@ -123,7 +123,7 @@ class _AddEventState extends State<AddEventScreen> {
                         const SizedBox(height: 18),
                         // Description
                         managementFormFields(
-                          controller: _nameController,
+                          controller: _descriptionController,
                           maxLength: null,
                           labelText: AppLocalizations.of(context)!.description,
                           hintText:

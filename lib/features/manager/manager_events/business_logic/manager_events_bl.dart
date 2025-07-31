@@ -75,7 +75,7 @@ class ManagerEventsBl {
         dateAndTime: dateAndTime,
         description: description,
         genderRestriction: genderRestriction,
-        managerID: _userID, cachedPicturePath: null,
+        managerID: _userID, cachedPicturePath: imagePath,
       );
 
       // get the document id and put it in the event model, and return it,
@@ -94,15 +94,18 @@ class ManagerEventsBl {
     required String name,
     required String category,
     required String supabaseImageUrl,
-    required String? picturePath,
+    // This will store the new picture that the user inserts "without compression"
+    required String? newPicturePath,
+    // This will store the old picture which was already compressed, to put in the cachedPicturePath model variable.
+    required String? oldPicturePath,
     required String location,
     required String dateAndTime,
     required String description,
     required String genderRestriction,
   }) async {
     try {
-      final String? imagePath = picturePath != null
-          ? await _imageCompression.compressAndReplaceImage(picturePath)
+      final String? imagePath = newPicturePath != null
+          ? await _imageCompression.compressAndReplaceImage(newPicturePath)
           : null;
       var updatedEvent = EventModel(
         eventID: docID,
@@ -124,7 +127,7 @@ class ManagerEventsBl {
         dateAndTime: dateAndTime,
         description: description,
         genderRestriction: genderRestriction,
-        managerID: _userID, cachedPicturePath: imagePath,
+        managerID: _userID, cachedPicturePath: imagePath ?? oldPicturePath,
       );
       await _dataAccess.editEvent(updatedEvent);
       return updatedEvent;

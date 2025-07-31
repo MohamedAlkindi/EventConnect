@@ -45,7 +45,7 @@ class EventModel {
     final data = <String, dynamic>{};
     if (name.isNotEmpty) data['name'] = name;
     if (category.isNotEmpty) data['category'] = category;
-    if (pictureUrl.isNotEmpty) data['picture'] = pictureUrl;
+    if (pictureUrl.isNotEmpty) data['pictureUrl'] = pictureUrl;
     if (location.isNotEmpty) data['location'] = location;
     if (dateAndTime.isNotEmpty) data['dateAndTime'] = dateAndTime;
     if (description.isNotEmpty) data['description'] = description;

@@ -145,7 +145,7 @@ Widget managementFormFields({
     maxLength: maxLength,
     onTap: isDateTimeField
         ? () async {
-            await returnDateAndTime(context: context);
+            controller.text = await returnDateAndTime(context: context);
           }
         : null,
     readOnly: isDateTimeField,

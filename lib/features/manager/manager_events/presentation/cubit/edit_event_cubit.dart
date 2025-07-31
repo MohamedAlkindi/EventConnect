@@ -87,6 +87,7 @@ class EditEventCubit extends Cubit<EditEventState> {
     required String dateAndTime,
     required String description,
     required String supabaseImageUrl,
+    required String oldPicturePath,
   }) async {
     try {
       emit(EventUpdateLoading());
@@ -98,7 +99,10 @@ class EditEventCubit extends Cubit<EditEventState> {
         // 1 is the new picture path related to device.
         // 2 is the supabase path related to the old picture.
         supabaseImageUrl: supabaseImageUrl,
-        picturePath: eventImage?.path,
+        newPicturePath: eventImage?.path,
+        // If the user didnt change the image and only updated other things,
+        // - use the old picture path related to device.
+        oldPicturePath: oldPicturePath,
         location: selectedLocation,
         dateAndTime: dateAndTime,
         description: description,

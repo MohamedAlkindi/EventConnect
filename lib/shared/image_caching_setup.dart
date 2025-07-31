@@ -9,26 +9,26 @@ class ImageCachingSetup {
     final dir = await getTemporaryDirectory();
 
     for (final event in eventModels) {
-      if (event.picture.isNotEmpty &&
-          Uri.tryParse(event.picture)?.isAbsolute == true) {
-        final uri = Uri.parse(event.picture);
+      if (event.pictureUrl.isNotEmpty &&
+          Uri.tryParse(event.pictureUrl)?.isAbsolute == true) {
+        final uri = Uri.parse(event.pictureUrl);
         final extension = uri.pathSegments.isNotEmpty
             ? uri.pathSegments.last.split('.').last
             : 'jpg';
         final filename =
-            'event_${event.eventID}_${event.picture.hashCode}.$extension';
+            'event_${event.eventID}_${event.cachedPicturePath.hashCode}.$extension';
         final file = File('${dir.path}/$filename');
 
         if (await file.exists()) {
-          event.picture = file.path;
+          event.cachedPicturePath = file.path;
           continue;
         }
 
         try {
-          final response = await http.get(Uri.parse(event.picture));
+          final response = await http.get(Uri.parse(event.pictureUrl));
           if (response.statusCode == 200) {
             await file.writeAsBytes(response.bodyBytes);
-            event.picture = file.path;
+            event.cachedPicturePath = file.path;
           }
         } catch (_) {
           // Optionally handle download errors

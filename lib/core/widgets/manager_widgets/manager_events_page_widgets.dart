@@ -236,7 +236,7 @@ Widget contentColumnWidget({
           ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
             child: returnEventPicture(
-              eventPictureLink: event.picture,
+              eventPictureLink: event.cachedPicturePath!,
             ),
           ),
           Positioned(

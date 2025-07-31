@@ -8,10 +8,10 @@ part of 'event_model.dart';
 
 EventModel _$EventModelFromJson(Map<String, dynamic> json) => EventModel(
       eventID: json['eventID'] as String?,
+      pictureUrl: json['pictureUrl'] as String,
       name: json['name'] as String,
       category: json['category'] as String,
-      picture:
-          "${json['picture']}${(json['picture'] as String).contains('?') ? '&' : '?'}updated=${DateTime.now().millisecondsSinceEpoch}",
+      cachedPicturePath: json['cachedPicturePath'] as String?,
       location: json['location'] as String,
       dateAndTime: json['dateAndTime'] as String,
       description: json['description'] as String,
@@ -26,7 +26,8 @@ Map<String, dynamic> _$EventModelToJson(EventModel instance) =>
       if (instance.eventID case final value?) 'eventID': value,
       'name': instance.name,
       'category': instance.category,
-      'picture': instance.picture,
+      'cachedPicturePath': instance.cachedPicturePath,
+      'pictureUrl': instance.pictureUrl,
       'location': instance.location,
       'dateAndTime': instance.dateAndTime,
       'description': instance.description,

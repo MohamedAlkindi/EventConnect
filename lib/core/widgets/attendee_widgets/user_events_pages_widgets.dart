@@ -168,7 +168,7 @@ Widget contentWidget({
               borderRadius:
                   const BorderRadius.vertical(top: Radius.circular(24)),
               child: returnEventPicture(
-                eventPictureLink: eventModel.picture,
+                eventPictureLink: eventModel.cachedPicturePath!,
               ),
             ),
             Positioned(
