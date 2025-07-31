@@ -17,7 +17,7 @@ class MyProfileDa {
       final data = doc.data();
 
       // Extract only the profile picture field
-      final profilePic = data?[UserCollection.userProfilePicDocumentName];
+      final profilePic = data?[UserCollection.userProfilePicUrlDocumentName];
 
       return profilePic ?? '';
     } catch (e) {

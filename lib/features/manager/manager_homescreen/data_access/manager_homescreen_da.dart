@@ -16,7 +16,8 @@ class ManagerHomescreenDa {
           .get();
 
       // extract the snapshot data.
-      final profilePic = doc.data()?[UserCollection.userProfilePicDocumentName];
+      final profilePic =
+          doc.data()?[UserCollection.userProfilePicUrlDocumentName];
 
       return profilePic;
     } catch (e) {
