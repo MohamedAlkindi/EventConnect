@@ -24,6 +24,7 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   // This will come from the restored data which will contain the path
   // of the image in supabase.
   String? supabaseImageUrl;
+  String? cachedImagePath;
 
   String? newSelectedImagePath;
 
@@ -56,9 +57,12 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     EditProfileCubit cubit,
   ) {
     if (state is GotUserProfile) {
-      return NetworkImage(
-        "${state.userProfile.profilePic}?updated=${DateTime.now().millisecondsSinceEpoch}",
-      );
+      if (state.userProfile.cachedPicturePath == null) {
+        return NetworkImage(
+          "${state.userProfile.profilePicUrl}?updated=${DateTime.now().millisecondsSinceEpoch}",
+        );
+      }
+      return FileImage(File(state.userProfile.cachedPicturePath!));
     } else if (state is SelectedImage) {
       return FileImage(File(state.selectedImagePath));
     } else if (cubit.newSelectedImagePath != null) {
@@ -104,7 +108,8 @@ class EditProfileCubit extends Cubit<EditProfileState> {
       await _bl.updateUserProfile(
         location: newSelectedCity ?? previouslySelectedCity!,
         supabaseImageUrl: supabaseImageUrl!,
-        profilePicPath: newSelectedImagePath,
+        newProfilePicPath: newSelectedImagePath,
+        oldProfilePicPath: cachedImagePath!,
         role: userRole!,
       );
       emit(EditProfileSuccess());
@@ -117,8 +122,9 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     try {
       final userProfile = await _bl.getUserProfile();
       previouslySelectedCity = userProfile.location;
-      supabaseImageUrl = userProfile.profilePic;
+      supabaseImageUrl = userProfile.profilePicUrl;
       userRole = userProfile.role;
+      cachedImagePath = userProfile.cachedPicturePath;
 
       emit(GotUserProfile(userProfile: userProfile));
     } catch (e) {

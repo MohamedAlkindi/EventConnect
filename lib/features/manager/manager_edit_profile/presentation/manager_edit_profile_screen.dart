@@ -155,7 +155,7 @@ class _ManagerEditProfileScreenState extends State<ManagerEditProfileScreen> {
 
                                           // get the picture from the state.
                                           ? NetworkImage(
-                                              "${state.managerProfile.profilePic}?updated=${DateTime.now().millisecondsSinceEpoch}",
+                                              "${state.managerProfile.profilePicUrl}?updated=${DateTime.now().millisecondsSinceEpoch}",
                                             )
                                           // if the user changed the location only.
                                           // the state will be SelectedCity so all the states are false.

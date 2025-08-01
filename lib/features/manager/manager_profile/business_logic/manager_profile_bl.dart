@@ -13,8 +13,8 @@ class ManagerProfileBl {
     try {
       final managerModel = await _dataAccess.getManagerPicAndLocation();
       final imagePath = await _imageCaching
-          .downloadAndCacheImageByUrl(managerModel.profilePic);
-      managerModel.profilePic = imagePath;
+          .downloadAndCacheImageByUrl(managerModel.profilePicUrl);
+      managerModel.cachedPicturePath = imagePath;
       return managerModel;
     } catch (e) {
       throw GenericException(e.toString());

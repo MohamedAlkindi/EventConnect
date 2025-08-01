@@ -14,17 +14,18 @@ class ManagerEditProfileBL {
   Future<void> updateManagerProfile({
     required String location,
     required String supabaseImageUrl,
-    required String? profilePicPath,
+    required String? newProfilePicPath,
+    required String? oldProfilePicPath,
     required String role,
   }) async {
     try {
-      final String? imagePath = profilePicPath != null
-          ? await _imageCompression.compressAndReplaceImage(profilePicPath)
+      final String? imagePath = newProfilePicPath != null
+          ? await _imageCompression.compressAndReplaceImage(newProfilePicPath)
           : null;
       final updatedInfo = UserModel(
         userID: _user.getUserID,
         location: location,
-        profilePic: imagePath == null
+        profilePicUrl: imagePath == null
             ? supabaseImageUrl
             : await _imageService.updateAndReturnImageUrl(
                 newImagePath: imagePath,
@@ -33,6 +34,7 @@ class ManagerEditProfileBL {
                 userID: _user.getUserID,
               ),
         role: role,
+        cachedPicturePath: oldProfilePicPath,
       );
       await _dataAccess.updateProfileDetails(updatedInfo);
     } catch (e) {

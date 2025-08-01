@@ -133,23 +133,18 @@ class ManagerProfileScreenView extends StatelessWidget {
                                             CircleAvatar(
                                               radius: 80,
                                               backgroundImage: state.userInfo
-                                                      .profilePic.isNotEmpty
-                                                  ? state.userInfo.profilePic
-                                                          .startsWith("http")
-                                                      ? NetworkImage(
-                                                          state.userInfo
-                                                              .profilePic,
-                                                        )
-                                                      : File(state.userInfo
-                                                                  .profilePic)
-                                                              .existsSync()
-                                                          ? FileImage(File(state
-                                                              .userInfo
-                                                              .profilePic))
-                                                          : const AssetImage(
-                                                              'assets/images/generic_user.png')
-                                                  : const AssetImage(
-                                                      'assets/images/generic_user.png'),
+                                                          .cachedPicturePath !=
+                                                      null
+                                                  ? File(state.userInfo
+                                                              .cachedPicturePath!)
+                                                          .existsSync()
+                                                      ? FileImage(File(state
+                                                          .userInfo
+                                                          .cachedPicturePath!))
+                                                      : const AssetImage(
+                                                          'assets/images/generic_user.png')
+                                                  : NetworkImage(state
+                                                      .userInfo.profilePicUrl),
                                             ),
                                             Positioned(
                                               bottom: 0,

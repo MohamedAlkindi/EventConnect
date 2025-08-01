@@ -27,12 +27,13 @@ class CompleteProfileBl {
       final user = UserModel(
         userID: _userID,
         location: city,
-        profilePic: await _imageService.addAndReturnImageUrl(
+        profilePicUrl: await _imageService.addAndReturnImageUrl(
           imagePath: imagePath,
           eventName: null,
           userID: _userID,
           isEventPic: false,
         ),
+        cachedPicturePath: null,
         role: role,
       );
       await _dataAccess.completeProfile(user);

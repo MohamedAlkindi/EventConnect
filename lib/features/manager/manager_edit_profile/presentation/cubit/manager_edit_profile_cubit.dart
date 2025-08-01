@@ -30,6 +30,7 @@ class ManagerEditProfileCubit extends Cubit<ManagerEditProfileState> {
   // This will come from the restored data which will contain the path
   // of the image in supabase.
   String? supabaseImageUrl;
+  String? cachedProfilePicPath;
 
   String? newSelectedImagePath;
 
@@ -65,8 +66,9 @@ class ManagerEditProfileCubit extends Cubit<ManagerEditProfileState> {
             ? previouslySelectedCity!
             : newSelectedCity!,
         supabaseImageUrl: supabaseImageUrl!,
-        profilePicPath: newSelectedImagePath,
+        newProfilePicPath: newSelectedImagePath,
         role: userRole!,
+        oldProfilePicPath: cachedProfilePicPath,
       );
       emit(ManagerEditProfileSuccess());
     } catch (e) {
@@ -78,9 +80,9 @@ class ManagerEditProfileCubit extends Cubit<ManagerEditProfileState> {
     try {
       final managerProfile = await _bl.getManagerProfile();
       previouslySelectedCity = managerProfile.location;
-      supabaseImageUrl = managerProfile.profilePic;
+      supabaseImageUrl = managerProfile.profilePicUrl;
       userRole = managerProfile.role;
-
+      cachedProfilePicPath = managerProfile.cachedPicturePath;
       emit(GotManagerProfile(managerProfile: managerProfile));
     } catch (e) {
       emit(ManagerEditProfileError(message: e.toString()));

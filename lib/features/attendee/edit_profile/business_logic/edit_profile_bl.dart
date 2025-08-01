@@ -14,18 +14,19 @@ class EditProfileBL {
   Future<void> updateUserProfile({
     required String location,
     required String supabaseImageUrl,
-    required String? profilePicPath,
+    required String? newProfilePicPath,
+    required String oldProfilePicPath,
     required String role,
   }) async {
     try {
-      final String? imagePath = profilePicPath != null
-          ? await _imageCompression.compressAndReplaceImage(profilePicPath)
+      final String? imagePath = newProfilePicPath != null
+          ? await _imageCompression.compressAndReplaceImage(newProfilePicPath)
           : null;
 
       final updatedInfo = UserModel(
         userID: _userID,
         location: location,
-        profilePic: imagePath == null
+        profilePicUrl: imagePath == null
             ? supabaseImageUrl
             : await _imageService.updateAndReturnImageUrl(
                 newImagePath: imagePath,
@@ -34,6 +35,10 @@ class EditProfileBL {
                 userID: _userID,
               ),
         role: role,
+        // If the imagePath != null then the user updated the profile pic.
+        // So use the new one to replace the model's property,
+        // Otherwise use the OLD profile pic which the user hasnt updated.
+        cachedPicturePath: imagePath ?? oldProfilePicPath,
       );
       await _dataAccess.updateProfileDetails(updatedInfo);
     } catch (e) {
