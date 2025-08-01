@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-Widget actionButton({
+Widget managerActionButton({
   // required bool isEditProfileButton,
   required void Function()? onTap,
   required List<Color> colorsList,

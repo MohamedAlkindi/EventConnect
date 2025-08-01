@@ -35,4 +35,12 @@ class ManagerProfileDa {
       throw GenericException(e.toString());
     }
   }
+
+  Future<void> signOut() async {
+    try {
+      await _user.signOut();
+    } catch (e) {
+      throw GenericException(e.toString());
+    }
+  }
 }

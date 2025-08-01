@@ -56,6 +56,7 @@ class _EmailConfirmationScreen extends State<EmailConfirmationScreen> {
               } else if (state is DataCompleted) {
                 // if user info is completed.. show the homescreen.
                 // otherwise show the complete data.
+                hideLoadingDialog(context);
                 state.isDataCompleted
                     ? cubit.showUserHomescreen
                     : Navigator.pushReplacementNamed(

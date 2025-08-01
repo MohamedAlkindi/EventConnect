@@ -1,12 +1,16 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/features/attendee/all_events/presentation/cubit/all_events_cubit.dart';
+import 'package:event_connect/features/attendee/edit_profile/presentation/edit_profile_screen.dart';
 import 'package:event_connect/features/attendee/my_events/presentation/cubit/my_events_cubit.dart';
 import 'package:event_connect/features/attendee/my_profile/business_logic/my_profile_bl.dart';
 import 'package:event_connect/features/attendee/user_homescreen/presentation/cubit/user_homescreen_cubit.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:meta/meta.dart';
 
 part 'my_profile_state.dart';
@@ -24,6 +28,40 @@ class MyProfileCubit extends Cubit<MyProfileState> {
     }
   }
 
+  Future<void> changeAccountSettings({required BuildContext context}) async {
+    final myProfileCubit = context.read<MyProfileCubit>();
+    final userHomescreenCubit = context.read<UserHomescreenCubit>();
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const EditProfileScreen(),
+      ),
+    );
+    if (result != null) {
+      myProfileCubit.getUserPic();
+      userHomescreenCubit.getUserProfilePic();
+    }
+  }
+
+  void signOutDialog({required BuildContext context}) {
+    showMessageDialog(
+      context: context,
+      icon: Icons.warning_rounded,
+      iconColor: Colors.orangeAccent,
+      titleText: AppLocalizations.of(context)!.signOutTitle,
+      contentText: AppLocalizations.of(context)!.signOutContent,
+      buttonText: AppLocalizations.of(context)!.yes,
+      onPressed: () {
+        userSignOut();
+        Navigator.pop(context);
+      },
+      secondButtonText: AppLocalizations.of(context)!.no,
+      secondOnPressed: () {
+        Navigator.pop(context);
+      },
+    );
+  }
+
   Future<void> userSignOut() async {
     try {
       await _businessLogic.signOut();
@@ -31,6 +69,25 @@ class MyProfileCubit extends Cubit<MyProfileState> {
     } catch (e) {
       emit(MyProfileError(message: e.toString()));
     }
+  }
+
+  void deleteUserDialog({required BuildContext context}) {
+    showMessageDialog(
+      context: context,
+      icon: Icons.warning_rounded,
+      iconColor: Colors.red,
+      titleText: AppLocalizations.of(context)!.deleteAccountTitle,
+      contentText: AppLocalizations.of(context)!.deleteAccountContent,
+      buttonText: AppLocalizations.of(context)!.delete,
+      onPressed: () {
+        deleteUser();
+        Navigator.pop(context);
+      },
+      secondButtonText: AppLocalizations.of(context)!.cancel,
+      secondOnPressed: () {
+        Navigator.pop(context);
+      },
+    );
   }
 
   Future<void> deleteUser() async {
@@ -43,12 +100,12 @@ class MyProfileCubit extends Cubit<MyProfileState> {
   }
 
   ImageProvider getPicturePath(GotMyProfileInfo state) {
-    if (state.userPic.isNotEmpty && state.userPic.startsWith("http")) {
+    if (File(state.userPic).existsSync()) {
+      return FileImage(File(state.userPic));
+    } else if (state.userPic.isNotEmpty && state.userPic.startsWith("http")) {
       return NetworkImage(
         "${state.userPic}${state.userPic.contains('?') ? '&' : '?'}updated=${DateTime.now().millisecondsSinceEpoch}",
       );
-    } else if (File(state.userPic).existsSync()) {
-      return FileImage(File(state.userPic));
     }
     return AssetImage('assets/images/generic_user.png');
   }

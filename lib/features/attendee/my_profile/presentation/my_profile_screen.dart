@@ -1,11 +1,8 @@
 import 'dart:ui';
 
-import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/core/widgets/shared/app_background.dart';
-import 'package:event_connect/features/attendee/edit_profile/presentation/edit_profile_screen.dart';
 import 'package:event_connect/features/attendee/my_profile/presentation/cubit/my_profile_cubit.dart';
 import 'package:event_connect/features/attendee/my_profile/presentation/widgets/screen_buttons.dart';
-import 'package:event_connect/features/attendee/user_homescreen/presentation/cubit/user_homescreen_cubit.dart';
 import 'package:event_connect/features/welcome_screen/presentation/welcome_screen.dart';
 import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
@@ -27,18 +24,19 @@ class MyProfileScreenView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var cubit = context.read<MyProfileCubit>();
     return Scaffold(
       body: BlocListener<MyProfileCubit, MyProfileState>(
         listener: (context, state) {
           if (state is UserSignedOutSuccessfully) {
             // reset cubits to initial state...
-            context.read<MyProfileCubit>().resetAllCubits(context: context);
+            cubit.resetAllCubits(context: context);
             Navigator.of(context).pushNamedAndRemoveUntil(
               loginPageRoute,
               (Route<dynamic> route) => false,
             );
           } else if (state is UserDeletedSuccessfully) {
-            context.read<MyProfileCubit>().resetAllCubits(context: context);
+            cubit.resetAllCubits(context: context);
             Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
                 builder: (context) => const WelcomeScreen(),
@@ -165,25 +163,12 @@ class MyProfileScreenView extends StatelessWidget {
                                     const SizedBox(height: 32),
                                     // Modern action buttons
                                     actionButton(
-                                      isEditProfileButton: true,
-                                      onTap: () async {
-                                        final myProfileCubit =
-                                            context.read<MyProfileCubit>();
-                                        final userHomescreenCubit =
-                                            context.read<UserHomescreenCubit>();
-                                        final result = await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                const EditProfileScreen(),
-                                          ),
-                                        );
-                                        if (result != null) {
-                                          myProfileCubit.getUserPic();
-                                          userHomescreenCubit
-                                              .getUserProfilePic();
-                                        }
-                                      },
+                                      colorsList: [
+                                        Color(0xFF6C63FF),
+                                        Color(0xFFFF6584)
+                                      ],
+                                      onTap: () => cubit.changeAccountSettings(
+                                          context: context),
                                       text: AppLocalizations.of(context)!
                                           .editAccount,
                                       textColor: Colors.white,
@@ -193,33 +178,12 @@ class MyProfileScreenView extends StatelessWidget {
                                     const SizedBox(height: 16),
 
                                     actionButton(
-                                      isEditProfileButton: false,
-                                      onTap: () {
-                                        showMessageDialog(
-                                          context: context,
-                                          icon: Icons.warning_rounded,
-                                          iconColor: Colors.orangeAccent,
-                                          titleText:
-                                              AppLocalizations.of(context)!
-                                                  .signOutTitle,
-                                          contentText:
-                                              AppLocalizations.of(context)!
-                                                  .signOutContent,
-                                          buttonText:
-                                              AppLocalizations.of(context)!.yes,
-                                          onPressed: () {
-                                            context
-                                                .read<MyProfileCubit>()
-                                                .userSignOut();
-                                            Navigator.pop(context);
-                                          },
-                                          secondButtonText:
-                                              AppLocalizations.of(context)!.no,
-                                          secondOnPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                        );
-                                      },
+                                      colorsList: [
+                                        Color.fromARGB(255, 255, 255, 255),
+                                        Color.fromARGB(255, 245, 243, 243)
+                                      ],
+                                      onTap: () =>
+                                          cubit.signOutDialog(context: context),
                                       icon: Icons.logout_rounded,
                                       iconColor: Colors.orangeAccent,
                                       text:
@@ -229,34 +193,12 @@ class MyProfileScreenView extends StatelessWidget {
                                     const SizedBox(height: 16),
 
                                     actionButton(
-                                      isEditProfileButton: false,
-                                      onTap: () {
-                                        showMessageDialog(
-                                          context: context,
-                                          icon: Icons.warning_rounded,
-                                          iconColor: Colors.red,
-                                          titleText:
-                                              AppLocalizations.of(context)!
-                                                  .deleteAccountTitle,
-                                          contentText:
-                                              AppLocalizations.of(context)!
-                                                  .deleteAccountContent,
-                                          buttonText:
-                                              AppLocalizations.of(context)!
-                                                  .delete,
-                                          onPressed: () {
-                                            context
-                                                .read<MyProfileCubit>()
-                                                .deleteUser();
-                                          },
-                                          secondButtonText:
-                                              AppLocalizations.of(context)!
-                                                  .cancel,
-                                          secondOnPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                        );
-                                      },
+                                      colorsList: [
+                                        Color.fromARGB(255, 255, 255, 255),
+                                        Color.fromARGB(255, 245, 243, 243)
+                                      ],
+                                      onTap: () => cubit.deleteUserDialog(
+                                          context: context),
                                       icon: Icons.delete_forever_rounded,
                                       iconColor: Colors.redAccent,
                                       text: AppLocalizations.of(context)!
