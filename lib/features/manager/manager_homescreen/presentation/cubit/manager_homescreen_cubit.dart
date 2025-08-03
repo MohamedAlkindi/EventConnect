@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:event_connect/features/manager/manager_homescreen/business_logic/manager_homescreen_bl.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,13 @@ class ManagerHomescreenCubit extends Cubit<ManagerHomescreenState> {
       duration: const Duration(microseconds: 300),
       curve: Curves.easeInOut,
     );
+  }
+
+  ImageProvider getPicturePath({required ManagerHomescreenState state}) {
+    if (state.imageFile!.startsWith("https:/")) {
+      return NetworkImage(state.imageFile!);
+    }
+    return FileImage(File(state.imageFile!));
   }
 
   Future<void> getManagerProfilePic() async {

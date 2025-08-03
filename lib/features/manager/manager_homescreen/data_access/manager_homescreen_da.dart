@@ -4,7 +4,7 @@ import 'package:event_connect/core/exceptions/authentication_exceptions/authenti
 import 'package:event_connect/core/firebase/user/firebase_user.dart';
 
 class ManagerHomescreenDa {
-  final FirebaseUser _user = FirebaseUser();
+  final _userID = FirebaseUser().getUserID;
   final _firestore = FirebaseFirestore.instance;
 
   Future<String> getManagerProfilePic() async {
@@ -12,7 +12,7 @@ class ManagerHomescreenDa {
       // get all user data.
       final doc = await _firestore
           .collection(UserCollection.userCollectionName)
-          .doc(_user.getUserID)
+          .doc(_userID)
           .get();
 
       // extract the snapshot data.
