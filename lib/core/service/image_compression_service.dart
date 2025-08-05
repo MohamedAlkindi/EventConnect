@@ -8,9 +8,9 @@ class ImageCompressionService {
   Future<String> compressAndReplaceImage(String imagePath,
       {int quality = 70, int maxWidth = 800}) async {
     final file = File(imagePath);
-    if (!await file.exists()) {
-      throw GenericException('Image file does not exist at the provided path.');
-    }
+    // if (!await file.exists()) {
+    //   throw GenericException('Image file does not exist at the provided path.');
+    // }
 
     final bytes = await file.readAsBytes();
     final image = img.decodeImage(bytes);

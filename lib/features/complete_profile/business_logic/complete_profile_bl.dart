@@ -20,24 +20,35 @@ class CompleteProfileBl {
     if (city.isEmpty) {
       throw EmptyFieldException(message: ExceptionMessages.emptyFieldMessage);
     }
-    final imagePath =
-        await _imageCompression.compressAndReplaceImage(imageFile);
+
+    String profilePicUrl;
+    String? cachedPicturePath;
+
+    if (imageFile.startsWith('assets/')) {
+      // If the image is an asset, do not upload or compress, just use the asset path as the profilePicUrl.
+      profilePicUrl = imageFile;
+      cachedPicturePath = null;
+    } else {
+      // Compress the image, upload it, and use the returned URL.
+      final compressedPath =
+          await _imageCompression.compressAndReplaceImage(imageFile);
+      profilePicUrl = await _imageService.addAndReturnImageUrl(
+        imagePath: compressedPath,
+        userID: _userID,
+        isEventPic: false,
+      );
+      cachedPicturePath = compressedPath;
+    }
+
     try {
-      // Create a map that contains the data for photo and location.
       final user = UserModel(
         userID: _userID,
         location: city,
-        profilePicUrl: await _imageService.addAndReturnImageUrl(
-          imagePath: imagePath,
-          eventName: null,
-          userID: _userID,
-          isEventPic: false,
-        ),
-        cachedPicturePath: null,
+        profilePicUrl: profilePicUrl,
+        cachedPicturePath: cachedPicturePath,
         role: role,
       );
       await _dataAccess.completeProfile(user);
-      // Send the data to be saved.
     } catch (e) {
       throw GenericException(ExceptionMessages.genericExceptionMessage);
     }

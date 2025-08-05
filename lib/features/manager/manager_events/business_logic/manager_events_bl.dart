@@ -67,7 +67,6 @@ class ManagerEventsBl {
         category: category,
         pictureUrl: await _storageService.addAndReturnImageUrl(
           imagePath: imagePath,
-          eventName: name,
           userID: _userID,
           isEventPic: true,
         ),
