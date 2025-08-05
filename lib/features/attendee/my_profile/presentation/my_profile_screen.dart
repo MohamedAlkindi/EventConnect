@@ -168,7 +168,10 @@ class MyProfileScreenView extends StatelessWidget {
                                         Color(0xFFFF6584)
                                       ],
                                       onTap: () => cubit.changeAccountSettings(
-                                          context: context),
+                                        context: context,
+                                        cachedImagePath:
+                                            state.userModel.cachedPicturePath!,
+                                      ),
                                       text: AppLocalizations.of(context)!
                                           .editAccount,
                                       textColor: Colors.white,

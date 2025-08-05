@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:event_connect/core/models/user_model.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/features/attendee/all_events/presentation/cubit/all_events_cubit.dart';
 import 'package:event_connect/features/attendee/edit_profile/presentation/edit_profile_screen.dart';
@@ -22,19 +23,22 @@ class MyProfileCubit extends Cubit<MyProfileState> {
   Future<void> getUserPic() async {
     try {
       final result = await _businessLogic.getUserPicAndLocation();
-      emit(GotMyProfileInfo(userPic: result));
+      emit(GotMyProfileInfo(userModel: result));
     } catch (e) {
       emit(MyProfileError(message: e.toString()));
     }
   }
 
-  Future<void> changeAccountSettings({required BuildContext context}) async {
+  Future<void> changeAccountSettings(
+      {required BuildContext context, required String cachedImagePath}) async {
     final myProfileCubit = context.read<MyProfileCubit>();
     final userHomescreenCubit = context.read<UserHomescreenCubit>();
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const EditProfileScreen(),
+        builder: (context) => EditProfileScreen(
+          cachedImagePath: cachedImagePath,
+        ),
       ),
     );
     if (result != null) {
@@ -100,11 +104,15 @@ class MyProfileCubit extends Cubit<MyProfileState> {
   }
 
   ImageProvider getPicturePath(GotMyProfileInfo state) {
-    if (File(state.userPic).existsSync()) {
-      return FileImage(File(state.userPic));
-    } else if (state.userPic.isNotEmpty && state.userPic.startsWith("http")) {
+    if (state.userModel.cachedPicturePath != null &&
+        File(
+          state.userModel.cachedPicturePath!,
+        ).existsSync()) {
+      return FileImage(File(state.userModel.cachedPicturePath!));
+    } else if (state.userModel.profilePicUrl.isNotEmpty &&
+        state.userModel.profilePicUrl.startsWith("http")) {
       return NetworkImage(
-        "${state.userPic}${state.userPic.contains('?') ? '&' : '?'}updated=${DateTime.now().millisecondsSinceEpoch}",
+        "${state.userModel.profilePicUrl}${state.userModel.profilePicUrl.contains('?') ? '&' : '?'}updated=${DateTime.now().millisecondsSinceEpoch}",
       );
     }
     return AssetImage('assets/images/generic_user.png');

@@ -68,8 +68,11 @@ class ManagerProfileScreenView extends StatelessWidget {
                           // Modern action buttons
                           managerActionButton(
                             colorsList: [Color(0xFF6C63FF), Color(0xFFFF6584)],
-                            onTap: () =>
-                                cubit.changeAccountSettings(context: context),
+                            onTap: () => cubit.changeAccountSettings(
+                              context: context,
+                              cachedImagePath:
+                                  state.userInfo.cachedPicturePath!,
+                            ),
                             text: AppLocalizations.of(context)!.editAccount,
                             textColor: Colors.white,
                             icon: Icons.edit,

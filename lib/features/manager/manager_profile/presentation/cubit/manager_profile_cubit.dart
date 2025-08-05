@@ -40,13 +40,18 @@ class ManagerProfileCubit extends Cubit<ManagerProfileState> {
     return const AssetImage('assets/images/generic_user.png');
   }
 
-  Future<void> changeAccountSettings({required BuildContext context}) async {
+  Future<void> changeAccountSettings({
+    required BuildContext context,
+    required String cachedImagePath,
+  }) async {
     final managerProfileCubit = context.read<ManagerProfileCubit>();
     final managerHomescreenCubit = context.read<ManagerHomescreenCubit>();
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const ManagerEditProfileScreen(),
+        builder: (context) => ManagerEditProfileScreen(
+          cachedImagePath: cachedImagePath,
+        ),
       ),
     );
     if (result != null) {

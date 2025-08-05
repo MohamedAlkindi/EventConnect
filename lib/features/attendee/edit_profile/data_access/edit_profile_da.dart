@@ -26,7 +26,7 @@ class EditProfileDa {
     try {
       await _firestore
           .collection(UserCollection.userCollectionName)
-          .doc(model.userID)
+          .doc(_userID)
           .update(model.toJson());
     } catch (e) {
       throw GenericException(e.toString());

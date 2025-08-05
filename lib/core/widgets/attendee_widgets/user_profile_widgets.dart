@@ -150,7 +150,6 @@ Widget cityDropDownMenu({
 Widget saveButton({
   required BuildContext context,
   required void Function()? onTap,
-  required bool isEditProfilePage,
 }) {
   return Container(
     width: double.infinity,
@@ -176,24 +175,14 @@ Widget saveButton({
         onTap: onTap,
         borderRadius: BorderRadius.circular(16),
         child: Center(
-          child: isEditProfilePage
-              ? Text(
-                  AppLocalizations.of(context)!.saveChanges,
-                  style: GoogleFonts.poppins(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                )
-              : Text(
-                  AppLocalizations.of(context)!.finalizeProfile,
-                  style: GoogleFonts.poppins(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-        ),
+            child: Text(
+          AppLocalizations.of(context)!.saveChanges,
+          style: GoogleFonts.poppins(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        )),
       ),
     ),
   );
@@ -201,35 +190,22 @@ Widget saveButton({
 
 Widget headerText({
   required BuildContext context,
-  required bool isEditProfilePage,
+  // required bool isEditProfilePage,
 }) {
   return Expanded(
     child: Center(
-      child: isEditProfilePage
-          ? Text(
-              AppLocalizations.of(context)!.editProfile,
-              style: GoogleFonts.poppins(
-                fontSize: MediaQuery.of(context).size.width < 400
-                    ? 22.0
-                    : MediaQuery.of(context).size.width < 600
-                        ? 24.0
-                        : 28.0, // Max font size
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFF6C63FF),
-              ),
-            )
-          : Text(
-              AppLocalizations.of(context)!.completeProfile,
-              style: GoogleFonts.poppins(
-                fontSize: MediaQuery.of(context).size.width < 400
-                    ? 20.0
-                    : MediaQuery.of(context).size.width < 600
-                        ? 24.0
-                        : 28.0, // Max font size
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFF6C63FF),
-              ),
-            ),
+      child: Text(
+        AppLocalizations.of(context)!.editProfile,
+        style: GoogleFonts.poppins(
+          fontSize: MediaQuery.of(context).size.width < 400
+              ? 22.0
+              : MediaQuery.of(context).size.width < 600
+                  ? 24.0
+                  : 28.0, // Max font size
+          fontWeight: FontWeight.bold,
+          color: const Color(0xFF6C63FF),
+        ),
+      ),
     ),
   );
 }

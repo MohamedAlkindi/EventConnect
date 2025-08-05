@@ -18,6 +18,7 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'userID': instance.userID,
       'location': instance.location,
       'profilePicUrl': instance.profilePicUrl,
-      'cachedPicturePath': instance.cachedPicturePath,
+      if (instance.cachedPicturePath case final value?)
+        'cachedPicturePath': value,
       'role': instance.role,
     };

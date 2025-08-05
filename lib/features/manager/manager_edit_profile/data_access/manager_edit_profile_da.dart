@@ -6,13 +6,13 @@ import 'package:event_connect/core/models/user_model.dart';
 
 class ManagerEditProfileDa {
   final _firestore = FirebaseFirestore.instance;
-  final _user = FirebaseUser();
+  final _userID = FirebaseUser().getUserID;
 
   Future<void> updateProfileDetails(UserModel model) async {
     try {
       await _firestore
           .collection(UserCollection.userCollectionName)
-          .doc(_user.getUserID)
+          .doc(_userID)
           .update(model.toJson());
     } catch (e) {
       throw GenericException(e.toString());
@@ -23,7 +23,7 @@ class ManagerEditProfileDa {
     try {
       final result = await _firestore
           .collection(UserCollection.userCollectionName)
-          .doc(_user.getUserID)
+          .doc(_userID)
           .get();
 
       var userData = UserModel.fromJson(result.data()!);

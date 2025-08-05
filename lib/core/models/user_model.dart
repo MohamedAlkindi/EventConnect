@@ -8,6 +8,7 @@ class UserModel {
   final String location;
   // similar to event model
   String profilePicUrl;
+  @JsonKey(includeIfNull: false)
   String? cachedPicturePath;
   final String role;
 

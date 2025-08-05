@@ -7,7 +7,7 @@ import 'package:event_connect/features/manager/manager_edit_profile/data_access/
 
 class ManagerEditProfileBL {
   final _dataAccess = ManagerEditProfileDa();
-  final _user = FirebaseUser();
+  final _userID = FirebaseUser().getUserID;
   final _imageCompression = ImageCompressionService();
   final _imageService = ImageStorageService();
 
@@ -15,15 +15,16 @@ class ManagerEditProfileBL {
     required String location,
     required String supabaseImageUrl,
     required String? newProfilePicPath,
-    required String? oldProfilePicPath,
+    required String oldProfilePicPath,
     required String role,
   }) async {
     try {
       final String? imagePath = newProfilePicPath != null
           ? await _imageCompression.compressAndReplaceImage(newProfilePicPath)
           : null;
+
       final updatedInfo = UserModel(
-        userID: _user.getUserID,
+        userID: _userID,
         location: location,
         profilePicUrl: imagePath == null
             ? supabaseImageUrl
@@ -31,10 +32,10 @@ class ManagerEditProfileBL {
                 newImagePath: imagePath,
                 eventImageUrl: null,
                 isEventPic: false,
-                userID: _user.getUserID,
+                userID: _userID,
               ),
         role: role,
-        cachedPicturePath: oldProfilePicPath,
+        cachedPicturePath: imagePath ?? oldProfilePicPath,
       );
       await _dataAccess.updateProfileDetails(updatedInfo);
     } catch (e) {

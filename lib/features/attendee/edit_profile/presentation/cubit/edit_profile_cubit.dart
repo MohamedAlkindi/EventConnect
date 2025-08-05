@@ -24,7 +24,7 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   // This will come from the restored data which will contain the path
   // of the image in supabase.
   String? supabaseImageUrl;
-  String? cachedImagePath;
+  // String? cachedImagePath;
 
   String? newSelectedImagePath;
 
@@ -102,14 +102,15 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     return idx >= 0 ? localized[idx] : value;
   }
 
-  Future<void> updateUserProfile() async {
+  // The cached will be fetched from the cached path.
+  Future<void> updateUserProfile({required String cachedImagePath}) async {
     try {
       emit(EditProfileLoading());
       await _bl.updateUserProfile(
         location: newSelectedCity ?? previouslySelectedCity!,
         supabaseImageUrl: supabaseImageUrl!,
         newProfilePicPath: newSelectedImagePath,
-        oldProfilePicPath: cachedImagePath!,
+        oldProfilePicPath: cachedImagePath,
         role: userRole!,
       );
       emit(EditProfileSuccess());
@@ -124,7 +125,6 @@ class EditProfileCubit extends Cubit<EditProfileState> {
       previouslySelectedCity = userProfile.location;
       supabaseImageUrl = userProfile.profilePicUrl;
       userRole = userProfile.role;
-      cachedImagePath = userProfile.cachedPicturePath;
 
       emit(GotUserProfile(userProfile: userProfile));
     } catch (e) {

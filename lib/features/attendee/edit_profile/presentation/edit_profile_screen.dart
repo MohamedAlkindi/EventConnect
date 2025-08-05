@@ -10,7 +10,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:event_connect/core/utils/localization_extensions.dart';
 
 class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({super.key});
+  final String cachedImagePath;
+  const EditProfileScreen({
+    super.key,
+    required this.cachedImagePath,
+  });
 
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
@@ -81,10 +85,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         // iconSize: 28,
                         tooltip: 'Back',
                       ),
-                      headerText(
-                        context: context,
-                        isEditProfilePage: true,
-                      )
+                      headerText(context: context)
                     ],
                   ),
                   const SizedBox(height: 35),
@@ -137,9 +138,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         saveButton(
                           context: context,
                           onTap: () {
-                            cubit.updateUserProfile();
+                            cubit.updateUserProfile(
+                              cachedImagePath: widget.cachedImagePath,
+                            );
                           },
-                          isEditProfilePage: true,
                         )
                       ],
                     ),
