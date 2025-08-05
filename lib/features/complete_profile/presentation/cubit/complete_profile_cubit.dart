@@ -69,7 +69,7 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
     emit(CompleteProfileLoading());
     try {
       await _bl.finalizeProfile(
-        imageFile: imagePath,
+        imagePath: imagePath,
         city: selectedCity,
         role: selectedRole,
       );
