@@ -46,6 +46,7 @@ class ManagerEditProfileCubit extends Cubit<ManagerEditProfileState> {
     }
   }
 
+  UserModel? editedManagerModel;
   Future<void> updateManagerProfile({
     required String cachedImagePath,
     required String previouslySelectedCity,
@@ -54,13 +55,14 @@ class ManagerEditProfileCubit extends Cubit<ManagerEditProfileState> {
   }) async {
     try {
       emit(ManagerEditProfileLoading());
-      await _bl.updateManagerProfile(
+      final updatedManagerInfo = await _bl.updateManagerProfile(
         location: newSelectedCity ?? previouslySelectedCity,
         supabaseImageUrl: supabaseImageUrl,
         newProfilePicPath: newSelectedImagePath,
         oldProfilePicPath: cachedImagePath,
         role: userRole,
       );
+      editedManagerModel = updatedManagerInfo;
       emit(ManagerEditProfileSuccess());
     } catch (e) {
       emit(ManagerEditProfileError(message: e.toString()));

@@ -11,7 +11,7 @@ class EditProfileBL {
   final _imageService = ImageStorageService();
   final _imageCompression = ImageCompressionService();
 
-  Future<void> updateUserProfile({
+  Future<UserModel> updateUserProfile({
     required String location,
     required String supabaseImageUrl,
     required String? newProfilePicPath,
@@ -41,16 +41,17 @@ class EditProfileBL {
         cachedPicturePath: imagePath ?? oldProfilePicPath,
       );
       await _dataAccess.updateProfileDetails(updatedInfo);
+      return updatedInfo;
     } catch (e) {
       throw GenericException(e.toString());
     }
   }
 
-  Future<UserModel> getUserProfile() async {
-    try {
-      return await _dataAccess.getUserDetails();
-    } catch (e) {
-      throw GenericException(e.toString());
-    }
-  }
+  // Future<UserModel> getUserProfile() async {
+  //   try {
+  //     return await _dataAccess.getUserDetails();
+  //   } catch (e) {
+  //     throw GenericException(e.toString());
+  //   }
+  // }
 }

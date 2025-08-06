@@ -10,7 +10,8 @@ class UserHomescreenCubit extends Cubit<UserHomescreenState> {
   final PageController pageController = PageController();
 
   UserHomescreenCubit() : super(UserHomescreenInitial()) {
-    getUserProfilePic();
+    // Obviously first time starts with null so it fetches the image from the beginning.
+    getUserProfilePic(editedImagePath: null);
   }
 
   UserHomescreenBl userHomescreenBl = UserHomescreenBl();
@@ -27,13 +28,20 @@ class UserHomescreenCubit extends Cubit<UserHomescreenState> {
     );
   }
 
-  Future<void> getUserProfilePic() async {
+  Future<void> getUserProfilePic({required String? editedImagePath}) async {
     emit(UserHomescreenLoading());
     try {
-      String userProfilePic = await userHomescreenBl.getUserProfilePic();
+      // Similar to my profile, but instead of getting the full model we get the new cached image.
+      // IF made any changes to it.
+      if (editedImagePath != null) {
+        emit(UserHomescreenState(
+            currentIndex: state.currentIndex, imageFile: editedImagePath));
+      } else {
+        String userProfilePic = await userHomescreenBl.getUserProfilePic();
 
-      emit(UserHomescreenState(
-          currentIndex: state.currentIndex, imageFile: userProfilePic));
+        emit(UserHomescreenState(
+            currentIndex: state.currentIndex, imageFile: userProfilePic));
+      }
     } catch (e) {
       emit(UserHomescreenError(message: e.toString()));
     }

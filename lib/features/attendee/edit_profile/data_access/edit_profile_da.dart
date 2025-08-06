@@ -8,19 +8,19 @@ class EditProfileDa {
   final _firestore = FirebaseFirestore.instance;
   final _userID = FirebaseUser().getUserID;
 
-  Future<UserModel> getUserDetails() async {
-    try {
-      final result = await _firestore
-          .collection(UserCollection.userCollectionName)
-          .doc(_userID)
-          .get();
+  // Future<UserModel> getUserDetails() async {
+  //   try {
+  //     final result = await _firestore
+  //         .collection(UserCollection.userCollectionName)
+  //         .doc(_userID)
+  //         .get();
 
-      var userData = UserModel.fromJson(result.data()!);
-      return userData;
-    } catch (e) {
-      throw GenericException(e.toString());
-    }
-  }
+  //     var userData = UserModel.fromJson(result.data()!);
+  //     return userData;
+  //   } catch (e) {
+  //     throw GenericException(e.toString());
+  //   }
+  // }
 
   Future<void> updateProfileDetails(UserModel model) async {
     try {

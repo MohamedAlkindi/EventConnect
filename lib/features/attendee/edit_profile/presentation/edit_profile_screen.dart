@@ -25,7 +25,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   void initState() {
     super.initState();
-    ;
   }
 
   @override
@@ -75,10 +74,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     children: [
                       IconButton(
                         onPressed: () {
-                          Navigator.pop(context);
-                          // context
-                          //     .read<EditProfileCubit>()
-                          //     .newSelectedImagePath);
+                          Navigator.pop(context, cubit.editedUserModel);
                         },
                         icon: const Icon(Icons.arrow_back_rounded),
                         color: Colors.black,

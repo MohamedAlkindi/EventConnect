@@ -75,6 +75,7 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     return idx >= 0 ? localized[idx] : value;
   }
 
+  UserModel? editedUserModel;
   // The cached will be fetched from the cached path.
   Future<void> updateUserProfile({
     required String cachedImagePath,
@@ -84,13 +85,14 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   }) async {
     try {
       emit(EditProfileLoading());
-      await _bl.updateUserProfile(
+      final updatedUserModel = await _bl.updateUserProfile(
         location: newSelectedCity ?? previouslySelectedCity,
         supabaseImageUrl: supabaseImageUrl,
         newProfilePicPath: newSelectedImagePath,
         oldProfilePicPath: cachedImagePath,
         role: userRole,
       );
+      editedUserModel = updatedUserModel;
       emit(EditProfileSuccess());
     } catch (e) {
       emit(EditProfileError(message: e.toString()));

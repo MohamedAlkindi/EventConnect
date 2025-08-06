@@ -4,11 +4,14 @@ import 'package:event_connect/core/exceptions/authentication_exceptions/authenti
 import 'package:event_connect/core/exceptions/firebase_exceptions/firebase_exceptions.dart';
 import 'package:event_connect/core/exceptions_messages/error_codes.dart';
 import 'package:event_connect/core/exceptions_messages/messages.dart';
+import 'package:event_connect/core/models/user_model.dart';
+import 'package:event_connect/shared/image_caching_setup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseUser {
   User? get getUser => FirebaseAuth.instance.currentUser;
   String get getUserID => getUser!.uid;
+  final _imageCaching = ImageCachingSetup();
 
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
@@ -67,6 +70,25 @@ class FirebaseUser {
       }
     } catch (e) {
       throw GenericException(ExceptionMessages.genericExceptionMessage);
+    }
+  }
+
+  Future<UserModel> getUserInfo() async {
+    try {
+      final doc = await _firestore
+          .collection(UserCollection.userCollectionName)
+          .doc(getUserID)
+          .get();
+
+      final data = doc.data();
+
+      final userModel = UserModel.fromJson(data!);
+      final imagePath = await _imageCaching
+          .downloadAndCacheImageByUrl(userModel.profilePicUrl);
+      userModel.cachedPicturePath = imagePath;
+      return userModel;
+    } catch (e) {
+      throw GenericException(e.toString());
     }
   }
 

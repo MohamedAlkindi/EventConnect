@@ -1,5 +1,10 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:event_connect/core/firebase/config/firebase_options.dart';
 import 'package:event_connect/core/firebase/user/firebase_user.dart';
+import 'package:event_connect/core/models/user_model.dart';
+import 'package:event_connect/core/service/notification_service.dart';
 import 'package:event_connect/core/theme/app_theme.dart';
 import 'package:event_connect/features/attendee/all_events/presentation/all_events_screen.dart';
 import 'package:event_connect/features/attendee/all_events/presentation/cubit/all_events_cubit.dart';
@@ -31,19 +36,16 @@ import 'package:event_connect/features/register/presentation/register_screen.dar
 import 'package:event_connect/features/welcome_screen/presentation/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
-import 'package:event_connect/core/service/notification_service.dart';
-import 'dart:async';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:flutter/services.dart';
-import 'dart:io';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const String loginPageRoute = '/LoginPage';
 const String registerPageRoute = '/RegisterPage';
@@ -61,6 +63,8 @@ const String addEventScreenPageRoute = '/AddEventScreen';
 
 late Widget startUpWidget;
 
+UserModel? globalUserModel;
+
 Future<Widget> whichWidget() async {
   final user = FirebaseUser();
 
@@ -73,6 +77,7 @@ Future<Widget> whichWidget() async {
   if (!await user.isUserDataCompleted()) {
     return CompleteProfileScreen();
   }
+  globalUserModel = await user.getUserInfo();
   final role = await user.getUserRole();
   if (role == "Attendee") {
     return UserHomeScreen();
@@ -194,11 +199,11 @@ class MainApp extends StatelessWidget {
           create: (context) => EmailConfirmationCubit(),
         ),
         BlocProvider(
-          create: (context) => MyProfileCubit()..getUserPic(),
+          create: (context) =>
+              MyProfileCubit()..getUserInfo(editedUserModel: null),
         ),
         BlocProvider(
-          create: (context) =>
-              ManagerProfileCubit()..getManagerPicAndLocation(),
+          create: (context) => ManagerProfileCubit()..getManagerInfo(null),
         ),
         BlocProvider(
           create: (context) => ManagerEditProfileCubit(),

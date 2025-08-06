@@ -72,7 +72,7 @@ class _ManagerEditProfileScreenState extends State<ManagerEditProfileScreen> {
                     children: [
                       IconButton(
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.pop(context, cubit.editedManagerModel);
                         },
                         icon: const Icon(Icons.arrow_back_rounded),
                         color: Colors.black,

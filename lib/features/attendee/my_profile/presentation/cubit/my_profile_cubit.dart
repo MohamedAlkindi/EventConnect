@@ -7,6 +7,7 @@ import 'package:event_connect/features/attendee/edit_profile/presentation/edit_p
 import 'package:event_connect/features/attendee/my_events/presentation/cubit/my_events_cubit.dart';
 import 'package:event_connect/features/attendee/my_profile/business_logic/my_profile_bl.dart';
 import 'package:event_connect/features/attendee/user_homescreen/presentation/cubit/user_homescreen_cubit.dart';
+import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -17,20 +18,27 @@ class MyProfileCubit extends Cubit<MyProfileState> {
   MyProfileCubit() : super(MyProfileInitial());
   final MyProfileBL _businessLogic = MyProfileBL();
 
-  Future<void> getUserPic() async {
+  Future<void> getUserInfo({required UserModel? editedUserModel}) async {
     try {
-      final result = await _businessLogic.getUserPicAndLocation();
-      emit(GotMyProfileInfo(userModel: result));
+      // that editUserModel will be given from the edit profile when the user makes any changes.
+      // If that is null then the user just launched the app, otherwise the user has changed some things.
+      if (editedUserModel != null) {
+        emit(GotMyProfileInfo(userModel: editedUserModel));
+      } else {
+        emit(GotMyProfileInfo(userModel: globalUserModel!));
+      }
     } catch (e) {
       emit(MyProfileError(message: e.toString()));
     }
   }
 
-  Future<void> changeAccountSettings(
-      {required BuildContext context, required UserModel userModel}) async {
-    // final myProfileCubit = context.read<MyProfileCubit>();
-    // final userHomescreenCubit = context.read<UserHomescreenCubit>();
-    Navigator.push(
+  Future<void> changeAccountSettings({
+    required BuildContext context,
+    required UserModel userModel,
+  }) async {
+    final myProfileCubit = context.read<MyProfileCubit>();
+    final userHomescreenCubit = context.read<UserHomescreenCubit>();
+    final UserModel? editedUserModel = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => EditProfileScreen(
@@ -38,10 +46,11 @@ class MyProfileCubit extends Cubit<MyProfileState> {
         ),
       ),
     );
-    // if (result != null) {
-    // myProfileCubit.getUserPic();
-    // userHomescreenCubit.getUserProfilePic();
-    // }
+    if (editedUserModel != null) {
+      myProfileCubit.getUserInfo(editedUserModel: editedUserModel);
+      userHomescreenCubit.getUserProfilePic(
+          editedImagePath: editedUserModel.cachedPicturePath);
+    }
   }
 
   void signOutDialog({required BuildContext context}) {
