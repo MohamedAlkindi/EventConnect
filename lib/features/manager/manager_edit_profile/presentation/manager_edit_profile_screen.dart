@@ -1,17 +1,18 @@
+import 'package:event_connect/core/models/user_model.dart';
 import 'package:event_connect/core/utils/loading_dialog.dart';
+import 'package:event_connect/core/utils/localization_extensions.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/core/widgets/manager_widgets/manager_profile_widgets.dart';
 import 'package:event_connect/core/widgets/shared/app_background.dart';
 import 'package:event_connect/features/manager/manager_edit_profile/presentation/cubit/manager_edit_profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:event_connect/core/utils/localization_extensions.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ManagerEditProfileScreen extends StatefulWidget {
-  final String cachedImagePath;
-  const ManagerEditProfileScreen({super.key, required this.cachedImagePath});
+  final UserModel userModel;
+  const ManagerEditProfileScreen({super.key, required this.userModel});
 
   @override
   State<ManagerEditProfileScreen> createState() =>
@@ -22,7 +23,6 @@ class _ManagerEditProfileScreenState extends State<ManagerEditProfileScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<ManagerEditProfileCubit>().getManagerProfile();
   }
 
   @override
@@ -72,7 +72,7 @@ class _ManagerEditProfileScreenState extends State<ManagerEditProfileScreen> {
                     children: [
                       IconButton(
                         onPressed: () {
-                          Navigator.pop(context, cubit.newSelectedImagePath);
+                          Navigator.pop(context);
                         },
                         icon: const Icon(Icons.arrow_back_rounded),
                         color: Colors.black,
@@ -89,7 +89,8 @@ class _ManagerEditProfileScreenState extends State<ManagerEditProfileScreen> {
                   BlocBuilder<ManagerEditProfileCubit, ManagerEditProfileState>(
                     builder: (context, state) {
                       return managerProfilePicture(
-                          backgroundImage: cubit.getProfileImage(state, cubit),
+                          backgroundImage:
+                              cubit.getProfileImage(widget.userModel),
                           onPressed: cubit.pickImage);
                     },
                   ),
@@ -115,7 +116,7 @@ class _ManagerEditProfileScreenState extends State<ManagerEditProfileScreen> {
                             return managerCityDropDownMenu(
                               context: context,
                               formFieldValue:
-                                  cubit.getCity(state: state, cubit: cubit),
+                                  cubit.getCity(userModel: widget.userModel),
                               onChanged: (String? newValue) {
                                 if (newValue != null) {
                                   cubit.selectCity(newValue);
@@ -130,7 +131,12 @@ class _ManagerEditProfileScreenState extends State<ManagerEditProfileScreen> {
                           context: context,
                           onTap: () {
                             cubit.updateManagerProfile(
-                                cachedProfilePicPath: widget.cachedImagePath);
+                              cachedImagePath:
+                                  widget.userModel.cachedPicturePath!,
+                              previouslySelectedCity: widget.userModel.location,
+                              supabaseImageUrl: widget.userModel.profilePicUrl,
+                              userRole: widget.userModel.role,
+                            );
                           },
                         )
                       ],

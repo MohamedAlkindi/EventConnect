@@ -1,19 +1,20 @@
+import 'package:event_connect/core/models/user_model.dart';
 import 'package:event_connect/core/utils/loading_dialog.dart';
+import 'package:event_connect/core/utils/localization_extensions.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
-import 'package:event_connect/core/widgets/shared/app_background.dart';
 import 'package:event_connect/core/widgets/attendee_widgets/user_profile_widgets.dart';
+import 'package:event_connect/core/widgets/shared/app_background.dart';
 import 'package:event_connect/features/attendee/edit_profile/presentation/cubit/edit_profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:event_connect/core/utils/localization_extensions.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class EditProfileScreen extends StatefulWidget {
-  final String cachedImagePath;
+  final UserModel userModel;
   const EditProfileScreen({
     super.key,
-    required this.cachedImagePath,
+    required this.userModel,
   });
 
   @override
@@ -24,7 +25,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<EditProfileCubit>().getUserProfile();
+    ;
   }
 
   @override
@@ -74,11 +75,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     children: [
                       IconButton(
                         onPressed: () {
-                          Navigator.pop(
-                              context,
-                              context
-                                  .read<EditProfileCubit>()
-                                  .newSelectedImagePath);
+                          Navigator.pop(context);
+                          // context
+                          //     .read<EditProfileCubit>()
+                          //     .newSelectedImagePath);
                         },
                         icon: const Icon(Icons.arrow_back_rounded),
                         color: Colors.black,
@@ -93,7 +93,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   BlocBuilder<EditProfileCubit, EditProfileState>(
                     builder: (context, state) {
                       return userProfilePicture(
-                        backgroundImage: cubit.getProfileImage(state, cubit),
+                        backgroundImage:
+                            cubit.getProfileImage(widget.userModel),
                         onPressed: () {
                           cubit.pickImage();
                         },
@@ -123,7 +124,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             return cityDropDownMenu(
                               context: context,
                               formFieldValue:
-                                  cubit.getCity(state: state, cubit: cubit),
+                                  cubit.getCity(userModel: widget.userModel),
                               onChanged: (String? newValue) {
                                 if (newValue != null) {
                                   cubit.selectCity(newValue);
@@ -139,7 +140,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           context: context,
                           onTap: () {
                             cubit.updateUserProfile(
-                              cachedImagePath: widget.cachedImagePath,
+                              cachedImagePath:
+                                  widget.userModel.cachedPicturePath!,
+                              previouslySelectedCity: widget.userModel.location,
+                              supabaseImageUrl: widget.userModel.profilePicUrl,
+                              userRole: widget.userModel.role,
                             );
                           },
                         )

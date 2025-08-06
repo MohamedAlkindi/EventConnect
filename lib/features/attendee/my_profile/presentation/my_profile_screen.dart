@@ -169,8 +169,7 @@ class MyProfileScreenView extends StatelessWidget {
                                       ],
                                       onTap: () => cubit.changeAccountSettings(
                                         context: context,
-                                        cachedImagePath:
-                                            state.userModel.cachedPicturePath!,
+                                        userModel: state.userModel,
                                       ),
                                       text: AppLocalizations.of(context)!
                                           .editAccount,

@@ -1,15 +1,12 @@
 import 'dart:io';
 
-import 'package:bloc/bloc.dart';
-import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/core/models/user_model.dart';
+import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/features/manager/manager_edit_profile/presentation/manager_edit_profile_screen.dart';
-import 'package:event_connect/features/manager/manager_homescreen/presentation/cubit/manager_homescreen_cubit.dart';
 import 'package:event_connect/features/manager/manager_profile/business_logic/manager_profile_bl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:meta/meta.dart';
 
 part 'manager_profile_state.dart';
 
@@ -40,24 +37,22 @@ class ManagerProfileCubit extends Cubit<ManagerProfileState> {
     return const AssetImage('assets/images/generic_user.png');
   }
 
-  Future<void> changeAccountSettings({
-    required BuildContext context,
-    required String cachedImagePath,
-  }) async {
-    final managerProfileCubit = context.read<ManagerProfileCubit>();
-    final managerHomescreenCubit = context.read<ManagerHomescreenCubit>();
-    final result = await Navigator.push(
+  Future<void> changeAccountSettings(
+      {required BuildContext context, required UserModel userModel}) async {
+    // final managerProfileCubit = context.read<ManagerProfileCubit>();
+    // final managerHomescreenCubit = context.read<ManagerHomescreenCubit>();
+    Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => ManagerEditProfileScreen(
-          cachedImagePath: cachedImagePath,
+          userModel: userModel,
         ),
       ),
     );
-    if (result != null) {
-      managerProfileCubit.getManagerPicAndLocation();
-      managerHomescreenCubit.getManagerProfilePic();
-    }
+    // if (result != null) {
+    // managerProfileCubit.getManagerPicAndLocation();
+    // managerHomescreenCubit.getManagerProfilePic();
+    // }
   }
 
   void signOutDialog({required BuildContext context}) {

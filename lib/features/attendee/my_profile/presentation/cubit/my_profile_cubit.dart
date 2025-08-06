@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:bloc/bloc.dart';
 import 'package:event_connect/core/models/user_model.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/features/attendee/all_events/presentation/cubit/all_events_cubit.dart';
@@ -9,10 +8,8 @@ import 'package:event_connect/features/attendee/my_events/presentation/cubit/my_
 import 'package:event_connect/features/attendee/my_profile/business_logic/my_profile_bl.dart';
 import 'package:event_connect/features/attendee/user_homescreen/presentation/cubit/user_homescreen_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:meta/meta.dart';
 
 part 'my_profile_state.dart';
 
@@ -30,21 +27,21 @@ class MyProfileCubit extends Cubit<MyProfileState> {
   }
 
   Future<void> changeAccountSettings(
-      {required BuildContext context, required String cachedImagePath}) async {
-    final myProfileCubit = context.read<MyProfileCubit>();
-    final userHomescreenCubit = context.read<UserHomescreenCubit>();
-    final result = await Navigator.push(
+      {required BuildContext context, required UserModel userModel}) async {
+    // final myProfileCubit = context.read<MyProfileCubit>();
+    // final userHomescreenCubit = context.read<UserHomescreenCubit>();
+    Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => EditProfileScreen(
-          cachedImagePath: cachedImagePath,
+          userModel: userModel,
         ),
       ),
     );
-    if (result != null) {
-      myProfileCubit.getUserPic();
-      userHomescreenCubit.getUserProfilePic();
-    }
+    // if (result != null) {
+    // myProfileCubit.getUserPic();
+    // userHomescreenCubit.getUserProfilePic();
+    // }
   }
 
   void signOutDialog({required BuildContext context}) {

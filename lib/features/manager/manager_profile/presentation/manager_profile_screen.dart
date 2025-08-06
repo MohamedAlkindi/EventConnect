@@ -70,8 +70,7 @@ class ManagerProfileScreenView extends StatelessWidget {
                             colorsList: [Color(0xFF6C63FF), Color(0xFFFF6584)],
                             onTap: () => cubit.changeAccountSettings(
                               context: context,
-                              cachedImagePath:
-                                  state.userInfo.cachedPicturePath!,
+                              userModel: state.userInfo,
                             ),
                             text: AppLocalizations.of(context)!.editAccount,
                             textColor: Colors.white,
