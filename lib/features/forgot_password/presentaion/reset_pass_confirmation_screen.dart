@@ -1,8 +1,6 @@
-import 'dart:ui';
-
+import 'package:event_connect/core/routes/routes.dart';
 import 'package:event_connect/core/widgets/shared/app_background.dart';
 import 'package:event_connect/features/forgot_password/presentaion/widgets.dart';
-import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

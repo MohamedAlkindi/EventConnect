@@ -1,3 +1,4 @@
+import 'package:event_connect/core/routes/routes.dart';
 import 'package:event_connect/core/utils/loading_dialog.dart';
 import 'package:event_connect/core/utils/localization_extensions.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
@@ -5,7 +6,6 @@ import 'package:event_connect/core/widgets/shared/app_background.dart';
 import 'package:event_connect/core/widgets/shared/authentication_widgets.dart';
 import 'package:event_connect/features/login/presentation/cubit/login_cubit.dart';
 import 'package:event_connect/features/register/presentation/widget/text_fields.dart';
-import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

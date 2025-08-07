@@ -1,10 +1,10 @@
 import 'package:event_connect/core/models/event_model.dart';
+import 'package:event_connect/core/routes/routes.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/core/widgets/manager_widgets/manager_events_page_widgets.dart';
 import 'package:event_connect/core/widgets/shared/app_background.dart';
 import 'package:event_connect/features/manager/manager_events/presentation/cubit/add_event_cubit.dart';
 import 'package:event_connect/features/manager/manager_events/presentation/cubit/manager_events_cubit.dart';
-import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

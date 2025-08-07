@@ -5,6 +5,7 @@ import 'package:event_connect/core/exceptions/firebase_exceptions/firebase_excep
 import 'package:event_connect/core/exceptions_messages/error_codes.dart';
 import 'package:event_connect/core/exceptions_messages/messages.dart';
 import 'package:event_connect/core/models/user_model.dart';
+import 'package:event_connect/main.dart';
 import 'package:event_connect/shared/image_caching_setup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -23,6 +24,7 @@ class FirebaseUser {
         email: email,
         password: password,
       );
+      globalUserModel = await getUserInfo();
     } on FirebaseAuthException catch (e) {
       if (e.code == ErrorCodes.weakPasswordErrorCode) {
         throw FirebaseWeakPass(
@@ -50,6 +52,7 @@ class FirebaseUser {
         email: email,
         password: password,
       );
+      globalUserModel = await getUserInfo();
     } on FirebaseAuthException catch (e) {
       if (e.code == ErrorCodes.userNotFoundErrorCode ||
           e.code == ErrorCodes.wrongPasswordErrorCode ||

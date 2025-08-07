@@ -1,3 +1,4 @@
+import 'package:event_connect/core/routes/routes.dart';
 import 'package:event_connect/core/widgets/manager_widgets/manager_profile_widgets.dart';
 import 'package:event_connect/core/widgets/shared/app_background.dart';
 import 'package:event_connect/features/manager/manager_profile/presentation/cubit/manager_profile_cubit.dart';

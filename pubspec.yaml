@@ -60,6 +60,7 @@ dependencies:
   flutter_localizations:
       sdk: flutter
   intl: ^0.19.0
+  provider:
 dev_dependencies:
   # flutter_native_splash: ^2.4.4
   flutter_test:
