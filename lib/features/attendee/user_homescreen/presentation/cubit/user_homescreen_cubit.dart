@@ -61,6 +61,7 @@ class UserHomescreenCubit extends Cubit<UserHomescreenState> {
   }
 
   void reset() {
+    pageController.jumpToPage(0);
     emit(UserHomescreenInitial());
   }
 }

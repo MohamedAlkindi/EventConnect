@@ -57,4 +57,9 @@ class ManagerHomescreenCubit extends Cubit<ManagerHomescreenState> {
     pageController.dispose();
     return super.close();
   }
+
+  // method to reset cubit and all cached data after logging out or deleting account.
+  void reset() {
+    emit(ManagerHomescreenInitial());
+  }
 }

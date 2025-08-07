@@ -24,13 +24,25 @@ class ManagerProfileDa {
 
   Future<void> deleteUser() async {
     try {
-      await _user.deleteUser();
+      print('ManagerProfileDa: Starting delete user process...');
+      // Store the user ID before deleting the Firebase Auth user
+      final userID = _user.getUserID;
+      print('ManagerProfileDa: User ID: $userID');
 
+      // Delete Firestore document first
+      print('ManagerProfileDa: Deleting Firestore document...');
       await _firestore
           .collection(UserCollection.userCollectionName)
-          .doc(_user.getUserID)
+          .doc(userID)
           .delete();
+      print('ManagerProfileDa: Firestore document deleted successfully');
+
+      // Then delete the Firebase Auth user
+      print('ManagerProfileDa: Deleting Firebase Auth user...');
+      await _user.deleteUser();
+      print('ManagerProfileDa: Firebase Auth user deleted successfully');
     } catch (e) {
+      print('ManagerProfileDa: Delete user failed with error: $e');
       throw GenericException(e.toString());
     }
   }

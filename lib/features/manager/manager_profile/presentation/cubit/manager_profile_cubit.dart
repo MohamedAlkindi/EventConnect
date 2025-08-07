@@ -9,6 +9,8 @@ import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:event_connect/features/manager/manager_events/presentation/cubit/manager_events_cubit.dart';
+import 'package:event_connect/shared/image_caching_setup.dart';
 
 part 'manager_profile_state.dart';
 
@@ -16,6 +18,7 @@ class ManagerProfileCubit extends Cubit<ManagerProfileState> {
   ManagerProfileCubit() : super(ManagerProfileInitial());
 
   final _businessLogic = ManagerProfileBl();
+  final _imageCaching = ImageCachingSetup();
 
   Future<void> getManagerInfo(UserModel? updatedManagerModel) async {
     try {
@@ -114,10 +117,25 @@ class ManagerProfileCubit extends Cubit<ManagerProfileState> {
 
   Future<void> deleteUser() async {
     try {
+      print('ManagerProfileCubit: Starting delete user process...');
+      emit(ManagerProfileLoading());
       await _businessLogic.deleteUser();
+      print('ManagerProfileCubit: Delete user successful, emitting ManagerDeletedSuccessfully');
       emit(ManagerDeletedSuccessfully());
     } catch (e) {
+      print('ManagerProfileCubit: Delete user failed with error: $e');
       emit(ManagerProfileError(message: e.toString()));
     }
+  }
+
+  // method to reset cubit and all cached data after logging out or deleting account.
+  Future<void> resetAllCubits({required BuildContext context}) async {
+    // Clear cached data and reset global variables
+    await _imageCaching.clearAllCachedData();
+
+    // Reset all cubits
+    context.read<ManagerEventsCubit>().reset();
+    context.read<ManagerHomescreenCubit>().reset();
+    emit(ManagerProfileInitial());
   }
 }

@@ -28,12 +28,17 @@ class MyProfileDa {
 
   Future<void> deleteUser() async {
     try {
-      await _user.deleteUser();
+      // Store the user ID before deleting the Firebase Auth user
+      final userID = _user.getUserID;
 
+      // Delete Firestore document first
       await _firestore
           .collection(UserCollection.userCollectionName)
-          .doc(_user.getUserID)
+          .doc(userID)
           .delete();
+
+      // Then delete the Firebase Auth user
+      await _user.deleteUser();
     } catch (e) {
       throw GenericException(e.toString());
     }

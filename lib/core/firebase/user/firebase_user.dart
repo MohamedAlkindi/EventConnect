@@ -24,7 +24,6 @@ class FirebaseUser {
         email: email,
         password: password,
       );
-      globalUserModel = await getUserInfo();
     } on FirebaseAuthException catch (e) {
       if (e.code == ErrorCodes.weakPasswordErrorCode) {
         throw FirebaseWeakPass(
@@ -195,12 +194,17 @@ class FirebaseUser {
       await getUser!.delete();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'requires-recent-login') {
-        // If the user needs to reauthenticate, you should handle this case
-        // by prompting the user to sign in again before deletion
+        // If the user needs to reauthenticate, provide a more helpful error message
         throw GenericException(
-            'Please sign in again before deleting your account');
+            'For security reasons, you need to sign in again before deleting your account. Please sign out and sign back in.');
+      } else if (e.code == 'user-not-found') {
+        throw GenericException('User account not found');
+      } else if (e.code == 'network-request-failed') {
+        throw GenericException(
+            'Network error. Please check your internet connection.');
+      } else {
+        throw GenericException('Failed to delete user: ${e.message}');
       }
-      throw GenericException('Failed to delete user: ${e.message}');
     } catch (e) {
       throw GenericException('An error occurred while deleting the user: $e');
     }

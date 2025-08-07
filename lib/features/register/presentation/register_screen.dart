@@ -101,7 +101,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             ? Icons.visibility_off_outlined
                             : Icons.visibility_outlined,
                         isObsecure: isObsecure,
-                        onTap: () => cubit.togglePasswordVisibility(),
+                        onTap: () {
+                          cubit.togglePasswordVisibility();
+                        },
                       );
                     },
                   ),
@@ -121,7 +123,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             ? Icons.visibility_off_outlined
                             : Icons.visibility_outlined,
                         isObsecure: isObsecure,
-                        onTap: () => cubit.toggleRepeatPasswordVisibility(),
+                        onTap: () {
+                          cubit.toggleRepeatPasswordVisibility();
+                        },
                       );
                     },
                   ),
