@@ -7,7 +7,6 @@ class ImageStorageService {
   // I return the image url to use it later to update the image.
   Future<String> addAndReturnImageUrl(
       {required String imagePath,
-      required eventName,
       required String userID,
       required bool isEventPic}) async {
     final file = File(imagePath);

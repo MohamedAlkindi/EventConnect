@@ -1,15 +1,16 @@
 import 'dart:io';
 
-import 'package:bloc/bloc.dart';
-import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/core/models/user_model.dart';
+import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/features/manager/manager_edit_profile/presentation/manager_edit_profile_screen.dart';
+import 'package:event_connect/features/manager/manager_events/presentation/cubit/manager_events_cubit.dart';
 import 'package:event_connect/features/manager/manager_homescreen/presentation/cubit/manager_homescreen_cubit.dart';
 import 'package:event_connect/features/manager/manager_profile/business_logic/manager_profile_bl.dart';
+import 'package:event_connect/main.dart';
+import 'package:event_connect/shared/image_caching_setup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:meta/meta.dart';
 
 part 'manager_profile_state.dart';
 
@@ -17,46 +18,56 @@ class ManagerProfileCubit extends Cubit<ManagerProfileState> {
   ManagerProfileCubit() : super(ManagerProfileInitial());
 
   final _businessLogic = ManagerProfileBl();
+  final _imageCaching = ImageCachingSetup();
 
-  Future<void> getManagerPicAndLocation() async {
+  Future<void> getManagerInfo({required UserModel? updatedManagerModel}) async {
     try {
-      final result = await _businessLogic.getManagerPicAndLocation();
-      emit(GotManagerProfileInfo(userInfo: result));
+      if (updatedManagerModel != null) {
+        emit(GotManagerProfileInfo(userInfo: updatedManagerModel));
+      } else {
+        // final result = await _businessLogic.getManagerPicAndLocation();
+        emit(GotManagerProfileInfo(userInfo: globalUserModel!));
+      }
     } catch (e) {
       emit(ManagerProfileError(message: e.toString()));
     }
   }
 
-  ImageProvider<Object>? returnManagerPic({
-    required String? cachedPicturePath,
-    required String profilePicUrl,
-  }) {
-    if (cachedPicturePath != null && File(cachedPicturePath).existsSync()) {
-      return FileImage(File(cachedPicturePath));
-    } else if (cachedPicturePath == null ||
-        File(cachedPicturePath).existsSync()) {
-      return NetworkImage(profilePicUrl);
+  ImageProvider<Object>? returnManagerPic(
+      {required GotManagerProfileInfo state}) {
+    if (state.userInfo.cachedPicturePath != null &&
+        File(
+          state.userInfo.cachedPicturePath!,
+        ).existsSync()) {
+      return FileImage(File(state.userInfo.cachedPicturePath!));
+    } else if (state.userInfo.profilePicUrl.isNotEmpty &&
+        state.userInfo.profilePicUrl.startsWith("http")) {
+      return NetworkImage(
+        "${state.userInfo.profilePicUrl}${state.userInfo.profilePicUrl.contains('?') ? '&' : '?'}updated=${DateTime.now().millisecondsSinceEpoch}",
+      );
     }
-    return const AssetImage('assets/images/generic_user.png');
+    return AssetImage('assets/images/generic_user.png');
   }
 
   Future<void> changeAccountSettings({
     required BuildContext context,
-    required String cachedImagePath,
+    required UserModel userModel,
   }) async {
     final managerProfileCubit = context.read<ManagerProfileCubit>();
     final managerHomescreenCubit = context.read<ManagerHomescreenCubit>();
-    final result = await Navigator.push(
+    final UserModel? managerModel = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => ManagerEditProfileScreen(
-          cachedImagePath: cachedImagePath,
+          userModel: userModel,
         ),
       ),
     );
-    if (result != null) {
-      managerProfileCubit.getManagerPicAndLocation();
-      managerHomescreenCubit.getManagerProfilePic();
+    if (managerModel != null) {
+      managerProfileCubit.getManagerInfo(updatedManagerModel: managerModel);
+      managerHomescreenCubit.getManagerProfilePic(
+        editedImagePath: managerModel.cachedPicturePath,
+      );
     }
   }
 
@@ -109,10 +120,26 @@ class ManagerProfileCubit extends Cubit<ManagerProfileState> {
 
   Future<void> deleteUser() async {
     try {
+      print('ManagerProfileCubit: Starting delete user process...');
+      emit(ManagerProfileLoading());
       await _businessLogic.deleteUser();
+      print(
+          'ManagerProfileCubit: Delete user successful, emitting ManagerDeletedSuccessfully');
       emit(ManagerDeletedSuccessfully());
     } catch (e) {
+      print('ManagerProfileCubit: Delete user failed with error: $e');
       emit(ManagerProfileError(message: e.toString()));
     }
+  }
+
+  // method to reset cubit and all cached data after logging out or deleting account.
+  Future<void> resetAllCubits({required BuildContext context}) async {
+    // Clear cached data and reset global variables
+    await _imageCaching.clearAllCachedData();
+
+    // Reset all cubits
+    context.read<ManagerEventsCubit>().reset();
+    context.read<ManagerHomescreenCubit>().reset();
+    emit(ManagerProfileInitial());
   }
 }

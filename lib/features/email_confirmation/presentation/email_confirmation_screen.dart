@@ -1,12 +1,12 @@
+import 'package:event_connect/core/routes/routes.dart';
 import 'package:event_connect/core/utils/loading_dialog.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/core/widgets/shared/app_background.dart';
 import 'package:event_connect/features/email_confirmation/presentation/cubit/email_confirmation_cubit.dart';
-import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class EmailConfirmationScreen extends StatefulWidget {
   const EmailConfirmationScreen({super.key});
@@ -55,10 +55,9 @@ class _EmailConfirmationScreen extends State<EmailConfirmationScreen> {
                       );
               } else if (state is DataCompleted) {
                 // if user info is completed.. show the homescreen.
-                // otherwise show the complete data.
-                hideLoadingDialog(context);
+                // otherwise show the complete data
                 state.isDataCompleted
-                    ? cubit.showUserHomescreen
+                    ? cubit.showUserHomescreen()
                     : Navigator.pushReplacementNamed(
                         context,
                         completeProfileInfoScreenRoute,

@@ -5,8 +5,8 @@ import 'package:event_connect/core/constants/user_cities.dart';
 import 'package:event_connect/core/models/user_model.dart';
 import 'package:event_connect/features/manager/manager_edit_profile/business_logic/manager_edit_profile_bl.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:image_picker/image_picker.dart';
 
 part 'manager_edit_profile_state.dart';
 
@@ -16,15 +16,9 @@ class ManagerEditProfileCubit extends Cubit<ManagerEditProfileState> {
 
   // TODO: Might change it to one var like the complete profile.
   // And might not, hehe,
-  String? previouslySelectedCity;
   String? newSelectedCity;
 
   final ImagePicker _picker = ImagePicker();
-
-  // This will come from the restored data which will contain the path
-  // of the image in supabase.
-  String? supabaseImageUrl;
-  // String? cachedProfilePicPath;
 
   String? newSelectedImagePath;
 
@@ -52,69 +46,45 @@ class ManagerEditProfileCubit extends Cubit<ManagerEditProfileState> {
     }
   }
 
-  Future<void> updateManagerProfile(
-      {required String cachedProfilePicPath}) async {
+  UserModel? editedManagerModel;
+  Future<void> updateManagerProfile({
+    required String cachedImagePath,
+    required String previouslySelectedCity,
+    required String supabaseImageUrl,
+    required String userRole,
+  }) async {
     try {
       emit(ManagerEditProfileLoading());
-      await _bl.updateManagerProfile(
-        location: newSelectedCity ?? previouslySelectedCity!,
-        supabaseImageUrl: supabaseImageUrl!,
+      final updatedManagerInfo = await _bl.updateManagerProfile(
+        location: newSelectedCity ?? previouslySelectedCity,
+        supabaseImageUrl: supabaseImageUrl,
         newProfilePicPath: newSelectedImagePath,
-        oldProfilePicPath: cachedProfilePicPath,
-        role: userRole!,
+        oldProfilePicPath: cachedImagePath,
+        role: userRole,
       );
+      editedManagerModel = updatedManagerInfo;
       emit(ManagerEditProfileSuccess());
     } catch (e) {
       emit(ManagerEditProfileError(message: e.toString()));
     }
   }
 
-  Future<void> getManagerProfile() async {
-    try {
-      final managerProfile = await _bl.getManagerProfile();
-      previouslySelectedCity = managerProfile.location;
-      supabaseImageUrl = managerProfile.profilePicUrl;
-      userRole = managerProfile.role;
-      emit(GotManagerProfile(managerProfile: managerProfile));
-    } catch (e) {
-      emit(ManagerEditProfileError(message: e.toString()));
-    }
-  }
-
-  ImageProvider getProfileImage(
-    ManagerEditProfileState state,
-    ManagerEditProfileCubit cubit,
-  ) {
-    if (state is GotManagerProfile) {
-      if (state.managerProfile.cachedPicturePath == null) {
-        return NetworkImage(
-          "${state.managerProfile.profilePicUrl}?updated=${DateTime.now().millisecondsSinceEpoch}",
-        );
-      }
-      return FileImage(File(state.managerProfile.cachedPicturePath!));
-    } else if (state is SelectedImage) {
-      return FileImage(File(state.selectedImagePath));
-    } else if (cubit.newSelectedImagePath != null) {
-      return FileImage(File(cubit.newSelectedImagePath!));
-    } else if (cubit.supabaseImageUrl != null) {
+  ImageProvider getProfileImage(UserModel userModel) {
+    if (userModel.cachedPicturePath == null) {
       return NetworkImage(
-        "${cubit.supabaseImageUrl!}updated=${DateTime.now().millisecondsSinceEpoch}",
+        "${userModel.profilePicUrl}?updated=${DateTime.now().millisecondsSinceEpoch}",
       );
+    } else if (newSelectedImagePath != null) {
+      return FileImage(File(newSelectedImagePath!));
     }
-    return const AssetImage('assets/images/generic_user.png');
+    return FileImage(File(userModel.cachedPicturePath!));
   }
 
-  String getCity(
-      {required ManagerEditProfileState state,
-      required ManagerEditProfileCubit cubit}) {
-    if (state is GotManagerProfile) {
-      return state.managerProfile.location;
-    } else if (state is SelectedCity) {
-      return state.selectedCity;
-    } else if (cubit.newSelectedCity != null) {
-      return cubit.newSelectedCity!;
+  String getCity({required UserModel userModel}) {
+    if (newSelectedCity != null) {
+      return newSelectedCity!;
     }
-    return cubit.previouslySelectedCity ?? "Al Mukalla";
+    return userModel.location;
   }
 
   String getCityDisplay(String value, AppLocalizations l10n) {

@@ -103,6 +103,9 @@ class AllEventsCubit extends Cubit<AllEventsState> {
 
 // method to reset cubit and all cached data after logging out or deleting account.
   void reset() {
+    _allEvents.clear();
+    _eventsSubject.add([]);
+    selectedCategory = 'All';
     emit(AllEventsInitial());
   }
 

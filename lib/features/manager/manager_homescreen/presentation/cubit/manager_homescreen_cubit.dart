@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
-import 'package:event_connect/features/manager/manager_homescreen/business_logic/manager_homescreen_bl.dart';
+import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 
 part 'manager_homescreen_state.dart';
@@ -9,10 +9,10 @@ part 'manager_homescreen_state.dart';
 class ManagerHomescreenCubit extends Cubit<ManagerHomescreenState> {
   final PageController pageController = PageController();
   ManagerHomescreenCubit() : super(ManagerHomescreenInitial()) {
-    getManagerProfilePic();
+    getManagerProfilePic(editedImagePath: null);
   }
 
-  ManagerHomescreenBl managerHomescreenBl = ManagerHomescreenBl();
+  // ManagerHomescreenBl managerHomescreenBl = ManagerHomescreenBl();
 
   void onPageChanged(int index) {
     emit(ManagerHomescreenState(
@@ -34,13 +34,19 @@ class ManagerHomescreenCubit extends Cubit<ManagerHomescreenState> {
     return FileImage(File(state.imageFile!));
   }
 
-  Future<void> getManagerProfilePic() async {
+  Future<void> getManagerProfilePic({required String? editedImagePath}) async {
     emit(ManagerHomescreenLoading());
     try {
-      String managerProfilePic =
-          await managerHomescreenBl.getManagerProfilePic();
-      emit(ManagerHomescreenState(
-          currentIndex: state.currentIndex, imageFile: managerProfilePic));
+      if (editedImagePath != null) {
+        emit(ManagerHomescreenState(
+            currentIndex: state.currentIndex, imageFile: editedImagePath));
+      } else {
+        emit(ManagerHomescreenState(
+            currentIndex: state.currentIndex,
+            imageFile: globalUserModel!.cachedPicturePath));
+      }
+      // String managerProfilePic =
+      // await managerHomescreenBl.getManagerProfilePic();
     } catch (e) {
       emit(ManagerHomescreenError(message: e.toString()));
     }
@@ -50,5 +56,10 @@ class ManagerHomescreenCubit extends Cubit<ManagerHomescreenState> {
   Future<void> close() {
     pageController.dispose();
     return super.close();
+  }
+
+  // method to reset cubit and all cached data after logging out or deleting account.
+  void reset() {
+    emit(ManagerHomescreenInitial());
   }
 }

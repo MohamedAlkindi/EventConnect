@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:bloc/bloc.dart';
 import 'package:event_connect/core/models/user_model.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/features/attendee/all_events/presentation/cubit/all_events_cubit.dart';
@@ -8,42 +7,51 @@ import 'package:event_connect/features/attendee/edit_profile/presentation/edit_p
 import 'package:event_connect/features/attendee/my_events/presentation/cubit/my_events_cubit.dart';
 import 'package:event_connect/features/attendee/my_profile/business_logic/my_profile_bl.dart';
 import 'package:event_connect/features/attendee/user_homescreen/presentation/cubit/user_homescreen_cubit.dart';
+import 'package:event_connect/main.dart';
+import 'package:event_connect/shared/image_caching_setup.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:meta/meta.dart';
 
 part 'my_profile_state.dart';
 
 class MyProfileCubit extends Cubit<MyProfileState> {
   MyProfileCubit() : super(MyProfileInitial());
   final MyProfileBL _businessLogic = MyProfileBL();
+  final _imageCaching = ImageCachingSetup();
 
-  Future<void> getUserPic() async {
+  Future<void> getUserInfo({required UserModel? editedUserModel}) async {
     try {
-      final result = await _businessLogic.getUserPicAndLocation();
-      emit(GotMyProfileInfo(userModel: result));
+      // that editUserModel will be given from the edit profile when the user makes any changes.
+      // If that is null then the user just launched the app, otherwise the user has changed some things.
+      if (editedUserModel != null) {
+        emit(GotMyProfileInfo(userModel: editedUserModel));
+      } else {
+        emit(GotMyProfileInfo(userModel: globalUserModel!));
+      }
     } catch (e) {
       emit(MyProfileError(message: e.toString()));
     }
   }
 
-  Future<void> changeAccountSettings(
-      {required BuildContext context, required String cachedImagePath}) async {
+  Future<void> changeAccountSettings({
+    required BuildContext context,
+    required UserModel userModel,
+  }) async {
     final myProfileCubit = context.read<MyProfileCubit>();
     final userHomescreenCubit = context.read<UserHomescreenCubit>();
-    final result = await Navigator.push(
+    final UserModel? editedUserModel = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => EditProfileScreen(
-          cachedImagePath: cachedImagePath,
+          userModel: userModel,
         ),
       ),
     );
-    if (result != null) {
-      myProfileCubit.getUserPic();
-      userHomescreenCubit.getUserProfilePic();
+    if (editedUserModel != null) {
+      myProfileCubit.getUserInfo(editedUserModel: editedUserModel);
+      userHomescreenCubit.getUserProfilePic(
+          editedImagePath: editedUserModel.cachedPicturePath);
     }
   }
 
@@ -96,9 +104,14 @@ class MyProfileCubit extends Cubit<MyProfileState> {
 
   Future<void> deleteUser() async {
     try {
+      print('MyProfileCubit: Starting delete user process...');
+      emit(MyProfileLoading());
       await _businessLogic.deleteUser();
+      print(
+          'MyProfileCubit: Delete user successful, emitting UserDeletedSuccessfully');
       emit(UserDeletedSuccessfully());
     } catch (e) {
+      print('MyProfileCubit: Delete user failed with error: $e');
       emit(MyProfileError(message: e.toString()));
     }
   }
@@ -119,10 +132,19 @@ class MyProfileCubit extends Cubit<MyProfileState> {
   }
 
   // method to reset cubit and all cached data after logging out or deleting account.
-  void resetAllCubits({required BuildContext context}) {
-    context.read<AllEventsCubit>().reset();
-    context.read<MyEventsCubit>().reset();
-    context.read<UserHomescreenCubit>().reset();
+  Future<void> resetAllCubits({required BuildContext context}) async {
+    // Capture cubits before async gap
+    final allEventsCubit = context.read<AllEventsCubit>();
+    final myEventsCubit = context.read<MyEventsCubit>();
+    final userHomescreenCubit = context.read<UserHomescreenCubit>();
+
+    // Clear cached data and reset global variables
+    await _imageCaching.clearAllCachedData();
+
+    // Reset all cubits
+    allEventsCubit.reset();
+    myEventsCubit.reset();
+    userHomescreenCubit.reset();
     emit(MyProfileInitial());
   }
 }

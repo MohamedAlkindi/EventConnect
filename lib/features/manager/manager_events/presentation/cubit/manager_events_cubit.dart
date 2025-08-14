@@ -75,4 +75,11 @@ class ManagerEventsCubit extends Cubit<ManagerEventsState> {
           .add(List<EventModel>.from(_managerEvents)); // Emit a new list
     }
   }
+
+  // method to reset cubit and all cached data after logging out or deleting account.
+  void reset() {
+    _managerEvents.clear();
+    _eventsSubject.add([]);
+    emit(ManagerEventsInitial());
+  }
 }

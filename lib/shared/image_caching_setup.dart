@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
 import 'package:event_connect/core/models/event_model.dart';
+import 'package:event_connect/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
@@ -66,5 +68,29 @@ class ImageCachingSetup {
       return file.path;
     }
     return url;
+  }
+
+  // method to clear all cached images and reset global variables
+  Future<void> clearAllCachedData() async {
+    try {
+      // Reset global user model
+      globalUserModel = null;
+
+      // Clear cached images from temporary directory
+      final dir = await getTemporaryDirectory();
+      final files = dir.listSync();
+
+      for (final file in files) {
+        if (file.path.contains('Event_Connect')) {
+          try {
+            await file.delete();
+          } catch (e) {
+            throw GenericException(e.toString());
+          }
+        }
+      }
+    } catch (e) {
+      // Ignore errors during cleanup
+    }
   }
 }

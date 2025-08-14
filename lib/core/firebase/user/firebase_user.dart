@@ -4,11 +4,15 @@ import 'package:event_connect/core/exceptions/authentication_exceptions/authenti
 import 'package:event_connect/core/exceptions/firebase_exceptions/firebase_exceptions.dart';
 import 'package:event_connect/core/exceptions_messages/error_codes.dart';
 import 'package:event_connect/core/exceptions_messages/messages.dart';
+import 'package:event_connect/core/models/user_model.dart';
+import 'package:event_connect/main.dart';
+import 'package:event_connect/shared/image_caching_setup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseUser {
   User? get getUser => FirebaseAuth.instance.currentUser;
   String get getUserID => getUser!.uid;
+  final _imageCaching = ImageCachingSetup();
 
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
@@ -47,6 +51,7 @@ class FirebaseUser {
         email: email,
         password: password,
       );
+      globalUserModel = await getUserInfo();
     } on FirebaseAuthException catch (e) {
       if (e.code == ErrorCodes.userNotFoundErrorCode ||
           e.code == ErrorCodes.wrongPasswordErrorCode ||
@@ -67,6 +72,25 @@ class FirebaseUser {
       }
     } catch (e) {
       throw GenericException(ExceptionMessages.genericExceptionMessage);
+    }
+  }
+
+  Future<UserModel> getUserInfo() async {
+    try {
+      final doc = await _firestore
+          .collection(UserCollection.userCollectionName)
+          .doc(getUserID)
+          .get();
+
+      final data = doc.data();
+
+      final userModel = UserModel.fromJson(data!);
+      final imagePath = await _imageCaching.downloadAndCacheImageByUrl(
+          "${userModel.profilePicUrl}${userModel.profilePicUrl.contains('?') ? '&' : '?'}updated=${DateTime.now().millisecondsSinceEpoch}");
+      userModel.cachedPicturePath = imagePath;
+      return userModel;
+    } catch (e) {
+      throw GenericException(e.toString());
     }
   }
 
@@ -170,12 +194,17 @@ class FirebaseUser {
       await getUser!.delete();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'requires-recent-login') {
-        // If the user needs to reauthenticate, you should handle this case
-        // by prompting the user to sign in again before deletion
+        // If the user needs to reauthenticate, provide a more helpful error message
         throw GenericException(
-            'Please sign in again before deleting your account');
+            'For security reasons, you need to sign in again before deleting your account. Please sign out and sign back in.');
+      } else if (e.code == 'user-not-found') {
+        throw GenericException('User account not found');
+      } else if (e.code == 'network-request-failed') {
+        throw GenericException(
+            'Network error. Please check your internet connection.');
+      } else {
+        throw GenericException('Failed to delete user: ${e.message}');
       }
-      throw GenericException('Failed to delete user: ${e.message}');
     } catch (e) {
       throw GenericException('An error occurred while deleting the user: $e');
     }

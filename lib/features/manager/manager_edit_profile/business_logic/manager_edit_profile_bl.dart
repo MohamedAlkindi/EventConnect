@@ -11,7 +11,7 @@ class ManagerEditProfileBL {
   final _imageCompression = ImageCompressionService();
   final _imageService = ImageStorageService();
 
-  Future<void> updateManagerProfile({
+  Future<UserModel> updateManagerProfile({
     required String location,
     required String supabaseImageUrl,
     required String? newProfilePicPath,
@@ -35,19 +35,27 @@ class ManagerEditProfileBL {
                 userID: _userID,
               ),
         role: role,
-        cachedPicturePath: imagePath ?? oldProfilePicPath,
+        // This should always be null as the cached path should be stored in firestore.
+        cachedPicturePath: null,
       );
       await _dataAccess.updateProfileDetails(updatedInfo);
+      // If the imagePath != null then the user updated the profile pic.
+      // So use the new one to replace the model's property,
+      // Otherwise use the OLD profile pic which the user hasnt updated.
+
+      // Return the updated cachedPicturePath with the right path to the cubit.
+      updatedInfo.cachedPicturePath = imagePath ?? oldProfilePicPath;
+      return updatedInfo;
     } catch (e) {
       throw GenericException(e.toString());
     }
   }
 
-  Future<UserModel> getManagerProfile() async {
-    try {
-      return await _dataAccess.getManagerDetails();
-    } catch (e) {
-      throw GenericException(e.toString());
-    }
-  }
+  // Future<UserModel> getManagerProfile() async {
+  //   try {
+  //     return await _dataAccess.getManagerDetails();
+  //   } catch (e) {
+  //     throw GenericException(e.toString());
+  //   }
+  // }
 }

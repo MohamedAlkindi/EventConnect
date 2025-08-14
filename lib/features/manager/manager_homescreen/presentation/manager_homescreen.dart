@@ -2,8 +2,8 @@ import 'package:event_connect/core/widgets/shared/app_background.dart';
 import 'package:event_connect/core/widgets/shared/homescreen_appbar_widget.dart';
 import 'package:event_connect/features/manager/manager_events/presentation/show_manager_events_screen.dart';
 import 'package:event_connect/features/manager/manager_homescreen/presentation/cubit/manager_homescreen_cubit.dart';
-import 'package:event_connect/features/manager/manager_homescreen/presentation/widgets/manager_navbar_items.dart';
 import 'package:event_connect/features/manager/manager_homescreen/presentation/widgets/manager_navbar_container.dart';
+import 'package:event_connect/features/manager/manager_homescreen/presentation/widgets/manager_navbar_items.dart';
 import 'package:event_connect/features/manager/manager_profile/presentation/manager_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +14,9 @@ class ManagerHomescreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context
+        .read<ManagerHomescreenCubit>()
+        .getManagerProfilePic(editedImagePath: null);
     return ManagerHomescreenView();
   }
 }

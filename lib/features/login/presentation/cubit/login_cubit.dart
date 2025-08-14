@@ -2,8 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
 import 'package:event_connect/core/exceptions/firebase_exceptions/firebase_exceptions.dart';
 import 'package:event_connect/core/exceptions_messages/messages.dart';
+import 'package:event_connect/core/routes/routes.dart';
 import 'package:event_connect/features/login/business_logic/firebase_login.dart';
-import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 
 part 'login_state.dart';

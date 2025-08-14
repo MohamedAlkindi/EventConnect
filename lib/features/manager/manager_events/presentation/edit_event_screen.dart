@@ -107,8 +107,6 @@ class _EditEventScreenState extends State<EditEventScreen> {
                           builder: (context, state) {
                             return ClipRRect(
                               borderRadius: BorderRadius.circular(22),
-                              // prioritize the new image over the old "cached" one.
-                              // TODO: Fix the caching and storing issue!!
                               child: cubit.getImageForClipRRect(
                                 picturePath:
                                     widget.eventModel.cachedPicturePath!,

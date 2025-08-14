@@ -5,6 +5,8 @@ sealed class ManagerProfileState {}
 
 final class ManagerProfileInitial extends ManagerProfileState {}
 
+final class ManagerProfileLoading extends ManagerProfileState {}
+
 final class GotManagerProfileInfo extends ManagerProfileState {
   final UserModel userInfo;
 

@@ -5,6 +5,8 @@ sealed class MyProfileState {}
 
 final class MyProfileInitial extends MyProfileState {}
 
+final class MyProfileLoading extends MyProfileState {}
+
 final class GotMyProfileInfo extends MyProfileState {
   final UserModel userModel;
 
