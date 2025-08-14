@@ -2,8 +2,8 @@ import 'package:event_connect/features/attendee/all_events/presentation/all_even
 import 'package:event_connect/features/attendee/my_events/presentation/my_events_screen.dart';
 import 'package:event_connect/features/attendee/my_profile/presentation/my_profile_screen.dart';
 import 'package:event_connect/features/attendee/user_homescreen/presentation/user_homescreen.dart';
+import 'package:event_connect/features/authentication/email_confirmation/presentation/email_confirmation_screen.dart';
 import 'package:event_connect/features/complete_profile/presentation/complete_profile_screen.dart';
-import 'package:event_connect/features/email_confirmation/presentation/email_confirmation_screen.dart';
 import 'package:event_connect/features/forgot_password/presentaion/forgot_password_screen.dart';
 import 'package:event_connect/features/forgot_password/presentaion/reset_pass_confirmation_screen.dart';
 import 'package:event_connect/features/login/presentation/login_screen.dart';
