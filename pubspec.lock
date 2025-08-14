@@ -918,7 +918,7 @@ packages:
     source: hosted
     version: "2.4.2"
   provider:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: provider
       sha256: "489024f942069c2920c844ee18bb3d467c69e48955a4f32d1677f71be103e310"
