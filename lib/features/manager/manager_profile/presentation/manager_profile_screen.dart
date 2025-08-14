@@ -1,4 +1,3 @@
-// TODO: Make the logic of retrieving the manager photo EXACTLY THE SAME ِAS attendee...
 import 'package:event_connect/core/routes/routes.dart';
 import 'package:event_connect/core/widgets/manager_widgets/manager_profile_widgets.dart';
 import 'package:event_connect/core/widgets/shared/app_background.dart';
