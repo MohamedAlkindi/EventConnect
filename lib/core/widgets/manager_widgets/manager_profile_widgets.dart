@@ -85,17 +85,15 @@ Widget profilePicContainer({required Widget childWidget}) {
 }
 
 Widget managerProfilePicStack({
+  required GotManagerProfileInfo state,
   required ManagerProfileCubit cubit,
-  required String? cachedPicturePath,
-  required String profilePicUrl,
 }) {
   return Stack(
     children: [
       CircleAvatar(
         radius: 80,
         backgroundImage: cubit.returnManagerPic(
-          cachedPicturePath: cachedPicturePath,
-          profilePicUrl: profilePicUrl,
+          state: state,
         ),
       ),
       Positioned(

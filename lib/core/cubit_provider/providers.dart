@@ -72,7 +72,8 @@ List<SingleChildWidget> getCubitProviders() {
       create: (context) => MyProfileCubit()..getUserInfo(editedUserModel: null),
     ),
     BlocProvider(
-      create: (context) => ManagerProfileCubit()..getManagerInfo(null),
+      create: (context) =>
+          ManagerProfileCubit()..getManagerInfo(updatedManagerModel: null),
     ),
     BlocProvider(
       create: (context) => ManagerEditProfileCubit(),

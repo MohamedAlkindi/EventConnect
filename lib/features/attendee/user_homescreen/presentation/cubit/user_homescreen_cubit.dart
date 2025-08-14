@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
-import 'package:event_connect/features/attendee/user_homescreen/business_logic/user_homescreen_bl.dart';
+import 'package:event_connect/main.dart';
 import 'package:flutter/material.dart';
 
 part 'user_homescreen_state.dart';
@@ -14,7 +14,7 @@ class UserHomescreenCubit extends Cubit<UserHomescreenState> {
     getUserProfilePic(editedImagePath: null);
   }
 
-  UserHomescreenBl userHomescreenBl = UserHomescreenBl();
+  // UserHomescreenBl userHomescreenBl = UserHomescreenBl();
 
   void onPageChanged(int index) {
     emit(UserHomescreenState(currentIndex: index, imageFile: state.imageFile));
@@ -37,10 +37,9 @@ class UserHomescreenCubit extends Cubit<UserHomescreenState> {
         emit(UserHomescreenState(
             currentIndex: state.currentIndex, imageFile: editedImagePath));
       } else {
-        String userProfilePic = await userHomescreenBl.getUserProfilePic();
-
         emit(UserHomescreenState(
-            currentIndex: state.currentIndex, imageFile: userProfilePic));
+            currentIndex: state.currentIndex,
+            imageFile: globalUserModel!.cachedPicturePath!));
       }
     } catch (e) {
       emit(UserHomescreenError(message: e.toString()));
@@ -48,7 +47,7 @@ class UserHomescreenCubit extends Cubit<UserHomescreenState> {
   }
 
   ImageProvider getPicturePath({required UserHomescreenState state}) {
-    if (state.imageFile!.startsWith("https:/")) {
+    if (state.imageFile!.startsWith("htt")) {
       return NetworkImage(state.imageFile!);
     }
     return FileImage(File(state.imageFile!));

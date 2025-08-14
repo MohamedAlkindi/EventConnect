@@ -85,8 +85,8 @@ class FirebaseUser {
       final data = doc.data();
 
       final userModel = UserModel.fromJson(data!);
-      final imagePath = await _imageCaching
-          .downloadAndCacheImageByUrl(userModel.profilePicUrl);
+      final imagePath = await _imageCaching.downloadAndCacheImageByUrl(
+          "${userModel.profilePicUrl}${userModel.profilePicUrl.contains('?') ? '&' : '?'}updated=${DateTime.now().millisecondsSinceEpoch}");
       userModel.cachedPicturePath = imagePath;
       return userModel;
     } catch (e) {

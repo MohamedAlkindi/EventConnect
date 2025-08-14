@@ -3,14 +3,14 @@ import 'dart:io';
 import 'package:event_connect/core/models/user_model.dart';
 import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/features/manager/manager_edit_profile/presentation/manager_edit_profile_screen.dart';
+import 'package:event_connect/features/manager/manager_events/presentation/cubit/manager_events_cubit.dart';
 import 'package:event_connect/features/manager/manager_homescreen/presentation/cubit/manager_homescreen_cubit.dart';
 import 'package:event_connect/features/manager/manager_profile/business_logic/manager_profile_bl.dart';
 import 'package:event_connect/main.dart';
+import 'package:event_connect/shared/image_caching_setup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:event_connect/features/manager/manager_events/presentation/cubit/manager_events_cubit.dart';
-import 'package:event_connect/shared/image_caching_setup.dart';
 
 part 'manager_profile_state.dart';
 
@@ -20,7 +20,7 @@ class ManagerProfileCubit extends Cubit<ManagerProfileState> {
   final _businessLogic = ManagerProfileBl();
   final _imageCaching = ImageCachingSetup();
 
-  Future<void> getManagerInfo(UserModel? updatedManagerModel) async {
+  Future<void> getManagerInfo({required UserModel? updatedManagerModel}) async {
     try {
       if (updatedManagerModel != null) {
         emit(GotManagerProfileInfo(userInfo: updatedManagerModel));
@@ -33,17 +33,20 @@ class ManagerProfileCubit extends Cubit<ManagerProfileState> {
     }
   }
 
-  ImageProvider<Object>? returnManagerPic({
-    required String? cachedPicturePath,
-    required String profilePicUrl,
-  }) {
-    if (cachedPicturePath != null && File(cachedPicturePath).existsSync()) {
-      return FileImage(File(cachedPicturePath));
-    } else if (cachedPicturePath == null ||
-        File(cachedPicturePath).existsSync()) {
-      return NetworkImage(profilePicUrl);
+  ImageProvider<Object>? returnManagerPic(
+      {required GotManagerProfileInfo state}) {
+    if (state.userInfo.cachedPicturePath != null &&
+        File(
+          state.userInfo.cachedPicturePath!,
+        ).existsSync()) {
+      return FileImage(File(state.userInfo.cachedPicturePath!));
+    } else if (state.userInfo.profilePicUrl.isNotEmpty &&
+        state.userInfo.profilePicUrl.startsWith("http")) {
+      return NetworkImage(
+        "${state.userInfo.profilePicUrl}${state.userInfo.profilePicUrl.contains('?') ? '&' : '?'}updated=${DateTime.now().millisecondsSinceEpoch}",
+      );
     }
-    return const AssetImage('assets/images/generic_user.png');
+    return AssetImage('assets/images/generic_user.png');
   }
 
   Future<void> changeAccountSettings({
@@ -61,7 +64,7 @@ class ManagerProfileCubit extends Cubit<ManagerProfileState> {
       ),
     );
     if (managerModel != null) {
-      managerProfileCubit.getManagerInfo(managerModel);
+      managerProfileCubit.getManagerInfo(updatedManagerModel: managerModel);
       managerHomescreenCubit.getManagerProfilePic(
         editedImagePath: managerModel.cachedPicturePath,
       );
@@ -120,7 +123,8 @@ class ManagerProfileCubit extends Cubit<ManagerProfileState> {
       print('ManagerProfileCubit: Starting delete user process...');
       emit(ManagerProfileLoading());
       await _businessLogic.deleteUser();
-      print('ManagerProfileCubit: Delete user successful, emitting ManagerDeletedSuccessfully');
+      print(
+          'ManagerProfileCubit: Delete user successful, emitting ManagerDeletedSuccessfully');
       emit(ManagerDeletedSuccessfully());
     } catch (e) {
       print('ManagerProfileCubit: Delete user failed with error: $e');

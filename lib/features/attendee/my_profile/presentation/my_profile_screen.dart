@@ -1,9 +1,8 @@
-// TODO: Check deleting account.
-// TODO: Then check caching shit when switching accounts.
-
 import 'dart:ui';
 
 import 'package:event_connect/core/routes/routes.dart';
+import 'package:event_connect/core/utils/loading_dialog.dart';
+import 'package:event_connect/core/utils/message_dialogs.dart';
 import 'package:event_connect/core/widgets/shared/app_background.dart';
 import 'package:event_connect/features/attendee/my_profile/presentation/cubit/my_profile_cubit.dart';
 import 'package:event_connect/features/attendee/my_profile/presentation/widgets/screen_buttons.dart';
@@ -48,36 +47,12 @@ class MyProfileScreenView extends StatelessWidget {
           );
         } else if (state is MyProfileLoading) {
           // Show loading dialog
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => const AlertDialog(
-              content: Row(
-                children: [
-                  CircularProgressIndicator(),
-                  SizedBox(width: 16),
-                  Text('Deleting account...'),
-                ],
-              ),
-            ),
-          );
+          showLoadingDialog(context);
         } else if (state is MyProfileError) {
           // Hide loading dialog if it's showing
           Navigator.of(context).pop();
           // Show error dialog
-          showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: Text('Error'),
-              content: Text(state.message),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text('OK'),
-                ),
-              ],
-            ),
-          );
+          showErrorDialog(context: context, message: state.message);
         }
       },
       child: Scaffold(

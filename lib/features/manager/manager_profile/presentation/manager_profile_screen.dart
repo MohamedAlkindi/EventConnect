@@ -1,3 +1,4 @@
+// TODO: Make the logic of retrieving the manager photo EXACTLY THE SAME ِAS attendee...
 import 'package:event_connect/core/routes/routes.dart';
 import 'package:event_connect/core/widgets/manager_widgets/manager_profile_widgets.dart';
 import 'package:event_connect/core/widgets/shared/app_background.dart';
@@ -14,6 +15,9 @@ class ManagerProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context
+        .read<ManagerProfileCubit>()
+        .getManagerInfo(updatedManagerModel: null);
     return ManagerProfileScreenView();
   }
 }
@@ -103,9 +107,7 @@ class ManagerProfileScreenView extends StatelessWidget {
                           if (state is GotManagerProfileInfo) {
                             return managerProfilePicStack(
                               cubit: cubit,
-                              cachedPicturePath:
-                                  state.userInfo.cachedPicturePath,
-                              profilePicUrl: state.userInfo.profilePicUrl,
+                              state: state,
                             );
                           }
                           return Container(

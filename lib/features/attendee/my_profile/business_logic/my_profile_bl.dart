@@ -5,22 +5,8 @@ import 'package:event_connect/shared/image_caching_setup.dart';
 
 class MyProfileBL {
   final _dataAccess = MyProfileDa();
-  // final _imageCaching = ImageCachingSetup();
   final _user = FirebaseUser();
   final _imageCaching = ImageCachingSetup();
-
-  // Future<UserModel> getUserPicAndLocation() async {
-  //   try {
-  //     final userModel = await _dataAccess.getUserPicAndLocation();
-  //     // Cache the image locally..
-  //     final imagePath = await _imageCaching
-  //         .downloadAndCacheImageByUrl(userModel.profilePicUrl);
-  //     userModel.cachedPicturePath = imagePath;
-  //     return userModel;
-  //   } catch (e) {
-  //     throw GenericException(e.toString());
-  //   }
-  // }
 
   Future<void> signOut() async {
     try {

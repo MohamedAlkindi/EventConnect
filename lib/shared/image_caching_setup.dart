@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
 import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/main.dart';
 import 'package:http/http.dart' as http;
@@ -80,13 +81,11 @@ class ImageCachingSetup {
       final files = dir.listSync();
 
       for (final file in files) {
-        if (file is File &&
-            (file.path.contains('cached_image_') ||
-                file.path.contains('event_'))) {
+        if (file.path.contains('Event_Connect')) {
           try {
             await file.delete();
           } catch (e) {
-            // Ignore errors if file is already deleted or in use
+            throw GenericException(e.toString());
           }
         }
       }

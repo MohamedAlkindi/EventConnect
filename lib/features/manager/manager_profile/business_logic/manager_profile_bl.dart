@@ -4,20 +4,7 @@ import 'package:event_connect/shared/image_caching_setup.dart';
 
 class ManagerProfileBl {
   final _dataAccess = ManagerProfileDa();
-  // final _imageCaching = ImageCachingSetup();
   final _imageCaching = ImageCachingSetup();
-
-  // Future<UserModel> getManagerPicAndLocation() async {
-  //   try {
-  //     final managerModel = await _dataAccess.getManagerPicAndLocation();
-  //     final imagePath = await _imageCaching
-  //         .downloadAndCacheImageByUrl(managerModel.profilePicUrl);
-  //     managerModel.cachedPicturePath = imagePath;
-  //     return managerModel;
-  //   } catch (e) {
-  //     throw GenericException(e.toString());
-  //   }
-  // }
 
   Future<void> signOut() async {
     try {
@@ -33,7 +20,8 @@ class ManagerProfileBl {
     try {
       print('ManagerProfileBl: Starting delete user process...');
       await _dataAccess.deleteUser();
-      print('ManagerProfileBl: Delete user successful, clearing cached data...');
+      print(
+          'ManagerProfileBl: Delete user successful, clearing cached data...');
       // Clear cached data and reset global variables
       await _imageCaching.clearAllCachedData();
       print('ManagerProfileBl: Cached data cleared successfully');
