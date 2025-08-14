@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
-import 'package:event_connect/core/exceptions_messages/messages.dart';
-import 'package:event_connect/features/forgot_password/business_logic/firebase_password_reset.dart';
-import 'package:flutter/material.dart';
 import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
 import 'package:event_connect/core/exceptions/firebase_exceptions/firebase_exceptions.dart';
+import 'package:event_connect/core/exceptions_messages/messages.dart';
+import 'package:event_connect/features/authentication/forgot_password/business_logic/firebase_password_reset.dart';
+import 'package:flutter/material.dart';
 
 part 'reset_password_state.dart';
 

@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:event_connect/core/routes/routes.dart';
-import 'package:event_connect/features/email_confirmation/business_logic/email_cofirmation_logic.dart';
+import 'package:event_connect/features/authentication/email_confirmation/business_logic/email_cofirmation_logic.dart';
 import 'package:meta/meta.dart';
 
 part 'email_confirmation_state.dart';

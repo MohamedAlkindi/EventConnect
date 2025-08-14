@@ -1,12 +1,13 @@
+import 'dart:io';
+
 import 'package:event_connect/core/exceptions/authentication_exceptions/authentication_exceptions.dart';
 import 'package:event_connect/core/exceptions_messages/messages.dart';
 import 'package:event_connect/core/firebase/user/firebase_user.dart';
 import 'package:event_connect/core/models/user_model.dart';
 import 'package:event_connect/core/service/image_compression_service.dart';
 import 'package:event_connect/core/service/image_storage_service.dart';
-import 'package:event_connect/features/complete_profile/data_access/complete_profile_da.dart';
+import 'package:event_connect/features/authentication/complete_profile/data_access/complete_profile_da.dart';
 import 'package:flutter/services.dart';
-import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
 class CompleteProfileBl {
