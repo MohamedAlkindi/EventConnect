@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/core/widgets/shared/event_elements_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:event_connect/l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 Widget refreshIndicatorWithClip({
@@ -223,12 +223,12 @@ Widget contentWidget({
               ),
               const SizedBox(height: 14),
               // Weather
-              returnEventElements(
-                icon: Icons.wb_sunny,
-                text: eventModel.weather == null
-                    ? AppLocalizations.of(context)!.noWeatherInfo
-                    : "${eventModel.weather} C°",
-              ),
+              // returnEventElements(
+              //   icon: Icons.wb_sunny,
+              //   text: eventModel.weather == null
+              //       ? AppLocalizations.of(context)!.noWeatherInfo
+              //       : "${eventModel.weather} C°",
+              // ),
               const SizedBox(height: 18),
               // Description
               returnEventDescription(

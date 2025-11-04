@@ -7,7 +7,14 @@
         {
             "name": "Event_Connect",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "args": [
+                "--no-dds",
+                "--verbose"
+            ],
+            "env": {
+                "ANDROID_HOME": "/tmp/android-sdk"
+            }
         },
         {
             "name": "Event_Connect (profile mode)",

@@ -4,7 +4,7 @@ import 'package:event_connect/core/constants/user_cities.dart';
 import 'package:event_connect/features/manager/manager_profile/presentation/cubit/manager_profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:event_connect/l10n/app_localizations.dart';
 
 Widget profileFrostedContainerWidget({required Widget childWidget}) {
   return Center(

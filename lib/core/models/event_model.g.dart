@@ -16,7 +16,7 @@ EventModel _$EventModelFromJson(Map<String, dynamic> json) => EventModel(
       dateAndTime: json['dateAndTime'] as String,
       description: json['description'] as String,
       genderRestriction: json['genderRestriction'] as String,
-      weather: json['weather'] as String?,
+      // weather: json['weather'] as String?,
       attendees: (json['attendees'] as num?)?.toInt() ?? 0,
       managerID: json['managerID'] as String,
     );
@@ -32,7 +32,7 @@ Map<String, dynamic> _$EventModelToJson(EventModel instance) =>
       'dateAndTime': instance.dateAndTime,
       'description': instance.description,
       'genderRestriction': instance.genderRestriction,
-      if (instance.weather case final value?) 'weather': value,
+      // if (instance.weather case final value?) 'weather': value,
       'attendees': instance.attendees,
       'managerID': instance.managerID,
     };

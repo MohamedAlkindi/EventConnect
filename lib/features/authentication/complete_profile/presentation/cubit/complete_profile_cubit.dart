@@ -7,7 +7,7 @@ import 'package:event_connect/core/routes/routes.dart';
 import 'package:event_connect/features/authentication/complete_profile/business_logic/complete_profile_bl.dart';
 import 'package:event_connect/features/authentication/email_confirmation/business_logic/email_cofirmation_logic.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:event_connect/l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
 
 part 'complete_profile_state.dart';

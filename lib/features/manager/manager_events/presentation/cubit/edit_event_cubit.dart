@@ -8,7 +8,7 @@ import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/features/manager/manager_events/business_logic/manager_events_bl.dart';
 import 'package:event_connect/features/manager/manager_events/presentation/cubit/manager_events_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:event_connect/l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 

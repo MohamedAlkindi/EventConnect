@@ -12,7 +12,7 @@ import 'package:event_connect/features/attendee/all_events/presentation/cubit/al
 import 'package:event_connect/features/attendee/my_events/presentation/cubit/my_events_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:event_connect/l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AllEventsScreen extends StatelessWidget {

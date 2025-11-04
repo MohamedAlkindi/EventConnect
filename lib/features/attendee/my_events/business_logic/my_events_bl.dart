@@ -11,7 +11,7 @@ class MyEventsBL {
   final _dataAccess = MyEventsDa();
   final eventRepo = EventRepo();
   final _imageCaching = ImageCachingSetup();
-  final _weatherSetup = WeatherSetup();
+  // final _weatherSetup = WeatherSetup();
 
   Future<List<EventModel>> getAllEventsByUserID() async {
     try {
@@ -48,7 +48,7 @@ class MyEventsBL {
               .toList();
       await _imageCaching.downloadAndCacheImages(userEvents);
       // Inject weather asynchronously
-      await _weatherSetup.setupWeather(userEvents);
+      // await _weatherSetup.setupWeather(userEvents);
       return userEvents;
     } catch (e) {
       throw GenericException(ExceptionMessages.apiError);

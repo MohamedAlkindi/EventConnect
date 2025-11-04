@@ -9,7 +9,7 @@ class EventsCollection {
   static String get eventDateTimeDocumentName => 'dateAndTime';
   static String get eventDescriptionDocumentName => 'description';
   static String get eventGenderResrictionDocumentName => 'genderRestriction';
-  static String get eventWeather => 'weather';
+  // static String get eventWeather => 'weather';
   static String get eventAttendeesDocumentName => 'attendees';
   static String get managerIdDocumentName => "managerID";
 }

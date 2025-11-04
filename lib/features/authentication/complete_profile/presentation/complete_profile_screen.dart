@@ -8,7 +8,7 @@ import 'package:event_connect/features/authentication/complete_profile/presentat
 import 'package:event_connect/features/authentication/complete_profile/presentation/widgets/screen_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:event_connect/l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CompleteProfileScreen extends StatelessWidget {

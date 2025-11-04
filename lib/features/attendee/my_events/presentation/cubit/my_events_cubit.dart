@@ -8,7 +8,7 @@ import 'package:event_connect/core/models/event_model.dart';
 import 'package:event_connect/features/attendee/my_events/business_logic/my_events_bl.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:event_connect/l10n/app_localizations.dart';
 
 part 'my_events_state.dart';
 
@@ -90,7 +90,7 @@ class MyEventsCubit extends Cubit<MyEventsState> {
       l10n.categoryTechnology,
       l10n.categoryEducation,
     ];
-    return idx >= 0 ? localized[idx] : value;
+    return idx >= 0 ? localized[idx - 1] : value;
   }
 
   static String getCityDisplay(String value, AppLocalizations l10n) {

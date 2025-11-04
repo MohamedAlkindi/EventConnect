@@ -8,7 +8,7 @@ import 'package:event_connect/features/authentication/register/presentation/cubi
 import 'package:event_connect/features/authentication/register/presentation/widget/text_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:event_connect/l10n/app_localizations.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});

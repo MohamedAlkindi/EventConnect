@@ -17,7 +17,7 @@ class EventModel {
   final String description;
   final String genderRestriction;
   @JsonKey(includeIfNull: false)
-  String? weather;
+  // String? weather;
   int attendees;
   final String managerID;
 
@@ -31,7 +31,7 @@ class EventModel {
     required this.dateAndTime,
     required this.description,
     required this.genderRestriction,
-    this.weather,
+    // this.weather,
     this.attendees = 0,
     required this.managerID,
   });
@@ -52,7 +52,7 @@ class EventModel {
     if (genderRestriction.isNotEmpty) {
       data['genderRestriction'] = genderRestriction;
     }
-    if (weather != null) data['weather'] = weather;
+    // if (weather != null) data['weather'] = weather;
     // Do NOT include attendees unless you want to update it!
     // if (attendees != null) data['attendees'] = attendees;
     if (managerID.isNotEmpty) data['managerID'] = managerID;

@@ -10,7 +10,7 @@ import 'package:event_connect/main.dart';
 import 'package:event_connect/shared/image_caching_setup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:event_connect/l10n/app_localizations.dart';
 
 part 'manager_profile_state.dart';
 

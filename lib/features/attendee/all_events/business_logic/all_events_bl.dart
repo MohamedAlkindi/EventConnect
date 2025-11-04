@@ -11,7 +11,7 @@ class AllEventScreenBL {
   final _dataAccess = AllEventsDa();
   final _eventRepo = EventRepo();
   final _imageCaching = ImageCachingSetup();
-  final _weatherSetup = WeatherSetup();
+  // final _weatherSetup = WeatherSetup();
 
   Future<List<EventModel>> getEvents() async {
     try {
@@ -56,7 +56,7 @@ class AllEventScreenBL {
 
       await _imageCaching.downloadAndCacheImages(
           availableEventModels); // Await and use new method
-      await _weatherSetup.setupWeather(availableEventModels);
+      // await _weatherSetup.setupWeather(availableEventModels);
       return availableEventModels;
     } catch (e) {
       throw GenericException(ExceptionMessages.apiError);
